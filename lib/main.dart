@@ -1,7 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import 'l10n/locale_provider.dart';
+import 'presentation/theme/dynamic_theme.dart';
+
 void main() {
-  runApp(const MyApp());
+  unawaited(
+    runZonedGuarded(
+      () async {
+        runApp(
+          const DynamicTheme(
+            child: LocaleProvider(
+              child: MyApp(),
+            ),
+          ),
+        );
+      },
+      (e, s) => debugPrint('>>> ERROR:\n$e\n>>> STACKTRACE:\n$s'),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
