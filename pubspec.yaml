@@ -10,7 +10,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
-  flutter_gen: any
 
   # стейт менеджмент
   flutter_bloc: 8.1.4
@@ -51,9 +50,9 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: anticons
+    - family: qicons
       fonts:
-        - asset: assets/fonts/appicons.ttf
+        - asset: assets/fonts/qicons.ttf
     - family: Gilroy
       fonts:
         - asset: assets/fonts/gilroy-bold.ttf
@@ -64,7 +63,7 @@ flutter:
           weight: 500
 
 flutter_launcher_icons:
-  android: false
+  android: true
   ios: true
   image_path: "assets/images/icon.png"
   remove_alpha_ios: true
