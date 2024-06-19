@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "450239422144",
+    "project_id": "quectochat",
+    "storage_bucket": "quectochat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450239422144:android:bed778b376cfaa0e309725",
+        "android_client_info": {
+          "package_name": "com.example.quectochat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtQQ1JYca7U3oVHdBCmXcCIPyTua86YWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

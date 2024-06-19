@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'l10n/locale_provider.dart';
@@ -9,6 +10,17 @@ void main() {
   unawaited(
     runZonedGuarded(
       () async {
+        WidgetsFlutterBinding.ensureInitialized();
+        await Firebase.initializeApp(
+          options: const FirebaseOptions(
+            apiKey: 'AIzaSyAtQQ1JYca7U3oVHdBCmXcCIPyTua86YWw',
+            appId: '1:450239422144:android:bed778b376cfaa0e309725',
+            messagingSenderId: '450239422144',
+            projectId: 'quectochat',
+            storageBucket: 'quectochat.appspot.com',
+          ),
+        );
+
         runApp(
           const DynamicTheme(
             child: LocaleProvider(
