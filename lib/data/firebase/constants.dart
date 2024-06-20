@@ -1,9 +1,11 @@
 part of 'firebase_facade.dart';
 
 class _Constants {
-  static const _pathUserCollection = 'users';
-  static const _id = 'id';
-  static const _nickName = 'nickName';
-  static const _photoUrl = 'photoUrl';
-  static const _chattingWith = 'chattingWith';
+  // Ключи таблицы и полей с данными пользователя:
+  static const _tUser = 'users';
+  static const _fUser$id = 'id';
+  static const _fUser$nickName = 'nickName';
+  static const _fUser$photoUrl = 'photoUrl';
+  static const _fUser$createdAt = 'createdAt';
+  static const _fUser$chattingWith = 'chattingWith';
 }
