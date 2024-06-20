@@ -1,6 +1,6 @@
 import '../models/current_user.dart';
 
-abstract interface class IFirebaseFacade {
+abstract interface class INetworkFacade {
   /// Логин пользователя
   Future<CurrentUser?> logIn({
     required String email,

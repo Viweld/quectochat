@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/current_user.dart';
 
-import '../../domain/models/api_exceptions.dart';
+import '../../domain/models/network_exceptions.dart';
 
 part 'constants.dart';
 
 part 'mapper.dart';
 
-final class FirebaseFacade implements IFirebaseFacade {
+final class FirebaseFacade implements INetworkFacade {
   FirebaseFacade() {
     _firebaseAuth = FirebaseAuth.instance;
     _firebaseFirestore = FirebaseFirestore.instance;

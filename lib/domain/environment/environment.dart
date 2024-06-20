@@ -6,7 +6,7 @@ class Environment extends DepGenEnvironment {
   Future<Environment> prepare() async {
     /// Сетевой клиент
     final api = FirebaseFacade();
-    registry<IFirebaseFacade>(api);
+    registry<INetworkFacade>(api);
 
     return this;
   }

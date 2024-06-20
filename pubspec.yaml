@@ -45,7 +45,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # базовые линты
   flutter_lints: ^3.0.0
+
+  # кодогенерация
+  build_runner: 2.4.8
+  freezed: 2.4.7
 
 flutter:
   uses-material-design: true
