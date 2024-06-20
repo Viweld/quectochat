@@ -1,6 +1,6 @@
 import '../models/current_user.dart';
 
-abstract interface class IApiFacade {
+abstract interface class IFirebaseFacade {
   /// Логин пользователя
   Future<CurrentUser?> logIn({
     required String email,

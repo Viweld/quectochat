@@ -3,19 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/current_user.dart';
 
-import '../domain/models/api_exceptions.dart';
-import 'mapper/mapper.dart';
+import '../../domain/models/api_exceptions.dart';
 
-final class ApiFacade implements IApiFacade {
-  ApiFacade() {
+part 'constants.dart';
+
+part 'mapper.dart';
+
+final class FirebaseFacade implements IFirebaseFacade {
+  FirebaseFacade() {
     _authService = FirebaseAuth.instance;
     _store = FirebaseFirestore.instance;
-    _mapper = ApiDataMapper();
+    _mapper = _Mapper();
   }
 
   late final FirebaseAuth _authService;
   late final FirebaseFirestore _store;
-  late final ApiDataMapper _mapper;
+  late final _Mapper _mapper;
 
   /// Логин пользователя
   @override
@@ -30,7 +33,7 @@ final class ApiFacade implements IApiFacade {
       );
       final userData = credentials.user;
 
-      return userData == null ? null : _mapper.mapCurrentUser(userData);
+      return userData == null ? null : _mapper._mapCurrentUser(userData);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
@@ -57,13 +60,17 @@ final class ApiFacade implements IApiFacade {
         password: password,
       );
 
-      // fixme - допилить:
       final userData = credentials.user;
       if (userData != null) {
         final result = await _store
-            .collection('key')
+            .collection(_Constants._pathUserCollection)
             .where('id', isEqualTo: userData.uid)
             .get();
+
+        final documents = result.docs;
+        if (documents.isEmpty) {
+          // _store.collection(collectionPath)
+        }
       }
 
       return userData == null ? null : _mapper.mapCurrentUser(userData);
