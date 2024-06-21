@@ -1,23 +1,23 @@
 import 'package:formz/formz.dart';
 
 /// Состояния ошибок валидации
-enum EmailInputError {
+enum EmailFieldError {
   emptyField,
   wrongFormat,
 }
 
 /// Поле ввода email
-class EmailField extends FormzInput<String, EmailInputError> {
+class EmailField extends FormzInput<String, EmailFieldError> {
   const EmailField.dirty([super.value = '']) : super.dirty();
 
   const EmailField.pure() : super.pure('');
 
   @override
-  EmailInputError? validator(String value) {
+  EmailFieldError? validator(String value) {
     if (value.isEmpty) {
-      return EmailInputError.emptyField;
+      return EmailFieldError.emptyField;
     } else if (!_validateEmail(value)) {
-      return EmailInputError.wrongFormat;
+      return EmailFieldError.wrongFormat;
     } else {
       return null;
     }

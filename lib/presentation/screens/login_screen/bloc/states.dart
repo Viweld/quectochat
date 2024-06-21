@@ -4,6 +4,13 @@ part of 'login_bloc.dart';
 class LoginState with _$LoginState {
   /// основное состояние вью
   const factory LoginState.view({
-    required String data,
+    required EmailField emailField,
+    required RequiredField passwordField,
+    @Default(false) isLoading,
   }) = _StateView;
+
+  /// состояние ошибки для отображения тоаста
+  const factory LoginState.requestError({
+    required LoginError? error,
+  }) = _StateRequestError;
 }

@@ -166,42 +166,49 @@ abstract class _EventOnLoginTapped implements LoginEvent {
 
 /// @nodoc
 mixin _$LoginState {
-  String get data => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String data) view,
+    required TResult Function(EmailField emailField,
+            RequiredField passwordField, dynamic isLoading)
+        view,
+    required TResult Function(LoginError? error) requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String data)? view,
+    TResult? Function(EmailField emailField, RequiredField passwordField,
+            dynamic isLoading)?
+        view,
+    TResult? Function(LoginError? error)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String data)? view,
+    TResult Function(EmailField emailField, RequiredField passwordField,
+            dynamic isLoading)?
+        view,
+    TResult Function(LoginError? error)? requestError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
+    required TResult Function(_StateRequestError value) requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
+    TResult? Function(_StateRequestError value)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
+    TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $LoginStateCopyWith<LoginState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -210,8 +217,6 @@ abstract class $LoginStateCopyWith<$Res> {
   factory $LoginStateCopyWith(
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
-  @useResult
-  $Res call({String data});
 }
 
 /// @nodoc
@@ -223,30 +228,16 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$StateViewImplCopyWith<$Res>
-    implements $LoginStateCopyWith<$Res> {
+abstract class _$$StateViewImplCopyWith<$Res> {
   factory _$$StateViewImplCopyWith(
           _$StateViewImpl value, $Res Function(_$StateViewImpl) then) =
       __$$StateViewImplCopyWithImpl<$Res>;
-  @override
   @useResult
-  $Res call({String data});
+  $Res call(
+      {EmailField emailField, RequiredField passwordField, dynamic isLoading});
 }
 
 /// @nodoc
@@ -260,13 +251,20 @@ class __$$StateViewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = null,
+    Object? emailField = null,
+    Object? passwordField = null,
+    Object? isLoading = freezed,
   }) {
     return _then(_$StateViewImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
+      emailField: null == emailField
+          ? _value.emailField
+          : emailField // ignore: cast_nullable_to_non_nullable
+              as EmailField,
+      passwordField: null == passwordField
+          ? _value.passwordField
+          : passwordField // ignore: cast_nullable_to_non_nullable
+              as RequiredField,
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
     ));
   }
 }
@@ -274,14 +272,22 @@ class __$$StateViewImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$StateViewImpl implements _StateView {
-  const _$StateViewImpl({required this.data});
+  const _$StateViewImpl(
+      {required this.emailField,
+      required this.passwordField,
+      this.isLoading = false});
 
   @override
-  final String data;
+  final EmailField emailField;
+  @override
+  final RequiredField passwordField;
+  @override
+  @JsonKey()
+  final dynamic isLoading;
 
   @override
   String toString() {
-    return 'LoginState.view(data: $data)';
+    return 'LoginState.view(emailField: $emailField, passwordField: $passwordField, isLoading: $isLoading)';
   }
 
   @override
@@ -289,11 +295,16 @@ class _$StateViewImpl implements _StateView {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StateViewImpl &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.emailField, emailField) ||
+                other.emailField == emailField) &&
+            (identical(other.passwordField, passwordField) ||
+                other.passwordField == passwordField) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, data);
+  int get hashCode => Object.hash(runtimeType, emailField, passwordField,
+      const DeepCollectionEquality().hash(isLoading));
 
   @JsonKey(ignore: true)
   @override
@@ -304,27 +315,36 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String data) view,
+    required TResult Function(EmailField emailField,
+            RequiredField passwordField, dynamic isLoading)
+        view,
+    required TResult Function(LoginError? error) requestError,
   }) {
-    return view(data);
+    return view(emailField, passwordField, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String data)? view,
+    TResult? Function(EmailField emailField, RequiredField passwordField,
+            dynamic isLoading)?
+        view,
+    TResult? Function(LoginError? error)? requestError,
   }) {
-    return view?.call(data);
+    return view?.call(emailField, passwordField, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String data)? view,
+    TResult Function(EmailField emailField, RequiredField passwordField,
+            dynamic isLoading)?
+        view,
+    TResult Function(LoginError? error)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
-      return view(data);
+      return view(emailField, passwordField, isLoading);
     }
     return orElse();
   }
@@ -333,6 +353,7 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
+    required TResult Function(_StateRequestError value) requestError,
   }) {
     return view(this);
   }
@@ -341,6 +362,7 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
+    TResult? Function(_StateRequestError value)? requestError,
   }) {
     return view?.call(this);
   }
@@ -349,6 +371,7 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
+    TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -359,12 +382,156 @@ class _$StateViewImpl implements _StateView {
 }
 
 abstract class _StateView implements LoginState {
-  const factory _StateView({required final String data}) = _$StateViewImpl;
+  const factory _StateView(
+      {required final EmailField emailField,
+      required final RequiredField passwordField,
+      final dynamic isLoading}) = _$StateViewImpl;
 
-  @override
-  String get data;
-  @override
+  EmailField get emailField;
+  RequiredField get passwordField;
+  dynamic get isLoading;
   @JsonKey(ignore: true)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StateRequestErrorImplCopyWith<$Res> {
+  factory _$$StateRequestErrorImplCopyWith(_$StateRequestErrorImpl value,
+          $Res Function(_$StateRequestErrorImpl) then) =
+      __$$StateRequestErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({LoginError? error});
+}
+
+/// @nodoc
+class __$$StateRequestErrorImplCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$StateRequestErrorImpl>
+    implements _$$StateRequestErrorImplCopyWith<$Res> {
+  __$$StateRequestErrorImplCopyWithImpl(_$StateRequestErrorImpl _value,
+      $Res Function(_$StateRequestErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? error = freezed,
+  }) {
+    return _then(_$StateRequestErrorImpl(
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as LoginError?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$StateRequestErrorImpl implements _StateRequestError {
+  const _$StateRequestErrorImpl({required this.error});
+
+  @override
+  final LoginError? error;
+
+  @override
+  String toString() {
+    return 'LoginState.requestError(error: $error)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StateRequestErrorImpl &&
+            (identical(other.error, error) || other.error == error));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, error);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
+      __$$StateRequestErrorImplCopyWithImpl<_$StateRequestErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EmailField emailField,
+            RequiredField passwordField, dynamic isLoading)
+        view,
+    required TResult Function(LoginError? error) requestError,
+  }) {
+    return requestError(error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EmailField emailField, RequiredField passwordField,
+            dynamic isLoading)?
+        view,
+    TResult? Function(LoginError? error)? requestError,
+  }) {
+    return requestError?.call(error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EmailField emailField, RequiredField passwordField,
+            dynamic isLoading)?
+        view,
+    TResult Function(LoginError? error)? requestError,
+    required TResult orElse(),
+  }) {
+    if (requestError != null) {
+      return requestError(error);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_StateView value) view,
+    required TResult Function(_StateRequestError value) requestError,
+  }) {
+    return requestError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StateView value)? view,
+    TResult? Function(_StateRequestError value)? requestError,
+  }) {
+    return requestError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StateView value)? view,
+    TResult Function(_StateRequestError value)? requestError,
+    required TResult orElse(),
+  }) {
+    if (requestError != null) {
+      return requestError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StateRequestError implements LoginState {
+  const factory _StateRequestError({required final LoginError? error}) =
+      _$StateRequestErrorImpl;
+
+  LoginError? get error;
+  @JsonKey(ignore: true)
+  _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
