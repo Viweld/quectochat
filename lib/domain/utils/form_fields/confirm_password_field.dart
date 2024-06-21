@@ -12,15 +12,15 @@ final class ConfirmPasswordField
     extends FormField<String, ConfirmPasswordFieldError> {
   const ConfirmPasswordField({
     this.password,
-    super.value,
+    required super.value,
     super.isErrorVisible,
   });
 
   final String? password;
 
   @override
-  ConfirmPasswordFieldError? _validator(String? value) {
-    if (value == null || value.isEmpty) {
+  ConfirmPasswordFieldError? _validator(String value) {
+    if (value.isEmpty) {
       return ConfirmPasswordFieldError.emptyField;
     } else if (value != password) {
       return ConfirmPasswordFieldError.notEqual;

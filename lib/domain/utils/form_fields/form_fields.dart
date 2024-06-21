@@ -8,9 +8,9 @@ part 'confirm_password_field.dart';
 
 @immutable
 abstract base class FormField<T, E> {
-  const FormField({this.value, this.isErrorVisible = false});
+  const FormField({required this.value, this.isErrorVisible = false});
 
-  final T? value;
+  final T value;
 
   final bool isErrorVisible;
 
@@ -20,7 +20,7 @@ abstract base class FormField<T, E> {
 
   bool get invalid => _validator(value) != null;
 
-  E? _validator(T? value);
+  E? _validator(T value);
 
   FormField<T, E> copyWithVisibleError({required bool isErrorVisible}) {
     throw UnimplementedError('Method copyWithVisibleError '

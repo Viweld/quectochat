@@ -9,13 +9,13 @@ enum PasswordFieldError {
 @immutable
 final class PasswordField extends FormField<String, PasswordFieldError> {
   const PasswordField({
-    super.value,
+    required super.value,
     super.isErrorVisible,
   });
 
   @override
-  PasswordFieldError? _validator(String? value) {
-    if (value == null || value.isEmpty) {
+  PasswordFieldError? _validator(String value) {
+    if (value.isEmpty) {
       return PasswordFieldError.emptyField;
     } else {
       return null;

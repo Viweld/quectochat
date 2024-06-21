@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -127,17 +129,31 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return;
     }
 
-    // 3. Выполняем вход:
-    try {} on NetworkException catch (e) {
-      final viewError = switch (e) {
-        AuthUserNotFound _ => LoginError.userNotFound,
-        AuthUserWrongPassword _ => LoginError.wrongPassword,
-        _ => null,
-      };
-      emitter(LoginState.requestError(error: viewError));
+    // 3. Запускаем прелоадер:
+    _viewState = _viewState.copyWith(isLoading: true);
+    emitter(_viewState);
+
+    // 4. Выполняем вход:
+    try {
+      await _networkFacade.logIn(
+        email: _viewState.emailField.value,
+        password: _viewState.passwordField.value,
+      );
+    } on NetworkException catch (e) {
+      emitter(LoginState.requestError(
+        error: switch (e) {
+          AuthUserNotFound _ => LoginError.userNotFound,
+          AuthUserWrongPassword _ => LoginError.wrongPassword,
+          _ => null,
+        },
+      ));
     } on Object {
       emitter(const LoginState.requestError());
       rethrow;
-    } finally {}
+    } finally {
+      // 5. Вырубаем прелоадер:
+      _viewState = _viewState.copyWith(isLoading: false);
+      emitter(_viewState);
+    }
   }
 }

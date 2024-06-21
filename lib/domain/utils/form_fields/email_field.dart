@@ -7,9 +7,9 @@ enum EmailFieldError {
 }
 
 @immutable
-final class EmailField extends FormField<String?, EmailFieldError> {
+final class EmailField extends FormField<String, EmailFieldError> {
   const EmailField({
-    super.value,
+    required super.value,
     super.isErrorVisible,
   });
 
@@ -18,8 +18,8 @@ final class EmailField extends FormField<String?, EmailFieldError> {
   );
 
   @override
-  EmailFieldError? _validator(String? value) {
-    if (value == null || value.isEmpty) {
+  EmailFieldError? _validator(String value) {
+    if (value.isEmpty) {
       return EmailFieldError.emptyField;
     } else if (!_emailRegExp.hasMatch(value)) {
       return EmailFieldError.wrongFormat;
