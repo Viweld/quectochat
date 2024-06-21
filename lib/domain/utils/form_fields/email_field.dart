@@ -1,4 +1,4 @@
-import 'package:formz/formz.dart';
+part of 'form_fields.dart';
 
 /// Состояния ошибок валидации
 enum EmailFieldError {
@@ -6,27 +6,34 @@ enum EmailFieldError {
   wrongFormat,
 }
 
-/// Поле ввода email
-class EmailField extends FormzInput<String, EmailFieldError> {
-  const EmailField.dirty([super.value = '']) : super.dirty();
+@immutable
+final class EmailField extends FormField<String?, EmailFieldError> {
+  const EmailField({
+    super.value,
+    super.isErrorVisible,
+  });
 
-  const EmailField.pure() : super.pure('');
+  static final _emailRegExp = RegExp(
+    r'^[a-zA-Z\d.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$',
+  );
 
   @override
-  EmailFieldError? validator(String value) {
-    if (value.isEmpty) {
+  EmailFieldError? _validator(String? value) {
+    if (value == null || value.isEmpty) {
       return EmailFieldError.emptyField;
-    } else if (!_validateEmail(value)) {
+    } else if (!_emailRegExp.hasMatch(value)) {
       return EmailFieldError.wrongFormat;
     } else {
       return null;
     }
   }
 
-  bool _validateEmail(String value) {
-    final emailRegex = RegExp(
-      r'^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$',
-    );
-    return value.contains(emailRegex);
-  }
+  @override
+  EmailField copyWithVisibleError({
+    required bool isErrorVisible,
+  }) =>
+      EmailField(
+        value: super.value,
+        isErrorVisible: isErrorVisible,
+      );
 }

@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 
-import '../../../../domain/utils/form_fields/email_field.dart';
-import '../../../../domain/utils/form_fields/required_field.dart';
+import '../../../../domain/utils/form_fields/form_fields.dart';
 
 part 'login_bloc.freezed.dart';
 
@@ -34,10 +33,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     @DepArg() required INetworkFacade networkFacade,
   })  : _networkFacade = networkFacade,
         super(_initializeViewState()) {
-    // обрабатываем  события
-    on<LoginEvent>((event, emitter) => event.map(
-          onLoginTapped: (_) => _onLoginTapped(emitter),
-        ));
+    on<LoginEvent>(
+      (event, emitter) => event.map(
+        onLoginChanged: (e) => _onLoginChanged(e, emitter),
+        onLoginFieldUnfocused: (e) => _onLoginFieldUnfocused(e, emitter),
+        onPasswordChanged: (e) => _onPasswordChanged(e, emitter),
+        onPasswordFieldUnfocused: (e) => _onPasswordFieldUnfocused(e, emitter),
+        onLoginTapped: (_) => _onLoginTapped(emitter),
+      ),
+    );
 
     _viewState = super.state as _StateView;
   }
@@ -51,12 +55,56 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   late _StateView _viewState;
 
   static _StateView _initializeViewState() => const _StateView(
-        emailField: EmailField.pure(),
-        passwordField: RequiredField.pure(),
+        emailField: EmailField(),
+        passwordField: PasswordField(),
       );
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
+  /// бработчик ВНЕШНЕГО события "изменился тест в поле логина"
+  Future<void> _onLoginChanged(
+    _EventOnLoginChanged event,
+    Emitter<LoginState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(emailField: EmailField(value: event.val));
+    emitter(_viewState);
+  }
+
+  /// бработчик ВНЕШНЕГО события "поле ввода логина потеряло фокус"
+  Future<void> _onLoginFieldUnfocused(
+    _EventOnLoginFieldUnfocused event,
+    Emitter<LoginState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      emailField: _viewState.emailField.copyWithVisibleError(
+        isErrorVisible: true,
+      ),
+    );
+    emitter(_viewState);
+  }
+
+  /// бработчик ВНЕШНЕГО события "изменился тест в поле ввода пароля"
+  Future<void> _onPasswordChanged(
+    _EventOnPasswordChanged event,
+    Emitter<LoginState> emitter,
+  ) async {
+    _viewState =
+        _viewState.copyWith(passwordField: PasswordField(value: event.val));
+    emitter(_viewState);
+  }
+
+  /// бработчик ВНЕШНЕГО события "поле ввода пароля потеряло фокус"
+  Future<void> _onPasswordFieldUnfocused(
+    _EventOnPasswordFieldUnfocused event,
+    Emitter<LoginState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      passwordField: _viewState.passwordField.copyWithVisibleError(
+        isErrorVisible: true,
+      ),
+    );
+  }
+
   /// Обработчик ВНЕШНЕГО события "нажата кнопка залогиниться"
   Future<void> _onLoginTapped(
     Emitter<LoginState> emitter,

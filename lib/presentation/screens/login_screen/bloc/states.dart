@@ -5,7 +5,7 @@ class LoginState with _$LoginState {
   /// основное состояние вью
   const factory LoginState.view({
     required EmailField emailField,
-    required RequiredField passwordField,
+    required PasswordField passwordField,
     @Default(false) isLoading,
   }) = _StateView;
 
