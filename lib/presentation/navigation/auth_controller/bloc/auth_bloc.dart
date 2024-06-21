@@ -13,18 +13,14 @@ part 'states.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     @DepArg() required IAuthRepository authRepository,
-  })  : _authRepository = authRepository,
-        super(_initializeState(authRepository.authStatus)) {
-    on<AuthEvent>(
-      (event, emitter) => event.map(
-        onAuthStatusChanged: (e) => _onAuthStatusChanged(e, emitter),
-      ),
-    );
-  }
+  }) : super(_initializeState(authRepository.authStatus)) {
+    on<AuthEvent>((event, emitter) => event.map(
+          onAuthStatusChanged: (e) => _onAuthStatusChanged(e, emitter),
+        ));
 
-  // ЗАВИСИМОСТИ
-  // ---------------------------------------------------------------------------
-  final IAuthRepository _authRepository;
+    // подписываем блок на стрим AuthRepository
+    _authStreamSubscription = authRepository.subscribe(_authStreamListener);
+  }
 
   // СОСТОЯНИЕ
   // ---------------------------------------------------------------------------
@@ -34,13 +30,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         AuthStatus.notAuthorized => const _StateNotAuthorized(),
       };
 
+  // ПОДПИСКИ
+  // ---------------------------------------------------------------------------
+  late AuthSubscription _authStreamSubscription;
+
+  // МЕТОДЫ ОБРАБОТКИ ПОДПИСОК:
+  // ---------------------------------------------------------------------------
+  @override
+  Future<void> close() async {
+    await _authStreamSubscription.cancel();
+    await super.close();
+  }
+
+  /// Обработчик события в стриме AuthRepository
+  void _authStreamListener(AuthStatus authStatus) {
+    if (isClosed) return;
+    add(AuthEvent.onAuthStatusChanged(authStatus));
+  }
+
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
-  /// Обработчик ВНУТРЕННЕГО события ""изменился статус аутентификации""
+  /// Обработчик ВНУТРЕННЕГО события "изменился статус аутентификации""
   Future<void> _onAuthStatusChanged(
     _EventOnAuthStatusChanged event,
     Emitter<AuthState> emitter,
   ) async {
-    //fixme
+    switch (event.val) {
+      case AuthStatus.authorized:
+        emitter(const AuthState.authorized());
+      case AuthStatus.notAuthorized:
+        emitter(const AuthState.notAuthorized());
+    }
   }
 }

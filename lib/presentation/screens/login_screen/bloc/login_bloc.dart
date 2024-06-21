@@ -1,9 +1,9 @@
 import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/network_exceptions.dart';
 
+import '../../../../domain/interfaces/i_auth_repository.dart';
 import '../../../../domain/utils/form_fields/form_fields.dart';
 
 part 'login_bloc.freezed.dart';
@@ -31,8 +31,8 @@ enum LoginError {
 @DepGen()
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
-    @DepArg() required INetworkFacade networkFacade,
-  })  : _networkFacade = networkFacade,
+    @DepArg() required IAuthRepository authRepository,
+  })  : _authRepository = authRepository,
         super(_initializeViewState()) {
     on<LoginEvent>(
       (event, emitter) => event.map(
@@ -49,7 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   // ЗАВИСИМОСТИ
   // ---------------------------------------------------------------------------
-  final INetworkFacade _networkFacade;
+  final IAuthRepository _authRepository;
 
   // СОСТОЯНИЕ
   // ---------------------------------------------------------------------------
@@ -133,7 +133,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     // 4. Выполняем вход:
     try {
-      await _networkFacade.logIn(
+      await _authRepository.logIn(
         email: _viewState.emailField.value,
         password: _viewState.passwordField.value,
       );

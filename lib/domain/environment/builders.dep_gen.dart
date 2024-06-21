@@ -10,6 +10,10 @@ import 'package:flutter/widgets.dart';
 // DepGen code generator
 // **************************************************************************
 
+import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
+import 'package:quectochat/presentation/navigation/auth_controller/bloc/auth_bloc.dart';
+import 'package:quectochat/presentation/screens/login_screen/bloc/login_bloc.dart';
+
 /// The environment in which all used dependency instances are configured
 @immutable
 class DepGenEnvironment {
@@ -91,4 +95,14 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   /// A safe method for trying to get an instance by its type.
   T? mayBeGet<T>() => _env.mayBeGet<T>();
+
+  // ---------------------------------------------------------------------------
+  AuthBloc buildAuthBloc() => AuthBloc(
+        authRepository: _env.g<IAuthRepository>(),
+      );
+
+  // ---------------------------------------------------------------------------
+  LoginBloc buildLoginBloc() => LoginBloc(
+        authRepository: _env.g<IAuthRepository>(),
+      );
 }
