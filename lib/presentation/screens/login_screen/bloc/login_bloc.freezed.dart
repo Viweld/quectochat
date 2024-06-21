@@ -1058,7 +1058,7 @@ class __$$StateRequestErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$StateRequestErrorImpl implements _StateRequestError {
-  const _$StateRequestErrorImpl({required this.error});
+  const _$StateRequestErrorImpl({this.error});
 
   @override
   final LoginError? error;
@@ -1156,7 +1156,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
 }
 
 abstract class _StateRequestError implements LoginState {
-  const factory _StateRequestError({required final LoginError? error}) =
+  const factory _StateRequestError({final LoginError? error}) =
       _$StateRequestErrorImpl;
 
   LoginError? get error;

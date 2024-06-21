@@ -11,6 +11,6 @@ class LoginState with _$LoginState {
 
   /// состояние ошибки для отображения тоаста
   const factory LoginState.requestError({
-    required LoginError? error,
+    LoginError? error,
   }) = _StateRequestError;
 }

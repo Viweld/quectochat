@@ -2,6 +2,7 @@ import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
+import 'package:quectochat/domain/models/network_exceptions.dart';
 
 import '../../../../domain/utils/form_fields/form_fields.dart';
 
@@ -109,7 +110,34 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onLoginTapped(
     Emitter<LoginState> emitter,
   ) async {
-    // TODO(Vadim): #unimplemented
-    throw UnimplementedError();
+    // 1. Если уже в процессе, то прерываем:
+    if (_viewState.isLoading) return;
+
+    // 2. Проверяем валидность полей ввода:
+    final email = _viewState.emailField;
+    final password = _viewState.passwordField;
+    if (email.invalid || password.invalid) {
+      _viewState = _viewState.copyWith(
+        emailField: email.copyWithVisibleError(isErrorVisible: email.invalid),
+        passwordField: password.copyWithVisibleError(
+          isErrorVisible: password.invalid,
+        ),
+      );
+      emitter(_viewState);
+      return;
+    }
+
+    // 3. Выполняем вход:
+    try {} on NetworkException catch (e) {
+      final viewError = switch (e) {
+        AuthUserNotFound _ => LoginError.userNotFound,
+        AuthUserWrongPassword _ => LoginError.wrongPassword,
+        _ => null,
+      };
+      emitter(LoginState.requestError(error: viewError));
+    } on Object {
+      emitter(const LoginState.requestError());
+      rethrow;
+    } finally {}
   }
 }
