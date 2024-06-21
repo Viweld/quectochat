@@ -12,7 +12,7 @@ final class ConfirmPasswordField
     extends FormField<String, ConfirmPasswordFieldError> {
   const ConfirmPasswordField({
     this.password,
-    required super.value,
+    super.value = '',
     super.isErrorVisible,
   });
 

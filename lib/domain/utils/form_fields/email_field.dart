@@ -9,7 +9,7 @@ enum EmailFieldError {
 @immutable
 final class EmailField extends FormField<String, EmailFieldError> {
   const EmailField({
-    required super.value,
+    super.value = '',
     super.isErrorVisible,
   });
 

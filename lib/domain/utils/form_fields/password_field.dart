@@ -9,7 +9,7 @@ enum PasswordFieldError {
 @immutable
 final class PasswordField extends FormField<String, PasswordFieldError> {
   const PasswordField({
-    required super.value,
+    super.value = '',
     super.isErrorVisible,
   });
 
