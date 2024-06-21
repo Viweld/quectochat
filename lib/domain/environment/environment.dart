@@ -1,4 +1,7 @@
+import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
+
 import '../../data/firebase/firebase_facade.dart';
+import '../../data/repositories/auth_repository.dart';
 import '../interfaces/i_api_facade.dart';
 import 'builders.dep_gen.dart';
 
@@ -7,6 +10,10 @@ class Environment extends DepGenEnvironment {
     /// Сетевой клиент
     final api = FirebaseFacade();
     registry<INetworkFacade>(api);
+
+    /// Репозиторий аутентификации
+    final authRepository = AuthRepository(networkFacade: api);
+    registry<IAuthRepository>(authRepository);
 
     return this;
   }
