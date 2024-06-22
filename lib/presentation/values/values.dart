@@ -6,4 +6,6 @@ class Values {
 
   static const double buttonHeight = 56;
   static const double buttonBorderRadius = 8;
+
+  static const double toastBorderRadius = 8;
 }
