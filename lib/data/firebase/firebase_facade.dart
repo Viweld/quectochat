@@ -38,9 +38,9 @@ final class FirebaseFacade implements INetworkFacade {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
-          throw AuthUserNotFound();
+          throw LoginUserNotFound();
         case 'wrong-password':
-          throw AuthUserWrongPassword();
+          throw LoginUserWrongPassword();
         default:
           rethrow;
       }

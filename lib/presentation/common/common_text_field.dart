@@ -120,7 +120,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
   InputBorder get _focusedBorder => OutlineInputBorder(
         borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
         borderSide: BorderSide(
-          color: _palette.white,
+          color: _palette.gray,
           width: CommonEditField.borderThickness,
         ),
       );
@@ -143,7 +143,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
       ..text = widget.initialText ?? ''
       ..addListener(_textControllerListener);
     _errorText = widget.validationErrorText;
-    _error = widget.validationErrorText != null || widget.validationError;
+    _error = widget.validationError;
   }
 
   @override
@@ -165,7 +165,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
 
     setState(() {
       _errorText = widget.validationErrorText;
-      _error = widget.validationErrorText != null || widget.validationError;
+      _error = widget.validationError;
     });
     _updateInitialText(oldWidget, widget);
     super.didUpdateWidget(oldWidget);
@@ -256,7 +256,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
                             ? _palette.red
                             : widget.readOnly
                                 ? _palette.gray
-                                : _palette.white,
+                                : _palette.black,
                       ),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -288,7 +288,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
           ),
         ),
 
-        if ((_errorText ?? '').isNotEmpty)
+        if (_error && (_errorText ?? '').isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Align(

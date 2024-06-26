@@ -63,10 +63,10 @@ class CommonAccentButton extends StatelessWidget {
         children: [
           if (isPending) ...[
             SizedBox.square(
-              dimension: 24,
+              dimension: 16,
               child: CircularProgressIndicator(color: textColor),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 16),
           ],
           Text(
             isUpperCaseTitle ? title.toUpperCase() : title,

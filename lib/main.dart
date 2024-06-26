@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:quectochat/presentation/navigation/root_navigation/root_routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'domain/environment/builders.dep_gen.dart';
 import 'domain/environment/environment.dart';
@@ -54,55 +56,17 @@ class Application extends StatelessWidget {
     return MaterialApp(
       title: 'Quecto chat',
       theme: DynamicTheme.themeOf(context),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: LocaleProvider.of(context)!.locale,
+      initialRoute: RootRoutes.routeLogin,
+      onGenerateRoute: (routeSettings) {
+        return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (context) =>
+              RootRoutes.getRouteBuilders()[routeSettings.name]!(context),
+        );
+      },
     );
   }
 }

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../screens/home_screen/home_screen.dart';
 
-class NestedNavigatorRoutes {
+class NestedRoutes {
   static const String routeRoot = '/';
 
   static const String routeHome = 'routeHome/';
 
   // ---------------------------------------------------------------------------
-  static Map<String, WidgetBuilder> prepareRouteBuilders() {
+  static Map<String, WidgetBuilder> getRouteBuilders() {
     return {
-      NestedNavigatorRoutes.routeHome: (_) => const HomeScreen(),
+      NestedRoutes.routeHome: (_) => const HomeScreen(),
     };
   }
 }

@@ -6,7 +6,7 @@ import 'package:quectochat/domain/models/network_exceptions.dart';
 import '../../../../domain/interfaces/i_auth_repository.dart';
 import '../../../../domain/utils/form_fields/form_fields.dart';
 
-part 'login_bloc.freezed.dart';
+part 'registration_bloc.freezed.dart';
 
 part 'events.dart';
 
@@ -16,12 +16,12 @@ part 'states.dart';
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-enum LoginError {
-  /// Пользователь не найден при попытке логина
-  userNotFound,
+enum RegistrationError {
+  /// Введен слабый пароль при регистрации
+  weakPassword,
 
-  /// Неправильный пароль при попытке логина
-  wrongPassword,
+  /// Введенный при регистрации email уже занят
+  emailAlreadyUsed,
 }
 
 // БЛОК:
@@ -29,17 +29,20 @@ enum LoginError {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 @DepGen()
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc({
+class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
+  RegistrationBloc({
     @DepArg() required IAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(_initializeViewState()) {
-    on<LoginEvent>(
+    on<RegistrationEvent>(
       (event, emitter) => event.map(
         onLoginChanged: (e) => _onLoginChanged(e, emitter),
         onLoginFieldUnfocused: (e) => _onLoginFieldUnfocused(e, emitter),
         onPasswordChanged: (e) => _onPasswordChanged(e, emitter),
         onPasswordFieldUnfocused: (e) => _onPasswordFieldUnfocused(e, emitter),
+        onConfirmPasswordChanged: (e) => _onConfirmPasswordChanged(e, emitter),
+        onConfirmPasswordFieldUnfocused: (e) =>
+            _onConfirmPasswordFieldUnfocused(e, emitter),
         onLoginTapped: (_) => _onLoginTapped(emitter),
       ),
     );
@@ -58,6 +61,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   static _StateView _initializeViewState() => const _StateView(
         emailField: EmailField(),
         passwordField: PasswordField(),
+        confirmPasswordField: ConfirmPasswordField(),
       );
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
@@ -65,7 +69,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   /// бработчик ВНЕШНЕГО события "изменился тест в поле логина"
   Future<void> _onLoginChanged(
     _EventOnLoginChanged event,
-    Emitter<LoginState> emitter,
+    Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(emailField: EmailField(value: event.val));
     emitter(_viewState);
@@ -74,7 +78,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   /// бработчик ВНЕШНЕГО события "поле ввода логина потеряло фокус"
   Future<void> _onLoginFieldUnfocused(
     _EventOnLoginFieldUnfocused event,
-    Emitter<LoginState> emitter,
+    Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
       emailField: _viewState.emailField.copyWithVisibleError(
@@ -87,7 +91,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   /// бработчик ВНЕШНЕГО события "изменился тест в поле ввода пароля"
   Future<void> _onPasswordChanged(
     _EventOnPasswordChanged event,
-    Emitter<LoginState> emitter,
+    Emitter<RegistrationState> emitter,
   ) async {
     _viewState =
         _viewState.copyWith(passwordField: PasswordField(value: event.val));
@@ -97,7 +101,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   /// бработчик ВНЕШНЕГО события "поле ввода пароля потеряло фокус"
   Future<void> _onPasswordFieldUnfocused(
     _EventOnPasswordFieldUnfocused event,
-    Emitter<LoginState> emitter,
+    Emitter<RegistrationState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      passwordField: _viewState.passwordField.copyWithVisibleError(
+        isErrorVisible: true,
+      ),
+    );
+  }
+
+  /// бработчик ВНЕШНЕГО события "изменился тест в поле повтора пароля"
+  Future<void> _onConfirmPasswordChanged(
+    _EventOnConfirmPasswordChanged event,
+    Emitter<RegistrationState> emitter,
+  ) async {
+    _viewState =
+        _viewState.copyWith(passwordField: PasswordField(value: event.val));
+    emitter(_viewState);
+  }
+
+  /// бработчик ВНЕШНЕГО события "поле повтора пароля потеряло фокус"
+  Future<void> _onConfirmPasswordFieldUnfocused(
+    _EventOnConfirmPasswordFieldUnfocused event,
+    Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
       passwordField: _viewState.passwordField.copyWithVisibleError(
@@ -108,7 +134,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   /// Обработчик ВНЕШНЕГО события "нажата кнопка залогиниться"
   Future<void> _onLoginTapped(
-    Emitter<LoginState> emitter,
+    Emitter<RegistrationState> emitter,
   ) async {
     // 1. Если уже в процессе, то прерываем:
     if (_viewState.isLoading) return;
@@ -133,20 +159,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     // 4. Выполняем вход:
     try {
-      await _authRepository.logIn(
+      await _authRepository.registration(
         email: _viewState.emailField.value,
         password: _viewState.passwordField.value,
       );
     } on NetworkException catch (e) {
-      emitter(LoginState.requestError(
+      emitter(RegistrationState.requestError(
         error: switch (e) {
-          LoginUserNotFound _ => LoginError.userNotFound,
-          LoginUserWrongPassword _ => LoginError.wrongPassword,
+          RegistrationWeakPassword _ => RegistrationError.weakPassword,
+          RegistrationEmailAlreadyUsed _ => RegistrationError.emailAlreadyUsed,
           _ => null,
         },
       ));
     } on Object {
-      emitter(const LoginState.requestError());
+      emitter(const RegistrationState.requestError());
       rethrow;
     } finally {
       // 5. Вырубаем прелоадер:

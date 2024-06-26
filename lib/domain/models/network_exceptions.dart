@@ -1,10 +1,10 @@
 sealed class NetworkException {}
 
 /// Пользователь не найден при попытке логина
-final class AuthUserNotFound implements NetworkException {}
+final class LoginUserNotFound implements NetworkException {}
 
 /// Неправильный пароль при попытке логина
-final class AuthUserWrongPassword implements NetworkException {}
+final class LoginUserWrongPassword implements NetworkException {}
 
 /// Введен слабый пароль при регистрации
 final class RegistrationWeakPassword implements NetworkException {}

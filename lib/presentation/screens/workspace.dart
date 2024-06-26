@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quectochat/presentation/navigation/nested_navigator/nested_navigator.dart';
-import 'package:quectochat/presentation/navigation/nested_navigator/nested_navigator_routes.dart';
+import 'package:quectochat/presentation/navigation/nested_navigation/nested_navigator.dart';
+import 'package:quectochat/presentation/navigation/nested_navigation/nested_routes.dart';
 
 class Workspace extends StatefulWidget {
   const Workspace({super.key});
@@ -16,7 +16,7 @@ class _WorkspaceState extends State<Workspace> {
   Widget build(BuildContext context) {
     return NestedNavigator(
       tabNavigatorKey: _globalKey,
-      initialRoute: NestedNavigatorRoutes.routeHome,
+      initialRoute: NestedRoutes.routeHome,
     );
   }
 }

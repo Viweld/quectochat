@@ -1,3 +1,32 @@
 {
-  "title": "Привет!"
+  "@ Common (общие)": {},
+  "commonOk": "Ок",
+  "commonCancel": "Отмена",
+  "commonEmptyFieldError": "Поле не может быть пустым",
+  "commonRequestError": "Ошибка при выполнении запроса",
+
+  "@ login (вход)": {},
+  "loginTitle": "Вход",
+  "loginEmailFieldTitle": "Введите логин:",
+  "loginEmailFieldHint": "e-mail",
+  "loginPasswordFieldTitle": "Введите пароль:",
+  "loginPasswordFieldHint": "пароль",
+  "loginButtonLabel": "Войти",
+  "loginExceptionUserNotFound": "Пользователь с таким email не зарегистрирован",
+  "loginExceptionWrongEmail": "Неправильный формат e-mail",
+  "loginExceptionWrongPassword": "Неправильный логин и/или пароль",
+
+  "@ registration (регистрация)": {},
+  "registrationTitle": "Регистрация",
+  "registrationEmailFieldTitle": "Введите логин:",
+  "registrationEmailFieldHint": "e-mail",
+  "registrationPasswordFieldTitle": "Введите пароль:",
+  "registrationPasswordFieldHint": "пароль",
+  "registrationConfirmPasswordFieldTitle": "Повторите введенный пароль:",
+  "registrationConfirmPasswordFieldHint": "пароль",
+  "registrationButtonLabel": "Зарегистрироваться",
+  "registrationExceptionWeakPassword": "Введен слабый пароль при регистрации",
+  "registrationExceptionWrongEmail": "Неправильный формат e-mail",
+  "registrationExceptionEmailAlreadyUsed": "Введенный при регистрации email уже занят",
+  "registrationExceptionNotEqualPasswords": "Введенные пороли не совпадают"
 }

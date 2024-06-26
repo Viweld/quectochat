@@ -7,19 +7,18 @@ import 'package:quectochat/presentation/common/common_text_field.dart';
 
 import '../../../domain/utils/form_fields/form_fields.dart';
 import '../../common/common_toast.dart';
-import '../../navigation/root_navigation/root_routes.dart';
 import '../../values/images.dart';
 import '../../values/values.dart';
-import 'bloc/login_bloc.dart';
+import 'bloc/registration_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegistrationScreen extends StatelessWidget {
+  const RegistrationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildLoginBloc(),
-      child: BlocConsumer<LoginBloc, LoginState>(
+      create: (context) => context.depGen().buildRegistrationBloc(),
+      child: BlocConsumer<RegistrationBloc, RegistrationState>(
         listenWhen: (_, state) => state.maybeMap(
           requestError: (_) => true,
           orElse: () => false,
@@ -33,11 +32,12 @@ class LoginScreen extends StatelessWidget {
         ),
         builder: (context, state) => state.maybeMap(
           orElse: () => throw UnimplementedError(
-            'Wrong state for LoginScreen',
+            'Wrong state for RegistrationScreen',
           ),
-          view: (s) => _LoginView(
+          view: (s) => _RegistrationView(
             emailField: s.emailField,
             passwordField: s.passwordField,
+            confirmPasswordField: s.confirmPasswordField,
             isLoading: s.isLoading,
           ),
         ),
@@ -47,27 +47,31 @@ class LoginScreen extends StatelessWidget {
 
   // КОЛЛБЕКИ на смену состояний
   // ---------------------------------------------------------------------------
-  _requestError(BuildContext context, LoginError? error) {
+  _requestError(BuildContext context, RegistrationError? error) {
     CommonToast.showError(
       context,
       text: switch (error) {
-        LoginError.userNotFound => context.texts.loginExceptionUserNotFound,
-        LoginError.wrongPassword => context.texts.loginExceptionWrongPassword,
+        RegistrationError.weakPassword =>
+          context.texts.registrationExceptionWeakPassword,
+        RegistrationError.emailAlreadyUsed =>
+          context.texts.registrationExceptionEmailAlreadyUsed,
         _ => context.texts.commonRequestError,
       },
     );
   }
 }
 
-class _LoginView extends StatelessWidget {
-  const _LoginView({
+class _RegistrationView extends StatelessWidget {
+  const _RegistrationView({
     required this.emailField,
     required this.passwordField,
+    required this.confirmPasswordField,
     required this.isLoading,
   });
 
   final EmailField emailField;
   final PasswordField passwordField;
+  final ConfirmPasswordField confirmPasswordField;
   final bool isLoading;
 
   @override
@@ -89,7 +93,7 @@ class _LoginView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: Text(
-                context.texts.loginTitle,
+                context.texts.registrationTitle,
                 style: context.style32w600$mainTitle,
               ),
             ),
@@ -98,8 +102,8 @@ class _LoginView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: CommonEditField(
-                title: context.texts.loginEmailFieldTitle,
-                hintText: context.texts.loginEmailFieldHint,
+                title: context.texts.registrationEmailFieldTitle,
+                hintText: context.texts.registrationEmailFieldHint,
                 onChanged: (v) => _onEmailChanged(context, v),
                 onUnfocused: () => _onEmailFieldUnfocused(context),
                 keyboardType: TextInputType.emailAddress,
@@ -116,8 +120,8 @@ class _LoginView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: CommonEditField(
-                title: context.texts.loginPasswordFieldTitle,
-                hintText: context.texts.loginPasswordFieldHint,
+                title: context.texts.registrationPasswordFieldTitle,
+                hintText: context.texts.registrationPasswordFieldHint,
                 onChanged: (v) => _onPasswordChanged(context, v),
                 onUnfocused: () => _onPasswordFieldUnfocused(context),
                 isPassword: true,
@@ -130,21 +134,30 @@ class _LoginView extends StatelessWidget {
               ),
             ),
 
-            /// Кнопка логирования
+            /// Поле повтора пароля
             Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: CommonAccentButton(
-                title: context.texts.loginButtonLabel,
-                isPending: isLoading,
-                onTapped: () => _onLoginTapped(context),
+              padding: const EdgeInsets.only(bottom: 16),
+              child: CommonEditField(
+                title: context.texts.registrationPasswordFieldTitle,
+                hintText: context.texts.registrationPasswordFieldHint,
+                onChanged: (v) => _onConfirmPasswordChanged(context, v),
+                onUnfocused: () => _onConfirmPasswordFieldUnfocused(context),
+                isPassword: true,
+                validationError:
+                    passwordField.invalid && passwordField.isErrorVisible,
+                validationErrorText: _getPasswordErrorText(
+                  context,
+                  passwordField.error,
+                ),
               ),
             ),
 
-            /// Кнопка "Регистрация"
-            TextButton(
-              onPressed: isLoading ? null : () => _onRegisterTapped(context),
-              child: const Text('Зарегистрироваться'),
-            ),
+            /// Кнопка логирования
+            CommonAccentButton(
+              title: context.texts.registrationButtonLabel,
+              isPending: isLoading,
+              onTapped: () => _onLoginTapped(context),
+            )
           ],
         ),
       ),
@@ -154,27 +167,43 @@ class _LoginView extends StatelessWidget {
   // КОЛЛБЕКИ на действия пользователя:
   // ---------------------------------------------------------------------------
   void _onEmailChanged(BuildContext context, String v) {
-    context.read<LoginBloc>().add(LoginEvent.onLoginChanged(v));
+    context.read<RegistrationBloc>().add(RegistrationEvent.onLoginChanged(v));
   }
 
   void _onEmailFieldUnfocused(BuildContext context) {
-    context.read<LoginBloc>().add(const LoginEvent.onLoginFieldUnfocused());
+    context
+        .read<RegistrationBloc>()
+        .add(const RegistrationEvent.onLoginFieldUnfocused());
   }
 
   void _onPasswordChanged(BuildContext context, String v) {
-    context.read<LoginBloc>().add(LoginEvent.onPasswordChanged(v));
+    context
+        .read<RegistrationBloc>()
+        .add(RegistrationEvent.onPasswordChanged(v));
   }
 
   void _onPasswordFieldUnfocused(BuildContext context) {
-    context.read<LoginBloc>().add(const LoginEvent.onPasswordFieldUnfocused());
+    context
+        .read<RegistrationBloc>()
+        .add(const RegistrationEvent.onPasswordFieldUnfocused());
+  }
+
+  _onConfirmPasswordChanged(BuildContext context, String v) {
+    context
+        .read<RegistrationBloc>()
+        .add(RegistrationEvent.onConfirmPasswordChanged(v));
+  }
+
+  _onConfirmPasswordFieldUnfocused(BuildContext context) {
+    context
+        .read<RegistrationBloc>()
+        .add(const RegistrationEvent.onConfirmPasswordFieldUnfocused());
   }
 
   void _onLoginTapped(BuildContext context) {
-    context.read<LoginBloc>().add(const LoginEvent.onLoginTapped());
-  }
-
-  void _onRegisterTapped(BuildContext context) {
-    Navigator.pushNamed(context, RootRoutes.routeRegistration);
+    context
+        .read<RegistrationBloc>()
+        .add(const RegistrationEvent.onLoginTapped());
   }
 
   // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
@@ -185,7 +214,7 @@ class _LoginView extends StatelessWidget {
         : switch (error) {
             EmailFieldError.emptyField => context.texts.commonEmptyFieldError,
             EmailFieldError.wrongFormat =>
-              context.texts.loginExceptionWrongEmail,
+              context.texts.registrationExceptionWrongEmail,
           };
   }
 

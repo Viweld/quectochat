@@ -13,6 +13,7 @@ import 'package:flutter/widgets.dart';
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 import 'package:quectochat/presentation/navigation/auth_controller/bloc/auth_bloc.dart';
 import 'package:quectochat/presentation/screens/login_screen/bloc/login_bloc.dart';
+import 'package:quectochat/presentation/screens/registration_screen/bloc/registration_bloc.dart';
 
 /// The environment in which all used dependency instances are configured
 @immutable
@@ -103,6 +104,11 @@ class DepProvider extends InheritedWidget {
 
   // ---------------------------------------------------------------------------
   LoginBloc buildLoginBloc() => LoginBloc(
+        authRepository: _env.g<IAuthRepository>(),
+      );
+
+  // ---------------------------------------------------------------------------
+  RegistrationBloc buildRegistrationBloc() => RegistrationBloc(
         authRepository: _env.g<IAuthRepository>(),
       );
 }

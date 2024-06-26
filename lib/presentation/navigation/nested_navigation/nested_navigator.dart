@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'nested_navigator_routes.dart';
+import 'nested_routes.dart';
 
 class NestedNavigator extends StatelessWidget {
   NestedNavigator({
@@ -8,7 +8,7 @@ class NestedNavigator extends StatelessWidget {
     required this.initialRoute,
     super.key,
   }) {
-    _routeBuilders = NestedNavigatorRoutes.prepareRouteBuilders();
+    _routeBuilders = NestedRoutes.getRouteBuilders();
   }
 
   final GlobalKey<NavigatorState> tabNavigatorKey;
@@ -20,12 +20,12 @@ class NestedNavigator extends StatelessWidget {
     return Navigator(
       key: tabNavigatorKey,
       observers: [HeroController()],
-      initialRoute: NestedNavigatorRoutes.routeRoot,
+      initialRoute: NestedRoutes.routeRoot,
       onGenerateRoute: (routeSettings) {
-        return PageRouteBuilder(
+        return MaterialPageRoute(
           settings: routeSettings,
-          pageBuilder: (context, _, __) => _routeBuilders[
-              routeSettings.name == NestedNavigatorRoutes.routeRoot
+          builder: (context) => _routeBuilders[
+              routeSettings.name == NestedRoutes.routeRoot
                   ? initialRoute
                   : routeSettings.name]!(context),
         );
