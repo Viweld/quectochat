@@ -143,7 +143,7 @@ class _LoginView extends StatelessWidget {
             /// Кнопка "Регистрация"
             TextButton(
               onPressed: isLoading ? null : () => _onRegisterTapped(context),
-              child: const Text('Зарегистрироваться'),
+              child: Text(context.texts.loginToRegistrationButtonLabel),
             ),
           ],
         ),

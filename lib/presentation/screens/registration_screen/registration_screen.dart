@@ -8,6 +8,7 @@ import 'package:quectochat/presentation/common/common_text_field.dart';
 import '../../../domain/utils/form_fields/form_fields.dart';
 import '../../common/common_toast.dart';
 import '../../values/images.dart';
+import '../../values/qicons.dart';
 import '../../values/values.dart';
 import 'bloc/registration_bloc.dart';
 
@@ -47,7 +48,7 @@ class RegistrationScreen extends StatelessWidget {
 
   // КОЛЛБЕКИ на смену состояний
   // ---------------------------------------------------------------------------
-  _requestError(BuildContext context, RegistrationError? error) {
+  void _requestError(BuildContext context, RegistrationError? error) {
     CommonToast.showError(
       context,
       text: switch (error) {
@@ -77,9 +78,23 @@ class _RegistrationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: Transform.translate(
+        offset: const Offset(-Values.horizontalPadding, 0),
+        child: IconButton(
+          padding: const EdgeInsets.all(16),
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            Qicons.back,
+            color: context.palette.grayDark,
+            size: 32,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Values.horizontalPadding,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

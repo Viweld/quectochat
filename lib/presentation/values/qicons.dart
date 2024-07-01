@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class AntIcons {
-  AntIcons._();
+class Qicons {
+  Qicons._();
 
   static const _kFontFam = 'qicons';
   static const String? _kFontPkg = null;

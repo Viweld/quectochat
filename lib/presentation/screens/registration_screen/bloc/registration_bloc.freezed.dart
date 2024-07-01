@@ -1244,6 +1244,7 @@ mixin _$RegistrationState {
             dynamic isLoading)
         view,
     required TResult Function(RegistrationError? error) requestError,
+    required TResult Function() successfullyRegistration,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1252,6 +1253,7 @@ mixin _$RegistrationState {
             ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
         view,
     TResult? Function(RegistrationError? error)? requestError,
+    TResult? Function()? successfullyRegistration,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1260,6 +1262,7 @@ mixin _$RegistrationState {
             ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
         view,
     TResult Function(RegistrationError? error)? requestError,
+    TResult Function()? successfullyRegistration,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1267,18 +1270,24 @@ mixin _$RegistrationState {
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateSuccessfullyRegistration value)
+        successfullyRegistration,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1407,6 +1416,7 @@ class _$StateViewImpl implements _StateView {
             dynamic isLoading)
         view,
     required TResult Function(RegistrationError? error) requestError,
+    required TResult Function() successfullyRegistration,
   }) {
     return view(emailField, passwordField, confirmPasswordField, isLoading);
   }
@@ -1418,6 +1428,7 @@ class _$StateViewImpl implements _StateView {
             ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
         view,
     TResult? Function(RegistrationError? error)? requestError,
+    TResult? Function()? successfullyRegistration,
   }) {
     return view?.call(
         emailField, passwordField, confirmPasswordField, isLoading);
@@ -1430,6 +1441,7 @@ class _$StateViewImpl implements _StateView {
             ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
         view,
     TResult Function(RegistrationError? error)? requestError,
+    TResult Function()? successfullyRegistration,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -1443,6 +1455,8 @@ class _$StateViewImpl implements _StateView {
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateSuccessfullyRegistration value)
+        successfullyRegistration,
   }) {
     return view(this);
   }
@@ -1452,6 +1466,8 @@ class _$StateViewImpl implements _StateView {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
   }) {
     return view?.call(this);
   }
@@ -1461,6 +1477,8 @@ class _$StateViewImpl implements _StateView {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -1558,6 +1576,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             dynamic isLoading)
         view,
     required TResult Function(RegistrationError? error) requestError,
+    required TResult Function() successfullyRegistration,
   }) {
     return requestError(error);
   }
@@ -1569,6 +1588,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
         view,
     TResult? Function(RegistrationError? error)? requestError,
+    TResult? Function()? successfullyRegistration,
   }) {
     return requestError?.call(error);
   }
@@ -1580,6 +1600,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
         view,
     TResult Function(RegistrationError? error)? requestError,
+    TResult Function()? successfullyRegistration,
     required TResult orElse(),
   }) {
     if (requestError != null) {
@@ -1593,6 +1614,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateSuccessfullyRegistration value)
+        successfullyRegistration,
   }) {
     return requestError(this);
   }
@@ -1602,6 +1625,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
   }) {
     return requestError?.call(this);
   }
@@ -1611,6 +1636,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
     required TResult orElse(),
   }) {
     if (requestError != null) {
@@ -1628,4 +1655,130 @@ abstract class _StateRequestError implements RegistrationState {
   @JsonKey(ignore: true)
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StateSuccessfullyRegistrationImplCopyWith<$Res> {
+  factory _$$StateSuccessfullyRegistrationImplCopyWith(
+          _$StateSuccessfullyRegistrationImpl value,
+          $Res Function(_$StateSuccessfullyRegistrationImpl) then) =
+      __$$StateSuccessfullyRegistrationImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StateSuccessfullyRegistrationImplCopyWithImpl<$Res>
+    extends _$RegistrationStateCopyWithImpl<$Res,
+        _$StateSuccessfullyRegistrationImpl>
+    implements _$$StateSuccessfullyRegistrationImplCopyWith<$Res> {
+  __$$StateSuccessfullyRegistrationImplCopyWithImpl(
+      _$StateSuccessfullyRegistrationImpl _value,
+      $Res Function(_$StateSuccessfullyRegistrationImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$StateSuccessfullyRegistrationImpl
+    implements _StateSuccessfullyRegistration {
+  const _$StateSuccessfullyRegistrationImpl();
+
+  @override
+  String toString() {
+    return 'RegistrationState.successfullyRegistration()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StateSuccessfullyRegistrationImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)
+        view,
+    required TResult Function(RegistrationError? error) requestError,
+    required TResult Function() successfullyRegistration,
+  }) {
+    return successfullyRegistration();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EmailField emailField, PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+        view,
+    TResult? Function(RegistrationError? error)? requestError,
+    TResult? Function()? successfullyRegistration,
+  }) {
+    return successfullyRegistration?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EmailField emailField, PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+        view,
+    TResult Function(RegistrationError? error)? requestError,
+    TResult Function()? successfullyRegistration,
+    required TResult orElse(),
+  }) {
+    if (successfullyRegistration != null) {
+      return successfullyRegistration();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_StateView value) view,
+    required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateSuccessfullyRegistration value)
+        successfullyRegistration,
+  }) {
+    return successfullyRegistration(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StateView value)? view,
+    TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
+  }) {
+    return successfullyRegistration?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StateView value)? view,
+    TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateSuccessfullyRegistration value)?
+        successfullyRegistration,
+    required TResult orElse(),
+  }) {
+    if (successfullyRegistration != null) {
+      return successfullyRegistration(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StateSuccessfullyRegistration implements RegistrationState {
+  const factory _StateSuccessfullyRegistration() =
+      _$StateSuccessfullyRegistrationImpl;
 }

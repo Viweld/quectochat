@@ -12,6 +12,7 @@
   "loginPasswordFieldTitle": "Введите пароль:",
   "loginPasswordFieldHint": "пароль",
   "loginButtonLabel": "Войти",
+  "loginToRegistrationButtonLabel": "Зарегистрироваться",
   "loginExceptionUserNotFound": "Пользователь с таким email не зарегистрирован",
   "loginExceptionWrongEmail": "Неправильный формат e-mail",
   "loginExceptionWrongPassword": "Неправильный логин и/или пароль",

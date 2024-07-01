@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quectochat/presentation/navigation/auth_controller/auth_controller.dart';
 
-import '../../screens/login_screen/login_screen.dart';
 import '../../screens/registration_screen/registration_screen.dart';
 
 class RootRoutes {
@@ -10,7 +10,7 @@ class RootRoutes {
   // ---------------------------------------------------------------------------
   static Map<String, WidgetBuilder> getRouteBuilders() {
     return {
-      RootRoutes.routeLogin: (_) => const LoginScreen(),
+      RootRoutes.routeLogin: (_) => const AuthController(),
       RootRoutes.routeRegistration: (_) => const RegistrationScreen(),
     };
   }
