@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:quectochat/presentation/navigation/root_navigation/root_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'domain/environment/builders.dep_gen.dart';
 import 'domain/environment/environment.dart';
@@ -26,7 +27,9 @@ void main() {
   unawaited(
     runZonedGuarded(
       () async {
-        WidgetsFlutterBinding.ensureInitialized();
+        final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+        FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
         await Firebase.initializeApp(options: _firebaseOptions);
 
         runApp(
@@ -59,7 +62,7 @@ class Application extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: LocaleProvider.of(context)!.locale,
-      initialRoute: RootRoutes.routeLogin,
+      initialRoute: RootRoutes.routeSplash,
       onGenerateRoute: (routeSettings) {
         return MaterialPageRoute(
           settings: routeSettings,

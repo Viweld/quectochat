@@ -25,6 +25,7 @@ dependencies:
   photo_manager: 3.1.1
 
   # UI
+  flutter_native_splash: ^2.4.0
   cupertino_icons: ^1.0.6
 
   # кодогенерация
@@ -73,6 +74,20 @@ flutter:
           weight: 600
         - asset: assets/fonts/gilroy-medium.ttf
           weight: 500
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  color: "#FFFFFF"
+  color_dark: "#2B333E"
+  image: "assets/images/splash_logo.png"
+  image_dark: "assets/images/splash_logo_dark.png"
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#2B333E"
+    image: "assets/images/splash_logo.png"
+    image_dark: "assets/images/splash_logo_dark.png"
 
 flutter_launcher_icons:
   android: true
