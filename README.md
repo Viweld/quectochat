@@ -1,4 +1,5 @@
-![image](https://github.com/Viweld/quectochat/assets/60778769/2c4d0daa-db13-4ca5-af7d-d754d3970f92)
+
+![Group 2 1](https://github.com/Viweld/quectochat/assets/60778769/ea253ac1-49ca-444e-9fc6-39e07a84c0f9)
 
 # quectochat
 My codestyle
