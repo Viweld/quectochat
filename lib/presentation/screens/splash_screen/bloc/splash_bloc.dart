@@ -41,7 +41,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     _EventOnInitializationRequested event,
     Emitter<SplashState> emitter,
   ) async {
-    await Future.delayed(const Duration(seconds: 2));
     _authRepository.checkAuth();
     emitter(const SplashState.initializationCompleted());
   }
