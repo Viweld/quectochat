@@ -93,4 +93,9 @@ final class FirebaseFacade implements INetworkFacade {
       rethrow;
     }
   }
+
+  // ---------------------------------------------------------------------------
+  /// Разлогин пользователя
+  @override
+  Future<void> logOut() => _firebaseAuth.signOut();
 }

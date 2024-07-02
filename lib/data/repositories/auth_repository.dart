@@ -13,8 +13,6 @@ final class AuthRepository implements IAuthRepository {
     _authStatus = _initialAuthStatus;
   }
 
-  // ---------------------------------------------------------------------------
-  // значения по-умолчанию
   static const AuthStatus _initialAuthStatus = AuthStatus.notAuthorized;
 
   // СОСТОЯНИЕ:
@@ -61,8 +59,7 @@ final class AuthRepository implements IAuthRepository {
 
   @override
   Future<void> logOut() async {
-    // TODO(Vadim): #unimplemented
-    // await _networkFacade.logOut();
+    await _networkFacade.logOut();
 
     _authStatus = AuthStatus.notAuthorized;
     if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);

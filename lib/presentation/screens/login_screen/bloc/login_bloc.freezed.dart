@@ -801,7 +801,6 @@ mixin _$LoginState {
             PasswordField passwordField, dynamic isLoading)
         view,
     required TResult Function(LoginError? error) requestError,
-    required TResult Function() successfullyLogin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -810,7 +809,6 @@ mixin _$LoginState {
             dynamic isLoading)?
         view,
     TResult? Function(LoginError? error)? requestError,
-    TResult? Function()? successfullyLogin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -819,7 +817,6 @@ mixin _$LoginState {
             dynamic isLoading)?
         view,
     TResult Function(LoginError? error)? requestError,
-    TResult Function()? successfullyLogin,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -827,21 +824,18 @@ mixin _$LoginState {
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
-    required TResult Function(_StateSuccessfullyLogin value) successfullyLogin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
-    TResult? Function(_StateSuccessfullyLogin value)? successfullyLogin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
-    TResult Function(_StateSuccessfullyLogin value)? successfullyLogin,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -954,7 +948,6 @@ class _$StateViewImpl implements _StateView {
             PasswordField passwordField, dynamic isLoading)
         view,
     required TResult Function(LoginError? error) requestError,
-    required TResult Function() successfullyLogin,
   }) {
     return view(emailField, passwordField, isLoading);
   }
@@ -966,7 +959,6 @@ class _$StateViewImpl implements _StateView {
             dynamic isLoading)?
         view,
     TResult? Function(LoginError? error)? requestError,
-    TResult? Function()? successfullyLogin,
   }) {
     return view?.call(emailField, passwordField, isLoading);
   }
@@ -978,7 +970,6 @@ class _$StateViewImpl implements _StateView {
             dynamic isLoading)?
         view,
     TResult Function(LoginError? error)? requestError,
-    TResult Function()? successfullyLogin,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -992,7 +983,6 @@ class _$StateViewImpl implements _StateView {
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
-    required TResult Function(_StateSuccessfullyLogin value) successfullyLogin,
   }) {
     return view(this);
   }
@@ -1002,7 +992,6 @@ class _$StateViewImpl implements _StateView {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
-    TResult? Function(_StateSuccessfullyLogin value)? successfullyLogin,
   }) {
     return view?.call(this);
   }
@@ -1012,7 +1001,6 @@ class _$StateViewImpl implements _StateView {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
-    TResult Function(_StateSuccessfullyLogin value)? successfullyLogin,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -1105,7 +1093,6 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             PasswordField passwordField, dynamic isLoading)
         view,
     required TResult Function(LoginError? error) requestError,
-    required TResult Function() successfullyLogin,
   }) {
     return requestError(error);
   }
@@ -1117,7 +1104,6 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             dynamic isLoading)?
         view,
     TResult? Function(LoginError? error)? requestError,
-    TResult? Function()? successfullyLogin,
   }) {
     return requestError?.call(error);
   }
@@ -1129,7 +1115,6 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             dynamic isLoading)?
         view,
     TResult Function(LoginError? error)? requestError,
-    TResult Function()? successfullyLogin,
     required TResult orElse(),
   }) {
     if (requestError != null) {
@@ -1143,7 +1128,6 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
-    required TResult Function(_StateSuccessfullyLogin value) successfullyLogin,
   }) {
     return requestError(this);
   }
@@ -1153,7 +1137,6 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
-    TResult? Function(_StateSuccessfullyLogin value)? successfullyLogin,
   }) {
     return requestError?.call(this);
   }
@@ -1163,7 +1146,6 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
-    TResult Function(_StateSuccessfullyLogin value)? successfullyLogin,
     required TResult orElse(),
   }) {
     if (requestError != null) {
@@ -1181,121 +1163,4 @@ abstract class _StateRequestError implements LoginState {
   @JsonKey(ignore: true)
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$StateSuccessfullyLoginImplCopyWith<$Res> {
-  factory _$$StateSuccessfullyLoginImplCopyWith(
-          _$StateSuccessfullyLoginImpl value,
-          $Res Function(_$StateSuccessfullyLoginImpl) then) =
-      __$$StateSuccessfullyLoginImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$StateSuccessfullyLoginImplCopyWithImpl<$Res>
-    extends _$LoginStateCopyWithImpl<$Res, _$StateSuccessfullyLoginImpl>
-    implements _$$StateSuccessfullyLoginImplCopyWith<$Res> {
-  __$$StateSuccessfullyLoginImplCopyWithImpl(
-      _$StateSuccessfullyLoginImpl _value,
-      $Res Function(_$StateSuccessfullyLoginImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$StateSuccessfullyLoginImpl implements _StateSuccessfullyLogin {
-  const _$StateSuccessfullyLoginImpl();
-
-  @override
-  String toString() {
-    return 'LoginState.successfullyLogin()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$StateSuccessfullyLoginImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(EmailField emailField,
-            PasswordField passwordField, dynamic isLoading)
-        view,
-    required TResult Function(LoginError? error) requestError,
-    required TResult Function() successfullyLogin,
-  }) {
-    return successfullyLogin();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmailField emailField, PasswordField passwordField,
-            dynamic isLoading)?
-        view,
-    TResult? Function(LoginError? error)? requestError,
-    TResult? Function()? successfullyLogin,
-  }) {
-    return successfullyLogin?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmailField emailField, PasswordField passwordField,
-            dynamic isLoading)?
-        view,
-    TResult Function(LoginError? error)? requestError,
-    TResult Function()? successfullyLogin,
-    required TResult orElse(),
-  }) {
-    if (successfullyLogin != null) {
-      return successfullyLogin();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
-    required TResult Function(_StateSuccessfullyLogin value) successfullyLogin,
-  }) {
-    return successfullyLogin(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
-    TResult? Function(_StateSuccessfullyLogin value)? successfullyLogin,
-  }) {
-    return successfullyLogin?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
-    TResult Function(_StateSuccessfullyLogin value)? successfullyLogin,
-    required TResult orElse(),
-  }) {
-    if (successfullyLogin != null) {
-      return successfullyLogin(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _StateSuccessfullyLogin implements LoginState {
-  const factory _StateSuccessfullyLogin() = _$StateSuccessfullyLoginImpl;
 }

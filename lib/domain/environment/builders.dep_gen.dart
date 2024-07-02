@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 import 'package:quectochat/presentation/navigation/auth_controller/bloc/auth_bloc.dart';
+import 'package:quectochat/presentation/screens/home_screen/bloc/home_bloc.dart';
 import 'package:quectochat/presentation/screens/login_screen/bloc/login_bloc.dart';
 import 'package:quectochat/presentation/screens/registration_screen/bloc/registration_bloc.dart';
 
@@ -99,6 +100,11 @@ class DepProvider extends InheritedWidget {
 
   // ---------------------------------------------------------------------------
   AuthBloc buildAuthBloc() => AuthBloc(
+        authRepository: _env.g<IAuthRepository>(),
+      );
+
+  // ---------------------------------------------------------------------------
+  HomeBloc buildHomeBloc() => HomeBloc(
         authRepository: _env.g<IAuthRepository>(),
       );
 
