@@ -51,6 +51,8 @@ class LoginScreen extends StatelessWidget {
     CommonToast.showError(
       context,
       text: switch (error) {
+        LoginError.invalidCredential =>
+          context.texts.loginExceptionInvalidCredential,
         LoginError.userNotFound => context.texts.loginExceptionUserNotFound,
         LoginError.wrongPassword => context.texts.loginExceptionWrongPassword,
         _ => context.texts.commonRequestError,

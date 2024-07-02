@@ -43,6 +43,16 @@ final class AuthRepository implements IAuthRepository {
   // МЕТОДЫ:
   // ---------------------------------------------------------------------------
   @override
+  CurrentUser? checkAuth() {
+    final currentUser = _networkFacade.checkAuth();
+
+    _authStatus =
+        currentUser == null ? AuthStatus.notAuthorized : AuthStatus.authorized;
+    if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);
+    return currentUser;
+  }
+
+  @override
   Future<CurrentUser?> logIn({
     required String email,
     required String password,

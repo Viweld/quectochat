@@ -21,6 +21,14 @@ final class FirebaseFacade implements INetworkFacade {
   late final _Mapper _mapper;
 
   // ---------------------------------------------------------------------------
+  /// Проверка залогиненности пользователя
+  @override
+  CurrentUser? checkAuth() {
+    final userData = _firebaseAuth.currentUser;
+    return userData == null ? null : _mapper._parseCurrentUser(userData);
+  }
+
+  // ---------------------------------------------------------------------------
   /// Логин пользователя
   @override
   Future<CurrentUser?> logIn({
@@ -37,6 +45,8 @@ final class FirebaseFacade implements INetworkFacade {
       return userData == null ? null : _mapper._parseCurrentUser(userData);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
+        case 'invalid-credential':
+          throw LoginInvalidCredential();
         case 'user-not-found':
           throw LoginUserNotFound();
         case 'wrong-password':

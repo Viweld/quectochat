@@ -17,6 +17,9 @@ part 'states.dart';
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 enum LoginError {
+  /// Невалидные логин или пароль
+  invalidCredential,
+
   /// Пользователь не найден при попытке логина
   userNotFound,
 
@@ -140,6 +143,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } on NetworkException catch (e) {
       emitter(LoginState.requestError(
         error: switch (e) {
+          LoginInvalidCredential _ => LoginError.invalidCredential,
           LoginUserNotFound _ => LoginError.userNotFound,
           LoginUserWrongPassword _ => LoginError.wrongPassword,
           _ => null,

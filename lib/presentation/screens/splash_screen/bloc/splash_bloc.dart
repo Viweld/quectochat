@@ -1,4 +1,5 @@
 import 'package:dep_gen/dep_gen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -40,8 +41,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     _EventOnInitializationRequested event,
     Emitter<SplashState> emitter,
   ) async {
-    await Future.delayed(const Duration(seconds: 5));
-
+    await Future.delayed(const Duration(seconds: 2));
+    _authRepository.checkAuth();
     emitter(const SplashState.initializationCompleted());
   }
 }

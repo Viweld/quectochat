@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 
 import '../../navigation/root_navigation/root_routes.dart';
+import '../../values/images.dart';
 import 'bloc/splash_bloc.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -26,14 +29,24 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  void _initializationCompleted(BuildContext context) {
-    // 1. Прячем нативный splash
+  Future<void> _initializationCompleted(BuildContext context) async {
+    // 1. кешируем изображения из набора:
+    final precacheImages = [
+      Images.logo,
+    ];
+
+    for (final image in precacheImages) {
+      await precacheImage(Image.asset(image).image, context);
+    }
+
+    // 2. Прячем нативный splash
     FlutterNativeSplash.remove();
 
-    // 2. Подставляем вместо splash контроллер авторизации
-    Navigator.pushReplacementNamed(
+    // 3. Подставляем вместо splash контроллер авторизации
+    if (!context.mounted) return;
+    unawaited(Navigator.pushReplacementNamed(
       context,
       RootRoutes.routeAuthController,
-    );
+    ));
   }
 }

@@ -24,6 +24,9 @@ abstract interface class IAuthRepository {
 
   // АВТОРИЗАЦИЯ
   // --------------------------------------------------------------------------
+  /// Проверка залогиненности пользователя
+  CurrentUser? checkAuth();
+
   /// Логин пользователя
   Future<CurrentUser?> logIn({
     required String email,
