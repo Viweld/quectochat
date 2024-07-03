@@ -18,32 +18,57 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() onInitializationRequested,
+    required TResult Function() onSearchFieldClearTapped,
+    required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onSearchFieldClearTapped,
+    TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onInitializationRequested,
+    TResult Function()? onSearchFieldClearTapped,
+    TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnInitializationRequested value)
+        onInitializationRequested,
+    required TResult Function(_EventOnSearchFieldClearTapped value)
+        onSearchFieldClearTapped,
+    required TResult Function(_EventOnSearchTextChanged value)
+        onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult? Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
     required TResult orElse(),
   }) =>
@@ -65,6 +90,414 @@ class _$HomeEventCopyWithImpl<$Res, $Val extends HomeEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$EventOnInitializationRequestedImplCopyWith<$Res> {
+  factory _$$EventOnInitializationRequestedImplCopyWith(
+          _$EventOnInitializationRequestedImpl value,
+          $Res Function(_$EventOnInitializationRequestedImpl) then) =
+      __$$EventOnInitializationRequestedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EventOnInitializationRequestedImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$EventOnInitializationRequestedImpl>
+    implements _$$EventOnInitializationRequestedImplCopyWith<$Res> {
+  __$$EventOnInitializationRequestedImplCopyWithImpl(
+      _$EventOnInitializationRequestedImpl _value,
+      $Res Function(_$EventOnInitializationRequestedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$EventOnInitializationRequestedImpl
+    implements _EventOnInitializationRequested {
+  const _$EventOnInitializationRequestedImpl();
+
+  @override
+  String toString() {
+    return 'HomeEvent.onInitializationRequested()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnInitializationRequestedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onInitializationRequested,
+    required TResult Function() onSearchFieldClearTapped,
+    required TResult Function(String val) onSearchTextChanged,
+    required TResult Function() onLogoutTapped,
+  }) {
+    return onInitializationRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onSearchFieldClearTapped,
+    TResult? Function(String val)? onSearchTextChanged,
+    TResult? Function()? onLogoutTapped,
+  }) {
+    return onInitializationRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onInitializationRequested,
+    TResult Function()? onSearchFieldClearTapped,
+    TResult Function(String val)? onSearchTextChanged,
+    TResult Function()? onLogoutTapped,
+    required TResult orElse(),
+  }) {
+    if (onInitializationRequested != null) {
+      return onInitializationRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnInitializationRequested value)
+        onInitializationRequested,
+    required TResult Function(_EventOnSearchFieldClearTapped value)
+        onSearchFieldClearTapped,
+    required TResult Function(_EventOnSearchTextChanged value)
+        onSearchTextChanged,
+    required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+  }) {
+    return onInitializationRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult? Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+  }) {
+    return onInitializationRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    required TResult orElse(),
+  }) {
+    if (onInitializationRequested != null) {
+      return onInitializationRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnInitializationRequested implements HomeEvent {
+  const factory _EventOnInitializationRequested() =
+      _$EventOnInitializationRequestedImpl;
+}
+
+/// @nodoc
+abstract class _$$EventOnSearchFieldClearTappedImplCopyWith<$Res> {
+  factory _$$EventOnSearchFieldClearTappedImplCopyWith(
+          _$EventOnSearchFieldClearTappedImpl value,
+          $Res Function(_$EventOnSearchFieldClearTappedImpl) then) =
+      __$$EventOnSearchFieldClearTappedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EventOnSearchFieldClearTappedImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$EventOnSearchFieldClearTappedImpl>
+    implements _$$EventOnSearchFieldClearTappedImplCopyWith<$Res> {
+  __$$EventOnSearchFieldClearTappedImplCopyWithImpl(
+      _$EventOnSearchFieldClearTappedImpl _value,
+      $Res Function(_$EventOnSearchFieldClearTappedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$EventOnSearchFieldClearTappedImpl
+    implements _EventOnSearchFieldClearTapped {
+  const _$EventOnSearchFieldClearTappedImpl();
+
+  @override
+  String toString() {
+    return 'HomeEvent.onSearchFieldClearTapped()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnSearchFieldClearTappedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onInitializationRequested,
+    required TResult Function() onSearchFieldClearTapped,
+    required TResult Function(String val) onSearchTextChanged,
+    required TResult Function() onLogoutTapped,
+  }) {
+    return onSearchFieldClearTapped();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onSearchFieldClearTapped,
+    TResult? Function(String val)? onSearchTextChanged,
+    TResult? Function()? onLogoutTapped,
+  }) {
+    return onSearchFieldClearTapped?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onInitializationRequested,
+    TResult Function()? onSearchFieldClearTapped,
+    TResult Function(String val)? onSearchTextChanged,
+    TResult Function()? onLogoutTapped,
+    required TResult orElse(),
+  }) {
+    if (onSearchFieldClearTapped != null) {
+      return onSearchFieldClearTapped();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnInitializationRequested value)
+        onInitializationRequested,
+    required TResult Function(_EventOnSearchFieldClearTapped value)
+        onSearchFieldClearTapped,
+    required TResult Function(_EventOnSearchTextChanged value)
+        onSearchTextChanged,
+    required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+  }) {
+    return onSearchFieldClearTapped(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult? Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+  }) {
+    return onSearchFieldClearTapped?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    required TResult orElse(),
+  }) {
+    if (onSearchFieldClearTapped != null) {
+      return onSearchFieldClearTapped(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnSearchFieldClearTapped implements HomeEvent {
+  const factory _EventOnSearchFieldClearTapped() =
+      _$EventOnSearchFieldClearTappedImpl;
+}
+
+/// @nodoc
+abstract class _$$EventOnSearchTextChangedImplCopyWith<$Res> {
+  factory _$$EventOnSearchTextChangedImplCopyWith(
+          _$EventOnSearchTextChangedImpl value,
+          $Res Function(_$EventOnSearchTextChangedImpl) then) =
+      __$$EventOnSearchTextChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String val});
+}
+
+/// @nodoc
+class __$$EventOnSearchTextChangedImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$EventOnSearchTextChangedImpl>
+    implements _$$EventOnSearchTextChangedImplCopyWith<$Res> {
+  __$$EventOnSearchTextChangedImplCopyWithImpl(
+      _$EventOnSearchTextChangedImpl _value,
+      $Res Function(_$EventOnSearchTextChangedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? val = null,
+  }) {
+    return _then(_$EventOnSearchTextChangedImpl(
+      null == val
+          ? _value.val
+          : val // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
+  const _$EventOnSearchTextChangedImpl(this.val);
+
+  @override
+  final String val;
+
+  @override
+  String toString() {
+    return 'HomeEvent.onSearchTextChanged(val: $val)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnSearchTextChangedImpl &&
+            (identical(other.val, val) || other.val == val));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, val);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EventOnSearchTextChangedImplCopyWith<_$EventOnSearchTextChangedImpl>
+      get copyWith => __$$EventOnSearchTextChangedImplCopyWithImpl<
+          _$EventOnSearchTextChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onInitializationRequested,
+    required TResult Function() onSearchFieldClearTapped,
+    required TResult Function(String val) onSearchTextChanged,
+    required TResult Function() onLogoutTapped,
+  }) {
+    return onSearchTextChanged(val);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onSearchFieldClearTapped,
+    TResult? Function(String val)? onSearchTextChanged,
+    TResult? Function()? onLogoutTapped,
+  }) {
+    return onSearchTextChanged?.call(val);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onInitializationRequested,
+    TResult Function()? onSearchFieldClearTapped,
+    TResult Function(String val)? onSearchTextChanged,
+    TResult Function()? onLogoutTapped,
+    required TResult orElse(),
+  }) {
+    if (onSearchTextChanged != null) {
+      return onSearchTextChanged(val);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnInitializationRequested value)
+        onInitializationRequested,
+    required TResult Function(_EventOnSearchFieldClearTapped value)
+        onSearchFieldClearTapped,
+    required TResult Function(_EventOnSearchTextChanged value)
+        onSearchTextChanged,
+    required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+  }) {
+    return onSearchTextChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult? Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+  }) {
+    return onSearchTextChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    required TResult orElse(),
+  }) {
+    if (onSearchTextChanged != null) {
+      return onSearchTextChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnSearchTextChanged implements HomeEvent {
+  const factory _EventOnSearchTextChanged(final String val) =
+      _$EventOnSearchTextChangedImpl;
+
+  String get val;
+  @JsonKey(ignore: true)
+  _$$EventOnSearchTextChangedImplCopyWith<_$EventOnSearchTextChangedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -106,6 +539,9 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() onInitializationRequested,
+    required TResult Function() onSearchFieldClearTapped,
+    required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
   }) {
     return onLogoutTapped();
@@ -114,6 +550,9 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onSearchFieldClearTapped,
+    TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
   }) {
     return onLogoutTapped?.call();
@@ -122,6 +561,9 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onInitializationRequested,
+    TResult Function()? onSearchFieldClearTapped,
+    TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
     required TResult orElse(),
   }) {
@@ -134,6 +576,12 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnInitializationRequested value)
+        onInitializationRequested,
+    required TResult Function(_EventOnSearchFieldClearTapped value)
+        onSearchFieldClearTapped,
+    required TResult Function(_EventOnSearchTextChanged value)
+        onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
   }) {
     return onLogoutTapped(this);
@@ -142,6 +590,11 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult? Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
   }) {
     return onLogoutTapped?.call(this);
@@ -150,6 +603,11 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
     required TResult orElse(),
   }) {
@@ -168,6 +626,7 @@ abstract class _EventOnLogoutTapped implements HomeEvent {
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() pending,
     required TResult Function(
             Iterable<ChatListItem> chatList, dynamic isLoading)
         view,
@@ -176,12 +635,14 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? pending,
     TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
     TResult? Function(String? errorText)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? pending,
     TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
@@ -189,18 +650,21 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),
@@ -223,6 +687,116 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$StatePendingImplCopyWith<$Res> {
+  factory _$$StatePendingImplCopyWith(
+          _$StatePendingImpl value, $Res Function(_$StatePendingImpl) then) =
+      __$$StatePendingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StatePendingImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$StatePendingImpl>
+    implements _$$StatePendingImplCopyWith<$Res> {
+  __$$StatePendingImplCopyWithImpl(
+      _$StatePendingImpl _value, $Res Function(_$StatePendingImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$StatePendingImpl implements _StatePending {
+  const _$StatePendingImpl();
+
+  @override
+  String toString() {
+    return 'HomeState.pending()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$StatePendingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() pending,
+    required TResult Function(
+            Iterable<ChatListItem> chatList, dynamic isLoading)
+        view,
+    required TResult Function(String? errorText) requestError,
+  }) {
+    return pending();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? pending,
+    TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult? Function(String? errorText)? requestError,
+  }) {
+    return pending?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? pending,
+    TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult Function(String? errorText)? requestError,
+    required TResult orElse(),
+  }) {
+    if (pending != null) {
+      return pending();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_StatePending value) pending,
+    required TResult Function(_StateView value) view,
+    required TResult Function(_StateRequestError value) requestError,
+  }) {
+    return pending(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StatePending value)? pending,
+    TResult? Function(_StateView value)? view,
+    TResult? Function(_StateRequestError value)? requestError,
+  }) {
+    return pending?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StatePending value)? pending,
+    TResult Function(_StateView value)? view,
+    TResult Function(_StateRequestError value)? requestError,
+    required TResult orElse(),
+  }) {
+    if (pending != null) {
+      return pending(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StatePending implements HomeState {
+  const factory _StatePending() = _$StatePendingImpl;
 }
 
 /// @nodoc
@@ -299,6 +873,7 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() pending,
     required TResult Function(
             Iterable<ChatListItem> chatList, dynamic isLoading)
         view,
@@ -310,6 +885,7 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? pending,
     TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
     TResult? Function(String? errorText)? requestError,
   }) {
@@ -319,6 +895,7 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? pending,
     TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
@@ -332,6 +909,7 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
   }) {
@@ -341,6 +919,7 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
   }) {
@@ -350,6 +929,7 @@ class _$StateViewImpl implements _StateView {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),
@@ -439,6 +1019,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() pending,
     required TResult Function(
             Iterable<ChatListItem> chatList, dynamic isLoading)
         view,
@@ -450,6 +1031,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? pending,
     TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
     TResult? Function(String? errorText)? requestError,
   }) {
@@ -459,6 +1041,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? pending,
     TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
@@ -472,6 +1055,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
     required TResult Function(_StateRequestError value) requestError,
   }) {
@@ -481,6 +1065,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
     TResult? Function(_StateRequestError value)? requestError,
   }) {
@@ -490,6 +1075,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
     TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),

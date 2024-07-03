@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
@@ -29,6 +31,7 @@ class HomeScreen extends StatelessWidget {
         ),
         buildWhen: (_, state) => state.maybeMap(
           view: (_) => true,
+          pending: (_) => true,
           orElse: () => false,
         ),
         listener: (context, state) => state.mapOrNull(
@@ -38,6 +41,7 @@ class HomeScreen extends StatelessWidget {
           orElse: () => throw UnimplementedError(
             'Wrong state for HomeScreen',
           ),
+          pending: (s) => const CircularProgressIndicator(),
           view: (s) => _HomeView(chatList: s.chatList),
         ),
       ),
@@ -61,64 +65,76 @@ class _HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Values.horizontalPadding,
-        ),
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              scrolledUnderElevation: 0,
-              forceMaterialTransparency: true,
-              floating: true,
-              snap: true,
-              pinned: true,
-              collapsedHeight: 0,
-              toolbarHeight: 0,
-              expandedHeight: 180,
-              systemOverlayStyle: SystemUiOverlayStyle.light,
-              flexibleSpace: _FlexibleHeader(
-                onMenuTapped: () => _onMenuTapped(context),
-                onSearchFieldClearTapped: () =>
-                    _onSearchFieldClearTapped(context),
-                onSearchTextChanged: (val) =>
-                    _onSearchTextChanged(context, val),
-              ),
-            ),
+    final titleHeight = context.style32w600$mainTitle?.height ?? 0;
+    final titleSize = context.style32w600$mainTitle?.fontSize ?? 0;
+    // fixme - доделать адаптив при масштабировании текста
+    final scaleFactor = MediaQuery.textScalerOf(context).scale(titleSize);
+    final flexibleAppBarHeight = _FlexibleHeader.toTitlePadding +
+        _FlexibleHeader.toFieldPadding +
+        _FlexibleHeader.toDividerPadding +
+        CommonEditField.height +
+        titleHeight * titleSize * scaleFactor +
+        1;
 
-            /// Либо надпись об отсутствии переписок, либо список переписок
-            if (chatList.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            scrolledUnderElevation: 0,
+            forceMaterialTransparency: true,
+            floating: true,
+            snap: true,
+            pinned: true,
+            collapsedHeight: 0,
+            toolbarHeight: 0,
+            expandedHeight: flexibleAppBarHeight,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
+            flexibleSpace: _FlexibleHeader(
+              onExitTapped: () => _onMenuTapped(context),
+              onSearchFieldClearTapped: () =>
+                  _onSearchFieldClearTapped(context),
+              onSearchTextChanged: (val) => _onSearchTextChanged(context, val),
+            ),
+          ),
+
+          /// Либо надпись об отсутствии переписок, либо список переписок
+          if (chatList.isEmpty)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Values.horizontalPadding,
+                  ),
                   child: Text(
                     'Вы еще не начали переписку...',
                     textAlign: TextAlign.center,
                     style: context.style12w500$labels,
                   ),
                 ),
-              )
-            else
-              SliverList.separated(
-                itemCount: chatList.length,
-                separatorBuilder: (context, i) => Divider(
-                  height: 1,
-                  color: context.palette.gray,
-                ),
-                itemBuilder: (context, i) {
-                  final chatLIstItem = chatList.elementAt(i);
-                  return _ChatTile(
-                    chatListItem: chatLIstItem,
-                    onTapped: () => _onChatListItemTapped(
-                      context,
-                      chatLIstItem,
-                    ),
-                  );
-                },
               ),
-          ],
-        ),
+            )
+          else
+            SliverList.separated(
+              itemCount: chatList.length,
+              separatorBuilder: (context, i) => Divider(
+                height: 1,
+                color: context.palette.gray,
+                indent: Values.horizontalPadding,
+                endIndent: Values.horizontalPadding,
+              ),
+              itemBuilder: (context, i) {
+                final chatLIstItem = chatList.elementAt(i);
+                return _ChatTile(
+                  chatListItem: chatLIstItem,
+                  onTapped: () => _onChatListItemTapped(
+                    context,
+                    chatLIstItem,
+                  ),
+                );
+              },
+            ),
+        ],
       ),
     );
   }
