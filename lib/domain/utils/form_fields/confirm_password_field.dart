@@ -11,12 +11,12 @@ enum ConfirmPasswordFieldError {
 final class ConfirmPasswordField
     extends FormField<String, ConfirmPasswordFieldError> {
   const ConfirmPasswordField({
-    this.password,
+    required this.password,
     super.value = '',
     super.isErrorVisible,
   });
 
-  final String? password;
+  final String password;
 
   @override
   ConfirmPasswordFieldError? _validator(String value) {

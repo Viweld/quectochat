@@ -61,12 +61,12 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   static _StateView _initializeViewState() => const _StateView(
         emailField: EmailField(),
         passwordField: PasswordField(),
-        confirmPasswordField: ConfirmPasswordField(),
+        confirmPasswordField: ConfirmPasswordField(password: ''),
       );
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
-  /// бработчик ВНЕШНЕГО события "изменился тест в поле логина"
+  /// Обработчик ВНЕШНЕГО события "изменился тест в поле логина"
   Future<void> _onLoginChanged(
     _EventOnLoginChanged event,
     Emitter<RegistrationState> emitter,
@@ -75,7 +75,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     emitter(_viewState);
   }
 
-  /// бработчик ВНЕШНЕГО события "поле ввода логина потеряло фокус"
+  /// Обработчик ВНЕШНЕГО события "поле ввода логина потеряло фокус"
   Future<void> _onLoginFieldUnfocused(
     _EventOnLoginFieldUnfocused event,
     Emitter<RegistrationState> emitter,
@@ -88,7 +88,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     emitter(_viewState);
   }
 
-  /// бработчик ВНЕШНЕГО события "изменился тест в поле ввода пароля"
+  /// Обработчик ВНЕШНЕГО события "изменился тест в поле ввода пароля"
   Future<void> _onPasswordChanged(
     _EventOnPasswordChanged event,
     Emitter<RegistrationState> emitter,
@@ -98,7 +98,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     emitter(_viewState);
   }
 
-  /// бработчик ВНЕШНЕГО события "поле ввода пароля потеряло фокус"
+  /// Обработчик ВНЕШНЕГО события "поле ввода пароля потеряло фокус"
   Future<void> _onPasswordFieldUnfocused(
     _EventOnPasswordFieldUnfocused event,
     Emitter<RegistrationState> emitter,
@@ -110,25 +110,28 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     );
   }
 
-  /// бработчик ВНЕШНЕГО события "изменился тест в поле повтора пароля"
+  /// Обработчик ВНЕШНЕГО события "изменился тест в поле повтора пароля"
   Future<void> _onConfirmPasswordChanged(
     _EventOnConfirmPasswordChanged event,
     Emitter<RegistrationState> emitter,
   ) async {
-    _viewState =
-        _viewState.copyWith(passwordField: PasswordField(value: event.val));
+    _viewState = _viewState.copyWith(
+      confirmPasswordField: ConfirmPasswordField(
+        value: event.val,
+        password: _viewState.confirmPasswordField.value,
+      ),
+    );
     emitter(_viewState);
   }
 
-  /// бработчик ВНЕШНЕГО события "поле повтора пароля потеряло фокус"
+  /// Обработчик ВНЕШНЕГО события "поле повтора пароля потеряло фокус"
   Future<void> _onConfirmPasswordFieldUnfocused(
     _EventOnConfirmPasswordFieldUnfocused event,
     Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
-      passwordField: _viewState.passwordField.copyWithVisibleError(
-        isErrorVisible: true,
-      ),
+      confirmPasswordField: _viewState.confirmPasswordField
+          .copyWithVisibleError(isErrorVisible: true),
     );
   }
 
@@ -157,7 +160,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     _viewState = _viewState.copyWith(isLoading: true);
     emitter(_viewState);
 
-    // 4. Выполняем вход:
+    // 4. Выполняем регистрацию:
     try {
       await _authRepository.registration(
         email: _viewState.emailField.value,
