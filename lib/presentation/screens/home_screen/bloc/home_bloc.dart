@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../domain/interfaces/i_auth_repository.dart';
+import '../../../../domain/models/chat_list_item.dart';
 
 part 'home_bloc.freezed.dart';
 

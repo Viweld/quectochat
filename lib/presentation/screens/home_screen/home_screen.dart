@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
+import 'package:quectochat/presentation/common/common_text_field.dart';
+import 'package:string_to_color/string_to_color.dart';
 
+import '../../../domain/models/chat_list_item.dart';
 import '../../common/common_toast.dart';
+import '../../values/values.dart';
 import 'bloc/home_bloc.dart';
+
+part 'widgets/flexible_header.dart';
+
+part 'widgets/chat_tile.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -29,24 +38,10 @@ class HomeScreen extends StatelessWidget {
           orElse: () => throw UnimplementedError(
             'Wrong state for HomeScreen',
           ),
-          view: (s) => Scaffold(
-            appBar: AppBar(
-              title: const Text('Добро пожаловать'),
-            ),
-            body: Center(
-              child: TextButton(
-                child: const Text('Выход'),
-                onPressed: () => _onLogoutTapped(context),
-              ),
-            ),
-          ),
+          view: (s) => _HomeView(chatList: s.chatList),
         ),
       ),
     );
-  }
-
-  void _onLogoutTapped(BuildContext context) {
-    context.read<HomeBloc>().add(const HomeEvent.onLogoutTapped());
   }
 
   void _requestError(BuildContext context, String? errorText) {
@@ -54,5 +49,100 @@ class HomeScreen extends StatelessWidget {
       context,
       text: errorText ?? context.texts.commonRequestError,
     );
+  }
+}
+
+class _HomeView extends StatelessWidget {
+  const _HomeView({
+    required this.chatList,
+  });
+
+  final Iterable<ChatListItem> chatList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Values.horizontalPadding,
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              scrolledUnderElevation: 0,
+              forceMaterialTransparency: true,
+              floating: true,
+              snap: true,
+              pinned: true,
+              collapsedHeight: 0,
+              toolbarHeight: 0,
+              expandedHeight: 180,
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+              flexibleSpace: _FlexibleHeader(
+                onMenuTapped: () => _onMenuTapped(context),
+                onSearchFieldClearTapped: () =>
+                    _onSearchFieldClearTapped(context),
+                onSearchTextChanged: (val) =>
+                    _onSearchTextChanged(context, val),
+              ),
+            ),
+
+            /// Либо надпись об отсутствии переписок, либо список переписок
+            if (chatList.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Text(
+                    'Вы еще не начали переписку...',
+                    textAlign: TextAlign.center,
+                    style: context.style12w500$labels,
+                  ),
+                ),
+              )
+            else
+              SliverList.separated(
+                itemCount: chatList.length,
+                separatorBuilder: (context, i) => Divider(
+                  height: 1,
+                  color: context.palette.gray,
+                ),
+                itemBuilder: (context, i) {
+                  final chatLIstItem = chatList.elementAt(i);
+                  return _ChatTile(
+                    chatListItem: chatLIstItem,
+                    onTapped: () => _onChatListItemTapped(
+                      context,
+                      chatLIstItem,
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // КОЛЛБЭКИ от действий пользователя:
+  // ---------------------------------------------------------------------------
+  void _onLogoutTapped(BuildContext context) {
+    // TODO(Vadim): #unimplemented
+    context.read<HomeBloc>().add(const HomeEvent.onLogoutTapped());
+  }
+
+  void _onChatListItemTapped(BuildContext context, ChatListItem chatLIstItem) {
+    // TODO(Vadim): #unimplemented
+  }
+
+  _onMenuTapped(BuildContext context) {
+    // TODO(Vadim): #unimplemented
+  }
+
+  _onSearchFieldClearTapped(BuildContext context) {
+    // TODO(Vadim): #unimplemented
+  }
+
+  _onSearchTextChanged(BuildContext context, String val) {
+    // TODO(Vadim): #unimplemented
   }
 }

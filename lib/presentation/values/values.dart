@@ -1,5 +1,5 @@
 class Values {
-  static const double horizontalPadding = 16;
+  static const double horizontalPadding = 20;
 
   static const double textFieldHeight = 56;
   static const double textFieldBorderRadius = 8;

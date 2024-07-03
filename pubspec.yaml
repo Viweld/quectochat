@@ -27,6 +27,7 @@ dependencies:
   # UI
   flutter_native_splash: ^2.4.0
   cupertino_icons: ^1.0.6
+  string_to_color: ^2.0.0
 
   # кодогенерация
   freezed_annotation: 2.4.1
