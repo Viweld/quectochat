@@ -29,6 +29,7 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
+  /// Действия, выполняемые после инициализации и переход на AuthNode
   Future<void> _initializationCompleted(BuildContext context) async {
     // 1. кешируем изображения из набора:
     final precacheImages = [
@@ -42,11 +43,11 @@ class SplashScreen extends StatelessWidget {
     // 2. Прячем нативный splash
     FlutterNativeSplash.remove();
 
-    // 3. Подставляем вместо splash контроллер авторизации
+    // 3. Подставляем вместо splash узел авторизации
     if (!context.mounted) return;
     unawaited(Navigator.pushReplacementNamed(
       context,
-      RootRoutes.routeAuthController,
+      RootRoutes.routeAuthNode,
     ));
   }
 }

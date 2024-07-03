@@ -6,8 +6,8 @@ import 'package:quectochat/presentation/screens/workspace.dart';
 import '../../screens/login_screen/login_screen.dart';
 import 'bloc/auth_bloc.dart';
 
-class AuthController extends StatelessWidget {
-  const AuthController({super.key});
+class AuthNode extends StatelessWidget {
+  const AuthNode({super.key});
 
   @override
   Widget build(BuildContext context) {
