@@ -158,11 +158,11 @@ class _RegistrationView extends StatelessWidget {
                 onChanged: (v) => _onConfirmPasswordChanged(context, v),
                 onUnfocused: () => _onConfirmPasswordFieldUnfocused(context),
                 isPassword: true,
-                validationError:
-                    passwordField.invalid && passwordField.isErrorVisible,
-                validationErrorText: _getPasswordErrorText(
+                validationError: confirmPasswordField.invalid &&
+                    confirmPasswordField.isErrorVisible,
+                validationErrorText: _getConfirmPasswordErrorText(
                   context,
-                  passwordField.error,
+                  confirmPasswordField.error,
                 ),
               ),
             ),
@@ -235,5 +235,19 @@ class _RegistrationView extends StatelessWidget {
 
   _getPasswordErrorText(BuildContext context, PasswordFieldError? error) {
     return error == null ? null : context.texts.commonEmptyFieldError;
+  }
+
+  _getConfirmPasswordErrorText(
+    BuildContext context,
+    ConfirmPasswordFieldError? error,
+  ) {
+    return error == null
+        ? null
+        : switch (error) {
+            ConfirmPasswordFieldError.emptyField =>
+              context.texts.commonEmptyFieldError,
+            ConfirmPasswordFieldError.notEqual =>
+              context.texts.registrationExceptionNotEqualPasswords,
+          };
   }
 }

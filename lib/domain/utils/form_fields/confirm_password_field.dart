@@ -11,18 +11,18 @@ enum ConfirmPasswordFieldError {
 final class ConfirmPasswordField
     extends FormField<String, ConfirmPasswordFieldError> {
   const ConfirmPasswordField({
-    required this.password,
+    required this.basePassword,
     super.value = '',
     super.isErrorVisible,
   });
 
-  final String password;
+  final String basePassword;
 
   @override
   ConfirmPasswordFieldError? _validator(String value) {
     if (value.isEmpty) {
       return ConfirmPasswordFieldError.emptyField;
-    } else if (value != password) {
+    } else if (value != basePassword) {
       return ConfirmPasswordFieldError.notEqual;
     } else {
       return null;
@@ -34,7 +34,16 @@ final class ConfirmPasswordField
     required bool isErrorVisible,
   }) =>
       ConfirmPasswordField(
-        password: password,
+        basePassword: basePassword,
+        value: super.value,
+        isErrorVisible: isErrorVisible,
+      );
+
+  ConfirmPasswordField copyWithBasePassword({
+    required String basePassword,
+  }) =>
+      ConfirmPasswordField(
+        basePassword: basePassword,
         value: super.value,
         isErrorVisible: isErrorVisible,
       );

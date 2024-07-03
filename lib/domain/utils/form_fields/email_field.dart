@@ -14,7 +14,7 @@ final class EmailField extends FormField<String, EmailFieldError> {
   });
 
   static final _emailRegExp = RegExp(
-    r'^[a-zA-Z\d.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$',
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
   );
 
   @override

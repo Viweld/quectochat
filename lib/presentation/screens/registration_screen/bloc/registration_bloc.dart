@@ -61,7 +61,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   static _StateView _initializeViewState() => const _StateView(
         emailField: EmailField(),
         passwordField: PasswordField(),
-        confirmPasswordField: ConfirmPasswordField(password: ''),
+        confirmPasswordField: ConfirmPasswordField(basePassword: ''),
       );
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
@@ -93,8 +93,11 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     _EventOnPasswordChanged event,
     Emitter<RegistrationState> emitter,
   ) async {
-    _viewState =
-        _viewState.copyWith(passwordField: PasswordField(value: event.val));
+    _viewState = _viewState.copyWith(
+      passwordField: PasswordField(value: event.val),
+      confirmPasswordField: _viewState.confirmPasswordField
+          .copyWithBasePassword(basePassword: event.val),
+    );
     emitter(_viewState);
   }
 
@@ -108,6 +111,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         isErrorVisible: true,
       ),
     );
+    emitter(_viewState);
   }
 
   /// Обработчик ВНЕШНЕГО события "изменился тест в поле повтора пароля"
@@ -118,7 +122,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     _viewState = _viewState.copyWith(
       confirmPasswordField: ConfirmPasswordField(
         value: event.val,
-        password: _viewState.confirmPasswordField.value,
+        basePassword: _viewState.passwordField.value,
       ),
     );
     emitter(_viewState);
@@ -133,6 +137,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       confirmPasswordField: _viewState.confirmPasswordField
           .copyWithVisibleError(isErrorVisible: true),
     );
+    emitter(_viewState);
   }
 
   /// Обработчик ВНЕШНЕГО события "нажата кнопка залогиниться"
@@ -145,7 +150,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     // 2. Проверяем валидность полей ввода:
     final email = _viewState.emailField;
     final password = _viewState.passwordField;
-    if (email.invalid || password.invalid) {
+    final confirmPassword = _viewState.confirmPasswordField;
+    if (email.invalid || password.invalid || confirmPassword.invalid) {
       _viewState = _viewState.copyWith(
         emailField: email.copyWithVisibleError(isErrorVisible: email.invalid),
         passwordField: password.copyWithVisibleError(

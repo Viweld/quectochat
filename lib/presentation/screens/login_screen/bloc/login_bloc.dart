@@ -107,6 +107,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         isErrorVisible: true,
       ),
     );
+    emitter(_viewState);
   }
 
   /// Обработчик ВНЕШНЕГО события "нажата кнопка залогиниться"
