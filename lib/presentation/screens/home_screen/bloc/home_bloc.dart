@@ -38,6 +38,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   // ---------------------------------------------------------------------------
   late _StateView _viewState;
 
+  // ПРИВАТНЫЕ ДАННЫЕ:
+  // ---------------------------------------------------------------------------
+  late Iterable<ChatListItem> _chatList;
+
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
   /// Обработчик ВНЕШНЕГО события "нажата кнопка выйти"
@@ -69,6 +73,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnInitializationRequested event,
     Emitter<HomeState> emitter,
   ) async {
+    await Future.delayed(const Duration(seconds: 2));
+    // TODO(Vadim): #unimplemented
+    _chatList = await Future.delayed(
+      const Duration(seconds: 2),
+      () => _fakeChatList,
+    );
+
     _viewState = HomeState.view(chatList: _chatList) as _StateView;
     emitter(_viewState);
   }
@@ -77,31 +88,41 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnSearchFieldClearTapped event,
     Emitter<HomeState> emitter,
   ) async {
-    // TODO(Vadim): #unimplemented
+    _viewState = _viewState.copyWith(chatList: _chatList);
+    emitter(_viewState);
   }
 
   Future<void> _onSearchTextChanged(
     _EventOnSearchTextChanged event,
     Emitter<HomeState> emitter,
   ) async {
-    // TODO(Vadim): #unimplemented
+    final searchSample = event.val;
+    final filteredChatList = searchSample.isEmpty
+        ? _chatList
+        : _chatList.where((item) {
+            return item.firstName.contains(searchSample) ||
+                item.lastName.contains(searchSample);
+          });
+
+    _viewState = _viewState.copyWith(chatList: filteredChatList);
+    emitter(_viewState);
   }
 }
 
-Iterable<ChatListItem> _chatList = [
+Iterable<ChatListItem> _fakeChatList = [
   ChatListItem(
     firstName: 'Степан',
     lastName: 'Иванов',
     lastMessageText: 'Пришел я в кино а там ничего нет. '
         'Развернулся и ушел домой',
-    lastMessageSentAt: DateTime.parse('2002-02-27T14:00:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-05T16:31:00-0500'),
     isSentByYou: true,
   ),
   ChatListItem(
     firstName: 'Геннадий',
     lastName: 'Купчихин',
     lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
-    lastMessageSentAt: DateTime.parse('2024-07-03T14:00:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-05T16:25:00-0500'),
     isSentByYou: false,
   ),
   ChatListItem(
@@ -109,7 +130,7 @@ Iterable<ChatListItem> _chatList = [
     lastName: 'Клюшкин',
     lastMessageText:
         'На чем поехал в Ленинград человек рассеянный с улицы Бассейной?',
-    lastMessageSentAt: DateTime.parse('2024-06-28T14:00:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-04T14:00:00-0500'),
     isSentByYou: false,
   ),
   ChatListItem(

@@ -69,6 +69,7 @@ class _ChatTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         /// Полное имя собеседника
+                        // TODO(Vadim): #idea сделать выделение фрагмента, совпавшего с поисковым запросом
                         Text(
                           '${chatListItem.firstName} ${chatListItem.lastName}',
                           style: context.style15w600$username,
@@ -79,7 +80,7 @@ class _ChatTile extends StatelessWidget {
                           children: [
                             if (chatListItem.isSentByYou)
                               Text(
-                                'Вы: ',
+                                context.texts.homeChatTileYouLabel,
                                 style: context.style12w500$labels?.copyWith(
                                   color: context.palette.black,
                                 ),
@@ -104,7 +105,7 @@ class _ChatTile extends StatelessWidget {
 
             /// Интервал с момента отправки последнего сообщения
             Text(
-              timeAgoSinceDate(date: chatListItem.lastMessageSentAt),
+              timeAgoSinceDate(context, chatListItem.lastMessageSentAt),
               style: context.style12w500$labels,
             ),
             const SizedBox(width: _horizontalInterval),
@@ -118,41 +119,21 @@ class _ChatTile extends StatelessWidget {
   // ---------------------------------------------------------------------------
   /// Генерирует текст надписи об интервале времени,
   /// прошедшего с момента публикации последнего сообщения
-  String timeAgoSinceDate({
-    required DateTime date,
-    bool numericDates = true,
-  }) {
+  String timeAgoSinceDate(BuildContext context, DateTime date) {
     final date1 = date.toLocal();
     final date2 = DateTime.now().toLocal();
     final difference = date2.difference(date1);
 
-    if (difference.inSeconds < 5) {
-      return 'Just now';
-    } else if (difference.inSeconds <= 60) {
-      return '${difference.inSeconds} seconds ago';
-    } else if (difference.inMinutes <= 1) {
-      return (numericDates) ? '1 minute ago' : 'A minute ago';
-    } else if (difference.inMinutes <= 60) {
-      return '${difference.inMinutes} minutes ago';
-    } else if (difference.inHours <= 1) {
-      return (numericDates) ? '1 hour ago' : 'An hour ago';
-    } else if (difference.inHours <= 60) {
-      return '${difference.inHours} hours ago';
+    if (difference.inSeconds <= 60) {
+      return context.texts.timeAgoJustNow;
+    } else if (difference.inMinutes <= 10) {
+      return context.texts.timeAgoSeveralMinutes(difference.inMinutes);
     } else if (difference.inDays <= 1) {
-      return (numericDates) ? '1 day ago' : 'Yesterday';
-    } else if (difference.inDays <= 6) {
-      return '${difference.inDays} days ago';
-    } else if ((difference.inDays / 7).ceil() <= 1) {
-      return (numericDates) ? '1 week ago' : 'Last week';
-    } else if ((difference.inDays / 7).ceil() <= 4) {
-      return '${(difference.inDays / 7).ceil()} weeks ago';
-    } else if ((difference.inDays / 30).ceil() <= 1) {
-      return (numericDates) ? '1 month ago' : 'Last month';
-    } else if ((difference.inDays / 30).ceil() <= 30) {
-      return '${(difference.inDays / 30).ceil()} months ago';
-    } else if ((difference.inDays / 365).ceil() <= 1) {
-      return (numericDates) ? '1 year ago' : 'Last year';
+      return DateFormat('hh:mm').format(date1);
+    } else if (difference.inDays <= 2) {
+      return context.texts.timeAgoYesterday;
+    } else {
+      return DateFormat('dd.MM.yy').format(date1);
     }
-    return '${(difference.inDays / 365).floor()} years ago';
   }
 }

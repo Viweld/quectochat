@@ -30,5 +30,18 @@
   "registrationExceptionWeakPassword": "Введен слабый пароль при регистрации",
   "registrationExceptionWrongEmail": "Неправильный формат e-mail",
   "registrationExceptionEmailAlreadyUsed": "Введенный при регистрации email уже занят",
-  "registrationExceptionNotEqualPasswords": "Введенные пороли не совпадают"
+  "registrationExceptionNotEqualPasswords": "Введенные пороли не совпадают",
+
+  "@ home screen (домашний экран)": {},
+  "homeChatTileYouLabel": "Вы: ",
+
+  "@ timeAgo (приписки типа 'только что' '2 дня назад и т.п.')": {},
+  "timeAgoJustNow": "Только что",
+  "timeAgoYesterday": "Вчера",
+  "timeAgoSeveralMinutes": "{count, plural, one{{count} минуту} few{{count} минуты} many{{count} минут} other{{count} минут}} назад",
+  "@timeAgoSeveralMinutes": {
+    "placeholders": {
+      "count": {}
+    }
+  }
 }
