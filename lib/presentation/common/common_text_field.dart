@@ -16,10 +16,11 @@ class CommonEditField extends StatefulWidget {
     this.readOnly = false,
     this.align = TextAlign.start,
     this.onTap,
+    this.onClearTapped,
     this.onChanged,
     this.onUnfocused,
     this.focusNode,
-    this.suffix,
+    this.prefix,
     this.maxLength,
     this.validationErrorText,
     this.validationError = false,
@@ -56,6 +57,9 @@ class CommonEditField extends StatefulWidget {
   /// Обратный вызов, который будет вызываться при нажатии на поле ввода.
   final VoidCallback? onTap;
 
+  /// Обратный вызов, который будет вызываться при нажатии на кнопку очистки.
+  final VoidCallback? onClearTapped;
+
   /// Обратный вызов, который будет вызываться при прекращении ввода.
   final VoidCallback? onUnfocused;
 
@@ -66,7 +70,7 @@ class CommonEditField extends StatefulWidget {
   final FocusNode? focusNode;
 
   /// Виджет, отображаемый после текста внутри поля ввода.
-  final Widget? suffix;
+  final Widget? prefix;
 
   /// Максимальное количество символов, которое можно ввести в поле.
   final int? maxLength;
@@ -95,7 +99,6 @@ class CommonEditField extends StatefulWidget {
   /// Принудительное указание стиля текста
   final TextStyle? customTextStyle;
 
-  static const double height = 50;
   static const double borderThickness = 1;
 
   @override
@@ -112,7 +115,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
   InputBorder get _regularBorder => OutlineInputBorder(
         borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
         borderSide: BorderSide(
-          color: _palette.gray,
+          color: _palette.stroke,
           width: CommonEditField.borderThickness,
         ),
       );
@@ -120,7 +123,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
   InputBorder get _focusedBorder => OutlineInputBorder(
         borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
         borderSide: BorderSide(
-          color: _palette.gray,
+          color: _palette.stroke,
           width: CommonEditField.borderThickness,
         ),
       );
@@ -205,7 +208,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
         Focus(
           onFocusChange: (_) => setState(() {}),
           child: SizedBox(
-            height: CommonEditField.height,
+            height: Values.textFieldHeight,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
@@ -264,11 +267,21 @@ class _CommonEditFieldState extends State<CommonEditField> {
                     counterText: '',
                     filled: true,
                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                    fillColor: Colors.transparent,
+                    fillColor: context.palette.stroke,
                     alignLabelWithHint: true,
                     labelText: widget.hintText,
                     labelStyle: context.style16w500$hint,
-                    suffixIcon: widget.suffix,
+                    prefixIcon: widget.prefix,
+                    suffixIcon: widget.onClearTapped == null ||
+                            _textController.text.isEmpty
+                        ? null
+                        : IconButton(
+                            onPressed: _onClearTapped,
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: context.palette.black,
+                            ),
+                          ),
 
                     // Границы
                     border: _error ? _errorBorder : _regularBorder,
@@ -305,5 +318,14 @@ class _CommonEditFieldState extends State<CommonEditField> {
           ),
       ],
     );
+  }
+
+  // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
+  // ---------------------------------------------------------------------------
+  /// Очищает инстанс контроллера и вызывает внешний коллбэк onClearTapped
+  void _onClearTapped() {
+    if (_focusNode.hasFocus) _focusNode.unfocus();
+    widget.onClearTapped?.call();
+    _textController.text = '';
   }
 }

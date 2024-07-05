@@ -30,41 +30,43 @@ class _FlexibleHeader extends StatelessWidget {
         color: context.palette.white,
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: statusBarHeight + toTitlePadding,
-                left: Values.horizontalPadding,
-                right: Values.horizontalPadding,
-                bottom: toFieldPadding,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  /// Кнопка "История"
-                  Text(
-                    'Чаты',
-                    style: context.style32w600$mainTitle,
-                  ),
-
-                  /// Выпадающее меню с дополнительными функциями
-                  SizedBox.square(
-                    dimension: titleHeight * titleSize,
-                    child: PopupMenuButton(
-                      icon: const Icon(Icons.more_vert_rounded),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          onTap: onExitTapped,
-                          child: const Row(
-                            children: [
-                              Icon(Icons.logout_rounded),
-                              Text('Выйти'),
-                            ],
-                          ),
-                        ),
-                      ],
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: statusBarHeight + toTitlePadding,
+                  left: Values.horizontalPadding,
+                  right: Values.horizontalPadding,
+                  bottom: toFieldPadding,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// Кнопка "История"
+                    Text(
+                      'Чаты',
+                      style: context.style32w600$mainTitle,
                     ),
-                  ),
-                ],
+
+                    /// Выпадающее меню с дополнительными функциями
+                    SizedBox.square(
+                      dimension: titleHeight * titleSize,
+                      child: PopupMenuButton(
+                        icon: const Icon(Icons.more_vert_rounded),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            onTap: onExitTapped,
+                            child: const Row(
+                              children: [
+                                Icon(Icons.logout_rounded),
+                                Text('Выйти'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -77,15 +79,17 @@ class _FlexibleHeader extends StatelessWidget {
               ),
               child: CommonEditField(
                 onChanged: onSearchTextChanged,
-                suffix: IconButton(
-                  onPressed: onSearchFieldClearTapped,
-                  icon: const Icon(Icons.close_rounded),
+                onClearTapped: onSearchFieldClearTapped,
+                prefix: Icon(
+                  Qicons.search,
+                  color: context.palette.gray,
                 ),
+                hintText: 'Поиск',
               ),
             ),
 
             Divider(
-              height: 1,
+              height: Values.dividerThickness,
               color: context.palette.gray,
             ),
           ],
