@@ -144,7 +144,6 @@ class _HomeView extends StatelessWidget {
   // КОЛЛБЭКИ от действий пользователя:
   // ---------------------------------------------------------------------------
   void _onLogoutTapped(BuildContext context) {
-    // TODO(Vadim): #unimplemented
     context.read<HomeBloc>().add(const HomeEvent.onLogoutTapped());
   }
 
@@ -152,15 +151,11 @@ class _HomeView extends StatelessWidget {
     // TODO(Vadim): #unimplemented
   }
 
-  _onMenuTapped(BuildContext context) {
-    // TODO(Vadim): #unimplemented
-  }
-
   _onSearchFieldClearTapped(BuildContext context) {
-    // TODO(Vadim): #unimplemented
+    context.read<HomeBloc>().add(const HomeEvent.onSearchFieldClearTapped());
   }
 
   _onSearchTextChanged(BuildContext context, String val) {
-    // TODO(Vadim): #unimplemented
+    context.read<HomeBloc>().add(HomeEvent.onSearchTextChanged(val));
   }
 }

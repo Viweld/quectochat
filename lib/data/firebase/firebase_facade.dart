@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
-import 'package:quectochat/domain/models/current_user.dart';
+import 'package:quectochat/domain/models/user_details.dart';
 
 import '../../domain/models/network_exceptions.dart';
 
@@ -23,26 +23,20 @@ final class FirebaseFacade implements INetworkFacade {
   // ---------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
   @override
-  CurrentUser? checkAuth() {
-    final userData = _firebaseAuth.currentUser;
-    return userData == null ? null : _mapper._parseCurrentUser(userData);
-  }
+  bool checkAuth() => _firebaseAuth.currentUser != null;
 
   // ---------------------------------------------------------------------------
   /// Логин пользователя
   @override
-  Future<CurrentUser?> logIn({
+  Future<void> logIn({
     required String email,
     required String password,
   }) async {
     try {
-      final credentials = await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      final userData = credentials.user;
-
-      return userData == null ? null : _mapper._parseCurrentUser(userData);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'invalid-credential':
@@ -62,7 +56,9 @@ final class FirebaseFacade implements INetworkFacade {
   // ---------------------------------------------------------------------------
   /// Регистрация пользователя
   @override
-  Future<CurrentUser?> registration({
+  Future<void> registration({
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
   }) async {
@@ -85,11 +81,13 @@ final class FirebaseFacade implements INetworkFacade {
           await _firebaseFirestore
               .collection(_Constants._tUser)
               .doc(userData.uid)
-              .set(_mapper._mapCurrentUser(userData));
+              .set(_mapper._mapCurrentUser(UserDetails(
+                id: userData.uid,
+                fullName: '$firstName $lastName',
+                createdAt: DateTime.now(),
+              )));
         }
       }
-
-      return userData == null ? null : _mapper._parseCurrentUser(userData);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
@@ -108,4 +106,34 @@ final class FirebaseFacade implements INetworkFacade {
   /// Разлогин пользователя
   @override
   Future<void> logOut() => _firebaseAuth.signOut();
+
+// // ---------------------------------------------------------------------------
+// /// Получение пользователя для переписки
+// Future<Iterable<ChatListItem>> getChatList(
+//   String pathCollection,
+//   int limit,
+//   String textSearch,
+// ) async {
+//   Iterable<Map<String, dynamic>> data;
+//
+//   if (textSearch.isEmpty) {
+//     final response = await _firebaseFirestore
+//         .collection(pathCollection)
+//         .limit(limit)
+//         .where(_Constants._fUser$nickName)
+//         .get();
+//
+//     data = response.docs.map((e) => e.data());
+//   } else {
+//     final response = await _firebaseFirestore
+//         .collection(pathCollection)
+//         .limit(limit)
+//         .where(_Constants._fUser$nickName)
+//         .get();
+//
+//     data = response.docs.map((e) => e.data());
+//   }
+//
+//   return
+// }
 }

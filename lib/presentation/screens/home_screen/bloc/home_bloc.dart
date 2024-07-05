@@ -97,12 +97,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnSearchTextChanged event,
     Emitter<HomeState> emitter,
   ) async {
-    final searchSample = event.val;
+    final searchSample = event.val.toLowerCase();
     final filteredChatList = searchSample.isEmpty
         ? _chatList
         : _chatList.where((item) {
-            return item.firstName.contains(searchSample) ||
-                item.lastName.contains(searchSample);
+            return item.firstName.toLowerCase().contains(searchSample) ||
+                item.lastName.toLowerCase().contains(searchSample);
           });
 
     _viewState = _viewState.copyWith(chatList: filteredChatList);

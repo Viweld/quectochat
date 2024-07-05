@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
-import 'package:quectochat/domain/models/current_user.dart';
 
 import '../../domain/interfaces/i_api_facade.dart';
 
@@ -43,50 +42,43 @@ final class AuthRepository implements IAuthRepository {
   // МЕТОДЫ:
   // ---------------------------------------------------------------------------
   @override
-  CurrentUser? checkAuth() {
-    final currentUser = _networkFacade.checkAuth();
-
-    _authStatus =
-        currentUser == null ? AuthStatus.notAuthorized : AuthStatus.authorized;
+  void checkAuth() {
+    final isLoggedIn = _networkFacade.checkAuth();
+    _authStatus = isLoggedIn ? AuthStatus.authorized : AuthStatus.notAuthorized;
     if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);
-    return currentUser;
   }
 
   @override
-  Future<CurrentUser?> logIn({
+  Future<void> logIn({
     required String email,
     required String password,
   }) async {
-    final currentUser = await _networkFacade.logIn(
-      email: email,
-      password: password,
-    );
-
+    await _networkFacade.logIn(email: email, password: password);
     _authStatus = AuthStatus.authorized;
     if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);
-    return currentUser;
   }
 
   @override
   Future<void> logOut() async {
     await _networkFacade.logOut();
-
     _authStatus = AuthStatus.notAuthorized;
     if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);
   }
 
   @override
-  Future<CurrentUser?> registration({
+  Future<void> registration({
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
   }) async {
-    final newUser = await _networkFacade.registration(
+    await _networkFacade.registration(
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       password: password,
     );
-
     _authStatus = AuthStatus.authorized;
     if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);
-    return newUser;
   }
 }

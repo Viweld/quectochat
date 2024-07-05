@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../models/current_user.dart';
+import '../models/user_details.dart';
 
 /// возможные состояния аутентификации пользователя
 enum AuthStatus {
@@ -25,10 +25,10 @@ abstract interface class IAuthRepository {
   // АВТОРИЗАЦИЯ
   // --------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
-  CurrentUser? checkAuth();
+  void checkAuth();
 
   /// Логин пользователя
-  Future<CurrentUser?> logIn({
+  Future<void> logIn({
     required String email,
     required String password,
   });
@@ -36,7 +36,9 @@ abstract interface class IAuthRepository {
   // РЕГИСТРАЦИЯ
   // --------------------------------------------------------------------------
   /// Регистрация пользователя
-  Future<CurrentUser?> registration({
+  Future<void> registration({
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
   });

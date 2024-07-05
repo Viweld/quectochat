@@ -1,4 +1,4 @@
-import '../models/current_user.dart';
+import '../models/user_details.dart';
 
 abstract interface class INetworkFacade {
   // АВТРИЗАЦИЯ:
@@ -6,16 +6,18 @@ abstract interface class INetworkFacade {
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
-  CurrentUser? checkAuth();
+  bool checkAuth();
 
   /// Логин пользователя
-  Future<CurrentUser?> logIn({
+  Future<void> logIn({
     required String email,
     required String password,
   });
 
   /// Регистрация пользователя
-  Future<CurrentUser?> registration({
+  Future<void> registration({
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
   });
