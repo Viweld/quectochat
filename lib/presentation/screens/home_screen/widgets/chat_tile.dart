@@ -128,9 +128,9 @@ class _ChatTile extends StatelessWidget {
       return context.texts.timeAgoJustNow;
     } else if (difference.inMinutes <= 10) {
       return context.texts.timeAgoSeveralMinutes(difference.inMinutes);
-    } else if (difference.inDays <= 1) {
+    } else if (difference.inHours <= 24) {
       return DateFormat('hh:mm').format(date1);
-    } else if (difference.inDays <= 2) {
+    } else if (difference.inHours <= 48) {
       return context.texts.timeAgoYesterday;
     } else {
       return DateFormat('dd.MM.yy').format(date1);

@@ -28,6 +28,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
 
     add(const HomeEvent.onInitializationRequested());
+    print(DateTime.now());
   }
 
   // ЗАВИСИМОСТИ
@@ -115,14 +116,14 @@ Iterable<ChatListItem> _fakeChatList = [
     lastName: 'Иванов',
     lastMessageText: 'Пришел я в кино а там ничего нет. '
         'Развернулся и ушел домой',
-    lastMessageSentAt: DateTime.parse('2024-07-05T16:31:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-05 18:37:06.880429'),
     isSentByYou: true,
   ),
   ChatListItem(
     firstName: 'Геннадий',
     lastName: 'Купчихин',
     lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
-    lastMessageSentAt: DateTime.parse('2024-07-05T16:25:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-05 18:35:06.880429'),
     isSentByYou: false,
   ),
   ChatListItem(
@@ -130,14 +131,14 @@ Iterable<ChatListItem> _fakeChatList = [
     lastName: 'Клюшкин',
     lastMessageText:
         'На чем поехал в Ленинград человек рассеянный с улицы Бассейной?',
-    lastMessageSentAt: DateTime.parse('2024-07-04T14:00:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-04 22:37:06.880429'),
     isSentByYou: false,
   ),
   ChatListItem(
     firstName: 'Маргарита',
     lastName: 'Широпопова',
     lastMessageText: 'Это не я',
-    lastMessageSentAt: DateTime.parse('2024-07-03T19:01:00-0500'),
+    lastMessageSentAt: DateTime.parse('2024-07-03 22:37:06.880429'),
     isSentByYou: true,
   ),
   ChatListItem(
