@@ -16,10 +16,15 @@ final class FirebaseFacade implements INetworkFacade {
     _mapper = _Mapper();
   }
 
+  String? _currentUserId;
+
   late final FirebaseAuth _firebaseAuth;
   late final FirebaseFirestore _firebaseFirestore;
   late final _Mapper _mapper;
 
+  // АВТРИЗАЦИЯ:
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
   @override
@@ -33,10 +38,12 @@ final class FirebaseFacade implements INetworkFacade {
     required String password,
   }) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      final credentials = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      _currentUserId = credentials.user?.uid;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'invalid-credential':
@@ -68,21 +75,22 @@ final class FirebaseFacade implements INetworkFacade {
         password: password,
       );
 
+      _currentUserId = credentials.user?.uid;
+
       // Проверяем, если пользователь успешно создан:
-      final userData = credentials.user;
-      if (userData != null) {
+      if (_currentUserId != null) {
         final result = await _firebaseFirestore
             .collection(_Keys._tUser)
-            .where(_Keys._fUser$id, isEqualTo: userData.uid)
+            .where(_Keys._fUser$id, isEqualTo: _currentUserId)
             .get();
 
         // Если нет данных по данному пользователю в Firestore, то делаем запись:
         if (result.docs.isEmpty) {
           await _firebaseFirestore
               .collection(_Keys._tUser)
-              .doc(userData.uid)
+              .doc(_currentUserId)
               .set(_mapper._mapCurrentUser(UserDetails(
-                id: userData.uid,
+                id: _currentUserId!,
                 fullName: '$firstName $lastName',
                 createdAt: DateTime.now(),
               )));
@@ -105,35 +113,31 @@ final class FirebaseFacade implements INetworkFacade {
   // ---------------------------------------------------------------------------
   /// Разлогин пользователя
   @override
-  Future<void> logOut() => _firebaseAuth.signOut();
+  Future<void> logOut() async {
+    await _firebaseAuth.signOut();
+    _currentUserId = null;
+  }
 
-// // ---------------------------------------------------------------------------
-// /// Получение пользователя для переписки
-// Future<Iterable<ChatListItem>> getChatList(
-//   String pathCollection,
-//   int limit,
-//   String textSearch,
-// ) async {
-//   Iterable<Map<String, dynamic>> data;
-//
-//   if (textSearch.isEmpty) {
-//     final response = await _firebaseFirestore
-//         .collection(pathCollection)
-//         .limit(limit)
-//         .where(_Constants._fUser$nickName)
-//         .get();
-//
-//     data = response.docs.map((e) => e.data());
-//   } else {
-//     final response = await _firebaseFirestore
-//         .collection(pathCollection)
-//         .limit(limit)
-//         .where(_Constants._fUser$nickName)
-//         .get();
-//
-//     data = response.docs.map((e) => e.data());
-//   }
-//
-//   return
-// }
+  // Другие пользователи:
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  /// Получение пользователей для переписки
+  @override
+  Future<Iterable<UserDetails>> getUsers({
+    required int limit,
+    required String textSearch,
+  }) async {
+    final response = textSearch.isEmpty
+        ? await _firebaseFirestore.collection(_Keys._tUser).limit(limit).get()
+        : await _firebaseFirestore
+            .collection(_Keys._tUser)
+            .limit(limit)
+            .where(_Keys._fUser$fullName, arrayContains: textSearch)
+            .get();
+
+    return response.docs
+        .map((doc) => _mapper._parseCurrentUser(doc.data()))
+        .where((user) => user.id != _currentUserId);
+  }
 }

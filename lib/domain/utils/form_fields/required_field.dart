@@ -5,6 +5,7 @@ enum RequiredFieldError {
   emptyField,
 }
 
+// TODO(Vadim): #idea переделать в поле ввода имени с валидацией (одно слово, с диапазоном по длине, без недопустимых знаков)
 // -----------------------------------------------------------------------------
 @immutable
 final class RequiredField extends FormField<String, RequiredFieldError> {

@@ -79,7 +79,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
-      firstNameField: RequiredField(value: event.val),
+      firstNameField: RequiredField(value: event.val.trim()),
     );
     emitter(_viewState);
   }
@@ -103,7 +103,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
-      lastNameField: RequiredField(value: event.val),
+      lastNameField: RequiredField(value: event.val.trim()),
     );
     emitter(_viewState);
   }
@@ -126,7 +126,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     _EventOnEmailChanged event,
     Emitter<RegistrationState> emitter,
   ) async {
-    _viewState = _viewState.copyWith(emailField: EmailField(value: event.val));
+    _viewState = _viewState.copyWith(
+      emailField: EmailField(value: event.val.trim()),
+    );
     emitter(_viewState);
   }
 
@@ -149,9 +151,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
-      passwordField: PasswordField(value: event.val),
+      passwordField: PasswordField(value: event.val.trim()),
       confirmPasswordField: _viewState.confirmPasswordField
-          .copyWithBasePassword(basePassword: event.val),
+          .copyWithBasePassword(basePassword: event.val.trim()),
     );
     emitter(_viewState);
   }
@@ -176,7 +178,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   ) async {
     _viewState = _viewState.copyWith(
       confirmPasswordField: ConfirmPasswordField(
-        value: event.val,
+        value: event.val.trim(),
         basePassword: _viewState.passwordField.value,
       ),
     );
