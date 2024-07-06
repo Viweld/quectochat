@@ -5,7 +5,7 @@ import 'package:quectochat/domain/models/user_details.dart';
 
 import '../../domain/models/network_exceptions.dart';
 
-part 'constants.dart';
+part 'keys.dart';
 
 part 'mapper.dart';
 
@@ -72,14 +72,14 @@ final class FirebaseFacade implements INetworkFacade {
       final userData = credentials.user;
       if (userData != null) {
         final result = await _firebaseFirestore
-            .collection(_Constants._tUser)
-            .where(_Constants._fUser$id, isEqualTo: userData.uid)
+            .collection(_Keys._tUser)
+            .where(_Keys._fUser$id, isEqualTo: userData.uid)
             .get();
 
         // Если нет данных по данному пользователю в Firestore, то делаем запись:
         if (result.docs.isEmpty) {
           await _firebaseFirestore
-              .collection(_Constants._tUser)
+              .collection(_Keys._tUser)
               .doc(userData.uid)
               .set(_mapper._mapCurrentUser(UserDetails(
                 id: userData.uid,

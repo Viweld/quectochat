@@ -2,14 +2,32 @@ part of 'registration_bloc.dart';
 
 @freezed
 class RegistrationEvent with _$RegistrationEvent {
-  /// ВНЕШНЕЕ событие "изменился тест в поле логина"
-  const factory RegistrationEvent.onLoginChanged(
+  /// ВНЕШНЕЕ событие "изменился тест в поле Имени"
+  const factory RegistrationEvent.onFirstNameChanged(
     String val,
-  ) = _EventOnLoginChanged;
+  ) = _EventOnFirstNameChanged;
+
+  /// ВНЕШНЕЕ событие "поле ввода Имени потеряло фокус"
+  const factory RegistrationEvent.onFirstNameFieldUnfocused() =
+      _EventOnFirstNameFieldUnfocused;
+
+  /// ВНЕШНЕЕ событие "изменился тест в поле Фамилии"
+  const factory RegistrationEvent.onLastNameChanged(
+    String val,
+  ) = _EventOnLastNameChanged;
+
+  /// ВНЕШНЕЕ событие "поле ввода Фамилии потеряло фокус"
+  const factory RegistrationEvent.onLastNameFieldUnfocused() =
+      _EventOnLastNameFieldUnfocused;
+
+  /// ВНЕШНЕЕ событие "изменился тест в поле логина"
+  const factory RegistrationEvent.onEmailChanged(
+    String val,
+  ) = _EventOnEmailChanged;
 
   /// ВНЕШНЕЕ событие "поле ввода логина потеряло фокус"
-  const factory RegistrationEvent.onLoginFieldUnfocused() =
-      _EventOnLoginFieldUnfocused;
+  const factory RegistrationEvent.onEmailFieldUnfocused() =
+      _EventOnEmailFieldUnfocused;
 
   /// ВНЕШНЕЕ событие "изменился тест в поле ввода пароля"
   const factory RegistrationEvent.onPasswordChanged(

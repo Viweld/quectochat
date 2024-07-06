@@ -4,6 +4,8 @@ part 'email_field.dart';
 
 part 'password_field.dart';
 
+part 'required_field.dart';
+
 part 'confirm_password_field.dart';
 
 @immutable

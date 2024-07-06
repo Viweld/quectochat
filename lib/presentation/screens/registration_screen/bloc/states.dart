@@ -4,6 +4,8 @@ part of 'registration_bloc.dart';
 class RegistrationState with _$RegistrationState {
   /// основное состояние вью
   const factory RegistrationState.view({
+    required RequiredField firstNameField,
+    required RequiredField lastNameField,
     required EmailField emailField,
     required PasswordField passwordField,
     required ConfirmPasswordField confirmPasswordField,

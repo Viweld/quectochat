@@ -18,8 +18,12 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
@@ -29,8 +33,12 @@ mixin _$RegistrationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
@@ -40,8 +48,12 @@ mixin _$RegistrationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -52,9 +64,16 @@ mixin _$RegistrationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -67,8 +86,14 @@ mixin _$RegistrationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -81,8 +106,14 @@ mixin _$RegistrationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -115,20 +146,22 @@ class _$RegistrationEventCopyWithImpl<$Res, $Val extends RegistrationEvent>
 }
 
 /// @nodoc
-abstract class _$$EventOnLoginChangedImplCopyWith<$Res> {
-  factory _$$EventOnLoginChangedImplCopyWith(_$EventOnLoginChangedImpl value,
-          $Res Function(_$EventOnLoginChangedImpl) then) =
-      __$$EventOnLoginChangedImplCopyWithImpl<$Res>;
+abstract class _$$EventOnFirstNameChangedImplCopyWith<$Res> {
+  factory _$$EventOnFirstNameChangedImplCopyWith(
+          _$EventOnFirstNameChangedImpl value,
+          $Res Function(_$EventOnFirstNameChangedImpl) then) =
+      __$$EventOnFirstNameChangedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String val});
 }
 
 /// @nodoc
-class __$$EventOnLoginChangedImplCopyWithImpl<$Res>
-    extends _$RegistrationEventCopyWithImpl<$Res, _$EventOnLoginChangedImpl>
-    implements _$$EventOnLoginChangedImplCopyWith<$Res> {
-  __$$EventOnLoginChangedImplCopyWithImpl(_$EventOnLoginChangedImpl _value,
-      $Res Function(_$EventOnLoginChangedImpl) _then)
+class __$$EventOnFirstNameChangedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res, _$EventOnFirstNameChangedImpl>
+    implements _$$EventOnFirstNameChangedImplCopyWith<$Res> {
+  __$$EventOnFirstNameChangedImplCopyWithImpl(
+      _$EventOnFirstNameChangedImpl _value,
+      $Res Function(_$EventOnFirstNameChangedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +169,7 @@ class __$$EventOnLoginChangedImplCopyWithImpl<$Res>
   $Res call({
     Object? val = null,
   }) {
-    return _then(_$EventOnLoginChangedImpl(
+    return _then(_$EventOnFirstNameChangedImpl(
       null == val
           ? _value.val
           : val // ignore: cast_nullable_to_non_nullable
@@ -147,22 +180,22 @@ class __$$EventOnLoginChangedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
-  const _$EventOnLoginChangedImpl(this.val);
+class _$EventOnFirstNameChangedImpl implements _EventOnFirstNameChanged {
+  const _$EventOnFirstNameChangedImpl(this.val);
 
   @override
   final String val;
 
   @override
   String toString() {
-    return 'RegistrationEvent.onLoginChanged(val: $val)';
+    return 'RegistrationEvent.onFirstNameChanged(val: $val)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EventOnLoginChangedImpl &&
+            other is _$EventOnFirstNameChangedImpl &&
             (identical(other.val, val) || other.val == val));
   }
 
@@ -172,43 +205,55 @@ class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$EventOnLoginChangedImplCopyWith<_$EventOnLoginChangedImpl> get copyWith =>
-      __$$EventOnLoginChangedImplCopyWithImpl<_$EventOnLoginChangedImpl>(
-          this, _$identity);
+  _$$EventOnFirstNameChangedImplCopyWith<_$EventOnFirstNameChangedImpl>
+      get copyWith => __$$EventOnFirstNameChangedImplCopyWithImpl<
+          _$EventOnFirstNameChangedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
     required TResult Function() onConfirmPasswordFieldUnfocused,
     required TResult Function() onLoginTapped,
   }) {
-    return onLoginChanged(val);
+    return onFirstNameChanged(val);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
     TResult? Function()? onConfirmPasswordFieldUnfocused,
     TResult? Function()? onLoginTapped,
   }) {
-    return onLoginChanged?.call(val);
+    return onFirstNameChanged?.call(val);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -216,8 +261,8 @@ class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
     TResult Function()? onLoginTapped,
     required TResult orElse(),
   }) {
-    if (onLoginChanged != null) {
-      return onLoginChanged(val);
+    if (onFirstNameChanged != null) {
+      return onFirstNameChanged(val);
     }
     return orElse();
   }
@@ -225,9 +270,16 @@ class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -237,14 +289,20 @@ class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
         onConfirmPasswordFieldUnfocused,
     required TResult Function(_EventOnLoginTapped value) onLoginTapped,
   }) {
-    return onLoginChanged(this);
+    return onFirstNameChanged(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -254,14 +312,20 @@ class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
         onConfirmPasswordFieldUnfocused,
     TResult? Function(_EventOnLoginTapped value)? onLoginTapped,
   }) {
-    return onLoginChanged?.call(this);
+    return onFirstNameChanged?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -272,57 +336,58 @@ class _$EventOnLoginChangedImpl implements _EventOnLoginChanged {
     TResult Function(_EventOnLoginTapped value)? onLoginTapped,
     required TResult orElse(),
   }) {
-    if (onLoginChanged != null) {
-      return onLoginChanged(this);
+    if (onFirstNameChanged != null) {
+      return onFirstNameChanged(this);
     }
     return orElse();
   }
 }
 
-abstract class _EventOnLoginChanged implements RegistrationEvent {
-  const factory _EventOnLoginChanged(final String val) =
-      _$EventOnLoginChangedImpl;
+abstract class _EventOnFirstNameChanged implements RegistrationEvent {
+  const factory _EventOnFirstNameChanged(final String val) =
+      _$EventOnFirstNameChangedImpl;
 
   String get val;
   @JsonKey(ignore: true)
-  _$$EventOnLoginChangedImplCopyWith<_$EventOnLoginChangedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$EventOnFirstNameChangedImplCopyWith<_$EventOnFirstNameChangedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$EventOnLoginFieldUnfocusedImplCopyWith<$Res> {
-  factory _$$EventOnLoginFieldUnfocusedImplCopyWith(
-          _$EventOnLoginFieldUnfocusedImpl value,
-          $Res Function(_$EventOnLoginFieldUnfocusedImpl) then) =
-      __$$EventOnLoginFieldUnfocusedImplCopyWithImpl<$Res>;
+abstract class _$$EventOnFirstNameFieldUnfocusedImplCopyWith<$Res> {
+  factory _$$EventOnFirstNameFieldUnfocusedImplCopyWith(
+          _$EventOnFirstNameFieldUnfocusedImpl value,
+          $Res Function(_$EventOnFirstNameFieldUnfocusedImpl) then) =
+      __$$EventOnFirstNameFieldUnfocusedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$EventOnLoginFieldUnfocusedImplCopyWithImpl<$Res>
+class __$$EventOnFirstNameFieldUnfocusedImplCopyWithImpl<$Res>
     extends _$RegistrationEventCopyWithImpl<$Res,
-        _$EventOnLoginFieldUnfocusedImpl>
-    implements _$$EventOnLoginFieldUnfocusedImplCopyWith<$Res> {
-  __$$EventOnLoginFieldUnfocusedImplCopyWithImpl(
-      _$EventOnLoginFieldUnfocusedImpl _value,
-      $Res Function(_$EventOnLoginFieldUnfocusedImpl) _then)
+        _$EventOnFirstNameFieldUnfocusedImpl>
+    implements _$$EventOnFirstNameFieldUnfocusedImplCopyWith<$Res> {
+  __$$EventOnFirstNameFieldUnfocusedImplCopyWithImpl(
+      _$EventOnFirstNameFieldUnfocusedImpl _value,
+      $Res Function(_$EventOnFirstNameFieldUnfocusedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
-  const _$EventOnLoginFieldUnfocusedImpl();
+class _$EventOnFirstNameFieldUnfocusedImpl
+    implements _EventOnFirstNameFieldUnfocused {
+  const _$EventOnFirstNameFieldUnfocusedImpl();
 
   @override
   String toString() {
-    return 'RegistrationEvent.onLoginFieldUnfocused()';
+    return 'RegistrationEvent.onFirstNameFieldUnfocused()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EventOnLoginFieldUnfocusedImpl);
+            other is _$EventOnFirstNameFieldUnfocusedImpl);
   }
 
   @override
@@ -331,36 +396,48 @@ class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
     required TResult Function() onConfirmPasswordFieldUnfocused,
     required TResult Function() onLoginTapped,
   }) {
-    return onLoginFieldUnfocused();
+    return onFirstNameFieldUnfocused();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
     TResult? Function()? onConfirmPasswordFieldUnfocused,
     TResult? Function()? onLoginTapped,
   }) {
-    return onLoginFieldUnfocused?.call();
+    return onFirstNameFieldUnfocused?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -368,8 +445,8 @@ class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
     TResult Function()? onLoginTapped,
     required TResult orElse(),
   }) {
-    if (onLoginFieldUnfocused != null) {
-      return onLoginFieldUnfocused();
+    if (onFirstNameFieldUnfocused != null) {
+      return onFirstNameFieldUnfocused();
     }
     return orElse();
   }
@@ -377,9 +454,16 @@ class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -389,14 +473,20 @@ class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
         onConfirmPasswordFieldUnfocused,
     required TResult Function(_EventOnLoginTapped value) onLoginTapped,
   }) {
-    return onLoginFieldUnfocused(this);
+    return onFirstNameFieldUnfocused(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -406,14 +496,20 @@ class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
         onConfirmPasswordFieldUnfocused,
     TResult? Function(_EventOnLoginTapped value)? onLoginTapped,
   }) {
-    return onLoginFieldUnfocused?.call(this);
+    return onFirstNameFieldUnfocused?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -424,16 +520,787 @@ class _$EventOnLoginFieldUnfocusedImpl implements _EventOnLoginFieldUnfocused {
     TResult Function(_EventOnLoginTapped value)? onLoginTapped,
     required TResult orElse(),
   }) {
-    if (onLoginFieldUnfocused != null) {
-      return onLoginFieldUnfocused(this);
+    if (onFirstNameFieldUnfocused != null) {
+      return onFirstNameFieldUnfocused(this);
     }
     return orElse();
   }
 }
 
-abstract class _EventOnLoginFieldUnfocused implements RegistrationEvent {
-  const factory _EventOnLoginFieldUnfocused() =
-      _$EventOnLoginFieldUnfocusedImpl;
+abstract class _EventOnFirstNameFieldUnfocused implements RegistrationEvent {
+  const factory _EventOnFirstNameFieldUnfocused() =
+      _$EventOnFirstNameFieldUnfocusedImpl;
+}
+
+/// @nodoc
+abstract class _$$EventOnLastNameChangedImplCopyWith<$Res> {
+  factory _$$EventOnLastNameChangedImplCopyWith(
+          _$EventOnLastNameChangedImpl value,
+          $Res Function(_$EventOnLastNameChangedImpl) then) =
+      __$$EventOnLastNameChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String val});
+}
+
+/// @nodoc
+class __$$EventOnLastNameChangedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res, _$EventOnLastNameChangedImpl>
+    implements _$$EventOnLastNameChangedImplCopyWith<$Res> {
+  __$$EventOnLastNameChangedImplCopyWithImpl(
+      _$EventOnLastNameChangedImpl _value,
+      $Res Function(_$EventOnLastNameChangedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? val = null,
+  }) {
+    return _then(_$EventOnLastNameChangedImpl(
+      null == val
+          ? _value.val
+          : val // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$EventOnLastNameChangedImpl implements _EventOnLastNameChanged {
+  const _$EventOnLastNameChangedImpl(this.val);
+
+  @override
+  final String val;
+
+  @override
+  String toString() {
+    return 'RegistrationEvent.onLastNameChanged(val: $val)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnLastNameChangedImpl &&
+            (identical(other.val, val) || other.val == val));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, val);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EventOnLastNameChangedImplCopyWith<_$EventOnLastNameChangedImpl>
+      get copyWith => __$$EventOnLastNameChangedImplCopyWithImpl<
+          _$EventOnLastNameChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
+    required TResult Function(String val) onPasswordChanged,
+    required TResult Function() onPasswordFieldUnfocused,
+    required TResult Function(String val) onConfirmPasswordChanged,
+    required TResult Function() onConfirmPasswordFieldUnfocused,
+    required TResult Function() onLoginTapped,
+  }) {
+    return onLastNameChanged(val);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
+    TResult? Function(String val)? onPasswordChanged,
+    TResult? Function()? onPasswordFieldUnfocused,
+    TResult? Function(String val)? onConfirmPasswordChanged,
+    TResult? Function()? onConfirmPasswordFieldUnfocused,
+    TResult? Function()? onLoginTapped,
+  }) {
+    return onLastNameChanged?.call(val);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
+    TResult Function(String val)? onPasswordChanged,
+    TResult Function()? onPasswordFieldUnfocused,
+    TResult Function(String val)? onConfirmPasswordChanged,
+    TResult Function()? onConfirmPasswordFieldUnfocused,
+    TResult Function()? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onLastNameChanged != null) {
+      return onLastNameChanged(val);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
+    required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
+    required TResult Function(_EventOnPasswordFieldUnfocused value)
+        onPasswordFieldUnfocused,
+    required TResult Function(_EventOnConfirmPasswordChanged value)
+        onConfirmPasswordChanged,
+    required TResult Function(_EventOnConfirmPasswordFieldUnfocused value)
+        onConfirmPasswordFieldUnfocused,
+    required TResult Function(_EventOnLoginTapped value) onLoginTapped,
+  }) {
+    return onLastNameChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult? Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult? Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult? Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult? Function(_EventOnLoginTapped value)? onLoginTapped,
+  }) {
+    return onLastNameChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult Function(_EventOnLoginTapped value)? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onLastNameChanged != null) {
+      return onLastNameChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnLastNameChanged implements RegistrationEvent {
+  const factory _EventOnLastNameChanged(final String val) =
+      _$EventOnLastNameChangedImpl;
+
+  String get val;
+  @JsonKey(ignore: true)
+  _$$EventOnLastNameChangedImplCopyWith<_$EventOnLastNameChangedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$EventOnLastNameFieldUnfocusedImplCopyWith<$Res> {
+  factory _$$EventOnLastNameFieldUnfocusedImplCopyWith(
+          _$EventOnLastNameFieldUnfocusedImpl value,
+          $Res Function(_$EventOnLastNameFieldUnfocusedImpl) then) =
+      __$$EventOnLastNameFieldUnfocusedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EventOnLastNameFieldUnfocusedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res,
+        _$EventOnLastNameFieldUnfocusedImpl>
+    implements _$$EventOnLastNameFieldUnfocusedImplCopyWith<$Res> {
+  __$$EventOnLastNameFieldUnfocusedImplCopyWithImpl(
+      _$EventOnLastNameFieldUnfocusedImpl _value,
+      $Res Function(_$EventOnLastNameFieldUnfocusedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$EventOnLastNameFieldUnfocusedImpl
+    implements _EventOnLastNameFieldUnfocused {
+  const _$EventOnLastNameFieldUnfocusedImpl();
+
+  @override
+  String toString() {
+    return 'RegistrationEvent.onLastNameFieldUnfocused()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnLastNameFieldUnfocusedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
+    required TResult Function(String val) onPasswordChanged,
+    required TResult Function() onPasswordFieldUnfocused,
+    required TResult Function(String val) onConfirmPasswordChanged,
+    required TResult Function() onConfirmPasswordFieldUnfocused,
+    required TResult Function() onLoginTapped,
+  }) {
+    return onLastNameFieldUnfocused();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
+    TResult? Function(String val)? onPasswordChanged,
+    TResult? Function()? onPasswordFieldUnfocused,
+    TResult? Function(String val)? onConfirmPasswordChanged,
+    TResult? Function()? onConfirmPasswordFieldUnfocused,
+    TResult? Function()? onLoginTapped,
+  }) {
+    return onLastNameFieldUnfocused?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
+    TResult Function(String val)? onPasswordChanged,
+    TResult Function()? onPasswordFieldUnfocused,
+    TResult Function(String val)? onConfirmPasswordChanged,
+    TResult Function()? onConfirmPasswordFieldUnfocused,
+    TResult Function()? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onLastNameFieldUnfocused != null) {
+      return onLastNameFieldUnfocused();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
+    required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
+    required TResult Function(_EventOnPasswordFieldUnfocused value)
+        onPasswordFieldUnfocused,
+    required TResult Function(_EventOnConfirmPasswordChanged value)
+        onConfirmPasswordChanged,
+    required TResult Function(_EventOnConfirmPasswordFieldUnfocused value)
+        onConfirmPasswordFieldUnfocused,
+    required TResult Function(_EventOnLoginTapped value) onLoginTapped,
+  }) {
+    return onLastNameFieldUnfocused(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult? Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult? Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult? Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult? Function(_EventOnLoginTapped value)? onLoginTapped,
+  }) {
+    return onLastNameFieldUnfocused?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult Function(_EventOnLoginTapped value)? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onLastNameFieldUnfocused != null) {
+      return onLastNameFieldUnfocused(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnLastNameFieldUnfocused implements RegistrationEvent {
+  const factory _EventOnLastNameFieldUnfocused() =
+      _$EventOnLastNameFieldUnfocusedImpl;
+}
+
+/// @nodoc
+abstract class _$$EventOnEmailChangedImplCopyWith<$Res> {
+  factory _$$EventOnEmailChangedImplCopyWith(_$EventOnEmailChangedImpl value,
+          $Res Function(_$EventOnEmailChangedImpl) then) =
+      __$$EventOnEmailChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String val});
+}
+
+/// @nodoc
+class __$$EventOnEmailChangedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res, _$EventOnEmailChangedImpl>
+    implements _$$EventOnEmailChangedImplCopyWith<$Res> {
+  __$$EventOnEmailChangedImplCopyWithImpl(_$EventOnEmailChangedImpl _value,
+      $Res Function(_$EventOnEmailChangedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? val = null,
+  }) {
+    return _then(_$EventOnEmailChangedImpl(
+      null == val
+          ? _value.val
+          : val // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$EventOnEmailChangedImpl implements _EventOnEmailChanged {
+  const _$EventOnEmailChangedImpl(this.val);
+
+  @override
+  final String val;
+
+  @override
+  String toString() {
+    return 'RegistrationEvent.onEmailChanged(val: $val)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnEmailChangedImpl &&
+            (identical(other.val, val) || other.val == val));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, val);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EventOnEmailChangedImplCopyWith<_$EventOnEmailChangedImpl> get copyWith =>
+      __$$EventOnEmailChangedImplCopyWithImpl<_$EventOnEmailChangedImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
+    required TResult Function(String val) onPasswordChanged,
+    required TResult Function() onPasswordFieldUnfocused,
+    required TResult Function(String val) onConfirmPasswordChanged,
+    required TResult Function() onConfirmPasswordFieldUnfocused,
+    required TResult Function() onLoginTapped,
+  }) {
+    return onEmailChanged(val);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
+    TResult? Function(String val)? onPasswordChanged,
+    TResult? Function()? onPasswordFieldUnfocused,
+    TResult? Function(String val)? onConfirmPasswordChanged,
+    TResult? Function()? onConfirmPasswordFieldUnfocused,
+    TResult? Function()? onLoginTapped,
+  }) {
+    return onEmailChanged?.call(val);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
+    TResult Function(String val)? onPasswordChanged,
+    TResult Function()? onPasswordFieldUnfocused,
+    TResult Function(String val)? onConfirmPasswordChanged,
+    TResult Function()? onConfirmPasswordFieldUnfocused,
+    TResult Function()? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onEmailChanged != null) {
+      return onEmailChanged(val);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
+    required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
+    required TResult Function(_EventOnPasswordFieldUnfocused value)
+        onPasswordFieldUnfocused,
+    required TResult Function(_EventOnConfirmPasswordChanged value)
+        onConfirmPasswordChanged,
+    required TResult Function(_EventOnConfirmPasswordFieldUnfocused value)
+        onConfirmPasswordFieldUnfocused,
+    required TResult Function(_EventOnLoginTapped value) onLoginTapped,
+  }) {
+    return onEmailChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult? Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult? Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult? Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult? Function(_EventOnLoginTapped value)? onLoginTapped,
+  }) {
+    return onEmailChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult Function(_EventOnLoginTapped value)? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onEmailChanged != null) {
+      return onEmailChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnEmailChanged implements RegistrationEvent {
+  const factory _EventOnEmailChanged(final String val) =
+      _$EventOnEmailChangedImpl;
+
+  String get val;
+  @JsonKey(ignore: true)
+  _$$EventOnEmailChangedImplCopyWith<_$EventOnEmailChangedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$EventOnEmailFieldUnfocusedImplCopyWith<$Res> {
+  factory _$$EventOnEmailFieldUnfocusedImplCopyWith(
+          _$EventOnEmailFieldUnfocusedImpl value,
+          $Res Function(_$EventOnEmailFieldUnfocusedImpl) then) =
+      __$$EventOnEmailFieldUnfocusedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EventOnEmailFieldUnfocusedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res,
+        _$EventOnEmailFieldUnfocusedImpl>
+    implements _$$EventOnEmailFieldUnfocusedImplCopyWith<$Res> {
+  __$$EventOnEmailFieldUnfocusedImplCopyWithImpl(
+      _$EventOnEmailFieldUnfocusedImpl _value,
+      $Res Function(_$EventOnEmailFieldUnfocusedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$EventOnEmailFieldUnfocusedImpl implements _EventOnEmailFieldUnfocused {
+  const _$EventOnEmailFieldUnfocusedImpl();
+
+  @override
+  String toString() {
+    return 'RegistrationEvent.onEmailFieldUnfocused()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnEmailFieldUnfocusedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
+    required TResult Function(String val) onPasswordChanged,
+    required TResult Function() onPasswordFieldUnfocused,
+    required TResult Function(String val) onConfirmPasswordChanged,
+    required TResult Function() onConfirmPasswordFieldUnfocused,
+    required TResult Function() onLoginTapped,
+  }) {
+    return onEmailFieldUnfocused();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
+    TResult? Function(String val)? onPasswordChanged,
+    TResult? Function()? onPasswordFieldUnfocused,
+    TResult? Function(String val)? onConfirmPasswordChanged,
+    TResult? Function()? onConfirmPasswordFieldUnfocused,
+    TResult? Function()? onLoginTapped,
+  }) {
+    return onEmailFieldUnfocused?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
+    TResult Function(String val)? onPasswordChanged,
+    TResult Function()? onPasswordFieldUnfocused,
+    TResult Function(String val)? onConfirmPasswordChanged,
+    TResult Function()? onConfirmPasswordFieldUnfocused,
+    TResult Function()? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onEmailFieldUnfocused != null) {
+      return onEmailFieldUnfocused();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
+    required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
+    required TResult Function(_EventOnPasswordFieldUnfocused value)
+        onPasswordFieldUnfocused,
+    required TResult Function(_EventOnConfirmPasswordChanged value)
+        onConfirmPasswordChanged,
+    required TResult Function(_EventOnConfirmPasswordFieldUnfocused value)
+        onConfirmPasswordFieldUnfocused,
+    required TResult Function(_EventOnLoginTapped value) onLoginTapped,
+  }) {
+    return onEmailFieldUnfocused(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult? Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult? Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult? Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult? Function(_EventOnLoginTapped value)? onLoginTapped,
+  }) {
+    return onEmailFieldUnfocused?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
+    TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
+    TResult Function(_EventOnPasswordFieldUnfocused value)?
+        onPasswordFieldUnfocused,
+    TResult Function(_EventOnConfirmPasswordChanged value)?
+        onConfirmPasswordChanged,
+    TResult Function(_EventOnConfirmPasswordFieldUnfocused value)?
+        onConfirmPasswordFieldUnfocused,
+    TResult Function(_EventOnLoginTapped value)? onLoginTapped,
+    required TResult orElse(),
+  }) {
+    if (onEmailFieldUnfocused != null) {
+      return onEmailFieldUnfocused(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnEmailFieldUnfocused implements RegistrationEvent {
+  const factory _EventOnEmailFieldUnfocused() =
+      _$EventOnEmailFieldUnfocusedImpl;
 }
 
 /// @nodoc
@@ -503,8 +1370,12 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
@@ -517,8 +1388,12 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
@@ -531,8 +1406,12 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -549,9 +1428,16 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -567,8 +1453,14 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -584,8 +1476,14 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -656,8 +1554,12 @@ class _$EventOnPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
@@ -670,8 +1572,12 @@ class _$EventOnPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
@@ -684,8 +1590,12 @@ class _$EventOnPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -702,9 +1612,16 @@ class _$EventOnPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -720,8 +1637,14 @@ class _$EventOnPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -737,8 +1660,14 @@ class _$EventOnPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -831,8 +1760,12 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
@@ -845,8 +1778,12 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
@@ -859,8 +1796,12 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -877,9 +1818,16 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -895,8 +1843,14 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -912,8 +1866,14 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -985,8 +1945,12 @@ class _$EventOnConfirmPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
@@ -999,8 +1963,12 @@ class _$EventOnConfirmPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
@@ -1013,8 +1981,12 @@ class _$EventOnConfirmPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -1031,9 +2003,16 @@ class _$EventOnConfirmPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -1049,8 +2028,14 @@ class _$EventOnConfirmPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -1066,8 +2051,14 @@ class _$EventOnConfirmPasswordFieldUnfocusedImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -1129,8 +2120,12 @@ class _$EventOnLoginTappedImpl implements _EventOnLoginTapped {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String val) onLoginChanged,
-    required TResult Function() onLoginFieldUnfocused,
+    required TResult Function(String val) onFirstNameChanged,
+    required TResult Function() onFirstNameFieldUnfocused,
+    required TResult Function(String val) onLastNameChanged,
+    required TResult Function() onLastNameFieldUnfocused,
+    required TResult Function(String val) onEmailChanged,
+    required TResult Function() onEmailFieldUnfocused,
     required TResult Function(String val) onPasswordChanged,
     required TResult Function() onPasswordFieldUnfocused,
     required TResult Function(String val) onConfirmPasswordChanged,
@@ -1143,8 +2138,12 @@ class _$EventOnLoginTappedImpl implements _EventOnLoginTapped {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String val)? onLoginChanged,
-    TResult? Function()? onLoginFieldUnfocused,
+    TResult? Function(String val)? onFirstNameChanged,
+    TResult? Function()? onFirstNameFieldUnfocused,
+    TResult? Function(String val)? onLastNameChanged,
+    TResult? Function()? onLastNameFieldUnfocused,
+    TResult? Function(String val)? onEmailChanged,
+    TResult? Function()? onEmailFieldUnfocused,
     TResult? Function(String val)? onPasswordChanged,
     TResult? Function()? onPasswordFieldUnfocused,
     TResult? Function(String val)? onConfirmPasswordChanged,
@@ -1157,8 +2156,12 @@ class _$EventOnLoginTappedImpl implements _EventOnLoginTapped {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String val)? onLoginChanged,
-    TResult Function()? onLoginFieldUnfocused,
+    TResult Function(String val)? onFirstNameChanged,
+    TResult Function()? onFirstNameFieldUnfocused,
+    TResult Function(String val)? onLastNameChanged,
+    TResult Function()? onLastNameFieldUnfocused,
+    TResult Function(String val)? onEmailChanged,
+    TResult Function()? onEmailFieldUnfocused,
     TResult Function(String val)? onPasswordChanged,
     TResult Function()? onPasswordFieldUnfocused,
     TResult Function(String val)? onConfirmPasswordChanged,
@@ -1175,9 +2178,16 @@ class _$EventOnLoginTappedImpl implements _EventOnLoginTapped {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnLoginChanged value) onLoginChanged,
-    required TResult Function(_EventOnLoginFieldUnfocused value)
-        onLoginFieldUnfocused,
+    required TResult Function(_EventOnFirstNameChanged value)
+        onFirstNameChanged,
+    required TResult Function(_EventOnFirstNameFieldUnfocused value)
+        onFirstNameFieldUnfocused,
+    required TResult Function(_EventOnLastNameChanged value) onLastNameChanged,
+    required TResult Function(_EventOnLastNameFieldUnfocused value)
+        onLastNameFieldUnfocused,
+    required TResult Function(_EventOnEmailChanged value) onEmailChanged,
+    required TResult Function(_EventOnEmailFieldUnfocused value)
+        onEmailFieldUnfocused,
     required TResult Function(_EventOnPasswordChanged value) onPasswordChanged,
     required TResult Function(_EventOnPasswordFieldUnfocused value)
         onPasswordFieldUnfocused,
@@ -1193,8 +2203,14 @@ class _$EventOnLoginTappedImpl implements _EventOnLoginTapped {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult? Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult? Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult? Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult? Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult? Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult? Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult? Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult? Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult? Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -1210,8 +2226,14 @@ class _$EventOnLoginTappedImpl implements _EventOnLoginTapped {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnLoginChanged value)? onLoginChanged,
-    TResult Function(_EventOnLoginFieldUnfocused value)? onLoginFieldUnfocused,
+    TResult Function(_EventOnFirstNameChanged value)? onFirstNameChanged,
+    TResult Function(_EventOnFirstNameFieldUnfocused value)?
+        onFirstNameFieldUnfocused,
+    TResult Function(_EventOnLastNameChanged value)? onLastNameChanged,
+    TResult Function(_EventOnLastNameFieldUnfocused value)?
+        onLastNameFieldUnfocused,
+    TResult Function(_EventOnEmailChanged value)? onEmailChanged,
+    TResult Function(_EventOnEmailFieldUnfocused value)? onEmailFieldUnfocused,
     TResult Function(_EventOnPasswordChanged value)? onPasswordChanged,
     TResult Function(_EventOnPasswordFieldUnfocused value)?
         onPasswordFieldUnfocused,
@@ -1238,6 +2260,8 @@ mixin _$RegistrationState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
             EmailField emailField,
             PasswordField passwordField,
             ConfirmPasswordField confirmPasswordField,
@@ -1248,16 +2272,26 @@ mixin _$RegistrationState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmailField emailField, PasswordField passwordField,
-            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+    TResult? Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)?
         view,
     TResult? Function(RegistrationError? error)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmailField emailField, PasswordField passwordField,
-            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+    TResult Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)?
         view,
     TResult Function(RegistrationError? error)? requestError,
     required TResult orElse(),
@@ -1309,7 +2343,9 @@ abstract class _$$StateViewImplCopyWith<$Res> {
       __$$StateViewImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {EmailField emailField,
+      {RequiredField firstNameField,
+      RequiredField lastNameField,
+      EmailField emailField,
       PasswordField passwordField,
       ConfirmPasswordField confirmPasswordField,
       dynamic isLoading});
@@ -1326,12 +2362,22 @@ class __$$StateViewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? firstNameField = null,
+    Object? lastNameField = null,
     Object? emailField = null,
     Object? passwordField = null,
     Object? confirmPasswordField = null,
     Object? isLoading = freezed,
   }) {
     return _then(_$StateViewImpl(
+      firstNameField: null == firstNameField
+          ? _value.firstNameField
+          : firstNameField // ignore: cast_nullable_to_non_nullable
+              as RequiredField,
+      lastNameField: null == lastNameField
+          ? _value.lastNameField
+          : lastNameField // ignore: cast_nullable_to_non_nullable
+              as RequiredField,
       emailField: null == emailField
           ? _value.emailField
           : emailField // ignore: cast_nullable_to_non_nullable
@@ -1353,11 +2399,17 @@ class __$$StateViewImplCopyWithImpl<$Res>
 
 class _$StateViewImpl implements _StateView {
   const _$StateViewImpl(
-      {required this.emailField,
+      {required this.firstNameField,
+      required this.lastNameField,
+      required this.emailField,
       required this.passwordField,
       required this.confirmPasswordField,
       this.isLoading = false});
 
+  @override
+  final RequiredField firstNameField;
+  @override
+  final RequiredField lastNameField;
   @override
   final EmailField emailField;
   @override
@@ -1370,7 +2422,7 @@ class _$StateViewImpl implements _StateView {
 
   @override
   String toString() {
-    return 'RegistrationState.view(emailField: $emailField, passwordField: $passwordField, confirmPasswordField: $confirmPasswordField, isLoading: $isLoading)';
+    return 'RegistrationState.view(firstNameField: $firstNameField, lastNameField: $lastNameField, emailField: $emailField, passwordField: $passwordField, confirmPasswordField: $confirmPasswordField, isLoading: $isLoading)';
   }
 
   @override
@@ -1378,6 +2430,10 @@ class _$StateViewImpl implements _StateView {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StateViewImpl &&
+            (identical(other.firstNameField, firstNameField) ||
+                other.firstNameField == firstNameField) &&
+            (identical(other.lastNameField, lastNameField) ||
+                other.lastNameField == lastNameField) &&
             (identical(other.emailField, emailField) ||
                 other.emailField == emailField) &&
             (identical(other.passwordField, passwordField) ||
@@ -1388,8 +2444,14 @@ class _$StateViewImpl implements _StateView {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, emailField, passwordField,
-      confirmPasswordField, const DeepCollectionEquality().hash(isLoading));
+  int get hashCode => Object.hash(
+      runtimeType,
+      firstNameField,
+      lastNameField,
+      emailField,
+      passwordField,
+      confirmPasswordField,
+      const DeepCollectionEquality().hash(isLoading));
 
   @JsonKey(ignore: true)
   @override
@@ -1401,6 +2463,8 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
             EmailField emailField,
             PasswordField passwordField,
             ConfirmPasswordField confirmPasswordField,
@@ -1408,32 +2472,44 @@ class _$StateViewImpl implements _StateView {
         view,
     required TResult Function(RegistrationError? error) requestError,
   }) {
-    return view(emailField, passwordField, confirmPasswordField, isLoading);
+    return view(firstNameField, lastNameField, emailField, passwordField,
+        confirmPasswordField, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmailField emailField, PasswordField passwordField,
-            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+    TResult? Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)?
         view,
     TResult? Function(RegistrationError? error)? requestError,
   }) {
-    return view?.call(
-        emailField, passwordField, confirmPasswordField, isLoading);
+    return view?.call(firstNameField, lastNameField, emailField, passwordField,
+        confirmPasswordField, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmailField emailField, PasswordField passwordField,
-            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+    TResult Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)?
         view,
     TResult Function(RegistrationError? error)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
-      return view(emailField, passwordField, confirmPasswordField, isLoading);
+      return view(firstNameField, lastNameField, emailField, passwordField,
+          confirmPasswordField, isLoading);
     }
     return orElse();
   }
@@ -1472,11 +2548,15 @@ class _$StateViewImpl implements _StateView {
 
 abstract class _StateView implements RegistrationState {
   const factory _StateView(
-      {required final EmailField emailField,
+      {required final RequiredField firstNameField,
+      required final RequiredField lastNameField,
+      required final EmailField emailField,
       required final PasswordField passwordField,
       required final ConfirmPasswordField confirmPasswordField,
       final dynamic isLoading}) = _$StateViewImpl;
 
+  RequiredField get firstNameField;
+  RequiredField get lastNameField;
   EmailField get emailField;
   PasswordField get passwordField;
   ConfirmPasswordField get confirmPasswordField;
@@ -1552,6 +2632,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
             EmailField emailField,
             PasswordField passwordField,
             ConfirmPasswordField confirmPasswordField,
@@ -1565,8 +2647,13 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmailField emailField, PasswordField passwordField,
-            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+    TResult? Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)?
         view,
     TResult? Function(RegistrationError? error)? requestError,
   }) {
@@ -1576,8 +2663,13 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmailField emailField, PasswordField passwordField,
-            ConfirmPasswordField confirmPasswordField, dynamic isLoading)?
+    TResult Function(
+            RequiredField firstNameField,
+            RequiredField lastNameField,
+            EmailField emailField,
+            PasswordField passwordField,
+            ConfirmPasswordField confirmPasswordField,
+            dynamic isLoading)?
         view,
     TResult Function(RegistrationError? error)? requestError,
     required TResult orElse(),

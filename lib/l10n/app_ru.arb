@@ -20,6 +20,10 @@
 
   "@ registration (регистрация)": {},
   "registrationTitle": "Регистрация",
+  "registrationFirstNameFieldTitle": "Введите ваше имя:",
+  "registrationFirstNameFieldHint": "Имя",
+  "registrationLastNameFieldTitle": "Введите вашу фамилию:",
+  "registrationLastNameFieldHint": "Фамилия",
   "registrationEmailFieldTitle": "Введите логин:",
   "registrationEmailFieldHint": "e-mail",
   "registrationPasswordFieldTitle": "Введите пароль:",

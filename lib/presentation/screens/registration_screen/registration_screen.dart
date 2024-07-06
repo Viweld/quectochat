@@ -36,6 +36,8 @@ class RegistrationScreen extends StatelessWidget {
             'Wrong state for RegistrationScreen',
           ),
           view: (s) => _RegistrationView(
+            firstNameField: s.firstNameField,
+            lastNameField: s.lastNameField,
             emailField: s.emailField,
             passwordField: s.passwordField,
             confirmPasswordField: s.confirmPasswordField,
@@ -64,12 +66,16 @@ class RegistrationScreen extends StatelessWidget {
 
 class _RegistrationView extends StatelessWidget {
   const _RegistrationView({
+    required this.firstNameField,
+    required this.lastNameField,
     required this.emailField,
     required this.passwordField,
     required this.confirmPasswordField,
     required this.isLoading,
   });
 
+  final RequiredField firstNameField;
+  final RequiredField lastNameField;
   final EmailField emailField;
   final PasswordField passwordField;
   final ConfirmPasswordField confirmPasswordField;
@@ -110,6 +116,42 @@ class _RegistrationView extends StatelessWidget {
               child: Text(
                 context.texts.registrationTitle,
                 style: context.style32w600$mainTitle,
+              ),
+            ),
+
+            /// Поле ввода Имени
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: CommonEditField(
+                title: context.texts.registrationFirstNameFieldTitle,
+                hintText: context.texts.registrationFirstNameFieldHint,
+                onChanged: (v) => _onFirstNameChanged(context, v),
+                onUnfocused: () => _onFirstNameFieldUnfocused(context),
+                textCapitalization: TextCapitalization.words,
+                validationError:
+                    firstNameField.invalid && firstNameField.isErrorVisible,
+                validationErrorText: _getFirstNameErrorText(
+                  context,
+                  firstNameField.error,
+                ),
+              ),
+            ),
+
+            /// Поле ввода Фамилии
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: CommonEditField(
+                title: context.texts.registrationLastNameFieldTitle,
+                hintText: context.texts.registrationLastNameFieldHint,
+                onChanged: (v) => _onLastNameChanged(context, v),
+                onUnfocused: () => _onLastNameFieldUnfocused(context),
+                textCapitalization: TextCapitalization.words,
+                validationError:
+                    lastNameField.invalid && lastNameField.isErrorVisible,
+                validationErrorText: _getLastNameErrorText(
+                  context,
+                  lastNameField.error,
+                ),
               ),
             ),
 
@@ -181,48 +223,84 @@ class _RegistrationView extends StatelessWidget {
 
   // КОЛЛБЕКИ на действия пользователя:
   // ---------------------------------------------------------------------------
+  _onFirstNameChanged(BuildContext context, String v) {
+    context.read<RegistrationBloc>().add(
+          RegistrationEvent.onFirstNameChanged(v),
+        );
+  }
+
+  _onFirstNameFieldUnfocused(BuildContext context) {
+    context.read<RegistrationBloc>().add(
+          const RegistrationEvent.onFirstNameFieldUnfocused(),
+        );
+  }
+
+  _onLastNameChanged(BuildContext context, String v) {
+    context.read<RegistrationBloc>().add(
+          RegistrationEvent.onLastNameChanged(v),
+        );
+  }
+
+  _onLastNameFieldUnfocused(BuildContext context) {
+    context.read<RegistrationBloc>().add(
+          const RegistrationEvent.onLastNameFieldUnfocused(),
+        );
+  }
+
   void _onEmailChanged(BuildContext context, String v) {
-    context.read<RegistrationBloc>().add(RegistrationEvent.onLoginChanged(v));
+    context.read<RegistrationBloc>().add(
+          RegistrationEvent.onEmailChanged(v),
+        );
   }
 
   void _onEmailFieldUnfocused(BuildContext context) {
-    context
-        .read<RegistrationBloc>()
-        .add(const RegistrationEvent.onLoginFieldUnfocused());
+    context.read<RegistrationBloc>().add(
+          const RegistrationEvent.onEmailFieldUnfocused(),
+        );
   }
 
   void _onPasswordChanged(BuildContext context, String v) {
-    context
-        .read<RegistrationBloc>()
-        .add(RegistrationEvent.onPasswordChanged(v));
+    context.read<RegistrationBloc>().add(
+          RegistrationEvent.onPasswordChanged(v),
+        );
   }
 
   void _onPasswordFieldUnfocused(BuildContext context) {
-    context
-        .read<RegistrationBloc>()
-        .add(const RegistrationEvent.onPasswordFieldUnfocused());
+    context.read<RegistrationBloc>().add(
+          const RegistrationEvent.onPasswordFieldUnfocused(),
+        );
   }
 
   _onConfirmPasswordChanged(BuildContext context, String v) {
-    context
-        .read<RegistrationBloc>()
-        .add(RegistrationEvent.onConfirmPasswordChanged(v));
+    context.read<RegistrationBloc>().add(
+          RegistrationEvent.onConfirmPasswordChanged(v),
+        );
   }
 
   _onConfirmPasswordFieldUnfocused(BuildContext context) {
-    context
-        .read<RegistrationBloc>()
-        .add(const RegistrationEvent.onConfirmPasswordFieldUnfocused());
+    context.read<RegistrationBloc>().add(
+          const RegistrationEvent.onConfirmPasswordFieldUnfocused(),
+        );
   }
 
   void _onLoginTapped(BuildContext context) {
-    context
-        .read<RegistrationBloc>()
-        .add(const RegistrationEvent.onLoginTapped());
+    context.read<RegistrationBloc>().add(
+          const RegistrationEvent.onLoginTapped(),
+        );
   }
 
   // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
   // ---------------------------------------------------------------------------
+  String? _getFirstNameErrorText(
+      BuildContext context, RequiredFieldError? error) {
+    return error == null ? null : context.texts.commonEmptyFieldError;
+  }
+
+  String? _getLastNameErrorText(
+      BuildContext context, RequiredFieldError? error) {
+    return error == null ? null : context.texts.commonEmptyFieldError;
+  }
+
   String? _getEmailErrorText(BuildContext context, EmailFieldError? error) {
     return error == null
         ? null
@@ -233,7 +311,8 @@ class _RegistrationView extends StatelessWidget {
           };
   }
 
-  _getPasswordErrorText(BuildContext context, PasswordFieldError? error) {
+  String? _getPasswordErrorText(
+      BuildContext context, PasswordFieldError? error) {
     return error == null ? null : context.texts.commonEmptyFieldError;
   }
 

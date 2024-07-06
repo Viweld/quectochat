@@ -36,8 +36,13 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         super(_initializeViewState()) {
     on<RegistrationEvent>(
       (event, emitter) => event.map(
-        onLoginChanged: (e) => _onLoginChanged(e, emitter),
-        onLoginFieldUnfocused: (e) => _onLoginFieldUnfocused(e, emitter),
+        onFirstNameChanged: (e) => _onFirstNameChanged(e, emitter),
+        onFirstNameFieldUnfocused: (e) =>
+            _onFirstNameFieldUnfocused(e, emitter),
+        onLastNameChanged: (e) => _onLastNameChanged(e, emitter),
+        onLastNameFieldUnfocused: (e) => _onLastNameFieldUnfocused(e, emitter),
+        onEmailChanged: (e) => _onEmailChanged(e, emitter),
+        onEmailFieldUnfocused: (e) => _onEmailFieldUnfocused(e, emitter),
         onPasswordChanged: (e) => _onPasswordChanged(e, emitter),
         onPasswordFieldUnfocused: (e) => _onPasswordFieldUnfocused(e, emitter),
         onConfirmPasswordChanged: (e) => _onConfirmPasswordChanged(e, emitter),
@@ -59,6 +64,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   late _StateView _viewState;
 
   static _StateView _initializeViewState() => const _StateView(
+        firstNameField: RequiredField(),
+        lastNameField: RequiredField(),
         emailField: EmailField(),
         passwordField: PasswordField(),
         confirmPasswordField: ConfirmPasswordField(basePassword: ''),
@@ -66,18 +73,66 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
-  /// Обработчик ВНЕШНЕГО события "изменился тест в поле логина"
-  Future<void> _onLoginChanged(
-    _EventOnLoginChanged event,
+  /// Обработчик ВНЕШНЕГО события "bзменился тест в поле Имени"
+  Future<void> _onFirstNameChanged(
+    _EventOnFirstNameChanged event,
+    Emitter<RegistrationState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      firstNameField: RequiredField(value: event.val),
+    );
+    emitter(_viewState);
+  }
+
+  /// Обработчик ВНЕШНЕГО события "поле ввода Имени потеряло фокус"
+  Future<void> _onFirstNameFieldUnfocused(
+    _EventOnFirstNameFieldUnfocused event,
+    Emitter<RegistrationState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      firstNameField: _viewState.firstNameField.copyWithVisibleError(
+        isErrorVisible: true,
+      ),
+    );
+    emitter(_viewState);
+  }
+
+  /// Обработчик ВНЕШНЕГО события "изменился тест в поле Фамилии"
+  Future<void> _onLastNameChanged(
+    _EventOnLastNameChanged event,
+    Emitter<RegistrationState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      lastNameField: RequiredField(value: event.val),
+    );
+    emitter(_viewState);
+  }
+
+  /// Обработчик ВНЕШНЕГО события "поле ввода Фамилии потеряло фокус"
+  Future<void> _onLastNameFieldUnfocused(
+    _EventOnLastNameFieldUnfocused event,
+    Emitter<RegistrationState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(
+      lastNameField: _viewState.lastNameField.copyWithVisibleError(
+        isErrorVisible: true,
+      ),
+    );
+    emitter(_viewState);
+  }
+
+  /// Обработчик ВНЕШНЕГО события "изменился тест в поле Email"
+  Future<void> _onEmailChanged(
+    _EventOnEmailChanged event,
     Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(emailField: EmailField(value: event.val));
     emitter(_viewState);
   }
 
-  /// Обработчик ВНЕШНЕГО события "поле ввода логина потеряло фокус"
-  Future<void> _onLoginFieldUnfocused(
-    _EventOnLoginFieldUnfocused event,
+  /// Обработчик ВНЕШНЕГО события "поле ввода Email потеряло фокус"
+  Future<void> _onEmailFieldUnfocused(
+    _EventOnEmailFieldUnfocused event,
     Emitter<RegistrationState> emitter,
   ) async {
     _viewState = _viewState.copyWith(
@@ -148,11 +203,21 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     if (_viewState.isLoading) return;
 
     // 2. Проверяем валидность полей ввода:
+    final firstName = _viewState.firstNameField;
+    final lastName = _viewState.lastNameField;
     final email = _viewState.emailField;
     final password = _viewState.passwordField;
     final confirmPassword = _viewState.confirmPasswordField;
-    if (email.invalid || password.invalid || confirmPassword.invalid) {
+    if (email.invalid ||
+        password.invalid ||
+        confirmPassword.invalid ||
+        firstName.invalid ||
+        lastName.invalid) {
       _viewState = _viewState.copyWith(
+        firstNameField:
+            firstName.copyWithVisibleError(isErrorVisible: email.invalid),
+        lastNameField:
+            lastName.copyWithVisibleError(isErrorVisible: email.invalid),
         emailField: email.copyWithVisibleError(isErrorVisible: email.invalid),
         passwordField: password.copyWithVisibleError(
           isErrorVisible: password.invalid,
@@ -169,6 +234,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     // 4. Выполняем регистрацию:
     try {
       await _authRepository.registration(
+        firstName: _viewState.firstNameField.value,
+        lastName: _viewState.lastNameField.value,
         email: _viewState.emailField.value,
         password: _viewState.passwordField.value,
       );
