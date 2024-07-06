@@ -1,6 +1,7 @@
 import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 
 import '../../../../domain/interfaces/i_auth_repository.dart';
 import '../../../../domain/models/chat_list_item.dart';
@@ -15,7 +16,9 @@ part 'states.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     @DepArg() required IAuthRepository authRepository,
+    @DepArg() required INetworkFacade facade,
   })  : _authRepository = authRepository,
+        _facade = facade,
         super(const HomeState.pending()) {
     on<HomeEvent>(
       (event, emitter) => event.map(
@@ -28,12 +31,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
 
     add(const HomeEvent.onInitializationRequested());
-    print(DateTime.now());
   }
 
   // ЗАВИСИМОСТИ
   // ---------------------------------------------------------------------------
   final IAuthRepository _authRepository;
+  final INetworkFacade _facade;
 
   // СОСТОЯНИЕ
   // ---------------------------------------------------------------------------
@@ -74,13 +77,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnInitializationRequested event,
     Emitter<HomeState> emitter,
   ) async {
-    await Future.delayed(const Duration(seconds: 2));
-    // TODO(Vadim): #unimplemented
-    _chatList = await Future.delayed(
-      const Duration(seconds: 2),
-      () => _fakeChatList,
-    );
-
+    final users = await _facade.getUsers();
+    // TODO(Vadim) #unimplemented временно подмешиваем фейковые данные
+    _chatList = users.indexed.map((i) => ChatListItem(
+          firstName: i.$2.fullName.split(' ').first,
+          lastName: i.$2.fullName.split(' ').last,
+          lastMessageText: _fakeChatList.elementAt(i.$1).lastMessageText,
+          lastMessageSentAt: _fakeChatList.elementAt(i.$1).lastMessageSentAt,
+          isSentByYou: _fakeChatList.elementAt(i.$1).isSentByYou,
+        ));
     _viewState = HomeState.view(chatList: _chatList) as _StateView;
     emitter(_viewState);
   }

@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 // DepGen code generator
 // **************************************************************************
 
+import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 import 'package:quectochat/presentation/navigation/auth_node/bloc/auth_bloc.dart';
 import 'package:quectochat/presentation/screens/home_screen/bloc/home_bloc.dart';
@@ -107,6 +108,7 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   HomeBloc buildHomeBloc() => HomeBloc(
         authRepository: _env.g<IAuthRepository>(),
+        facade: _env.g<INetworkFacade>(),
       );
 
   // ---------------------------------------------------------------------------

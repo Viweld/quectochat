@@ -125,14 +125,12 @@ final class FirebaseFacade implements INetworkFacade {
   /// Получение пользователей для переписки
   @override
   Future<Iterable<UserDetails>> getUsers({
-    required int limit,
-    required String textSearch,
+    String textSearch = '',
   }) async {
     final response = textSearch.isEmpty
-        ? await _firebaseFirestore.collection(_Keys._tUser).limit(limit).get()
+        ? await _firebaseFirestore.collection(_Keys._tUser).get()
         : await _firebaseFirestore
             .collection(_Keys._tUser)
-            .limit(limit)
             .where(_Keys._fUser$fullName, arrayContains: textSearch)
             .get();
 
