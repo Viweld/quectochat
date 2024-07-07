@@ -13,16 +13,16 @@ class ThemeBuilder {
   );
 
   // ---------------------------------------------------------------------------
-  static Palette getPalette(ThemeTypes type) {
+  static Palette getPalette(ThemeType type) {
     return switch (type) {
-      ThemeTypes.regular => Palette.regular(),
+      ThemeType.regular => Palette.regular(),
     };
   }
 
   // ---------------------------------------------------------------------------
-  static ThemeData getTheme(ThemeTypes type, Palette palette) {
+  static ThemeData getTheme(ThemeType type, Palette palette) {
     return switch (type) {
-      ThemeTypes.regular => _getRegularTheme(palette),
+      ThemeType.regular => _getRegularTheme(palette),
     };
   }
 

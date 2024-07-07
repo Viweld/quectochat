@@ -1,1 +1,1 @@
-enum ThemeTypes { regular }
+enum ThemeType { regular }

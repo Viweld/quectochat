@@ -16,7 +16,7 @@ class DynamicTheme extends StatefulWidget {
   });
 
   final Widget child;
-  final ThemeTypes? initialThemeKey;
+  final ThemeType? initialThemeKey;
 
   // ---------------------------------------------------------------------------
   static ThemeData? themeOf(BuildContext context) {
@@ -42,14 +42,14 @@ class DynamicTheme extends StatefulWidget {
 class _DynamicThemeState extends State<DynamicTheme> {
   late ThemeData _theme;
   late Palette _palette;
-  late ThemeTypes _themeType;
+  late ThemeType _themeType;
   late bool isThemeInitialized;
 
   ThemeData get theme => _theme;
   Palette get palette => _palette;
-  ThemeTypes get themeType => _themeType;
+  ThemeType get themeType => _themeType;
 
-  bool get isRegularTheme => _themeType == ThemeTypes.regular;
+  bool get isRegularTheme => _themeType == ThemeType.regular;
 
   // ---------------------------------------------------------------------------
   @override
@@ -67,7 +67,7 @@ class _DynamicThemeState extends State<DynamicTheme> {
   @override
   void didChangeDependencies() {
     if (widget.initialThemeKey == null && !isThemeInitialized) {
-      _themeType = ThemeTypes.regular;
+      _themeType = ThemeType.regular;
       _palette = ThemeBuilder.getPalette(_themeType);
       _theme = ThemeBuilder.getTheme(_themeType, _palette);
       isThemeInitialized = true;
@@ -76,7 +76,7 @@ class _DynamicThemeState extends State<DynamicTheme> {
   }
 
   // ---------------------------------------------------------------------------
-  void changeTheme(ThemeTypes themeKey) {
+  void changeTheme(ThemeType themeKey) {
     setState(() {
       _themeType = themeKey;
       _palette = ThemeBuilder.getPalette(themeKey);

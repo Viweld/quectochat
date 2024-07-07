@@ -13,7 +13,7 @@ class _Keys {
   static const _tMessages = 'messages';
   static const _fMessage$fromId = 'fromId';
   static const _fMessage$toId = 'toId';
-  static const _fMessage$createdAt = 'createdAt';
+  static const _fMessage$timestamp = 'timestamp';
   static const _fMessage$content = 'content';
   static const _fMessage$type = 'type';
 }

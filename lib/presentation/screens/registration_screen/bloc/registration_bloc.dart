@@ -210,18 +210,25 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     final email = _viewState.emailField;
     final password = _viewState.passwordField;
     final confirmPassword = _viewState.confirmPasswordField;
-    if (email.invalid ||
+    if (firstName.invalid ||
+        lastName.invalid ||
+        email.invalid ||
         password.invalid ||
-        confirmPassword.invalid ||
-        firstName.invalid ||
-        lastName.invalid) {
+        confirmPassword.invalid) {
       _viewState = _viewState.copyWith(
-        firstNameField:
-            firstName.copyWithVisibleError(isErrorVisible: email.invalid),
-        lastNameField:
-            lastName.copyWithVisibleError(isErrorVisible: email.invalid),
-        emailField: email.copyWithVisibleError(isErrorVisible: email.invalid),
+        firstNameField: firstName.copyWithVisibleError(
+          isErrorVisible: email.invalid,
+        ),
+        lastNameField: lastName.copyWithVisibleError(
+          isErrorVisible: email.invalid,
+        ),
+        emailField: email.copyWithVisibleError(
+          isErrorVisible: email.invalid,
+        ),
         passwordField: password.copyWithVisibleError(
+          isErrorVisible: password.invalid,
+        ),
+        confirmPasswordField: confirmPassword.copyWithVisibleError(
           isErrorVisible: password.invalid,
         ),
       );

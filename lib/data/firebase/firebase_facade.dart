@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/user_details.dart';
 
+import '../../domain/models/chat_message.dart';
+import '../../domain/models/chat_message_type.dart';
 import '../../domain/models/network_exceptions.dart';
 
 part 'keys.dart';
@@ -16,11 +18,22 @@ final class FirebaseFacade implements INetworkFacade {
     _mapper = _Mapper();
   }
 
-  String? _currentUserId;
-
+  // ОКРУЖЕНИЕ:
+  // ---------------------------------------------------------------------------
   late final FirebaseAuth _firebaseAuth;
   late final FirebaseFirestore _firebaseFirestore;
   late final _Mapper _mapper;
+
+  // ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ:
+  // ---------------------------------------------------------------------------
+  /// ID текущего пользователя
+  String? _currentUserId;
+
+  /// Пагинация сообщений: количество сообщений на страницу
+  static const _messagesPaginationLimit = 20;
+
+  /// Пагинация сообщений: текущий снэпшот сообщений, для получения следующей страницы
+  QueryDocumentSnapshot<Map<String, dynamic>>? _lastVisible;
 
   // АВТРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
@@ -118,7 +131,7 @@ final class FirebaseFacade implements INetworkFacade {
     _currentUserId = null;
   }
 
-  // Другие пользователи:
+  // СОБЕСЕДНИКИ:
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -137,5 +150,38 @@ final class FirebaseFacade implements INetworkFacade {
     return response.docs
         .map((doc) => _mapper._parseCurrentUser(doc.data()))
         .where((user) => user.id != _currentUserId);
+  }
+
+  // СООБЩЕНИЯ:
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  /// Получение сообщений в пагинированном виде
+  /// (для получения последующих страниц isNext должен быть true)
+  @override
+  Future<Iterable<ChatMessage>> getChatMessages({
+    required String chatId,
+    bool isNext = false,
+  }) async {
+    final response = !isNext
+        ? await _firebaseFirestore
+            .collection(_Keys._tMessages)
+            .doc(chatId)
+            .collection(chatId)
+            .orderBy(_Keys._fMessage$timestamp, descending: true)
+            .limit(_messagesPaginationLimit)
+            .get()
+        : await _firebaseFirestore
+            .collection(_Keys._tMessages)
+            .doc(chatId)
+            .collection(chatId)
+            .orderBy(_Keys._fMessage$timestamp, descending: true)
+            .startAfterDocument(_lastVisible!)
+            .limit(_messagesPaginationLimit)
+            .get();
+
+    _lastVisible = response.docs.last;
+
+    return response.docs.map((doc) => _mapper._parseChatMessage(doc.data()));
   }
 }
