@@ -48,6 +48,51 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
+  /// Обработчик ВНУТРЕННЕГО события "запрос на инициализацию"
+  Future<void> _onInitializationRequested(
+    _EventOnInitializationRequested event,
+    Emitter<HomeState> emitter,
+  ) async {
+    final users = await _facade.getUsers();
+    // TODO(Vadim) #unimplemented временно подмешиваем фейковые данные
+    _chatList = users.indexed.map((i) => ChatListItem(
+          id: i.$2.id,
+          firstName: i.$2.fullName.split(' ').first,
+          lastName: i.$2.fullName.split(' ').last,
+          lastMessageText: _fakeChatList.elementAt(i.$1).lastMessageText,
+          lastMessageSentAt: _fakeChatList.elementAt(i.$1).lastMessageSentAt,
+          isSentByYou: _fakeChatList.elementAt(i.$1).isSentByYou,
+        ));
+    _viewState = HomeState.view(chatList: _chatList) as _StateView;
+    emitter(_viewState);
+  }
+
+  /// Обработчик ВНЕШНЕГО события "нажата кнопка очистки поля поиска"
+  Future<void> _onSearchFieldClearTapped(
+    _EventOnSearchFieldClearTapped event,
+    Emitter<HomeState> emitter,
+  ) async {
+    _viewState = _viewState.copyWith(chatList: _chatList);
+    emitter(_viewState);
+  }
+
+  /// Обработчик ВНЕШНЕГО события "изменен текст в поле поиска"
+  Future<void> _onSearchTextChanged(
+    _EventOnSearchTextChanged event,
+    Emitter<HomeState> emitter,
+  ) async {
+    final searchSample = event.val.toLowerCase();
+    final filteredChatList = searchSample.isEmpty
+        ? _chatList
+        : _chatList.where((item) {
+            return item.firstName.toLowerCase().contains(searchSample) ||
+                item.lastName.toLowerCase().contains(searchSample);
+          });
+
+    _viewState = _viewState.copyWith(chatList: filteredChatList);
+    emitter(_viewState);
+  }
+
   /// Обработчик ВНЕШНЕГО события "нажата кнопка выйти"
   Future<void> _onLogoutTapped(
     _EventOnLogoutTapped event,
@@ -72,51 +117,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emitter(_viewState);
     }
   }
-
-  Future<void> _onInitializationRequested(
-    _EventOnInitializationRequested event,
-    Emitter<HomeState> emitter,
-  ) async {
-    final users = await _facade.getUsers();
-    // TODO(Vadim) #unimplemented временно подмешиваем фейковые данные
-    _chatList = users.indexed.map((i) => ChatListItem(
-          firstName: i.$2.fullName.split(' ').first,
-          lastName: i.$2.fullName.split(' ').last,
-          lastMessageText: _fakeChatList.elementAt(i.$1).lastMessageText,
-          lastMessageSentAt: _fakeChatList.elementAt(i.$1).lastMessageSentAt,
-          isSentByYou: _fakeChatList.elementAt(i.$1).isSentByYou,
-        ));
-    _viewState = HomeState.view(chatList: _chatList) as _StateView;
-    emitter(_viewState);
-  }
-
-  Future<void> _onSearchFieldClearTapped(
-    _EventOnSearchFieldClearTapped event,
-    Emitter<HomeState> emitter,
-  ) async {
-    _viewState = _viewState.copyWith(chatList: _chatList);
-    emitter(_viewState);
-  }
-
-  Future<void> _onSearchTextChanged(
-    _EventOnSearchTextChanged event,
-    Emitter<HomeState> emitter,
-  ) async {
-    final searchSample = event.val.toLowerCase();
-    final filteredChatList = searchSample.isEmpty
-        ? _chatList
-        : _chatList.where((item) {
-            return item.firstName.toLowerCase().contains(searchSample) ||
-                item.lastName.toLowerCase().contains(searchSample);
-          });
-
-    _viewState = _viewState.copyWith(chatList: filteredChatList);
-    emitter(_viewState);
-  }
 }
 
 Iterable<ChatListItem> _fakeChatList = [
   ChatListItem(
+    id: '',
     firstName: 'Степан',
     lastName: 'Иванов',
     lastMessageText: 'Пришел я в кино а там ничего нет. '
@@ -125,6 +130,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: true,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Геннадий',
     lastName: 'Купчихин',
     lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
@@ -132,6 +138,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: false,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Иннокентий',
     lastName: 'Клюшкин',
     lastMessageText:
@@ -140,6 +147,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: false,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Маргарита',
     lastName: 'Широпопова',
     lastMessageText: 'Это не я',
@@ -147,6 +155,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: true,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Анна',
     lastName: 'Хотькудатова',
     lastMessageText: 'Пришел я в кино а там ничего нет. '
@@ -155,6 +164,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: true,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Егор',
     lastName: 'Коромысликов',
     lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
@@ -162,6 +172,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: false,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Василий',
     lastName: 'Жбан',
     lastMessageText:
@@ -170,6 +181,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: false,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Константин',
     lastName: 'Большебревников',
     lastMessageText: 'Это не я',
@@ -177,6 +189,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: true,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Козьма',
     lastName: 'Востропипов',
     lastMessageText: 'Пришел я в кино а там ничего нет. '
@@ -185,6 +198,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: true,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Родеон',
     lastName: 'Трындотырский',
     lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
@@ -192,6 +206,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: false,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Ипполит',
     lastName: 'Коков',
     lastMessageText: 'Как поживаешь?',
@@ -199,6 +214,7 @@ Iterable<ChatListItem> _fakeChatList = [
     isSentByYou: false,
   ),
   ChatListItem(
+    id: '',
     firstName: 'Инна',
     lastName: 'Пышногривова',
     lastMessageText: 'Привет!',

@@ -11,8 +11,8 @@ part 'keys.dart';
 
 part 'mapper.dart';
 
-final class FirebaseFacade implements INetworkFacade {
-  FirebaseFacade() {
+final class FirebaseService implements INetworkFacade {
+  FirebaseService() {
     _firebaseAuth = FirebaseAuth.instance;
     _firebaseFirestore = FirebaseFirestore.instance;
     _mapper = _Mapper();
@@ -93,16 +93,16 @@ final class FirebaseFacade implements INetworkFacade {
       // Проверяем, если пользователь успешно создан:
       if (_currentUserId != null) {
         final result = await _firebaseFirestore
-            .collection(_Keys._tUser)
+            .collection(_Keys._tUsers)
             .where(_Keys._fUser$id, isEqualTo: _currentUserId)
             .get();
 
         // Если нет данных по данному пользователю в Firestore, то делаем запись:
         if (result.docs.isEmpty) {
           await _firebaseFirestore
-              .collection(_Keys._tUser)
+              .collection(_Keys._tUsers)
               .doc(_currentUserId)
-              .set(_mapper._mapCurrentUser(UserDetails(
+              .set(_mapper._mapUserDetails(UserDetails(
                 id: _currentUserId!,
                 fullName: '$firstName $lastName',
                 createdAt: DateTime.now(),
@@ -141,14 +141,14 @@ final class FirebaseFacade implements INetworkFacade {
     String textSearch = '',
   }) async {
     final response = textSearch.isEmpty
-        ? await _firebaseFirestore.collection(_Keys._tUser).get()
+        ? await _firebaseFirestore.collection(_Keys._tUsers).get()
         : await _firebaseFirestore
-            .collection(_Keys._tUser)
+            .collection(_Keys._tUsers)
             .where(_Keys._fUser$fullName, arrayContains: textSearch)
             .get();
 
     return response.docs
-        .map((doc) => _mapper._parseCurrentUser(doc.data()))
+        .map((doc) => _mapper._parseUserDetails(doc.data()))
         .where((user) => user.id != _currentUserId);
   }
 
@@ -160,21 +160,22 @@ final class FirebaseFacade implements INetworkFacade {
   /// (для получения последующих страниц isNext должен быть true)
   @override
   Future<Iterable<ChatMessage>> getChatMessages({
-    required String chatId,
+    required String toId,
     bool isNext = false,
   }) async {
+    final groupChatId = '$_currentUserId-$toId';
     final response = !isNext
         ? await _firebaseFirestore
             .collection(_Keys._tMessages)
-            .doc(chatId)
-            .collection(chatId)
+            .doc(groupChatId)
+            .collection(groupChatId)
             .orderBy(_Keys._fMessage$timestamp, descending: true)
             .limit(_messagesPaginationLimit)
             .get()
         : await _firebaseFirestore
             .collection(_Keys._tMessages)
-            .doc(chatId)
-            .collection(chatId)
+            .doc(groupChatId)
+            .collection(groupChatId)
             .orderBy(_Keys._fMessage$timestamp, descending: true)
             .startAfterDocument(_lastVisible!)
             .limit(_messagesPaginationLimit)
@@ -183,5 +184,49 @@ final class FirebaseFacade implements INetworkFacade {
     _lastVisible = response.docs.last;
 
     return response.docs.map((doc) => _mapper._parseChatMessage(doc.data()));
+  }
+
+  /// Отправка сообщения
+  @override
+  Future<void> sendMessage({
+    required String toId,
+    required String content,
+    required ChatMessageType type,
+  }) async {
+    final createdAt = DateTime.now();
+    final groupChatId = '$_currentUserId-$toId';
+    final docReference = _firebaseFirestore
+        .collection(_Keys._tMessages)
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .doc(createdAt.microsecondsSinceEpoch.toString());
+
+    await _firebaseFirestore.runTransaction((transaction) async {
+      transaction.set(
+        docReference,
+        _mapper._mapChatMessage(ChatMessage(
+          createdAt: createdAt,
+          fromId: _currentUserId ?? '',
+          toId: toId,
+          content: content,
+          type: type,
+        )),
+      );
+    });
+  }
+
+  /// Получить стрим сообщений
+  @override
+  Stream<ChatMessage> getNewMessagesStream({required String toId}) {
+    final groupChatId = '$_currentUserId-$toId';
+
+    return _firebaseFirestore
+        .collection(_Keys._tMessages)
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .limit(1)
+        .snapshots()
+        .map((m) => _mapper._parseChatMessage(m.docs.first.data()));
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:string_to_color/string_to_color.dart';
 import '../../../domain/models/chat_list_item.dart';
 import '../../common/common_pending_indicator.dart';
 import '../../common/common_toast.dart';
+import '../../navigation/nested_navigation/nested_routes.dart';
 import '../../values/values.dart';
 import 'bloc/home_bloc.dart';
 
@@ -110,7 +110,8 @@ class _HomeView extends StatelessWidget {
                   horizontal: Values.horizontalPadding,
                 ),
                 child: Text(
-                  'Вы еще не начали переписку...',
+                  // TODO(Vadim): #localization
+                  'Не с кем переписываться',
                   textAlign: TextAlign.center,
                   style: context.style12w500$labels,
                 ),
@@ -148,7 +149,11 @@ class _HomeView extends StatelessWidget {
   }
 
   void _onChatListItemTapped(BuildContext context, ChatListItem chatLIstItem) {
-    // TODO(Vadim): #unimplemented
+    Navigator.pushNamed(
+      context,
+      NestedRoutes.routeChat,
+      arguments: chatLIstItem.id,
+    );
   }
 
   _onSearchFieldClearTapped(BuildContext context) {

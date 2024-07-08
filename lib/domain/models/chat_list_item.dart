@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 @immutable
 final class ChatListItem {
   const ChatListItem({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.lastMessageText,
@@ -13,6 +14,9 @@ final class ChatListItem {
   /// Возвращает инициалы пользователя
   String get initials =>
       (firstName.substring(0, 1) + lastName.substring(0, 1)).toUpperCase();
+
+  /// Идентификатор пользователя.
+  final String id;
 
   /// Имя пользователя.
   final String firstName;

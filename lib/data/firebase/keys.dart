@@ -1,8 +1,8 @@
-part of 'firebase_facade.dart';
+part of 'firebase_service.dart';
 
 class _Keys {
   // Ключи таблицы и полей данных пользователей:
-  static const _tUser = 'users';
+  static const _tUsers = 'users';
   static const _fUser$id = 'id';
   static const _fUser$fullName = 'fullName';
   static const _fUser$photoUrl = 'photoUrl';

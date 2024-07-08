@@ -1,4 +1,4 @@
-part of 'firebase_facade.dart';
+part of 'firebase_service.dart';
 
 /// Маппер данных: firebase <-> model
 class _Mapper {
@@ -7,7 +7,7 @@ class _Mapper {
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   /// Парсинг данных пользователя из БД на модель UserDetails
-  UserDetails _parseCurrentUser(Map<String, Object?> src) {
+  UserDetails _parseUserDetails(Map<String, Object?> src) {
     return UserDetails(
       id: src[_Keys._fUser$id] as String,
       fullName: src[_Keys._fUser$fullName] as String,
@@ -16,7 +16,7 @@ class _Mapper {
   }
 
   /// Маппинг данных пользователя из UserDetails на структуру для БД
-  Map<String, Object?> _mapCurrentUser(UserDetails src) => {
+  Map<String, Object?> _mapUserDetails(UserDetails src) => {
         _Keys._fUser$id: src.id,
         _Keys._fUser$fullName: src.fullName,
         _Keys._fUser$createdAt: '${src.createdAt}',

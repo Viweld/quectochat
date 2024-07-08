@@ -1,3 +1,5 @@
+import 'package:quectochat/domain/models/chat_message_type.dart';
+
 import '../models/chat_message.dart';
 import '../models/user_details.dart';
 
@@ -39,12 +41,22 @@ abstract interface class INetworkFacade {
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  /// Получение пользователей для переписки
+  /// Получение сообщений в пагинированном виде
+  /// (для получения последующих страниц isNext должен быть true)
   Future<Iterable<ChatMessage>> getChatMessages({
-    required String chatId,
+    required String toId,
     bool isNext,
   });
 
+  /// Отправка сообщения
+  Future<void> sendMessage({
+    required String toId,
+    required String content,
+    required ChatMessageType type,
+  });
+
+  /// Получить стрим сообщений
+  Stream<ChatMessage> getNewMessagesStream({required String toId});
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
