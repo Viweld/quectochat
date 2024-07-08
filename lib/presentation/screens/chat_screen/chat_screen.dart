@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
-import 'package:quectochat/presentation/common/common_accent_button.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 
 import '../../common/common_pending_indicator.dart';
@@ -10,16 +9,31 @@ import '../../common/common_toast.dart';
 import '../../values/values.dart';
 import 'bloc/chat_bloc.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  ChatBloc? _bloc;
+
+  @override
+  void didChangeDependencies() {
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments is! String) {
+      throw UnsupportedError('Expected arguments of type String');
+    }
+    _bloc ??= context.depGen().buildChatBloc(toId: arguments);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => context.depGen().buildChatBloc(
-              toId: ModalRoute.of(context)?.settings.arguments as String,
-            ),
+      body: BlocProvider.value(
+        value: _bloc!,
         child: BlocConsumer<ChatBloc, ChatState>(
           listenWhen: (_, state) => state.maybeMap(
             requestError: (_) => true,
@@ -79,9 +93,9 @@ class ChatScreen extends StatelessWidget {
                         onChanged: (val) => _onMessageChanged(context, val),
                       ),
                     ),
-                    CommonAccentButton(
-                      title: 'Send',
-                      onTapped: () => _onSendTapped(
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () => _onSendTapped(
                         context,
                       ),
                     ),
@@ -96,7 +110,6 @@ class ChatScreen extends StatelessWidget {
   }
 
   // КОЛЛБЭКИ от действий пользователя:
-  // ---------------------------------------------------------------------------
   void _onMessageChanged(BuildContext context, String val) {
     context.read<ChatBloc>().add(ChatEvent.onMessageChanged(val));
   }
@@ -106,7 +119,6 @@ class ChatScreen extends StatelessWidget {
   }
 
   // КОЛЛБЭКИ от смены состояний:
-  // ---------------------------------------------------------------------------
   void _requestError(BuildContext context, String? errorText) {
     CommonToast.showError(
       context,

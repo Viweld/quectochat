@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import '../models/user_details.dart';
-
 /// возможные состояния аутентификации пользователя
 enum AuthStatus {
   authorized,

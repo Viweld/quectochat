@@ -30,8 +30,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ),
     );
 
-    _messagesStream.listen(_messagesStreamListener);
-
     add(const ChatEvent.onInitializationRequested());
   }
 
@@ -67,6 +65,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) async {
     // 1. Подписываемся на стрим новых сообщений
     _messagesStream = _facade.getNewMessagesStream(toId: _toId);
+    _messagesStream.listen(_messagesStreamListener);
 
     // 2. Получаем первую страницу имеющихся сообщений
     final messagesFirstPage = await _facade.getChatMessages(toId: _toId);

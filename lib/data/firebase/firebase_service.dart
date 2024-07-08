@@ -181,7 +181,7 @@ final class FirebaseService implements INetworkFacade {
             .limit(_messagesPaginationLimit)
             .get();
 
-    _lastVisible = response.docs.last;
+    if (response.docs.isNotEmpty) _lastVisible = response.docs.last;
 
     return response.docs.map((doc) => _mapper._parseChatMessage(doc.data()));
   }

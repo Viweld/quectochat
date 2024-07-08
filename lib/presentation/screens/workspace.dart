@@ -14,9 +14,15 @@ class _WorkspaceState extends State<Workspace> {
 
   @override
   Widget build(BuildContext context) {
-    return NestedNavigator(
-      tabNavigatorKey: _globalKey,
-      initialRoute: NestedRoutes.routeHome,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) _globalKey.currentState?.pop();
+      },
+      child: NestedNavigator(
+        tabNavigatorKey: _globalKey,
+        initialRoute: NestedRoutes.routeHome,
+      ),
     );
   }
 }
