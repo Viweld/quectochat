@@ -85,6 +85,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _EventOnSendTapped event,
     Emitter<ChatState> emitter,
   ) {
+    if (_viewState.typedMessage.trim().isEmpty) return;
     _facade.sendMessage(
       toId: _toId,
       content: _viewState.typedMessage,

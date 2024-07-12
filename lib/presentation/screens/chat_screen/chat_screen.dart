@@ -8,6 +8,7 @@ import '../../common/common_pending_indicator.dart';
 import '../../common/common_toast.dart';
 import '../../values/values.dart';
 import 'bloc/chat_bloc.dart';
+import 'widgets/message_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -52,56 +53,79 @@ class _ChatScreenState extends State<ChatScreen> {
               'Wrong state for ChatScreen',
             ),
             pending: (s) => const Center(child: CommonPendingIndicator()),
-            view: (s) => Column(
-              children: [
-                Expanded(
-                  child: CustomScrollView(
-                    slivers: [
-                      /// Либо надпись об отсутствии переписок, либо список переписок
-                      if (s.messages.isEmpty)
-                        SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Values.horizontalPadding,
+            view: (s) => SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: CustomScrollView(
+                        reverse: true,
+                        slivers: [
+                          /// Либо надпись об отсутствии переписок, либо список переписок
+                          if (s.messages.isEmpty)
+                            SliverFillRemaining(
+                              hasScrollBody: false,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: Values.horizontalPadding,
+                                  ),
+                                  child: Text(
+                                    // TODO(Vadim): #localization
+                                    'Вы еще не начали переписку...',
+                                    textAlign: TextAlign.center,
+                                    style: context.style12w500$labels,
+                                  ),
+                                ),
                               ),
-                              child: Text(
-                                // TODO(Vadim): #localization
-                                'Вы еще не начали переписку...',
-                                textAlign: TextAlign.center,
-                                style: context.style12w500$labels,
-                              ),
+                            )
+                          else ...[
+                            const SliverToBoxAdapter(
+                              child: SizedBox(height: 20),
                             ),
-                          ),
-                        )
-                      else
-                        SliverList.builder(
-                          itemCount: s.messages.length,
-                          itemBuilder: (context, i) {
-                            return Text(s.messages.elementAt(i).content);
-                          },
-                        ),
-                    ],
+                            SliverList.separated(
+                              itemCount: s.messages.length,
+                              itemBuilder: (context, i) {
+                                final message =
+                                    s.messages.toList().reversed.elementAt(i);
+                                return MessageBubble(
+                                  text: message.content,
+                                  createdAt: message.createdAt,
+                                );
+                              },
+                              separatorBuilder: (context, i) =>
+                                  const SizedBox(height: 10),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CommonEditField(
-                        initialText: s.typedMessage,
-                        onChanged: (val) => _onMessageChanged(context, val),
-                      ),
+                  Divider(
+                    height: Values.dividerThickness,
+                    color: context.palette.gray,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 20,
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: () => _onSendTapped(
-                        context,
-                      ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CommonEditField(
+                            initialText: s.typedMessage,
+                            onChanged: (val) => _onMessageChanged(context, val),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        _SendButton(onTapped: () => _onSendTapped(context)),
+                      ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -123,6 +147,50 @@ class _ChatScreenState extends State<ChatScreen> {
     CommonToast.showError(
       context,
       text: errorText ?? context.texts.commonRequestError,
+    );
+  }
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+class _SendButton extends StatelessWidget {
+  const _SendButton({
+    required this.onTapped,
+  });
+
+  final void Function() onTapped;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onTapped,
+      style: ButtonStyle(
+        fixedSize: MaterialStateProperty.all(const Size(42, 42)),
+        padding: MaterialStateProperty.all(
+          EdgeInsets.zero,
+        ),
+        backgroundColor: MaterialStateProperty.all(
+          context.palette.stroke,
+        ),
+        visualDensity: const VisualDensity(
+          horizontal: VisualDensity.minimumDensity,
+          vertical: VisualDensity.minimumDensity,
+        ),
+        shape: MaterialStateProperty.all(
+          const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                Values.textFieldBorderRadius,
+              ),
+            ),
+          ),
+        ),
+      ),
+      child: Icon(
+        Icons.send,
+        color: context.palette.black,
+      ),
     );
   }
 }
