@@ -32,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-       print('Проверка алиаса в повершелл')
+    print('Проверка алиаса в повершелл');
     return Scaffold(
       body: BlocProvider.value(
         value: _bloc!,
