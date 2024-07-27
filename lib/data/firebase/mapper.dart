@@ -27,9 +27,14 @@ class _Mapper {
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   /// Парсинг данных сообщения из БД на модель ChatMessage
-  ChatMessage _parseChatMessage(Map<String, Object?> src) {
+  ChatMessage _parseChatMessage({
+    required Map<String, Object?> src,
+    String? ownId,
+  }) {
+    final fromId = src[_Keys._fMessage$fromId] as String;
     return ChatMessage(
-      fromId: src[_Keys._fMessage$fromId] as String,
+      fromId: fromId,
+      isOwn: fromId == ownId,
       toId: src[_Keys._fMessage$toId] as String,
       content: src[_Keys._fMessage$content] as String,
       type: _parseChatMessageType(src[_Keys._fMessage$type] as String),

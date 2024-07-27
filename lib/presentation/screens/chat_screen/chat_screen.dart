@@ -32,7 +32,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('Проверка алиаса в повершелл');
     return Scaffold(
       body: BlocProvider.value(
         value: _bloc!,
@@ -90,10 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               itemBuilder: (context, i) {
                                 final message =
                                     s.messages.toList().reversed.elementAt(i);
-                                return MessageBubble(
-                                  text: message.content,
-                                  createdAt: message.createdAt,
-                                );
+                                return MessageBubble(message);
                               },
                               separatorBuilder: (context, i) =>
                                   const SizedBox(height: 10),
@@ -156,9 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 class _SendButton extends StatelessWidget {
-  const _SendButton({
-    required this.onTapped,
-  });
+  const _SendButton({required this.onTapped});
 
   final void Function() onTapped;
 
@@ -167,23 +161,17 @@ class _SendButton extends StatelessWidget {
     return TextButton(
       onPressed: onTapped,
       style: ButtonStyle(
-        fixedSize: MaterialStateProperty.all(const Size(42, 42)),
-        padding: MaterialStateProperty.all(
-          EdgeInsets.zero,
-        ),
-        backgroundColor: MaterialStateProperty.all(
-          context.palette.stroke,
-        ),
+        fixedSize: WidgetStateProperty.all(const Size(42, 42)),
+        padding: WidgetStateProperty.all(EdgeInsets.zero),
+        backgroundColor: WidgetStateProperty.all(context.palette.stroke),
         visualDensity: const VisualDensity(
           horizontal: VisualDensity.minimumDensity,
           vertical: VisualDensity.minimumDensity,
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(
-                Values.textFieldBorderRadius,
-              ),
+              Radius.circular(Values.textFieldBorderRadius),
             ),
           ),
         ),

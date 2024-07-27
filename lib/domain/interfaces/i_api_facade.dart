@@ -49,7 +49,7 @@ abstract interface class INetworkFacade {
   });
 
   /// Отправка сообщения
-  Future<void> sendMessage({
+  Future<ChatMessage> sendMessage({
     required String toId,
     required String content,
     required ChatMessageType type,

@@ -42,21 +42,17 @@ class CommonAccentButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: isEnabled ? onTapped : null,
       style: ButtonStyle(
-        minimumSize: const MaterialStatePropertyAll<Size>(
+        backgroundColor: WidgetStatePropertyAll(backgroundColor),
+        overlayColor: WidgetStatePropertyAll(splashColor),
+        elevation: const WidgetStatePropertyAll(0),
+        minimumSize: const WidgetStatePropertyAll(
           Size.fromHeight(Values.buttonHeight),
         ),
-        backgroundColor: MaterialStatePropertyAll<Color>(
-          backgroundColor,
-        ),
-        overlayColor: MaterialStatePropertyAll<Color>(
-          splashColor,
-        ),
-        shape: MaterialStatePropertyAll(
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Values.buttonBorderRadius),
           ),
         ),
-        elevation: const MaterialStatePropertyAll<double>(0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -9,6 +9,7 @@ final class ChatMessage {
     required this.createdAt,
     required this.content,
     required this.type,
+    required this.isOwn,
   });
 
   final String fromId;
@@ -16,4 +17,5 @@ final class ChatMessage {
   final DateTime createdAt;
   final String content;
   final ChatMessageType type;
+  final bool isOwn;
 }

@@ -169,7 +169,7 @@ final class FirebaseService implements INetworkFacade {
             .collection(_Keys._tMessages)
             .doc(groupChatId)
             .collection(groupChatId)
-            .orderBy(_Keys._fMessage$timestamp, descending: true)
+            .orderBy(_Keys._fMessage$timestamp, descending: false)
             .limit(_messagesPaginationLimit)
             .get()
         : await _firebaseFirestore
@@ -183,12 +183,15 @@ final class FirebaseService implements INetworkFacade {
 
     if (response.docs.isNotEmpty) _lastVisible = response.docs.last;
 
-    return response.docs.map((doc) => _mapper._parseChatMessage(doc.data()));
+    return response.docs.map((doc) => _mapper._parseChatMessage(
+          src: doc.data(),
+          ownId: _currentUserId,
+        ));
   }
 
   /// Отправка сообщения
   @override
-  Future<void> sendMessage({
+  Future<ChatMessage> sendMessage({
     required String toId,
     required String content,
     required ChatMessageType type,
@@ -201,24 +204,26 @@ final class FirebaseService implements INetworkFacade {
         .collection(groupChatId)
         .doc(createdAt.microsecondsSinceEpoch.toString());
 
+    final newMessage = ChatMessage(
+      createdAt: createdAt,
+      fromId: _currentUserId ?? '',
+      toId: toId,
+      content: content,
+      type: type,
+      isOwn: true,
+    );
+
     await _firebaseFirestore.runTransaction((transaction) async {
-      transaction.set(
-        docReference,
-        _mapper._mapChatMessage(ChatMessage(
-          createdAt: createdAt,
-          fromId: _currentUserId ?? '',
-          toId: toId,
-          content: content,
-          type: type,
-        )),
-      );
+      transaction.set(docReference, _mapper._mapChatMessage(newMessage));
     });
+
+    return newMessage;
   }
 
   /// Получить стрим сообщений
   @override
   Stream<ChatMessage> getNewMessagesStream({required String toId}) {
-    final groupChatId = '$_currentUserId-$toId';
+    final groupChatId = '$toId-$_currentUserId';
 
     return _firebaseFirestore
         .collection(_Keys._tMessages)
@@ -227,6 +232,8 @@ final class FirebaseService implements INetworkFacade {
         .orderBy(_Keys._fMessage$timestamp, descending: true)
         .limit(1)
         .snapshots()
-        .map((m) => _mapper._parseChatMessage(m.docs.first.data()));
+        .map(
+          (m) => _mapper._parseChatMessage(src: m.docs.first.data()),
+        );
   }
 }

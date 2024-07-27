@@ -148,11 +148,11 @@ class _HomeView extends StatelessWidget {
     context.read<HomeBloc>().add(const HomeEvent.onLogoutTapped());
   }
 
-  void _onChatListItemTapped(BuildContext context, ChatListItem chatLIstItem) {
+  void _onChatListItemTapped(BuildContext context, ChatListItem chatListItem) {
     Navigator.pushNamed(
       context,
       NestedRoutes.routeChat,
-      arguments: chatLIstItem.id,
+      arguments: chatListItem.id,
     );
   }
 

@@ -81,17 +81,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emitter(_viewState);
   }
 
-  void _onSendTapped(
+  Future<void> _onSendTapped(
     _EventOnSendTapped event,
     Emitter<ChatState> emitter,
-  ) {
+  ) async {
     if (_viewState.typedMessage.trim().isEmpty) return;
-    _facade.sendMessage(
+    final sentMessage = await _facade.sendMessage(
       toId: _toId,
       content: _viewState.typedMessage,
       type: ChatMessageType.text,
     );
-    _viewState = _viewState.copyWith(typedMessage: '');
+    _viewState = _viewState.copyWith(
+      typedMessage: '',
+      messages: _viewState.messages.followedBy([sentMessage]),
+    );
     emitter(_viewState);
   }
 }

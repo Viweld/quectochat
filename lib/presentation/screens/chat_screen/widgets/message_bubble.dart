@@ -3,32 +3,28 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
-class MessageBubble extends StatelessWidget {
-  const MessageBubble({
-    required this.text,
-    required this.createdAt,
-    super.key,
-  });
+import '../../../../domain/models/chat_message.dart';
 
-  final String text;
-  final DateTime createdAt;
+class MessageBubble extends StatelessWidget {
+  const MessageBubble(this.message, {super.key});
+
+  final ChatMessage message;
 
   @override
   Widget build(BuildContext context) {
     final textStyle = context.style14w500$message!.copyWith(
       color: context.palette.greenDark,
     );
-    final time = DateFormat('HH:mm').format(createdAt);
+    final time = DateFormat('HH:mm').format(message.createdAt);
     final timeStyle = context.style12w500$labels!.copyWith(
       color: context.palette.greenDark,
     );
 
     final lastLineWidth = _calculateLastLineWidth(
-      text: text,
+      text: message.content,
       style: textStyle,
       textScaler: MediaQuery.textScalerOf(context),
     );
@@ -40,11 +36,12 @@ class MessageBubble extends StatelessWidget {
     );
 
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
       child: ClipPath(
-        clipper: _RightStartBubbleClip(),
+        clipper:
+            message.isOwn ? _RightStartBubbleClip() : _LeftStartBubbleClip(),
         child: ColoredBox(
-          color: context.palette.green,
+          color: message.isOwn ? context.palette.green : context.palette.gray,
           child: Padding(
             padding: const EdgeInsets.only(
               top: 12,
@@ -55,16 +52,13 @@ class MessageBubble extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, c) {
                 final space = c.maxWidth - lastLineWidth - timeWidth;
-                print(space);
                 return RichText(
                   textWidthBasis: TextWidthBasis.longestLine,
                   text: TextSpan(
                     children: [
-                      TextSpan(text: text, style: textStyle),
+                      TextSpan(text: message.content, style: textStyle),
                       if (space > 0) WidgetSpan(child: SizedBox(width: space)),
-                      WidgetSpan(
-                        child: Text(time, style: timeStyle),
-                      ),
+                      WidgetSpan(child: Text(time, style: timeStyle)),
                     ],
                   ),
                 );
