@@ -35,6 +35,12 @@ final class FirebaseService implements INetworkFacade {
   /// Пагинация сообщений: текущий снэпшот сообщений, для получения следующей страницы
   QueryDocumentSnapshot<Map<String, dynamic>>? _lastVisible;
 
+  // ГЕТТЕРЫ:
+  // ---------------------------------------------------------------------------
+  /// Возвращает ID текущего пользователя
+  @override
+  String? get currentUserId => _currentUserId;
+
   // АВТРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -160,22 +166,22 @@ final class FirebaseService implements INetworkFacade {
   /// (для получения последующих страниц isNext должен быть true)
   @override
   Future<Iterable<ChatMessage>> getChatMessages({
-    required String toId,
+    required String chatId,
     bool isNext = false,
   }) async {
-    final groupChatId = '$_currentUserId-$toId';
+    final chatId = '$_currentUserId-$toId';
     final response = !isNext
         ? await _firebaseFirestore
             .collection(_Keys._tMessages)
-            .doc(groupChatId)
-            .collection(groupChatId)
+            .doc(chatId)
+            .collection(chatId)
             .orderBy(_Keys._fMessage$timestamp, descending: false)
             .limit(_messagesPaginationLimit)
             .get()
         : await _firebaseFirestore
             .collection(_Keys._tMessages)
-            .doc(groupChatId)
-            .collection(groupChatId)
+            .doc(chatId)
+            .collection(chatId)
             .orderBy(_Keys._fMessage$timestamp, descending: true)
             .startAfterDocument(_lastVisible!)
             .limit(_messagesPaginationLimit)
@@ -192,32 +198,20 @@ final class FirebaseService implements INetworkFacade {
   /// Отправка сообщения
   @override
   Future<ChatMessage> sendMessage({
-    required String toId,
-    required String content,
-    required ChatMessageType type,
+    required ChatMessage message,
   }) async {
-    final createdAt = DateTime.now();
     final groupChatId = '$_currentUserId-$toId';
     final docReference = _firebaseFirestore
         .collection(_Keys._tMessages)
         .doc(groupChatId)
         .collection(groupChatId)
-        .doc(createdAt.microsecondsSinceEpoch.toString());
-
-    final newMessage = ChatMessage(
-      createdAt: createdAt,
-      fromId: _currentUserId ?? '',
-      toId: toId,
-      content: content,
-      type: type,
-      isOwn: true,
-    );
+        .doc(message.createdAt.microsecondsSinceEpoch.toString());
 
     await _firebaseFirestore.runTransaction((transaction) async {
-      transaction.set(docReference, _mapper._mapChatMessage(newMessage));
+      transaction.set(docReference, _mapper._mapChatMessage(message));
     });
 
-    return newMessage;
+    return message;
   }
 
   /// Получить стрим сообщений

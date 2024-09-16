@@ -4,6 +4,9 @@ import '../models/chat_message.dart';
 import '../models/user_details.dart';
 
 abstract interface class INetworkFacade {
+  /// Возвращает ID текущего пользователя
+  String? get currentUserId;
+
   // АВТРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -50,9 +53,7 @@ abstract interface class INetworkFacade {
 
   /// Отправка сообщения
   Future<ChatMessage> sendMessage({
-    required String toId,
-    required String content,
-    required ChatMessageType type,
+    required ChatMessage message,
   });
 
   /// Получить стрим сообщений
