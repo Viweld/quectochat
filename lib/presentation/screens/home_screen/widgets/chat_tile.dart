@@ -20,7 +20,7 @@ class _ChatTile extends StatelessWidget {
     );
 
     return InkWell(
-      overlayColor: MaterialStateProperty.all(context.palette.green),
+      overlayColor: WidgetStateProperty.all(context.palette.green),
       onTap: onTapped,
       child: Padding(
         padding: const EdgeInsets.symmetric(

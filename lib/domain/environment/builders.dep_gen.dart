@@ -13,7 +13,8 @@ import 'package:flutter/widgets.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 import 'package:quectochat/presentation/navigation/auth_node/bloc/auth_bloc.dart';
-import 'package:quectochat/presentation/screens/chat_screen/bloc/chat_bloc.dart';
+import 'package:quectochat/presentation/screens/chat_screen/widgets/reading_view/bloc/reading_view_bloc.dart';
+import 'package:quectochat/presentation/screens/chat_screen/widgets/typing_view/bloc/typing_view_bloc.dart';
 import 'package:quectochat/presentation/screens/home_screen/bloc/home_bloc.dart';
 import 'package:quectochat/presentation/screens/login_screen/bloc/login_bloc.dart';
 import 'package:quectochat/presentation/screens/registration_screen/bloc/registration_bloc.dart';
@@ -107,10 +108,19 @@ class DepProvider extends InheritedWidget {
       );
 
   // ---------------------------------------------------------------------------
-  ChatBloc buildChatBloc({
+  ReadingViewBloc buildReadingViewBloc({
     required String toId,
   }) =>
-      ChatBloc(
+      ReadingViewBloc(
+        toId: toId,
+        facade: _env.g<INetworkFacade>(),
+      );
+
+  // ---------------------------------------------------------------------------
+  TypingViewBloc buildTypingViewBloc({
+    required String toId,
+  }) =>
+      TypingViewBloc(
         toId: toId,
         facade: _env.g<INetworkFacade>(),
       );

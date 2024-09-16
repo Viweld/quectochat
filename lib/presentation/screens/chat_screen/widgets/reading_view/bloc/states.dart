@@ -1,18 +1,17 @@
-part of 'chat_bloc.dart';
+part of 'reading_view_bloc.dart';
 
 @freezed
-class ChatState with _$ChatState {
+class ReadingViewState with _$ReadingViewState {
   /// ожидание инициализации экрана
-  const factory ChatState.pending() = _StatePending;
+  const factory ReadingViewState.pending() = _StatePending;
 
   /// основное состояние вью
-  const factory ChatState.view({
-    @Default('') String typedMessage,
+  const factory ReadingViewState.view({
     @Default([]) Iterable<ChatMessage> messages,
   }) = _StateView;
 
   /// состояние ошибки для отображения тоаста
-  const factory ChatState.requestError({
+  const factory ReadingViewState.requestError({
     String? errorText,
   }) = _StateRequestError;
 }

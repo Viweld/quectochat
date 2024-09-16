@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'chat_bloc.dart';
+part of 'reading_view_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,23 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$ChatEvent {
+mixin _$ReadingViewEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() onInitializationRequested,
     required TResult Function() onStateChanged,
-    required TResult Function(String val) onMessageChanged,
-    required TResult Function() onSendTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? onInitializationRequested,
     TResult? Function()? onStateChanged,
-    TResult? Function(String val)? onMessageChanged,
-    TResult? Function()? onSendTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onInitializationRequested,
     TResult Function()? onStateChanged,
-    TResult Function(String val)? onMessageChanged,
-    TResult Function()? onSendTapped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -46,8 +40,6 @@ mixin _$ChatEvent {
     required TResult Function(_EventOnInitializationRequested value)
         onInitializationRequested,
     required TResult Function(_EventOnStateChanged value) onStateChanged,
-    required TResult Function(_EventOnMessageChanged value) onMessageChanged,
-    required TResult Function(_EventOnSendTapped value) onSendTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,8 +47,6 @@ mixin _$ChatEvent {
     TResult? Function(_EventOnInitializationRequested value)?
         onInitializationRequested,
     TResult? Function(_EventOnStateChanged value)? onStateChanged,
-    TResult? Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult? Function(_EventOnSendTapped value)? onSendTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,23 +54,22 @@ mixin _$ChatEvent {
     TResult Function(_EventOnInitializationRequested value)?
         onInitializationRequested,
     TResult Function(_EventOnStateChanged value)? onStateChanged,
-    TResult Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult Function(_EventOnSendTapped value)? onSendTapped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChatEventCopyWith<$Res> {
-  factory $ChatEventCopyWith(ChatEvent value, $Res Function(ChatEvent) then) =
-      _$ChatEventCopyWithImpl<$Res, ChatEvent>;
+abstract class $ReadingViewEventCopyWith<$Res> {
+  factory $ReadingViewEventCopyWith(
+          ReadingViewEvent value, $Res Function(ReadingViewEvent) then) =
+      _$ReadingViewEventCopyWithImpl<$Res, ReadingViewEvent>;
 }
 
 /// @nodoc
-class _$ChatEventCopyWithImpl<$Res, $Val extends ChatEvent>
-    implements $ChatEventCopyWith<$Res> {
-  _$ChatEventCopyWithImpl(this._value, this._then);
+class _$ReadingViewEventCopyWithImpl<$Res, $Val extends ReadingViewEvent>
+    implements $ReadingViewEventCopyWith<$Res> {
+  _$ReadingViewEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -98,7 +87,8 @@ abstract class _$$EventOnInitializationRequestedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$EventOnInitializationRequestedImplCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$EventOnInitializationRequestedImpl>
+    extends _$ReadingViewEventCopyWithImpl<$Res,
+        _$EventOnInitializationRequestedImpl>
     implements _$$EventOnInitializationRequestedImplCopyWith<$Res> {
   __$$EventOnInitializationRequestedImplCopyWithImpl(
       _$EventOnInitializationRequestedImpl _value,
@@ -114,7 +104,7 @@ class _$EventOnInitializationRequestedImpl
 
   @override
   String toString() {
-    return 'ChatEvent.onInitializationRequested()';
+    return 'ReadingViewEvent.onInitializationRequested()';
   }
 
   @override
@@ -132,8 +122,6 @@ class _$EventOnInitializationRequestedImpl
   TResult when<TResult extends Object?>({
     required TResult Function() onInitializationRequested,
     required TResult Function() onStateChanged,
-    required TResult Function(String val) onMessageChanged,
-    required TResult Function() onSendTapped,
   }) {
     return onInitializationRequested();
   }
@@ -143,8 +131,6 @@ class _$EventOnInitializationRequestedImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? onInitializationRequested,
     TResult? Function()? onStateChanged,
-    TResult? Function(String val)? onMessageChanged,
-    TResult? Function()? onSendTapped,
   }) {
     return onInitializationRequested?.call();
   }
@@ -154,8 +140,6 @@ class _$EventOnInitializationRequestedImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onInitializationRequested,
     TResult Function()? onStateChanged,
-    TResult Function(String val)? onMessageChanged,
-    TResult Function()? onSendTapped,
     required TResult orElse(),
   }) {
     if (onInitializationRequested != null) {
@@ -170,8 +154,6 @@ class _$EventOnInitializationRequestedImpl
     required TResult Function(_EventOnInitializationRequested value)
         onInitializationRequested,
     required TResult Function(_EventOnStateChanged value) onStateChanged,
-    required TResult Function(_EventOnMessageChanged value) onMessageChanged,
-    required TResult Function(_EventOnSendTapped value) onSendTapped,
   }) {
     return onInitializationRequested(this);
   }
@@ -182,8 +164,6 @@ class _$EventOnInitializationRequestedImpl
     TResult? Function(_EventOnInitializationRequested value)?
         onInitializationRequested,
     TResult? Function(_EventOnStateChanged value)? onStateChanged,
-    TResult? Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult? Function(_EventOnSendTapped value)? onSendTapped,
   }) {
     return onInitializationRequested?.call(this);
   }
@@ -194,8 +174,6 @@ class _$EventOnInitializationRequestedImpl
     TResult Function(_EventOnInitializationRequested value)?
         onInitializationRequested,
     TResult Function(_EventOnStateChanged value)? onStateChanged,
-    TResult Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult Function(_EventOnSendTapped value)? onSendTapped,
     required TResult orElse(),
   }) {
     if (onInitializationRequested != null) {
@@ -205,7 +183,7 @@ class _$EventOnInitializationRequestedImpl
   }
 }
 
-abstract class _EventOnInitializationRequested implements ChatEvent {
+abstract class _EventOnInitializationRequested implements ReadingViewEvent {
   const factory _EventOnInitializationRequested() =
       _$EventOnInitializationRequestedImpl;
 }
@@ -219,7 +197,7 @@ abstract class _$$EventOnStateChangedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$EventOnStateChangedImplCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$EventOnStateChangedImpl>
+    extends _$ReadingViewEventCopyWithImpl<$Res, _$EventOnStateChangedImpl>
     implements _$$EventOnStateChangedImplCopyWith<$Res> {
   __$$EventOnStateChangedImplCopyWithImpl(_$EventOnStateChangedImpl _value,
       $Res Function(_$EventOnStateChangedImpl) _then)
@@ -233,7 +211,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
 
   @override
   String toString() {
-    return 'ChatEvent.onStateChanged()';
+    return 'ReadingViewEvent.onStateChanged()';
   }
 
   @override
@@ -251,8 +229,6 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   TResult when<TResult extends Object?>({
     required TResult Function() onInitializationRequested,
     required TResult Function() onStateChanged,
-    required TResult Function(String val) onMessageChanged,
-    required TResult Function() onSendTapped,
   }) {
     return onStateChanged();
   }
@@ -262,8 +238,6 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? onInitializationRequested,
     TResult? Function()? onStateChanged,
-    TResult? Function(String val)? onMessageChanged,
-    TResult? Function()? onSendTapped,
   }) {
     return onStateChanged?.call();
   }
@@ -273,8 +247,6 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onInitializationRequested,
     TResult Function()? onStateChanged,
-    TResult Function(String val)? onMessageChanged,
-    TResult Function()? onSendTapped,
     required TResult orElse(),
   }) {
     if (onStateChanged != null) {
@@ -289,8 +261,6 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
     required TResult Function(_EventOnInitializationRequested value)
         onInitializationRequested,
     required TResult Function(_EventOnStateChanged value) onStateChanged,
-    required TResult Function(_EventOnMessageChanged value) onMessageChanged,
-    required TResult Function(_EventOnSendTapped value) onSendTapped,
   }) {
     return onStateChanged(this);
   }
@@ -301,8 +271,6 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
     TResult? Function(_EventOnInitializationRequested value)?
         onInitializationRequested,
     TResult? Function(_EventOnStateChanged value)? onStateChanged,
-    TResult? Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult? Function(_EventOnSendTapped value)? onSendTapped,
   }) {
     return onStateChanged?.call(this);
   }
@@ -313,8 +281,6 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
     TResult Function(_EventOnInitializationRequested value)?
         onInitializationRequested,
     TResult Function(_EventOnStateChanged value)? onStateChanged,
-    TResult Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult Function(_EventOnSendTapped value)? onSendTapped,
     required TResult orElse(),
   }) {
     if (onStateChanged != null) {
@@ -324,301 +290,30 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   }
 }
 
-abstract class _EventOnStateChanged implements ChatEvent {
+abstract class _EventOnStateChanged implements ReadingViewEvent {
   const factory _EventOnStateChanged() = _$EventOnStateChangedImpl;
 }
 
 /// @nodoc
-abstract class _$$EventOnMessageChangedImplCopyWith<$Res> {
-  factory _$$EventOnMessageChangedImplCopyWith(
-          _$EventOnMessageChangedImpl value,
-          $Res Function(_$EventOnMessageChangedImpl) then) =
-      __$$EventOnMessageChangedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String val});
-}
-
-/// @nodoc
-class __$$EventOnMessageChangedImplCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$EventOnMessageChangedImpl>
-    implements _$$EventOnMessageChangedImplCopyWith<$Res> {
-  __$$EventOnMessageChangedImplCopyWithImpl(_$EventOnMessageChangedImpl _value,
-      $Res Function(_$EventOnMessageChangedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? val = null,
-  }) {
-    return _then(_$EventOnMessageChangedImpl(
-      null == val
-          ? _value.val
-          : val // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$EventOnMessageChangedImpl implements _EventOnMessageChanged {
-  const _$EventOnMessageChangedImpl(this.val);
-
-  @override
-  final String val;
-
-  @override
-  String toString() {
-    return 'ChatEvent.onMessageChanged(val: $val)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$EventOnMessageChangedImpl &&
-            (identical(other.val, val) || other.val == val));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, val);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$EventOnMessageChangedImplCopyWith<_$EventOnMessageChangedImpl>
-      get copyWith => __$$EventOnMessageChangedImplCopyWithImpl<
-          _$EventOnMessageChangedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onInitializationRequested,
-    required TResult Function() onStateChanged,
-    required TResult Function(String val) onMessageChanged,
-    required TResult Function() onSendTapped,
-  }) {
-    return onMessageChanged(val);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onInitializationRequested,
-    TResult? Function()? onStateChanged,
-    TResult? Function(String val)? onMessageChanged,
-    TResult? Function()? onSendTapped,
-  }) {
-    return onMessageChanged?.call(val);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onInitializationRequested,
-    TResult Function()? onStateChanged,
-    TResult Function(String val)? onMessageChanged,
-    TResult Function()? onSendTapped,
-    required TResult orElse(),
-  }) {
-    if (onMessageChanged != null) {
-      return onMessageChanged(val);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnInitializationRequested value)
-        onInitializationRequested,
-    required TResult Function(_EventOnStateChanged value) onStateChanged,
-    required TResult Function(_EventOnMessageChanged value) onMessageChanged,
-    required TResult Function(_EventOnSendTapped value) onSendTapped,
-  }) {
-    return onMessageChanged(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
-    TResult? Function(_EventOnStateChanged value)? onStateChanged,
-    TResult? Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult? Function(_EventOnSendTapped value)? onSendTapped,
-  }) {
-    return onMessageChanged?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
-    TResult Function(_EventOnStateChanged value)? onStateChanged,
-    TResult Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult Function(_EventOnSendTapped value)? onSendTapped,
-    required TResult orElse(),
-  }) {
-    if (onMessageChanged != null) {
-      return onMessageChanged(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _EventOnMessageChanged implements ChatEvent {
-  const factory _EventOnMessageChanged(final String val) =
-      _$EventOnMessageChangedImpl;
-
-  String get val;
-  @JsonKey(ignore: true)
-  _$$EventOnMessageChangedImplCopyWith<_$EventOnMessageChangedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$EventOnSendTappedImplCopyWith<$Res> {
-  factory _$$EventOnSendTappedImplCopyWith(_$EventOnSendTappedImpl value,
-          $Res Function(_$EventOnSendTappedImpl) then) =
-      __$$EventOnSendTappedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$EventOnSendTappedImplCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$EventOnSendTappedImpl>
-    implements _$$EventOnSendTappedImplCopyWith<$Res> {
-  __$$EventOnSendTappedImplCopyWithImpl(_$EventOnSendTappedImpl _value,
-      $Res Function(_$EventOnSendTappedImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$EventOnSendTappedImpl implements _EventOnSendTapped {
-  const _$EventOnSendTappedImpl();
-
-  @override
-  String toString() {
-    return 'ChatEvent.onSendTapped()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EventOnSendTappedImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onInitializationRequested,
-    required TResult Function() onStateChanged,
-    required TResult Function(String val) onMessageChanged,
-    required TResult Function() onSendTapped,
-  }) {
-    return onSendTapped();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onInitializationRequested,
-    TResult? Function()? onStateChanged,
-    TResult? Function(String val)? onMessageChanged,
-    TResult? Function()? onSendTapped,
-  }) {
-    return onSendTapped?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onInitializationRequested,
-    TResult Function()? onStateChanged,
-    TResult Function(String val)? onMessageChanged,
-    TResult Function()? onSendTapped,
-    required TResult orElse(),
-  }) {
-    if (onSendTapped != null) {
-      return onSendTapped();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_EventOnInitializationRequested value)
-        onInitializationRequested,
-    required TResult Function(_EventOnStateChanged value) onStateChanged,
-    required TResult Function(_EventOnMessageChanged value) onMessageChanged,
-    required TResult Function(_EventOnSendTapped value) onSendTapped,
-  }) {
-    return onSendTapped(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
-    TResult? Function(_EventOnStateChanged value)? onStateChanged,
-    TResult? Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult? Function(_EventOnSendTapped value)? onSendTapped,
-  }) {
-    return onSendTapped?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
-    TResult Function(_EventOnStateChanged value)? onStateChanged,
-    TResult Function(_EventOnMessageChanged value)? onMessageChanged,
-    TResult Function(_EventOnSendTapped value)? onSendTapped,
-    required TResult orElse(),
-  }) {
-    if (onSendTapped != null) {
-      return onSendTapped(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _EventOnSendTapped implements ChatEvent {
-  const factory _EventOnSendTapped() = _$EventOnSendTappedImpl;
-}
-
-/// @nodoc
-mixin _$ChatState {
+mixin _$ReadingViewState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            String typedMessage, Iterable<ChatMessage> messages)
-        view,
+    required TResult Function(Iterable<ChatMessage> messages) view,
     required TResult Function(String? errorText) requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(String typedMessage, Iterable<ChatMessage> messages)?
-        view,
+    TResult? Function(Iterable<ChatMessage> messages)? view,
     TResult? Function(String? errorText)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(String typedMessage, Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<ChatMessage> messages)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) =>
@@ -648,15 +343,16 @@ mixin _$ChatState {
 }
 
 /// @nodoc
-abstract class $ChatStateCopyWith<$Res> {
-  factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
-      _$ChatStateCopyWithImpl<$Res, ChatState>;
+abstract class $ReadingViewStateCopyWith<$Res> {
+  factory $ReadingViewStateCopyWith(
+          ReadingViewState value, $Res Function(ReadingViewState) then) =
+      _$ReadingViewStateCopyWithImpl<$Res, ReadingViewState>;
 }
 
 /// @nodoc
-class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
-    implements $ChatStateCopyWith<$Res> {
-  _$ChatStateCopyWithImpl(this._value, this._then);
+class _$ReadingViewStateCopyWithImpl<$Res, $Val extends ReadingViewState>
+    implements $ReadingViewStateCopyWith<$Res> {
+  _$ReadingViewStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -673,7 +369,7 @@ abstract class _$$StatePendingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StatePendingImplCopyWithImpl<$Res>
-    extends _$ChatStateCopyWithImpl<$Res, _$StatePendingImpl>
+    extends _$ReadingViewStateCopyWithImpl<$Res, _$StatePendingImpl>
     implements _$$StatePendingImplCopyWith<$Res> {
   __$$StatePendingImplCopyWithImpl(
       _$StatePendingImpl _value, $Res Function(_$StatePendingImpl) _then)
@@ -687,7 +383,7 @@ class _$StatePendingImpl implements _StatePending {
 
   @override
   String toString() {
-    return 'ChatState.pending()';
+    return 'ReadingViewState.pending()';
   }
 
   @override
@@ -703,9 +399,7 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            String typedMessage, Iterable<ChatMessage> messages)
-        view,
+    required TResult Function(Iterable<ChatMessage> messages) view,
     required TResult Function(String? errorText) requestError,
   }) {
     return pending();
@@ -715,8 +409,7 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(String typedMessage, Iterable<ChatMessage> messages)?
-        view,
+    TResult? Function(Iterable<ChatMessage> messages)? view,
     TResult? Function(String? errorText)? requestError,
   }) {
     return pending?.call();
@@ -726,7 +419,7 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(String typedMessage, Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<ChatMessage> messages)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
@@ -771,7 +464,7 @@ class _$StatePendingImpl implements _StatePending {
   }
 }
 
-abstract class _StatePending implements ChatState {
+abstract class _StatePending implements ReadingViewState {
   const factory _StatePending() = _$StatePendingImpl;
 }
 
@@ -781,12 +474,12 @@ abstract class _$$StateViewImplCopyWith<$Res> {
           _$StateViewImpl value, $Res Function(_$StateViewImpl) then) =
       __$$StateViewImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String typedMessage, Iterable<ChatMessage> messages});
+  $Res call({Iterable<ChatMessage> messages});
 }
 
 /// @nodoc
 class __$$StateViewImplCopyWithImpl<$Res>
-    extends _$ChatStateCopyWithImpl<$Res, _$StateViewImpl>
+    extends _$ReadingViewStateCopyWithImpl<$Res, _$StateViewImpl>
     implements _$$StateViewImplCopyWith<$Res> {
   __$$StateViewImplCopyWithImpl(
       _$StateViewImpl _value, $Res Function(_$StateViewImpl) _then)
@@ -795,14 +488,9 @@ class __$$StateViewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? typedMessage = null,
     Object? messages = null,
   }) {
     return _then(_$StateViewImpl(
-      typedMessage: null == typedMessage
-          ? _value.typedMessage
-          : typedMessage // ignore: cast_nullable_to_non_nullable
-              as String,
       messages: null == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -814,18 +502,15 @@ class __$$StateViewImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$StateViewImpl implements _StateView {
-  const _$StateViewImpl({this.typedMessage = '', this.messages = const []});
+  const _$StateViewImpl({this.messages = const []});
 
-  @override
-  @JsonKey()
-  final String typedMessage;
   @override
   @JsonKey()
   final Iterable<ChatMessage> messages;
 
   @override
   String toString() {
-    return 'ChatState.view(typedMessage: $typedMessage, messages: $messages)';
+    return 'ReadingViewState.view(messages: $messages)';
   }
 
   @override
@@ -833,14 +518,12 @@ class _$StateViewImpl implements _StateView {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StateViewImpl &&
-            (identical(other.typedMessage, typedMessage) ||
-                other.typedMessage == typedMessage) &&
             const DeepCollectionEquality().equals(other.messages, messages));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, typedMessage, const DeepCollectionEquality().hash(messages));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(messages));
 
   @JsonKey(ignore: true)
   @override
@@ -852,35 +535,32 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            String typedMessage, Iterable<ChatMessage> messages)
-        view,
+    required TResult Function(Iterable<ChatMessage> messages) view,
     required TResult Function(String? errorText) requestError,
   }) {
-    return view(typedMessage, messages);
+    return view(messages);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(String typedMessage, Iterable<ChatMessage> messages)?
-        view,
+    TResult? Function(Iterable<ChatMessage> messages)? view,
     TResult? Function(String? errorText)? requestError,
   }) {
-    return view?.call(typedMessage, messages);
+    return view?.call(messages);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(String typedMessage, Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<ChatMessage> messages)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
-      return view(typedMessage, messages);
+      return view(messages);
     }
     return orElse();
   }
@@ -920,12 +600,10 @@ class _$StateViewImpl implements _StateView {
   }
 }
 
-abstract class _StateView implements ChatState {
-  const factory _StateView(
-      {final String typedMessage,
-      final Iterable<ChatMessage> messages}) = _$StateViewImpl;
+abstract class _StateView implements ReadingViewState {
+  const factory _StateView({final Iterable<ChatMessage> messages}) =
+      _$StateViewImpl;
 
-  String get typedMessage;
   Iterable<ChatMessage> get messages;
   @JsonKey(ignore: true)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
@@ -943,7 +621,7 @@ abstract class _$$StateRequestErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StateRequestErrorImplCopyWithImpl<$Res>
-    extends _$ChatStateCopyWithImpl<$Res, _$StateRequestErrorImpl>
+    extends _$ReadingViewStateCopyWithImpl<$Res, _$StateRequestErrorImpl>
     implements _$$StateRequestErrorImplCopyWith<$Res> {
   __$$StateRequestErrorImplCopyWithImpl(_$StateRequestErrorImpl _value,
       $Res Function(_$StateRequestErrorImpl) _then)
@@ -973,7 +651,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
 
   @override
   String toString() {
-    return 'ChatState.requestError(errorText: $errorText)';
+    return 'ReadingViewState.requestError(errorText: $errorText)';
   }
 
   @override
@@ -999,9 +677,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            String typedMessage, Iterable<ChatMessage> messages)
-        view,
+    required TResult Function(Iterable<ChatMessage> messages) view,
     required TResult Function(String? errorText) requestError,
   }) {
     return requestError(errorText);
@@ -1011,8 +687,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(String typedMessage, Iterable<ChatMessage> messages)?
-        view,
+    TResult? Function(Iterable<ChatMessage> messages)? view,
     TResult? Function(String? errorText)? requestError,
   }) {
     return requestError?.call(errorText);
@@ -1022,7 +697,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(String typedMessage, Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<ChatMessage> messages)? view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
@@ -1067,7 +742,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   }
 }
 
-abstract class _StateRequestError implements ChatState {
+abstract class _StateRequestError implements ReadingViewState {
   const factory _StateRequestError({final String? errorText}) =
       _$StateRequestErrorImpl;
 

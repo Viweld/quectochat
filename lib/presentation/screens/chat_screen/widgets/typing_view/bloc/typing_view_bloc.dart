@@ -4,33 +4,28 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/chat_message_type.dart';
 
-import '../../../../domain/models/chat_message.dart';
-
-part 'chat_bloc.freezed.dart';
+part 'typing_view_bloc.freezed.dart';
 
 part 'events.dart';
 
 part 'states.dart';
 
 @DepGen()
-class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatBloc({
+class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
+  TypingViewBloc({
     required String toId,
     @DepArg() required INetworkFacade facade,
   })  : _toId = toId,
         _facade = facade,
-        super(const ChatState.pending()) {
-    on<ChatEvent>(
+        super(const TypingViewState.view()) {
+    on<TypingViewEvent>(
       (event, emitter) => event.map(
-        onStateChanged: (e) => emitter(_viewState),
-        onInitializationRequested: (e) =>
-            _onInitializationRequested(e, emitter),
         onMessageChanged: (e) => _onMessageChanged(e, emitter),
         onSendTapped: (e) => _onSendTapped(e, emitter),
       ),
     );
 
-    add(const ChatEvent.onInitializationRequested());
+    _viewState = super.state as _StateView;
   }
 
   // ЗАВИСИМОСТИ
@@ -45,55 +40,31 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   // ---------------------------------------------------------------------------
   final String _toId;
 
-  // СТРИМЫ:
-  // ---------------------------------------------------------------------------
-  late Stream<ChatMessage> _messagesStream;
-
-  void _messagesStreamListener(ChatMessage newMessage) {
-    _viewState = _viewState.copyWith(
-      messages: _viewState.messages.followedBy([newMessage]),
-    );
-    if (isClosed) return;
-    add(const ChatEvent.onStateChanged());
-  }
-
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
-  Future<void> _onInitializationRequested(
-    _EventOnInitializationRequested event,
-    Emitter<ChatState> emitter,
-  ) async {
-    // 1. Подписываемся на стрим новых сообщений
-    _messagesStream = _facade.getNewMessagesStream(toId: _toId);
-    _messagesStream.listen(_messagesStreamListener);
-
-    // 2. Получаем первую страницу имеющихся сообщений
-    final messagesFirstPage = await _facade.getChatMessages(toId: _toId);
-    _viewState = ChatState.view(messages: messagesFirstPage) as _StateView;
-    emitter(_viewState);
-  }
-
+  /// Обработчик ВНЕШНЕГО события "изменен текст в поле написания сообщения"
   void _onMessageChanged(
     _EventOnMessageChanged event,
-    Emitter<ChatState> emitter,
+    Emitter<TypingViewState> emitter,
   ) {
     _viewState = _viewState.copyWith(typedMessage: event.val);
     emitter(_viewState);
   }
 
+  /// Обработчик ВНЕШНЕГО события "нажата кнопка отправить"
   Future<void> _onSendTapped(
     _EventOnSendTapped event,
-    Emitter<ChatState> emitter,
+    Emitter<TypingViewState> emitter,
   ) async {
     if (_viewState.typedMessage.trim().isEmpty) return;
-    final sentMessage = await _facade.sendMessage(
+    await _facade.sendMessage(
       toId: _toId,
       content: _viewState.typedMessage,
       type: ChatMessageType.text,
     );
     _viewState = _viewState.copyWith(
       typedMessage: '',
-      messages: _viewState.messages.followedBy([sentMessage]),
+      // messages: _viewState.messages.followedBy([sentMessage]),
     );
     emitter(_viewState);
   }

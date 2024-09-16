@@ -39,7 +39,7 @@ class ThemeBuilder {
           backgroundColor: palette.white,
           errorColor: palette.red,
           brightness: Brightness.light,
-        ).copyWith(surfaceVariant: Colors.transparent),
+        ).copyWith(surfaceContainerHighest: Colors.transparent),
         splashColor: palette.green.withOpacity(0.06),
         highlightColor: palette.green.withOpacity(0.06),
         splashFactory: InkRipple.splashFactory,

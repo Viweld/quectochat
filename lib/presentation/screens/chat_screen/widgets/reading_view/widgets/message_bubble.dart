@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
-import '../../../../domain/models/chat_message.dart';
+import '../../../../../../domain/models/chat_message.dart';
 
 class MessageBubble extends StatelessWidget {
   const MessageBubble(this.message, {super.key});
@@ -101,7 +101,7 @@ class _LeftStartBubbleClip extends CustomClipper<Path> {
     final double W = size.width; // ширина контейнера
     final double H = size.height; // высота контейнера
     const double R = 20;
-    const double r = 6;
+    //const double r = 6;
     const double pw = 10;
     const double ph = 20;
 
@@ -161,7 +161,7 @@ class _RightStartBubbleClip extends CustomClipper<Path> {
     final double W = size.width; // ширина контейнера
     final double H = size.height; // высота контейнера
     const double R = 20;
-    const double r = 6;
+    //const double r = 6;
     const double pw = 10;
     const double ph = 20;
 

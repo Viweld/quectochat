@@ -5,9 +5,9 @@ class _Keys {
   static const _tUsers = 'users';
   static const _fUser$id = 'id';
   static const _fUser$fullName = 'fullName';
-  static const _fUser$photoUrl = 'photoUrl';
+  //static const _fUser$photoUrl = 'photoUrl';
   static const _fUser$createdAt = 'createdAt';
-  static const _fUser$chattingWith = 'chattingWith';
+  //static const _fUser$chattingWith = 'chattingWith';
 
   // Ключи таблицы и полей данных сообщений:
   static const _tMessages = 'messages';
