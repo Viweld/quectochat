@@ -19,29 +19,27 @@ import 'presentation/theme/dynamic_theme.dart';
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 void main() async {
-  unawaited(
-    runZonedGuarded(
-      () async {
-        final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-        FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // удерживаем отображение нативного splashScreen:
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-        await Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform);
-        // подключаем обработчик сообщений, приходящих когда приложение не используется:
-        FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
+  // инициализируем Firebase:
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-        runApp(
-          DepProvider(
-            environment: (await Environment().prepare()).lock(),
-            child: const DynamicTheme(
-              child: LocaleProvider(
-                child: Application(),
-              ),
-            ),
-          ),
-        );
-      },
-      (e, s) => debugPrint('>>> ERROR:\n$e\n>>> STACKTRACE:\n$s'),
+  // подключаем обработчик сообщений, приходящих когда приложение не используется:
+  FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
+
+  // устанавливаем обработчики ошибок:
+  _addExceptionsHandlers();
+
+  runApp(
+    DepProvider(
+      environment: (await Environment().prepare()).lock(),
+      child: const DynamicTheme(
+        child: LocaleProvider(
+          child: Application(),
+        ),
+      ),
     ),
   );
 }
