@@ -25,15 +25,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             /// Область просмотра сообщений
-            Expanded(child: ReadingView(toId: _toId!)),
+            Expanded(child: ReadingView()),
 
             /// Область написания сообщений
-            TypingView(toId: _toId!),
+            TypingView(),
           ],
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:quectochat/domain/models/user_details.dart';
 import '../../domain/models/chat_message.dart';
 import '../../domain/models/chat_message_type.dart';
 import '../../domain/models/network_exceptions.dart';
+import '../../domain/utils/id_tools/id_tools.dart';
 
 part 'keys.dart';
 
@@ -27,7 +28,7 @@ final class FirebaseService implements INetworkFacade {
   // ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ:
   // ---------------------------------------------------------------------------
   /// ID текущего пользователя
-  String? _currentUserId;
+  String _currentUserId = '';
 
   /// Пагинация сообщений: количество сообщений на страницу
   static const _messagesPaginationLimit = 20;
@@ -39,7 +40,7 @@ final class FirebaseService implements INetworkFacade {
   // ---------------------------------------------------------------------------
   /// Возвращает ID текущего пользователя
   @override
-  String? get currentUserId => _currentUserId;
+  String get currentUserId => _currentUserId;
 
   // АВТРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
@@ -62,7 +63,7 @@ final class FirebaseService implements INetworkFacade {
         password: password,
       );
 
-      _currentUserId = credentials.user?.uid;
+      _currentUserId = credentials.user?.uid ?? '';
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'invalid-credential':
@@ -94,10 +95,10 @@ final class FirebaseService implements INetworkFacade {
         password: password,
       );
 
-      _currentUserId = credentials.user?.uid;
+      _currentUserId = credentials.user?.uid ?? '';
 
       // Проверяем, если пользователь успешно создан:
-      if (_currentUserId != null) {
+      if (_currentUserId.isNotEmpty) {
         final result = await _firebaseFirestore
             .collection(_Keys._tUsers)
             .where(_Keys._fUser$id, isEqualTo: _currentUserId)
@@ -134,7 +135,7 @@ final class FirebaseService implements INetworkFacade {
   @override
   Future<void> logOut() async {
     await _firebaseAuth.signOut();
-    _currentUserId = null;
+    _currentUserId = '';
   }
 
   // СОБЕСЕДНИКИ:
@@ -169,7 +170,6 @@ final class FirebaseService implements INetworkFacade {
     required String chatId,
     bool isNext = false,
   }) async {
-    final chatId = '$_currentUserId-$toId';
     final response = !isNext
         ? await _firebaseFirestore
             .collection(_Keys._tMessages)
@@ -199,12 +199,12 @@ final class FirebaseService implements INetworkFacade {
   @override
   Future<ChatMessage> sendMessage({
     required ChatMessage message,
+    required String chatId,
   }) async {
-    final groupChatId = '$_currentUserId-$toId';
     final docReference = _firebaseFirestore
         .collection(_Keys._tMessages)
-        .doc(groupChatId)
-        .collection(groupChatId)
+        .doc(chatId)
+        .collection(chatId)
         .doc(message.createdAt.microsecondsSinceEpoch.toString());
 
     await _firebaseFirestore.runTransaction((transaction) async {

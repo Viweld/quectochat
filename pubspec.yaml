@@ -43,6 +43,9 @@ dependencies:
   firebase_core: ^3.1.0
   cloud_firestore: ^5.0.1
 
+  # для создания уникальных id
+  crypto: ^3.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

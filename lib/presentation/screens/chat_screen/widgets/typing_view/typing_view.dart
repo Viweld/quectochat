@@ -10,18 +10,12 @@ import 'bloc/typing_view_bloc.dart';
 
 /// ОБЛАСТЬ ВВОДА СООБЩЕНИЙ
 class TypingView extends StatelessWidget {
-  const TypingView({
-    required this.toId,
-    super.key,
-  });
-
-  /// Id собеседника
-  final String toId;
+  const TypingView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildTypingViewBloc(toId: toId),
+      create: (context) => context.depGen().buildTypingViewBloc(),
       child: BlocConsumer<TypingViewBloc, TypingViewState>(
         listenWhen: (_, state) => state.maybeMap(
           requestError: (_) => true,

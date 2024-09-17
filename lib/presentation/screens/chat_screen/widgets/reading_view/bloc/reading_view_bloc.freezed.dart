@@ -18,19 +18,19 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ReadingViewEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onInitializationRequested,
+    required TResult Function() onNextPageRequested,
     required TResult Function() onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onNextPageRequested,
     TResult? Function()? onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onInitializationRequested,
+    TResult Function()? onNextPageRequested,
     TResult Function()? onStateChanged,
     required TResult orElse(),
   }) =>
@@ -38,21 +38,21 @@ mixin _$ReadingViewEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_EventOnInitializationRequested value)
-        onInitializationRequested,
+        onNextPageRequested,
     required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
+        onNextPageRequested,
     TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
+        onNextPageRequested,
     TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) =>
@@ -104,7 +104,7 @@ class _$EventOnInitializationRequestedImpl
 
   @override
   String toString() {
-    return 'ReadingViewEvent.onInitializationRequested()';
+    return 'ReadingViewEvent.onNextPageRequested()';
   }
 
   @override
@@ -120,30 +120,30 @@ class _$EventOnInitializationRequestedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onInitializationRequested,
+    required TResult Function() onNextPageRequested,
     required TResult Function() onStateChanged,
   }) {
-    return onInitializationRequested();
+    return onNextPageRequested();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onNextPageRequested,
     TResult? Function()? onStateChanged,
   }) {
-    return onInitializationRequested?.call();
+    return onNextPageRequested?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onInitializationRequested,
+    TResult Function()? onNextPageRequested,
     TResult Function()? onStateChanged,
     required TResult orElse(),
   }) {
-    if (onInitializationRequested != null) {
-      return onInitializationRequested();
+    if (onNextPageRequested != null) {
+      return onNextPageRequested();
     }
     return orElse();
   }
@@ -152,32 +152,32 @@ class _$EventOnInitializationRequestedImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_EventOnInitializationRequested value)
-        onInitializationRequested,
+        onNextPageRequested,
     required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) {
-    return onInitializationRequested(this);
+    return onNextPageRequested(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
+        onNextPageRequested,
     TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) {
-    return onInitializationRequested?.call(this);
+    return onNextPageRequested?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
+        onNextPageRequested,
     TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) {
-    if (onInitializationRequested != null) {
-      return onInitializationRequested(this);
+    if (onNextPageRequested != null) {
+      return onNextPageRequested(this);
     }
     return orElse();
   }
@@ -227,7 +227,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onInitializationRequested,
+    required TResult Function() onNextPageRequested,
     required TResult Function() onStateChanged,
   }) {
     return onStateChanged();
@@ -236,7 +236,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onNextPageRequested,
     TResult? Function()? onStateChanged,
   }) {
     return onStateChanged?.call();
@@ -245,7 +245,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onInitializationRequested,
+    TResult Function()? onNextPageRequested,
     TResult Function()? onStateChanged,
     required TResult orElse(),
   }) {
@@ -259,7 +259,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_EventOnInitializationRequested value)
-        onInitializationRequested,
+        onNextPageRequested,
     required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) {
     return onStateChanged(this);
@@ -269,7 +269,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
+        onNextPageRequested,
     TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) {
     return onStateChanged?.call(this);
@@ -279,7 +279,7 @@ class _$EventOnStateChangedImpl implements _EventOnStateChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_EventOnInitializationRequested value)?
-        onInitializationRequested,
+        onNextPageRequested,
     TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) {

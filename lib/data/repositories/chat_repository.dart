@@ -5,6 +5,7 @@ import 'package:quectochat/domain/models/chat_message_type.dart';
 import '../../domain/interfaces/i_api_facade.dart';
 import '../../domain/interfaces/i_chat_repository.dart';
 import '../../domain/models/chat_message.dart';
+import '../../domain/utils/id_tools/id_tools.dart';
 
 final class ChatRepository implements IChatRepository {
   ChatRepository({
@@ -15,13 +16,15 @@ final class ChatRepository implements IChatRepository {
     _errorsStreamController = StreamController<ChatRepositoryError>.broadcast();
 
     _messages = [];
-    _toId = '';
+    _partnerId = '';
   }
 
   // СОСТОЯНИЕ:
   // ---------------------------------------------------------------------------
   late Iterable<ChatMessage> _messages;
-  late String _toId;
+  late String _currentUserId;
+  late String _partnerId;
+  late String _chatId;
 
   // ЗАВИСИМОСТИ:
   // ---------------------------------------------------------------------------
@@ -59,9 +62,20 @@ final class ChatRepository implements IChatRepository {
   /// Инициализация данных при открытии чата
   @override
   Future<void> initialize({required String toId}) async {
-    _toId = toId;
+    _currentUserId = _networkFacade.currentUserId;
+    if (_currentUserId.isEmpty) {
+      throw UnsupportedError('Current user id is expected in ChatRepository');
+    }
+
+    _partnerId = toId;
+    if (_partnerId.isEmpty) {
+      throw UnsupportedError('Chat partner id is expected in ChatRepository');
+    }
+
+    _chatId = IdTools.getChatId([_currentUserId, _partnerId]);
+
     try {
-      _messages = await _networkFacade.getChatMessages(toId: _toId);
+      _messages = await _networkFacade.getChatMessages(chatId: _chatId);
       _emitMessages();
     } on Object {
       _emitError();
@@ -73,7 +87,8 @@ final class ChatRepository implements IChatRepository {
   @override
   Future<void> cleanup() async {
     _messages = [];
-    _toId = '';
+    _partnerId = '';
+    _chatId = '';
   }
 
   /// Получение следующей страницы с сообщениями
@@ -81,7 +96,7 @@ final class ChatRepository implements IChatRepository {
   Future<void> fetchNextMessages() async {
     try {
       _messages = await _networkFacade.getChatMessages(
-        toId: _toId,
+        chatId: _chatId,
         isNext: true,
       );
       _emitMessages();
@@ -96,20 +111,17 @@ final class ChatRepository implements IChatRepository {
     required String content,
     required ChatMessageType type,
   }) async {
-    final currentUserId = _networkFacade.currentUserId;
-    if (currentUserId == null) return;
-
     try {
       final message = ChatMessage(
-        fromId: currentUserId,
-        toId: _toId,
+        fromId: _currentUserId,
+        toId: _partnerId,
         createdAt: DateTime.now(),
         content: content,
         type: type,
         isOwn: true,
       );
 
-      await _networkFacade.sendMessage(message: message);
+      await _networkFacade.sendMessage(message: message, chatId: _chatId);
     } on Object {
       _emitError();
       rethrow;

@@ -1,7 +1,7 @@
 import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quectochat/domain/interfaces/i_api_facade.dart';
+import 'package:quectochat/domain/interfaces/i_chat_repository.dart';
 import 'package:quectochat/domain/models/chat_message_type.dart';
 
 part 'typing_view_bloc.freezed.dart';
@@ -13,10 +13,8 @@ part 'states.dart';
 @DepGen()
 class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   TypingViewBloc({
-    required String toId,
-    @DepArg() required INetworkFacade facade,
-  })  : _toId = toId,
-        _facade = facade,
+    @DepArg() required IChatRepository chatRepository,
+  })  : _chatRepository = chatRepository,
         super(const TypingViewState.view()) {
     on<TypingViewEvent>(
       (event, emitter) => event.map(
@@ -30,15 +28,11 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
 
   // ЗАВИСИМОСТИ
   // ---------------------------------------------------------------------------
-  final INetworkFacade _facade;
+  final IChatRepository _chatRepository;
 
   // СОСТОЯНИЕ
   // ---------------------------------------------------------------------------
   late _StateView _viewState;
-
-  // ПРИВАТНЫЕ ДАННЫЕ:
-  // ---------------------------------------------------------------------------
-  final String _toId;
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
@@ -57,15 +51,17 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
     Emitter<TypingViewState> emitter,
   ) async {
     if (_viewState.typedMessage.trim().isEmpty) return;
-    await _facade.sendMessage(
-      toId: _toId,
-      content: _viewState.typedMessage,
-      type: ChatMessageType.text,
-    );
-    _viewState = _viewState.copyWith(
-      typedMessage: '',
-      // messages: _viewState.messages.followedBy([sentMessage]),
-    );
-    emitter(_viewState);
+    try {
+      await _chatRepository.sendMessage(
+        content: _viewState.typedMessage,
+        type: ChatMessageType.text,
+      );
+      _viewState = _viewState.copyWith(typedMessage: '');
+      emitter(_viewState);
+    } on Object {
+      rethrow;
+    } finally {
+      // TODO(Vadim): #idea тут можно добавить остановку анимации отправки сообщения
+    }
   }
 }

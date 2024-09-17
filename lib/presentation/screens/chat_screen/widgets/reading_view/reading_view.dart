@@ -11,18 +11,12 @@ import 'bloc/reading_view_bloc.dart';
 
 /// КОЛОНКА СООБЩЕНИЙ
 class ReadingView extends StatelessWidget {
-  const ReadingView({
-    required this.toId,
-    super.key,
-  });
-
-  /// Id собеседника
-  final String toId;
+  const ReadingView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildReadingViewBloc(toId: toId),
+      create: (context) => context.depGen().buildReadingViewBloc(),
       child: BlocConsumer<ReadingViewBloc, ReadingViewState>(
         listenWhen: (_, state) => state.maybeMap(
           requestError: (_) => true,

@@ -1,11 +1,9 @@
-import 'package:quectochat/domain/models/chat_message_type.dart';
-
 import '../models/chat_message.dart';
 import '../models/user_details.dart';
 
 abstract interface class INetworkFacade {
   /// Возвращает ID текущего пользователя
-  String? get currentUserId;
+  String get currentUserId;
 
   // АВТРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
@@ -47,13 +45,14 @@ abstract interface class INetworkFacade {
   /// Получение сообщений в пагинированном виде
   /// (для получения последующих страниц isNext должен быть true)
   Future<Iterable<ChatMessage>> getChatMessages({
-    required String toId,
+    required String chatId,
     bool isNext,
   });
 
   /// Отправка сообщения
   Future<ChatMessage> sendMessage({
     required ChatMessage message,
+    required String chatId,
   });
 
   /// Получить стрим сообщений
