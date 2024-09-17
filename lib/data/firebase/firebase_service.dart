@@ -6,7 +6,6 @@ import 'package:quectochat/domain/models/user_details.dart';
 import '../../domain/models/chat_message.dart';
 import '../../domain/models/chat_message_type.dart';
 import '../../domain/models/network_exceptions.dart';
-import '../../domain/utils/id_tools/id_tools.dart';
 
 part 'keys.dart';
 
@@ -110,7 +109,7 @@ final class FirebaseService implements INetworkFacade {
               .collection(_Keys._tUsers)
               .doc(_currentUserId)
               .set(_mapper._mapUserDetails(UserDetails(
-                id: _currentUserId!,
+                id: _currentUserId,
                 fullName: '$firstName $lastName',
                 createdAt: DateTime.now(),
               )));
