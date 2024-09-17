@@ -47,7 +47,11 @@ final class FirebaseService implements INetworkFacade {
   // ---------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
   @override
-  bool checkAuth() => _firebaseAuth.currentUser != null;
+  bool checkAuth() {
+    final isAuthed = _firebaseAuth.currentUser != null;
+    _currentUserId = _firebaseAuth.currentUser?.uid ?? '';
+    return isAuthed;
+  }
 
   // ---------------------------------------------------------------------------
   /// Логин пользователя
@@ -190,7 +194,7 @@ final class FirebaseService implements INetworkFacade {
 
     return response.docs.map((doc) => _mapper._parseChatMessage(
           src: doc.data(),
-          ownId: _currentUserId,
+          currentUserId: _currentUserId,
         ));
   }
 
@@ -215,18 +219,19 @@ final class FirebaseService implements INetworkFacade {
 
   /// Получить стрим сообщений
   @override
-  Stream<ChatMessage> getNewMessagesStream({required String toId}) {
-    final groupChatId = '$toId-$_currentUserId';
-
+  Stream<ChatMessage> getChatStream({required String chatId}) {
     return _firebaseFirestore
         .collection(_Keys._tMessages)
-        .doc(groupChatId)
-        .collection(groupChatId)
+        .doc(chatId)
+        .collection(chatId)
         .orderBy(_Keys._fMessage$timestamp, descending: true)
         .limit(1)
         .snapshots()
         .map(
-          (m) => _mapper._parseChatMessage(src: m.docs.first.data()),
+          (m) => _mapper._parseChatMessage(
+            src: m.docs.first.data(),
+            currentUserId: _currentUserId,
+          ),
         );
   }
 }

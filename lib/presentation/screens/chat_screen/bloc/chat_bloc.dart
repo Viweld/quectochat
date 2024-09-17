@@ -29,6 +29,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     _chatErrorsStreamSubscription =
         chatRepository.subscribeErrors(_chatErrorsStreamListener);
+    add(const ChatEvent.onInitializationRequested());
   }
 
   // ЗАВИСИМОСТИ

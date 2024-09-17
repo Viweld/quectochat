@@ -21,6 +21,7 @@ final class ChatRepository implements IChatRepository {
 
   // СОСТОЯНИЕ:
   // ---------------------------------------------------------------------------
+  StreamSubscription<ChatMessage>? _chatStreamSubscription;
   late Iterable<ChatMessage> _messages;
   late String _currentUserId;
   late String _partnerId;
@@ -75,6 +76,14 @@ final class ChatRepository implements IChatRepository {
     _chatId = IdTools.getChatId([_currentUserId, _partnerId]);
 
     try {
+      // Подписываемся на стрим новых сообщений в чате
+      _chatStreamSubscription =
+          _networkFacade.getChatStream(chatId: _chatId).listen(
+                _onChatStreamMessageReceived,
+                onError: _onChatStreamErrorReceived,
+              );
+
+      // Тянем первую страницу с сообщениями
       _messages = await _networkFacade.getChatMessages(chatId: _chatId);
       _emitMessages();
     } on Object {
@@ -86,6 +95,7 @@ final class ChatRepository implements IChatRepository {
   /// Очистка данных при закрытии чата
   @override
   Future<void> cleanup() async {
+    await _chatStreamSubscription?.cancel();
     _messages = [];
     _partnerId = '';
     _chatId = '';
@@ -130,13 +140,28 @@ final class ChatRepository implements IChatRepository {
 
   // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
   // ---------------------------------------------------------------------------
+  /// Эмитирует свежий список сообщений подписчикам
   void _emitMessages() {
     if (_messagesStreamController.isClosed) return;
     _messagesStreamController.add(_messages);
   }
 
+  /// Эмитирует ошибки подписчикам
   void _emitError({ChatRepositoryError? error}) {
     if (_errorsStreamController.isClosed) return;
     _errorsStreamController.add(error ?? const ChatRepositoryError());
+  }
+
+  /// Обработчик событий в стриме чата
+  void _onChatStreamMessageReceived(ChatMessage message) {
+    _messages = _messages.followedBy([message]);
+
+    if (_messagesStreamController.isClosed) return;
+    _messagesStreamController.add(_messages);
+  }
+
+  /// Обработчик ошибок в стриме чата
+  void _onChatStreamErrorReceived(Object error, StackTrace stackTrace) {
+    Error.throwWithStackTrace(error, stackTrace);
   }
 }

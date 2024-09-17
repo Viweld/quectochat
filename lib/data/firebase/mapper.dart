@@ -29,12 +29,12 @@ class _Mapper {
   /// Парсинг данных сообщения из БД на модель ChatMessage
   ChatMessage _parseChatMessage({
     required Map<String, Object?> src,
-    String? ownId,
+    String? currentUserId,
   }) {
     final fromId = src[_Keys._fMessage$fromId] as String;
     return ChatMessage(
       fromId: fromId,
-      isOwn: fromId == ownId,
+      isOwn: fromId == currentUserId,
       toId: src[_Keys._fMessage$toId] as String,
       content: src[_Keys._fMessage$content] as String,
       type: _parseChatMessageType(src[_Keys._fMessage$type] as String),

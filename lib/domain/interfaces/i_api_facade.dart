@@ -56,7 +56,7 @@ abstract interface class INetworkFacade {
   });
 
   /// Получить стрим сообщений
-  Stream<ChatMessage> getNewMessagesStream({required String toId});
+  Stream<ChatMessage> getChatStream({required String chatId});
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
