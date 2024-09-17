@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:quectochat/presentation/navigation/root_navigation/root_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,29 +11,24 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'domain/environment/builders.dep_gen.dart';
 import 'domain/environment/environment.dart';
+import 'firebase_options.dart';
 import 'l10n/locale_provider.dart';
 import 'presentation/theme/dynamic_theme.dart';
 
-/// Параметры подключения Firebase
-const FirebaseOptions _firebaseOptions = FirebaseOptions(
-  apiKey: 'AIzaSyAtQQ1JYca7U3oVHdBCmXcCIPyTua86YWw',
-  appId: '1:450239422144:android:bed778b376cfaa0e309725',
-  messagingSenderId: '450239422144',
-  projectId: 'quectochat',
-  storageBucket: 'quectochat.appspot.com',
-);
-
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-void main() {
+void main() async {
   unawaited(
     runZonedGuarded(
       () async {
         final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
         FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-        await Firebase.initializeApp(options: _firebaseOptions);
+        await Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform);
+        // подключаем обработчик сообщений, приходящих когда приложение не используется:
+        FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
 
         runApp(
           DepProvider(
@@ -51,6 +49,7 @@ void main() {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+/// ПРИЛОЖЕНИЕ
 class Application extends StatelessWidget {
   const Application({super.key});
 
@@ -72,4 +71,36 @@ class Application extends StatelessWidget {
       },
     );
   }
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+/// Добавляет обработчики исключений
+void _addExceptionsHandlers() {
+  // Handle Flutter framework errors
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  };
+
+  // A callback that is invoked when an unhandled error occurs in the root isolate.
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+/// Верхнеуровневая функция-обработчик
+@pragma('vm:entry-point')
+Future<void> _onBackgroundMessage(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // TODO(Vadim): #unimplemented обработчик пушей, пришедших пока приложение было неактивно
+  // NotificationsManager.instance.parseRemoteNotification(
+  //   message,
+  //   MessageType.background,
+  // );
 }
