@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
@@ -29,8 +31,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   @override
-  Future<void> dispose() async {
-    await _bloc?.close();
+  void dispose() {
+    unawaited(_bloc?.close());
     super.dispose();
   }
 

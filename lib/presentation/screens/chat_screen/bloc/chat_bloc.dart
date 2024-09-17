@@ -20,8 +20,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         super(const ChatState.view()) {
     on<ChatEvent>(
       (event, emitter) => event.map(
-        onErrorReceived: (e) =>
-            emitter(ChatState.requestError(errorText: e.message)),
+        onErrorReceived: (e) => _onErrorReceived(e, emitter),
         onInitializationRequested: (e) =>
             _onInitializationRequested(e, emitter),
       ),
@@ -70,5 +69,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     } finally {
       // TODO(Vadim): #idea тут можно добавить остановку анимации отправки сообщения
     }
+  }
+
+  /// Обработчик ВНУТРЕННЕГО события "запрос на инициализацию"
+  Future<void> _onErrorReceived(
+      _EventOnErrorReceived e, Emitter<ChatState> emitter) async {
+    emitter(ChatState.requestError(errorText: e.message));
+    emitter(const ChatState.view());
   }
 }
