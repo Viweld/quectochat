@@ -6,9 +6,4 @@ class TypingViewState with _$TypingViewState {
   const factory TypingViewState.view({
     @Default('') String typedMessage,
   }) = _StateView;
-
-  /// состояние ошибки для отображения тоаста
-  const factory TypingViewState.requestError({
-    String? errorText,
-  }) = _StateRequestError;
 }

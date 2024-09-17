@@ -4,7 +4,6 @@ import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 
-import '../../../../common/common_toast.dart';
 import '../../../../values/values.dart';
 import 'bloc/typing_view_bloc.dart';
 
@@ -16,17 +15,10 @@ class TypingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => context.depGen().buildTypingViewBloc(),
-      child: BlocConsumer<TypingViewBloc, TypingViewState>(
-        listenWhen: (_, state) => state.maybeMap(
-          requestError: (_) => true,
-          orElse: () => false,
-        ),
+      child: BlocBuilder<TypingViewBloc, TypingViewState>(
         buildWhen: (_, state) => state.maybeMap(
           view: (_) => true,
           orElse: () => false,
-        ),
-        listener: (context, state) => state.mapOrNull(
-          requestError: (s) => _requestError(context, s.errorText),
         ),
         builder: (context, state) => state.maybeMap(
           orElse: () => throw UnimplementedError(
@@ -60,15 +52,6 @@ class TypingView extends StatelessWidget {
 
   void _onSendTapped(BuildContext context) {
     context.read<TypingViewBloc>().add(const TypingViewEvent.onSendTapped());
-  }
-
-  // КОЛЛБЭКИ от смены состояний:
-  // ---------------------------------------------------------------------------
-  void _requestError(BuildContext context, String? errorText) {
-    CommonToast.showError(
-      context,
-      text: errorText ?? context.texts.commonRequestError,
-    );
   }
 }
 

@@ -314,43 +314,42 @@ abstract class _EventOnSendTapped implements TypingViewEvent {
 
 /// @nodoc
 mixin _$TypingViewState {
+  String get typedMessage => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String typedMessage) view,
-    required TResult Function(String? errorText) requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String typedMessage)? view,
-    TResult? Function(String? errorText)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String typedMessage)? view,
-    TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),
   }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $TypingViewStateCopyWith<TypingViewState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -359,6 +358,8 @@ abstract class $TypingViewStateCopyWith<$Res> {
   factory $TypingViewStateCopyWith(
           TypingViewState value, $Res Function(TypingViewState) then) =
       _$TypingViewStateCopyWithImpl<$Res, TypingViewState>;
+  @useResult
+  $Res call({String typedMessage});
 }
 
 /// @nodoc
@@ -370,13 +371,28 @@ class _$TypingViewStateCopyWithImpl<$Res, $Val extends TypingViewState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? typedMessage = null,
+  }) {
+    return _then(_value.copyWith(
+      typedMessage: null == typedMessage
+          ? _value.typedMessage
+          : typedMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$StateViewImplCopyWith<$Res> {
+abstract class _$$StateViewImplCopyWith<$Res>
+    implements $TypingViewStateCopyWith<$Res> {
   factory _$$StateViewImplCopyWith(
           _$StateViewImpl value, $Res Function(_$StateViewImpl) then) =
       __$$StateViewImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call({String typedMessage});
 }
@@ -439,7 +455,6 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String typedMessage) view,
-    required TResult Function(String? errorText) requestError,
   }) {
     return view(typedMessage);
   }
@@ -448,7 +463,6 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String typedMessage)? view,
-    TResult? Function(String? errorText)? requestError,
   }) {
     return view?.call(typedMessage);
   }
@@ -457,7 +471,6 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String typedMessage)? view,
-    TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -470,7 +483,6 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
   }) {
     return view(this);
   }
@@ -479,7 +491,6 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
   }) {
     return view?.call(this);
   }
@@ -488,7 +499,6 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -501,144 +511,10 @@ class _$StateViewImpl implements _StateView {
 abstract class _StateView implements TypingViewState {
   const factory _StateView({final String typedMessage}) = _$StateViewImpl;
 
+  @override
   String get typedMessage;
+  @override
   @JsonKey(ignore: true)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$StateRequestErrorImplCopyWith<$Res> {
-  factory _$$StateRequestErrorImplCopyWith(_$StateRequestErrorImpl value,
-          $Res Function(_$StateRequestErrorImpl) then) =
-      __$$StateRequestErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String? errorText});
-}
-
-/// @nodoc
-class __$$StateRequestErrorImplCopyWithImpl<$Res>
-    extends _$TypingViewStateCopyWithImpl<$Res, _$StateRequestErrorImpl>
-    implements _$$StateRequestErrorImplCopyWith<$Res> {
-  __$$StateRequestErrorImplCopyWithImpl(_$StateRequestErrorImpl _value,
-      $Res Function(_$StateRequestErrorImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? errorText = freezed,
-  }) {
-    return _then(_$StateRequestErrorImpl(
-      errorText: freezed == errorText
-          ? _value.errorText
-          : errorText // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$StateRequestErrorImpl implements _StateRequestError {
-  const _$StateRequestErrorImpl({this.errorText});
-
-  @override
-  final String? errorText;
-
-  @override
-  String toString() {
-    return 'TypingViewState.requestError(errorText: $errorText)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$StateRequestErrorImpl &&
-            (identical(other.errorText, errorText) ||
-                other.errorText == errorText));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, errorText);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
-      __$$StateRequestErrorImplCopyWithImpl<_$StateRequestErrorImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String typedMessage) view,
-    required TResult Function(String? errorText) requestError,
-  }) {
-    return requestError(errorText);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String typedMessage)? view,
-    TResult? Function(String? errorText)? requestError,
-  }) {
-    return requestError?.call(errorText);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String typedMessage)? view,
-    TResult Function(String? errorText)? requestError,
-    required TResult orElse(),
-  }) {
-    if (requestError != null) {
-      return requestError(errorText);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
-  }) {
-    return requestError(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
-  }) {
-    return requestError?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
-    required TResult orElse(),
-  }) {
-    if (requestError != null) {
-      return requestError(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _StateRequestError implements TypingViewState {
-  const factory _StateRequestError({final String? errorText}) =
-      _$StateRequestErrorImpl;
-
-  String? get errorText;
-  @JsonKey(ignore: true)
-  _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
