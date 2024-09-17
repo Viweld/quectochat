@@ -29,6 +29,12 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   @override
+  Future<void> dispose() async {
+    await _bloc?.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc!,
