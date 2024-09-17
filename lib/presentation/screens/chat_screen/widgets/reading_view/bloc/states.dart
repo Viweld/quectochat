@@ -10,8 +10,7 @@ class ReadingViewState with _$ReadingViewState {
     @Default([]) Iterable<ChatMessage> messages,
   }) = _StateView;
 
-  /// состояние ошибки для отображения тоаста
-  const factory ReadingViewState.requestError({
-    String? errorText,
-  }) = _StateRequestError;
+  /// состояние ошибки инициализации
+  const factory ReadingViewState.initializationError() =
+      _StateInitializationError;
 }

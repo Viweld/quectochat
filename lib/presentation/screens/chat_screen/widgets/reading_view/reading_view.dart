@@ -4,7 +4,6 @@ import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
 import '../../../../common/common_pending_indicator.dart';
-import '../../../../common/common_toast.dart';
 import '../../../../values/values.dart';
 import 'widgets/message_bubble.dart';
 import 'bloc/reading_view_bloc.dart';
@@ -17,23 +16,18 @@ class ReadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => context.depGen().buildReadingViewBloc(),
-      child: BlocConsumer<ReadingViewBloc, ReadingViewState>(
-        listenWhen: (_, state) => state.maybeMap(
-          requestError: (_) => true,
-          orElse: () => false,
-        ),
+      child: BlocBuilder<ReadingViewBloc, ReadingViewState>(
         buildWhen: (_, state) => state.maybeMap(
+          // TODO(Vadim): #unimplemented добавить обработку состояния ошибки инициализации
           view: (_) => true,
           pending: (_) => true,
           orElse: () => false,
         ),
-        listener: (context, state) => state.mapOrNull(
-          requestError: (s) => _requestError(context, s.errorText),
-        ),
         builder: (context, state) => state.maybeMap(
           orElse: () => throw UnimplementedError(
-            'Wrong state for ChatScreen',
+            'Wrong state for ReadingView',
           ),
+          // TODO(Vadim): #unimplemented добавить обработку состояния ошибки инициализации
           pending: (s) => const Center(child: CommonPendingIndicator()),
           view: (s) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -75,14 +69,6 @@ class ReadingView extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  // КОЛЛБЭКИ от смены состояний:
-  void _requestError(BuildContext context, String? errorText) {
-    CommonToast.showError(
-      context,
-      text: errorText ?? context.texts.commonRequestError,
     );
   }
 }

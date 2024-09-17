@@ -14,6 +14,7 @@ import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 import 'package:quectochat/domain/interfaces/i_chat_repository.dart';
 import 'package:quectochat/presentation/navigation/auth_node/bloc/auth_bloc.dart';
+import 'package:quectochat/presentation/screens/chat_screen/bloc/chat_bloc.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/reading_view/bloc/reading_view_bloc.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/typing_view/bloc/typing_view_bloc.dart';
 import 'package:quectochat/presentation/screens/home_screen/bloc/home_bloc.dart';
@@ -106,6 +107,15 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   AuthBloc buildAuthBloc() => AuthBloc(
         authRepository: _env.g<IAuthRepository>(),
+      );
+
+  // ---------------------------------------------------------------------------
+  ChatBloc buildChatBloc({
+    required String partnerId,
+  }) =>
+      ChatBloc(
+        partnerId: partnerId,
+        chatRepository: _env.g<IChatRepository>(),
       );
 
   // ---------------------------------------------------------------------------

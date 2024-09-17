@@ -300,21 +300,21 @@ mixin _$ReadingViewState {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(Iterable<ChatMessage> messages) view,
-    required TResult Function(String? errorText) requestError,
+    required TResult Function() initializationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
     TResult? Function(Iterable<ChatMessage> messages)? view,
-    TResult? Function(String? errorText)? requestError,
+    TResult? Function()? initializationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
     TResult Function(Iterable<ChatMessage> messages)? view,
-    TResult Function(String? errorText)? requestError,
+    TResult Function()? initializationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -322,21 +322,22 @@ mixin _$ReadingViewState {
   TResult map<TResult extends Object?>({
     required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateInitializationError value)
+        initializationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateInitializationError value)? initializationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateInitializationError value)? initializationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -400,7 +401,7 @@ class _$StatePendingImpl implements _StatePending {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(Iterable<ChatMessage> messages) view,
-    required TResult Function(String? errorText) requestError,
+    required TResult Function() initializationError,
   }) {
     return pending();
   }
@@ -410,7 +411,7 @@ class _$StatePendingImpl implements _StatePending {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
     TResult? Function(Iterable<ChatMessage> messages)? view,
-    TResult? Function(String? errorText)? requestError,
+    TResult? Function()? initializationError,
   }) {
     return pending?.call();
   }
@@ -420,7 +421,7 @@ class _$StatePendingImpl implements _StatePending {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
     TResult Function(Iterable<ChatMessage> messages)? view,
-    TResult Function(String? errorText)? requestError,
+    TResult Function()? initializationError,
     required TResult orElse(),
   }) {
     if (pending != null) {
@@ -434,7 +435,8 @@ class _$StatePendingImpl implements _StatePending {
   TResult map<TResult extends Object?>({
     required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateInitializationError value)
+        initializationError,
   }) {
     return pending(this);
   }
@@ -444,7 +446,7 @@ class _$StatePendingImpl implements _StatePending {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateInitializationError value)? initializationError,
   }) {
     return pending?.call(this);
   }
@@ -454,7 +456,7 @@ class _$StatePendingImpl implements _StatePending {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateInitializationError value)? initializationError,
     required TResult orElse(),
   }) {
     if (pending != null) {
@@ -536,7 +538,7 @@ class _$StateViewImpl implements _StateView {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(Iterable<ChatMessage> messages) view,
-    required TResult Function(String? errorText) requestError,
+    required TResult Function() initializationError,
   }) {
     return view(messages);
   }
@@ -546,7 +548,7 @@ class _$StateViewImpl implements _StateView {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
     TResult? Function(Iterable<ChatMessage> messages)? view,
-    TResult? Function(String? errorText)? requestError,
+    TResult? Function()? initializationError,
   }) {
     return view?.call(messages);
   }
@@ -556,7 +558,7 @@ class _$StateViewImpl implements _StateView {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
     TResult Function(Iterable<ChatMessage> messages)? view,
-    TResult Function(String? errorText)? requestError,
+    TResult Function()? initializationError,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -570,7 +572,8 @@ class _$StateViewImpl implements _StateView {
   TResult map<TResult extends Object?>({
     required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateInitializationError value)
+        initializationError,
   }) {
     return view(this);
   }
@@ -580,7 +583,7 @@ class _$StateViewImpl implements _StateView {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateInitializationError value)? initializationError,
   }) {
     return view?.call(this);
   }
@@ -590,7 +593,7 @@ class _$StateViewImpl implements _StateView {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateInitializationError value)? initializationError,
     required TResult orElse(),
   }) {
     if (view != null) {
@@ -611,76 +614,51 @@ abstract class _StateView implements ReadingViewState {
 }
 
 /// @nodoc
-abstract class _$$StateRequestErrorImplCopyWith<$Res> {
-  factory _$$StateRequestErrorImplCopyWith(_$StateRequestErrorImpl value,
-          $Res Function(_$StateRequestErrorImpl) then) =
-      __$$StateRequestErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String? errorText});
+abstract class _$$StateInitializationErrorImplCopyWith<$Res> {
+  factory _$$StateInitializationErrorImplCopyWith(
+          _$StateInitializationErrorImpl value,
+          $Res Function(_$StateInitializationErrorImpl) then) =
+      __$$StateInitializationErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$StateRequestErrorImplCopyWithImpl<$Res>
-    extends _$ReadingViewStateCopyWithImpl<$Res, _$StateRequestErrorImpl>
-    implements _$$StateRequestErrorImplCopyWith<$Res> {
-  __$$StateRequestErrorImplCopyWithImpl(_$StateRequestErrorImpl _value,
-      $Res Function(_$StateRequestErrorImpl) _then)
+class __$$StateInitializationErrorImplCopyWithImpl<$Res>
+    extends _$ReadingViewStateCopyWithImpl<$Res, _$StateInitializationErrorImpl>
+    implements _$$StateInitializationErrorImplCopyWith<$Res> {
+  __$$StateInitializationErrorImplCopyWithImpl(
+      _$StateInitializationErrorImpl _value,
+      $Res Function(_$StateInitializationErrorImpl) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? errorText = freezed,
-  }) {
-    return _then(_$StateRequestErrorImpl(
-      errorText: freezed == errorText
-          ? _value.errorText
-          : errorText // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$StateRequestErrorImpl implements _StateRequestError {
-  const _$StateRequestErrorImpl({this.errorText});
-
-  @override
-  final String? errorText;
+class _$StateInitializationErrorImpl implements _StateInitializationError {
+  const _$StateInitializationErrorImpl();
 
   @override
   String toString() {
-    return 'ReadingViewState.requestError(errorText: $errorText)';
+    return 'ReadingViewState.initializationError()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$StateRequestErrorImpl &&
-            (identical(other.errorText, errorText) ||
-                other.errorText == errorText));
+            other is _$StateInitializationErrorImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, errorText);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
-      __$$StateRequestErrorImplCopyWithImpl<_$StateRequestErrorImpl>(
-          this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(Iterable<ChatMessage> messages) view,
-    required TResult Function(String? errorText) requestError,
+    required TResult Function() initializationError,
   }) {
-    return requestError(errorText);
+    return initializationError();
   }
 
   @override
@@ -688,9 +666,9 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
     TResult? Function(Iterable<ChatMessage> messages)? view,
-    TResult? Function(String? errorText)? requestError,
+    TResult? Function()? initializationError,
   }) {
-    return requestError?.call(errorText);
+    return initializationError?.call();
   }
 
   @override
@@ -698,11 +676,11 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
     TResult Function(Iterable<ChatMessage> messages)? view,
-    TResult Function(String? errorText)? requestError,
+    TResult Function()? initializationError,
     required TResult orElse(),
   }) {
-    if (requestError != null) {
-      return requestError(errorText);
+    if (initializationError != null) {
+      return initializationError();
     }
     return orElse();
   }
@@ -712,9 +690,10 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult map<TResult extends Object?>({
     required TResult Function(_StatePending value) pending,
     required TResult Function(_StateView value) view,
-    required TResult Function(_StateRequestError value) requestError,
+    required TResult Function(_StateInitializationError value)
+        initializationError,
   }) {
-    return requestError(this);
+    return initializationError(this);
   }
 
   @override
@@ -722,9 +701,9 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_StatePending value)? pending,
     TResult? Function(_StateView value)? view,
-    TResult? Function(_StateRequestError value)? requestError,
+    TResult? Function(_StateInitializationError value)? initializationError,
   }) {
-    return requestError?.call(this);
+    return initializationError?.call(this);
   }
 
   @override
@@ -732,22 +711,16 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_StatePending value)? pending,
     TResult Function(_StateView value)? view,
-    TResult Function(_StateRequestError value)? requestError,
+    TResult Function(_StateInitializationError value)? initializationError,
     required TResult orElse(),
   }) {
-    if (requestError != null) {
-      return requestError(this);
+    if (initializationError != null) {
+      return initializationError(this);
     }
     return orElse();
   }
 }
 
-abstract class _StateRequestError implements ReadingViewState {
-  const factory _StateRequestError({final String? errorText}) =
-      _$StateRequestErrorImpl;
-
-  String? get errorText;
-  @JsonKey(ignore: true)
-  _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+abstract class _StateInitializationError implements ReadingViewState {
+  const factory _StateInitializationError() = _$StateInitializationErrorImpl;
 }
