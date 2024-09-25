@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 import 'package:quectochat/presentation/values/qicons.dart';
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => context.depGen().buildHomeBloc(),
+        create: (context) => context.dep<HomeBloc>(),
         child: BlocConsumer<HomeBloc, HomeState>(
           listenWhen: (_, state) => state.maybeMap(
             requestError: (_) => true,

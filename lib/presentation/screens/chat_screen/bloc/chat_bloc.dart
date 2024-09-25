@@ -1,6 +1,6 @@
-import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../../../domain/interfaces/i_chat_repository.dart';
 
@@ -10,11 +10,12 @@ part 'events.dart';
 
 part 'states.dart';
 
-@DepGen()
+@injectable
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
+  @factoryMethod
   ChatBloc({
-    required String partnerId,
-    @DepArg() required IChatRepository chatRepository,
+    @factoryParam required String partnerId,
+    required IChatRepository chatRepository,
   })  : _partnerId = partnerId,
         _chatRepository = chatRepository,
         super(const ChatState.view()) {

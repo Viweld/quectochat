@@ -1,6 +1,6 @@
-import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../../../domain/interfaces/i_chat_repository.dart';
 import '../../../../../../domain/models/chat_message.dart';
@@ -11,10 +11,11 @@ part 'events.dart';
 
 part 'states.dart';
 
-@DepGen()
+@injectable
 class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
+  @factoryMethod
   ReadingViewBloc({
-    @DepArg() required IChatRepository chatRepository,
+    required IChatRepository chatRepository,
   })  : _chatRepository = chatRepository,
         super(const ReadingViewState.pending()) {
     on<ReadingViewEvent>(

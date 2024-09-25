@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_accent_button.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
@@ -18,7 +18,7 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildRegistrationBloc(),
+      create: (context) => context.dep<RegistrationBloc>(),
       child: BlocConsumer<RegistrationBloc, RegistrationState>(
         listenWhen: (_, state) => state.maybeMap(
           requestError: (_) => true,

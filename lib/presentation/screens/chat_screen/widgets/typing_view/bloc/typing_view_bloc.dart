@@ -1,6 +1,6 @@
-import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:quectochat/domain/interfaces/i_chat_repository.dart';
 import 'package:quectochat/domain/models/chat_message_type.dart';
 
@@ -10,10 +10,11 @@ part 'events.dart';
 
 part 'states.dart';
 
-@DepGen()
+@injectable
 class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
+  @factoryMethod
   TypingViewBloc({
-    @DepArg() required IChatRepository chatRepository,
+    required IChatRepository chatRepository,
   })  : _chatRepository = chatRepository,
         super(const TypingViewState.view()) {
     on<TypingViewEvent>(

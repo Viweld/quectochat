@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/typing_view/typing_view.dart';
 
@@ -27,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (arguments is! String) {
       throw UnsupportedError('Expected arguments of type String');
     }
-    _bloc ??= context.depGen().buildChatBloc(partnerId: arguments);
+    _bloc ??= context.dep<ChatBloc>(param1: arguments);
   }
 
   @override

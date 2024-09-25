@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
 import '../../../../common/common_pending_indicator.dart';
@@ -15,7 +15,7 @@ class ReadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildReadingViewBloc(),
+      create: (context) => context.dep<ReadingViewBloc>(),
       child: BlocBuilder<ReadingViewBloc, ReadingViewState>(
         buildWhen: (_, state) => state.maybeMap(
           // TODO(Vadim): #unimplemented добавить обработку состояния ошибки инициализации

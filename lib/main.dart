@@ -5,12 +5,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
+import 'package:quectochat/main.config.dart';
 import 'package:quectochat/presentation/navigation/root_navigation/root_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'domain/environment/builders.dep_gen.dart';
-import 'domain/environment/environment.dart';
+import 'dep_provider.dart';
 import 'firebase_options.dart';
 import 'l10n/locale_provider.dart';
 import 'presentation/theme/dynamic_theme.dart';
@@ -32,9 +34,11 @@ void main() async {
   // устанавливаем обработчики ошибок:
   _addExceptionsHandlers();
 
+  final dependencies = await _prepareDependencies();
+
   runApp(
     DepProvider(
-      environment: (await Environment().prepare()).lock(),
+      dependencies: dependencies,
       child: const DynamicTheme(
         child: LocaleProvider(
           child: Application(),
@@ -101,4 +105,16 @@ Future<void> _onBackgroundMessage(RemoteMessage message) async {
   //   message,
   //   MessageType.background,
   // );
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+/// Подготовка зависимостей
+@InjectableInit()
+Future<GetIt> _prepareDependencies() async {
+  final sl = GetIt.instance;
+  await sl.reset();
+  sl.init();
+  return sl;
 }

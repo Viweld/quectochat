@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
 import 'package:quectochat/domain/models/chat_message_type.dart';
 
 import '../../domain/interfaces/i_api_facade.dart';
@@ -7,6 +8,7 @@ import '../../domain/interfaces/i_chat_repository.dart';
 import '../../domain/models/chat_message.dart';
 import '../../domain/utils/id_tools/id_tools.dart';
 
+@Singleton(as: IChatRepository)
 final class ChatRepository implements IChatRepository {
   ChatRepository({
     required INetworkFacade networkFacade,
