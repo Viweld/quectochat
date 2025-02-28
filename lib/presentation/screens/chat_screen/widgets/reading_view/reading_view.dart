@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
+import 'package:quectochat/domain/models/chat_message.dart';
 
 import '../../../../common/common_pending_indicator.dart';
 import '../../../../values/values.dart';
+import 'widgets/cluster_attribute.dart';
 import 'widgets/message_bubble.dart';
 import 'bloc/reading_view_bloc.dart';
 
@@ -44,9 +46,12 @@ class ReadingView extends StatelessWidget {
                   const SliverToBoxAdapter(child: SizedBox(height: 20)),
                   SliverList.separated(
                     itemCount: s.messages.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    separatorBuilder: (_, i) => SizedBox(
+                      height: _getInterval(s.messages, i),
+                    ),
                     itemBuilder: (_, i) => MessageBubble(
-                      s.messages.elementAt(s.messages.length - 1 - i),
+                      message: s.messages.elementAt(s.messages.length - 1 - i),
+                      clusterAttribute: _getClusterAttribute(s.messages, i),
                     ),
                   ),
                 ],
@@ -56,6 +61,49 @@ class ReadingView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ClusterAttribute? _getClusterAttribute(
+    Iterable<ChatMessage> messages,
+    int i,
+  ) {
+    final messageList = messages.toList();
+    if (i < 0 || i >= messageList.length) return null;
+
+    final current = messageList[i];
+    final prev = i > 0 ? messageList[i - 1] : null;
+    final next = i < messageList.length - 1 ? messageList[i + 1] : null;
+
+    final bool hasPrevSameAuthor = prev != null &&
+        prev.fromId == current.fromId &&
+        _isSameDay(prev, current);
+    final bool hasNextSameAuthor = next != null &&
+        next.fromId == current.fromId &&
+        _isSameDay(next, current);
+
+    if (!hasPrevSameAuthor && !hasNextSameAuthor) return null;
+    if (!hasPrevSameAuthor) return ClusterAttribute.last;
+    if (!hasNextSameAuthor) return ClusterAttribute.first;
+    return ClusterAttribute.middle;
+  }
+
+  bool _isSameDay(ChatMessage a, ChatMessage b) {
+    return a.createdAt.year == b.createdAt.year &&
+        a.createdAt.month == b.createdAt.month &&
+        a.createdAt.day == b.createdAt.day;
+  }
+
+  double _getInterval(Iterable<ChatMessage> messages, int i) {
+    final messageList = messages.toList();
+    if (i <= 0 || i >= messageList.length - 1) return 6;
+
+    final current = messageList[i];
+    final prev = messageList[i - 1];
+
+    final bool hasPrevSameAuthor =
+        prev.fromId == current.fromId && _isSameDay(prev, current);
+
+    return hasPrevSameAuthor ? 6 : 20;
   }
 }
 
