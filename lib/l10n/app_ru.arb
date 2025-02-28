@@ -47,5 +47,8 @@
     "placeholders": {
       "count": {}
     }
-  }
+  },
+
+  "@ chat screen (экран переписки)": {},
+  "chatEmptyMessagesPlaceholder": "Вы еще не начали переписку..."
 }

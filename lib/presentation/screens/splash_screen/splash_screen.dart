@@ -32,10 +32,7 @@ class SplashScreen extends StatelessWidget {
   /// Действия, выполняемые после инициализации и переход на AuthNode
   Future<void> _initializationCompleted(BuildContext context) async {
     // 1. кешируем изображения из набора:
-    final precacheImages = [
-      Images.logo,
-    ];
-
+    final precacheImages = [Images.logo];
     for (final image in precacheImages) {
       await precacheImage(Image.asset(image).image, context);
     }

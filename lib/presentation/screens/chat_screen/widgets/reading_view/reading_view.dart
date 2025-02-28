@@ -36,37 +36,47 @@ class ReadingView extends StatelessWidget {
               slivers: [
                 /// Либо надпись об отсутствии переписок, либо список переписок
                 if (s.messages.isEmpty)
-                  SliverFillRemaining(
+                  const SliverFillRemaining(
                     hasScrollBody: false,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: Values.horizontalPadding,
-                        ),
-                        child: Text(
-                          // TODO(Vadim): #localization
-                          'Вы еще не начали переписку...',
-                          textAlign: TextAlign.center,
-                          style: context.style12w500$labels,
-                        ),
-                      ),
-                    ),
+                    child: _EmptyMessagesPlaceholder(),
                   )
                 else ...[
                   const SliverToBoxAdapter(child: SizedBox(height: 20)),
                   SliverList.separated(
                     itemCount: s.messages.length,
-                    itemBuilder: (context, i) {
-                      final message = s.messages.toList().reversed.elementAt(i);
-                      return MessageBubble(message);
-                    },
-                    separatorBuilder: (context, i) =>
-                        const SizedBox(height: 10),
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (_, i) => MessageBubble(
+                      s.messages.elementAt(s.messages.length - 1 - i),
+                    ),
                   ),
                 ],
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+/// Надпись об отсутствии переписок "Вы еще не начали переписку..."
+class _EmptyMessagesPlaceholder extends StatelessWidget {
+  const _EmptyMessagesPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Values.horizontalPadding,
+        ),
+        child: Text(
+          context.texts.chatEmptyMessagesPlaceholder,
+          textAlign: TextAlign.center,
+          style: context.style12w500$labels,
         ),
       ),
     );

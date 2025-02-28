@@ -292,16 +292,23 @@ class _RegistrationView extends StatelessWidget {
   // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
   // ---------------------------------------------------------------------------
   String? _getFirstNameErrorText(
-      BuildContext context, RequiredFieldError? error) {
+    BuildContext context,
+    RequiredFieldError? error,
+  ) {
     return error == null ? null : context.texts.commonEmptyFieldError;
   }
 
   String? _getLastNameErrorText(
-      BuildContext context, RequiredFieldError? error) {
+    BuildContext context,
+    RequiredFieldError? error,
+  ) {
     return error == null ? null : context.texts.commonEmptyFieldError;
   }
 
-  String? _getEmailErrorText(BuildContext context, EmailFieldError? error) {
+  String? _getEmailErrorText(
+    BuildContext context,
+    EmailFieldError? error,
+  ) {
     return error == null
         ? null
         : switch (error) {
@@ -312,7 +319,9 @@ class _RegistrationView extends StatelessWidget {
   }
 
   String? _getPasswordErrorText(
-      BuildContext context, PasswordFieldError? error) {
+    BuildContext context,
+    PasswordFieldError? error,
+  ) {
     return error == null ? null : context.texts.commonEmptyFieldError;
   }
 

@@ -62,13 +62,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _EventOnInitializationRequested event,
     Emitter<ChatState> emitter,
   ) async {
-    try {
-      await _chatRepository.initialize(toId: _partnerId);
-    } on Object {
-      rethrow;
-    } finally {
-      // TODO(Vadim): #idea тут можно добавить остановку анимации отправки сообщения
-    }
+    await _chatRepository.initialize(toId: _partnerId);
   }
 
   /// Обработчик ВНУТРЕННЕГО события "запрос на инициализацию"

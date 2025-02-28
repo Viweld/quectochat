@@ -17,21 +17,22 @@ class _WorkspaceState extends State<Workspace> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
-        if (didPop) return;
-        // Проверяем если путь назад возможен, то..
-        if (_globalKey.currentState?.canPop() ?? false) {
-          // переходим на домашний экран
-          _globalKey.currentState?.pop();
-        } else {
-          // закрываем приложение
-          SystemNavigator.pop();
-        }
-      },
+      onPopInvokedWithResult: _onPopInvoked,
       child: NestedNavigator(
         tabNavigatorKey: _globalKey,
         initialRoute: NestedRoutes.routeHome,
       ),
     );
+  }
+
+  void _onPopInvoked(didPop, result) {
+    if (didPop) return;
+    if (_globalKey.currentState?.canPop() ?? false) {
+      // если путь назад возможен, то переходим на домашний экран
+      _globalKey.currentState?.pop();
+    } else {
+      // иначе закрываем приложение
+      SystemNavigator.pop();
+    }
   }
 }
