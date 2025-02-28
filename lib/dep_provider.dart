@@ -1,6 +1,3 @@
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -22,17 +19,13 @@ class DepProvider extends InheritedWidget {
   final GetIt dependencies;
 
   static DepProvider of(BuildContext context) {
-    final DepProvider? dp =
-        context.findAncestorWidgetOfExactType<DepProvider>();
+    final dp = context.findAncestorWidgetOfExactType<DepProvider>();
     if (dp == null) {
       throw UnimplementedError('DepProvider is not initialized in context');
     }
     return dp;
   }
 
-  // ---------------------------------------------------------------------------
   @override
-  bool updateShouldNotify(DepProvider oldWidget) {
-    return false;
-  }
+  bool updateShouldNotify(DepProvider oldWidget) => false;
 }
