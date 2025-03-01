@@ -133,7 +133,6 @@ class _MessageContent extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 /// Фигурная обрезка пузырька сообщения
-// TODO(Vadim): Найти и применить _topLeftRadius на канвасе
 class _LeftStartBubbleClip extends CustomClipper<Path> {
   const _LeftStartBubbleClip.single() : _topLeftRadius = regularRadius;
 
@@ -172,8 +171,8 @@ class _LeftStartBubbleClip extends CustomClipper<Path> {
       ..lineTo(tailWidth, regularRadius)
       ..arcTo(
           Rect.fromCircle(
-            center: const Offset(tailWidth + regularRadius, regularRadius),
-            radius: regularRadius,
+            center: Offset(tailWidth + _topLeftRadius, _topLeftRadius),
+            radius: _topLeftRadius,
           ),
           pi,
           pi / 2,

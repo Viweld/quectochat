@@ -67,23 +67,23 @@ class ReadingView extends StatelessWidget {
     Iterable<ChatMessage> messages,
     int i,
   ) {
-    final messageList = messages.toList();
-    if (i < 0 || i >= messageList.length) return null;
+    final messageList = messages.toList().reversed.toList();
+    //if (i < 0 || i >= messageList.length) return null;
 
     final current = messageList[i];
-    final prev = i > 0 ? messageList[i - 1] : null;
-    final next = i < messageList.length - 1 ? messageList[i + 1] : null;
+    final next = i > 0 ? messageList[i - 1] : null;
+    final prev = i < messageList.length - 1 ? messageList[i + 1] : null;
 
     final bool hasPrevSameAuthor = prev != null &&
         prev.fromId == current.fromId &&
-        _isSameDay(prev, current);
+        _isSameDay(current, prev);
     final bool hasNextSameAuthor = next != null &&
         next.fromId == current.fromId &&
-        _isSameDay(next, current);
+        _isSameDay(current, next);
 
     if (!hasPrevSameAuthor && !hasNextSameAuthor) return null;
-    if (!hasPrevSameAuthor) return ClusterAttribute.last;
-    if (!hasNextSameAuthor) return ClusterAttribute.first;
+    if (!hasPrevSameAuthor) return ClusterAttribute.first;
+    if (!hasNextSameAuthor) return ClusterAttribute.last;
     return ClusterAttribute.middle;
   }
 
@@ -94,16 +94,16 @@ class ReadingView extends StatelessWidget {
   }
 
   double _getInterval(Iterable<ChatMessage> messages, int i) {
-    final messageList = messages.toList();
-    if (i <= 0 || i >= messageList.length - 1) return 6;
+    final messageList = messages.toList().reversed.toList();
+    if (i >= messageList.length) return 20.0;
 
     final current = messageList[i];
-    final prev = messageList[i - 1];
+    final prev = messageList[i + 1];
 
     final bool hasPrevSameAuthor =
         prev.fromId == current.fromId && _isSameDay(prev, current);
 
-    return hasPrevSameAuthor ? 6 : 20;
+    return hasPrevSameAuthor ? 6.0 : 20.0;
   }
 }
 
