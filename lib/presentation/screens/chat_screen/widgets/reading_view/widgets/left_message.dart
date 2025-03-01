@@ -67,6 +67,7 @@ class LeftMessage extends StatelessWidget {
               child: _MessageContent(
                 message: message,
                 backgroundColor: backgroundColor,
+                withTail: true,
               ),
             ),
           _ => ClipPath(
@@ -74,6 +75,7 @@ class LeftMessage extends StatelessWidget {
               child: _MessageContent(
                 message: message,
                 backgroundColor: backgroundColor,
+                withTail: true,
               ),
             ),
         });
@@ -88,28 +90,37 @@ class _MessageContent extends StatelessWidget {
   const _MessageContent({
     required this.message,
     required this.backgroundColor,
+    this.withTail = false,
   });
 
   final ChatMessage message;
   final Color backgroundColor;
+  final bool withTail;
 
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: backgroundColor,
       child: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           top: 12,
           bottom: 12,
-          left: 16,
-          right: 26,
+          left: withTail ? 24 : 14,
+          right: 14,
         ),
         child: Stack(
           children: [
-            Text(
-              '${message.content}           ',
-              style: context.style14w500$message!.copyWith(
-                color: context.palette.greenDark,
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: message.content,
+                    style: context.style14w500$message!.copyWith(
+                      color: context.palette.greenDark,
+                    ),
+                  ),
+                  const WidgetSpan(child: SizedBox(width: 40))
+                ],
               ),
             ),
             Positioned(
@@ -118,7 +129,7 @@ class _MessageContent extends StatelessWidget {
               child: Text(
                 DateFormat('HH:mm').format(message.createdAt),
                 style: context.style12w500$labels!.copyWith(
-                  color: context.palette.greenDark,
+                  color: context.palette.greenDark.withValues(alpha: 0.8),
                 ),
               ),
             ),

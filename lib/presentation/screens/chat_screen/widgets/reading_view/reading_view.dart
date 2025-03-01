@@ -65,14 +65,14 @@ class ReadingView extends StatelessWidget {
 
   ClusterAttribute? _getClusterAttribute(
     Iterable<ChatMessage> messages,
-    int i,
+    int builderIndex,
   ) {
-    final messageList = messages.toList().reversed.toList();
-    //if (i < 0 || i >= messageList.length) return null;
+    final messageList = messages.toList();
+    final i = messages.length - 1 - builderIndex;
 
     final current = messageList[i];
-    final next = i > 0 ? messageList[i - 1] : null;
-    final prev = i < messageList.length - 1 ? messageList[i + 1] : null;
+    final prev = i > 0 ? messageList[i - 1] : null;
+    final next = i < messageList.length - 1 ? messageList[i + 1] : null;
 
     final bool hasPrevSameAuthor = prev != null &&
         prev.fromId == current.fromId &&
@@ -93,12 +93,13 @@ class ReadingView extends StatelessWidget {
         a.createdAt.day == b.createdAt.day;
   }
 
-  double _getInterval(Iterable<ChatMessage> messages, int i) {
-    final messageList = messages.toList().reversed.toList();
-    if (i >= messageList.length) return 20.0;
+  double _getInterval(Iterable<ChatMessage> messages, int builderIndex) {
+    final messageList = messages.toList();
+    final i = messages.length - 1 - builderIndex;
+    if (i <= 0 || i >= messageList.length) return 20.0;
 
     final current = messageList[i];
-    final prev = messageList[i + 1];
+    final prev = messageList[i - 1];
 
     final bool hasPrevSameAuthor =
         prev.fromId == current.fromId && _isSameDay(prev, current);
