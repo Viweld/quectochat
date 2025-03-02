@@ -82,64 +82,66 @@ class _HomeView extends StatelessWidget {
         Values.dividerThickness +
         1;
 
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          scrolledUnderElevation: 0,
-          forceMaterialTransparency: true,
-          floating: true,
-          snap: true,
-          pinned: true,
-          collapsedHeight: 0,
-          toolbarHeight: 0,
-          expandedHeight: flexibleAppBarHeight,
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          flexibleSpace: _FlexibleHeader(
-            onExitTapped: () => _onLogoutTapped(context),
-            onSearchFieldClearTapped: () => _onSearchFieldClearTapped(context),
-            onSearchTextChanged: (val) => _onSearchTextChanged(context, val),
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            scrolledUnderElevation: 0,
+            forceMaterialTransparency: true,
+            floating: true,
+            snap: true,
+            pinned: true,
+            collapsedHeight: 0,
+            toolbarHeight: 0,
+            expandedHeight: flexibleAppBarHeight,
+            flexibleSpace: _FlexibleHeader(
+              onExitTapped: () => _onLogoutTapped(context),
+              onSearchFieldClearTapped: () =>
+                  _onSearchFieldClearTapped(context),
+              onSearchTextChanged: (val) => _onSearchTextChanged(context, val),
+            ),
           ),
-        ),
 
-        /// Либо надпись об отсутствии переписок, либо список переписок
-        if (chatList.isEmpty)
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Values.horizontalPadding,
-                ),
-                child: Text(
-                  // TODO(Vadim): #localization
-                  'Не с кем переписываться',
-                  textAlign: TextAlign.center,
-                  style: context.style12w500$labels,
+          /// Либо надпись об отсутствии переписок, либо список переписок
+          if (chatList.isEmpty)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Values.horizontalPadding,
+                  ),
+                  child: Text(
+                    // TODO(Vadim): #localization
+                    'Не с кем переписываться',
+                    textAlign: TextAlign.center,
+                    style: context.style12w500$labels,
+                  ),
                 ),
               ),
+            )
+          else
+            SliverList.separated(
+              itemCount: chatList.length,
+              separatorBuilder: (context, i) => Divider(
+                height: Values.dividerThickness,
+                color: context.palette.gray,
+                indent: Values.horizontalPadding,
+                endIndent: Values.horizontalPadding,
+              ),
+              itemBuilder: (context, i) {
+                final chatLIstItem = chatList.elementAt(i);
+                return _ChatTile(
+                  chatListItem: chatLIstItem,
+                  onTapped: () => _onChatListItemTapped(
+                    context,
+                    chatLIstItem,
+                  ),
+                );
+              },
             ),
-          )
-        else
-          SliverList.separated(
-            itemCount: chatList.length,
-            separatorBuilder: (context, i) => Divider(
-              height: Values.dividerThickness,
-              color: context.palette.gray,
-              indent: Values.horizontalPadding,
-              endIndent: Values.horizontalPadding,
-            ),
-            itemBuilder: (context, i) {
-              final chatLIstItem = chatList.elementAt(i);
-              return _ChatTile(
-                chatListItem: chatLIstItem,
-                onTapped: () => _onChatListItemTapped(
-                  context,
-                  chatLIstItem,
-                ),
-              );
-            },
-          ),
-      ],
+        ],
+      ),
     );
   }
 

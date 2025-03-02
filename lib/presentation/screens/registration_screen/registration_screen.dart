@@ -7,6 +7,7 @@ import 'package:quectochat/presentation/common/common_text_field.dart';
 
 import '../../../domain/utils/form_fields/form_fields.dart';
 import '../../common/common_back_button.dart';
+import '../../common/common_floating_back_button.dart';
 import '../../common/common_toast.dart';
 import '../../values/images.dart';
 import '../../values/values.dart';
@@ -85,10 +86,7 @@ class _RegistrationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: Transform.translate(
-        offset: const Offset(-Values.horizontalPadding, 0),
-        child: const CommonBackButton(),
-      ),
+      floatingActionButton: const CommonFloatingBackButton(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: Values.horizontalPadding,
@@ -206,7 +204,8 @@ class _RegistrationView extends StatelessWidget {
               title: context.texts.registrationButtonLabel,
               isPending: isLoading,
               onTapped: () => _onLoginTapped(context),
-            )
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

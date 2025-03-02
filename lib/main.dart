@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/navigation/root_navigation/root_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -60,13 +62,18 @@ class Application extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       locale: LocaleProvider.of(context)!.locale,
       initialRoute: RootRoutes.routeSplash,
-      onGenerateRoute: (routeSettings) {
-        return MaterialPageRoute(
-          settings: routeSettings,
-          builder: (context) =>
-              RootRoutes.getRouteBuilders()[routeSettings.name]!(context),
-        );
-      },
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: (routeSettings) => MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: context.palette.white,
+            statusBarIconBrightness: context.palette.statusBarIconBrightness,
+            statusBarBrightness: context.palette.statusBarBrightness,
+          ),
+          child: RootRoutes.getRouteBuilders()[routeSettings.name]!(context),
+        ),
+      ),
     );
   }
 }

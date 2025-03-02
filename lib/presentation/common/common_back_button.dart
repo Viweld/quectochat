@@ -10,12 +10,12 @@ class CommonBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(6),
       onPressed: () => Navigator.pop(context),
       icon: Icon(
         Qicons.back,
-        color: context.palette.grayDark,
-        size: 32,
+        color: context.palette.black,
+        size: 24,
       ),
     );
   }

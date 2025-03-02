@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Palette {
+  final Brightness statusBarIconBrightness;
+  final Brightness statusBarBrightness;
   final int palettePrimaryValue;
   final MaterialColor primarySwatch;
 
@@ -17,7 +19,9 @@ class Palette {
 
   // ---------------------------------------------------------------------------
   Palette.regular()
-      : palettePrimaryValue = 0xFF3CED78,
+      : statusBarIconBrightness = Brightness.dark,
+        statusBarBrightness = Brightness.light,
+        palettePrimaryValue = 0xFF3CED78,
         primarySwatch = const MaterialColor(0xFF3CED78, <int, Color>{
           50: Color(0xFFE8FDEF),
           100: Color(0xFFC5FAD7),

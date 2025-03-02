@@ -19,48 +19,62 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   static const double _horizontalInterval = 12;
 
-  // ---------------------------------------------------------------------------
   @override
   Size get preferredSize => const Size.fromHeight(Values.appBarHeight);
 
-  // ---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      automaticallyImplyLeading: false,
-      toolbarHeight: Values.appBarHeight,
-      elevation: 0,
-      // leadingWidth: 32 + 16 + 4 + 4,
-      leading: const CommonBackButton(),
-      titleSpacing: 0,
-      title: Row(
-        children: [
-          CommonUserAvatar(
-            firstName: firstName,
-            lastName: lastName,
-          ),
-          const SizedBox(width: _horizontalInterval),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Полное имя собеседника
-              Text(
-                '$firstName $lastName',
-                style: context.style15w600$username,
-              ),
+    return ColoredBox(
+      color: context.palette.white,
+      child: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(14, 12, 20, 12),
+              child: Row(
+                children: [
+                  /// Кнопка "Назад"
+                  const SizedBox.square(
+                    dimension: 48,
+                    child: CommonBackButton(),
+                  ),
 
-              /// Статус нахождения в сети
-              Text(
-                status,
-                style: context.style12w500$labels,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
+                  /// Аватар собеседника
+                  CommonUserAvatar(
+                    firstName: firstName,
+                    lastName: lastName,
+                  ),
+                  const SizedBox(width: _horizontalInterval),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Полное имя собеседника
+                        Text(
+                          '$firstName $lastName',
+                          style: context.style15w600$username,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+
+                        /// Статус нахождения в сети
+                        Text(
+                          status,
+                          style: context.style12w500$labels,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ],
+            ),
+            Divider(height: 1, thickness: 1, color: context.palette.stroke),
+          ],
+        ),
       ),
     );
   }
