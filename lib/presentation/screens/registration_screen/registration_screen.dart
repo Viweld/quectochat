@@ -9,7 +9,6 @@ import '../../../domain/utils/form_fields/form_fields.dart';
 import '../../common/common_back_button.dart';
 import '../../common/common_toast.dart';
 import '../../values/images.dart';
-import '../../values/qicons.dart';
 import '../../values/values.dart';
 import 'bloc/registration_bloc.dart';
 

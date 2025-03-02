@@ -4,7 +4,6 @@ import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 
-import '../../../../values/values.dart';
 import 'bloc/typing_view_bloc.dart';
 import 'widgets/send_message_button.dart';
 

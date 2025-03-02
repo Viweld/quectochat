@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
-import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/domain/models/chat_message.dart';
 
 import '../../../../common/common_pending_indicator.dart';
-import '../../../../values/values.dart';
 import 'widgets/between_days_divider.dart';
 import 'widgets/cluster_attribute.dart';
 import 'widgets/empty_messages_placeholder.dart';

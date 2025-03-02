@@ -40,8 +40,8 @@ class ThemeBuilder {
           errorColor: palette.red,
           brightness: Brightness.light,
         ).copyWith(surfaceContainerHighest: Colors.transparent),
-        splashColor: palette.green.withOpacity(0.06),
-        highlightColor: palette.green.withOpacity(0.06),
+        splashColor: palette.green.withValues(alpha: 0.06),
+        highlightColor: palette.green.withValues(alpha: 0.06),
         splashFactory: InkRipple.splashFactory,
         textTheme: TextTheme(
           /// Заголовок на главном экране

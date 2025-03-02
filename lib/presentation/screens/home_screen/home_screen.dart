@@ -6,7 +6,6 @@ import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 import 'package:quectochat/presentation/values/qicons.dart';
-import 'package:string_to_color/string_to_color.dart';
 
 import '../../../domain/models/chat_list_item.dart';
 import '../../common/common_pending_indicator.dart';
