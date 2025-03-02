@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
+import 'package:quectochat/presentation/values/qicons.dart';
 
 import '../../../../../values/values.dart';
 
-/// Кнопка отправки сообщения
-class SendMessageButton extends StatelessWidget {
-  const SendMessageButton({
+/// Кнопка прикрепления дополнительных данных
+class AttachFileButton extends StatelessWidget {
+  const AttachFileButton({
     required this.onTapped,
     super.key,
   });
@@ -35,7 +36,7 @@ class SendMessageButton extends StatelessWidget {
         ),
       ),
       child: Icon(
-        Icons.send,
+        Qicons.attach,
         size: 24,
         color: context.palette.black,
       ),

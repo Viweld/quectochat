@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
+import 'package:quectochat/presentation/screens/chat_screen/widgets/typing_view/widgets/attach_file_button.dart';
 
 import 'bloc/typing_view_bloc.dart';
 import 'widgets/send_message_button.dart';
@@ -36,6 +37,8 @@ class TypingView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
               child: Row(
                 children: [
+                  AttachFileButton(onTapped: () => _onAttachTapped(context)),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: CommonEditField(
                       initialText: s.typedMessage,
@@ -61,5 +64,9 @@ class TypingView extends StatelessWidget {
 
   void _onSendTapped(BuildContext context) {
     context.read<TypingViewBloc>().add(const TypingViewEvent.onSendTapped());
+  }
+
+  void _onAttachTapped(BuildContext context) {
+    // TODO(Vadim): #unimplemented
   }
 }
