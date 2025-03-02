@@ -124,11 +124,12 @@ class _MessageContent extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 0,
+              bottom: -2,
               right: 0,
               child: Text(
                 DateFormat('HH:mm').format(message.createdAt),
                 style: context.style12w500$labels!.copyWith(
+                  fontFeatures: [const FontFeature.tabularFigures()],
                   color: context.palette.greenDark.withValues(alpha: 0.8),
                 ),
               ),

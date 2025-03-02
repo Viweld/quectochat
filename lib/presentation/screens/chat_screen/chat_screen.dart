@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
+import 'package:quectochat/presentation/screens/chat_screen/chat_screen_arguments.dart';
+import 'package:quectochat/presentation/screens/chat_screen/widgets/chat_screen_app_bar.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/typing_view/typing_view.dart';
 
 import '../../common/common_toast.dart';
@@ -18,16 +20,20 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  String? _firstName;
+  String? _lastName;
   ChatBloc? _bloc;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final arguments = ModalRoute.of(context)?.settings.arguments;
-    if (arguments is! String) {
-      throw UnsupportedError('Expected arguments of type String');
+    if (arguments is! ChatScreenArguments) {
+      throw UnsupportedError('Expected arguments of type ChatScreenArguments');
     }
-    _bloc ??= context.depGen().buildChatBloc(partnerId: arguments);
+    _firstName = arguments.firstName;
+    _lastName = arguments.lastName;
+    _bloc ??= context.depGen().buildChatBloc(partnerId: arguments.id);
   }
 
   @override
@@ -48,17 +54,20 @@ class _ChatScreenState extends State<ChatScreen> {
         listener: (context, state) => state.mapOrNull(
           requestError: (s) => _requestError(context, s.errorText),
         ),
-        child: const Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                /// Область просмотра сообщений
-                Expanded(child: ReadingView()),
+        child: Scaffold(
+          appBar: ChatScreenAppBar(
+            firstName: _firstName ?? '',
+            lastName: _lastName ?? '',
+            status: 'status',
+          ),
+          body: const Column(
+            children: [
+              /// Область просмотра сообщений
+              Expanded(child: ReadingView()),
 
-                /// Область написания сообщений
-                TypingView(),
-              ],
-            ),
+              /// Область написания сообщений
+              TypingView(),
+            ],
           ),
         ),
       ),

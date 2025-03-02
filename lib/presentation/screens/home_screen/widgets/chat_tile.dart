@@ -9,16 +9,11 @@ class _ChatTile extends StatelessWidget {
   final ChatListItem chatListItem;
   final void Function() onTapped;
 
-  static const double _initialsPlateSize = 50;
   static const double _horizontalInterval = 12;
   static const double _verticalContentPadding = 10;
 
   @override
   Widget build(BuildContext context) {
-    final color = ColorUtils.stringToColor(
-      chatListItem.firstName + chatListItem.lastName,
-    );
-
     return InkWell(
       overlayColor: WidgetStateProperty.all(context.palette.green),
       onTap: onTapped,
@@ -35,31 +30,9 @@ class _ChatTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   /// Бирка с инициалами
-                  SizedBox.square(
-                    dimension: _initialsPlateSize,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Positioned.fill(
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(_initialsPlateSize * 0.5),
-                              ),
-                              gradient: LinearGradient(
-                                colors: [color.withOpacity(0.8), color],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Text(
-                          chatListItem.initials,
-                          style: context.style20w700$initials,
-                        ),
-                      ],
-                    ),
+                  CommonUserAvatar(
+                    firstName: chatListItem.firstName,
+                    lastName: chatListItem.lastName,
                   ),
                   const SizedBox(width: _horizontalInterval),
 

@@ -6,6 +6,7 @@ import 'package:quectochat/presentation/common/common_text_field.dart';
 
 import '../../../../values/values.dart';
 import 'bloc/typing_view_bloc.dart';
+import 'widgets/send_message_button.dart';
 
 /// ОБЛАСТЬ ВВОДА СООБЩЕНИЙ
 class TypingView extends StatelessWidget {
@@ -24,19 +25,28 @@ class TypingView extends StatelessWidget {
           orElse: () => throw UnimplementedError(
             'Wrong state for TypingView',
           ),
-          view: (s) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CommonEditField(
-                    initialText: s.typedMessage,
-                    onChanged: (val) => _onMessageChanged(context, val),
-                  ),
+          view: (s) => DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: context.palette.stroke,
                 ),
-                const SizedBox(width: 8),
-                _SendButton(onTapped: () => _onSendTapped(context)),
-              ],
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CommonEditField(
+                      initialText: s.typedMessage,
+                      onChanged: (val) => _onMessageChanged(context, val),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SendMessageButton(onTapped: () => _onSendTapped(context)),
+                ],
+              ),
             ),
           ),
         ),
@@ -52,42 +62,5 @@ class TypingView extends StatelessWidget {
 
   void _onSendTapped(BuildContext context) {
     context.read<TypingViewBloc>().add(const TypingViewEvent.onSendTapped());
-  }
-}
-
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-/// Кнопка отправки
-class _SendButton extends StatelessWidget {
-  const _SendButton({required this.onTapped});
-
-  final void Function() onTapped;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onTapped,
-      style: ButtonStyle(
-        fixedSize: WidgetStateProperty.all(const Size(42, 42)),
-        padding: WidgetStateProperty.all(EdgeInsets.zero),
-        backgroundColor: WidgetStateProperty.all(context.palette.stroke),
-        visualDensity: const VisualDensity(
-          horizontal: VisualDensity.minimumDensity,
-          vertical: VisualDensity.minimumDensity,
-        ),
-        shape: WidgetStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(Values.textFieldBorderRadius),
-            ),
-          ),
-        ),
-      ),
-      child: Icon(
-        Icons.send,
-        color: context.palette.black,
-      ),
-    );
   }
 }

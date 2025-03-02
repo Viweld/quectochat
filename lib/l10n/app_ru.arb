@@ -50,5 +50,6 @@
   },
 
   "@ chat screen (экран переписки)": {},
-  "chatEmptyMessagesPlaceholder": "Вы еще не начали переписку..."
+  "chatEmptyMessagesPlaceholder": "Вы еще не начали переписку...",
+  "chatTodayDividerLabel": "Сегодня"
 }

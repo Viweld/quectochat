@@ -11,10 +11,6 @@ final class ChatListItem {
     required this.isSentByYou,
   });
 
-  /// Возвращает инициалы пользователя
-  String get initials =>
-      (firstName.substring(0, 1) + lastName.substring(0, 1)).toUpperCase();
-
   /// Идентификатор пользователя.
   final String id;
 

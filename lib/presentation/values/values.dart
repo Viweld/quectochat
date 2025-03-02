@@ -1,6 +1,8 @@
 class Values {
   static const double horizontalPadding = 20;
 
+  static const double appBarHeight = 68;
+
   static const double textFieldHeight = 42;
   static const double textFieldBorderRadius = 12;
 

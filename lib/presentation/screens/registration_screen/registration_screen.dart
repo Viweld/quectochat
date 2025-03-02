@@ -6,6 +6,7 @@ import 'package:quectochat/presentation/common/common_accent_button.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 
 import '../../../domain/utils/form_fields/form_fields.dart';
+import '../../common/common_back_button.dart';
 import '../../common/common_toast.dart';
 import '../../values/images.dart';
 import '../../values/qicons.dart';
@@ -87,15 +88,7 @@ class _RegistrationView extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: Transform.translate(
         offset: const Offset(-Values.horizontalPadding, 0),
-        child: IconButton(
-          padding: const EdgeInsets.all(16),
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Qicons.back,
-            color: context.palette.grayDark,
-            size: 32,
-          ),
-        ),
+        child: const CommonBackButton(),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(

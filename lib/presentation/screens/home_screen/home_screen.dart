@@ -11,8 +11,10 @@ import 'package:string_to_color/string_to_color.dart';
 import '../../../domain/models/chat_list_item.dart';
 import '../../common/common_pending_indicator.dart';
 import '../../common/common_toast.dart';
+import '../../common/common_user_avatar.dart';
 import '../../navigation/nested_navigation/nested_routes.dart';
 import '../../values/values.dart';
+import '../chat_screen/chat_screen_arguments.dart';
 import 'bloc/home_bloc.dart';
 
 part 'widgets/flexible_header.dart';
@@ -152,7 +154,11 @@ class _HomeView extends StatelessWidget {
     Navigator.pushNamed(
       context,
       NestedRoutes.routeChat,
-      arguments: chatListItem.id,
+      arguments: ChatScreenArguments(
+        id: chatListItem.id,
+        firstName: chatListItem.firstName,
+        lastName: chatListItem.lastName,
+      ),
     );
   }
 

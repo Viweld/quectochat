@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/domain/models/chat_message.dart';
 
 import '../../../../common/common_pending_indicator.dart';
 import '../../../../values/values.dart';
+import 'widgets/between_days_divider.dart';
 import 'widgets/cluster_attribute.dart';
+import 'widgets/empty_messages_placeholder.dart';
 import 'widgets/message_bubble.dart';
 import 'bloc/reading_view_bloc.dart';
+import 'widgets/vertical_message_spacer.dart';
 
 /// КОЛОНКА СООБЩЕНИЙ
 class ReadingView extends StatelessWidget {
@@ -40,19 +44,28 @@ class ReadingView extends StatelessWidget {
                 if (s.messages.isEmpty)
                   const SliverFillRemaining(
                     hasScrollBody: false,
-                    child: _EmptyMessagesPlaceholder(),
+                    child: EmptyMessagesPlaceholder(),
                   )
                 else ...[
                   const SliverToBoxAdapter(child: SizedBox(height: 20)),
                   SliverList.separated(
                     itemCount: s.messages.length,
-                    separatorBuilder: (_, i) => SizedBox(
-                      height: _getInterval(s.messages, i),
-                    ),
                     itemBuilder: (_, i) => MessageBubble(
                       message: s.messages.elementAt(s.messages.length - 1 - i),
                       clusterAttribute: _getClusterAttribute(s.messages, i),
                     ),
+                    separatorBuilder: (_, i) => _isInsideDay(s.messages, i)
+                        ? VerticalMessageSpacer(
+                            messages: s.messages,
+                            builderIndex: i,
+                          )
+                        : BetweenDaysDivider(
+                            message:
+                                s.messages.elementAt(s.messages.length - 1 - i),
+                          ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: BetweenDaysDivider(message: s.messages.first),
                   ),
                 ],
               ],
@@ -63,6 +76,8 @@ class ReadingView extends StatelessWidget {
     );
   }
 
+  // ---------------------------------------------------------------------------
+  /// Определяет атрибут кластеризации сообщения (первое, среднее или последнее в группе)
   ClusterAttribute? _getClusterAttribute(
     Iterable<ChatMessage> messages,
     int builderIndex,
@@ -87,47 +102,19 @@ class ReadingView extends StatelessWidget {
     return ClusterAttribute.middle;
   }
 
+  // ---------------------------------------------------------------------------
+  /// Проверяет, написаны ли текущее и предыдущее сообщение в один день
+  bool _isInsideDay(Iterable<ChatMessage> messages, int builderIndex) {
+    final messageList = messages.toList();
+    final i = messages.length - 1 - builderIndex;
+    return _isSameDay(messageList[i], messageList[i - 1]);
+  }
+
+  // ---------------------------------------------------------------------------
+  /// Проверяет, принадлежат ли два сообщения одному дню
   bool _isSameDay(ChatMessage a, ChatMessage b) {
     return a.createdAt.year == b.createdAt.year &&
         a.createdAt.month == b.createdAt.month &&
         a.createdAt.day == b.createdAt.day;
-  }
-
-  double _getInterval(Iterable<ChatMessage> messages, int builderIndex) {
-    final messageList = messages.toList();
-    final i = messages.length - 1 - builderIndex;
-    if (i <= 0 || i >= messageList.length) return 20.0;
-
-    final current = messageList[i];
-    final prev = messageList[i - 1];
-
-    final bool hasPrevSameAuthor =
-        prev.fromId == current.fromId && _isSameDay(prev, current);
-
-    return hasPrevSameAuthor ? 6.0 : 20.0;
-  }
-}
-
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-/// Надпись об отсутствии переписок "Вы еще не начали переписку..."
-class _EmptyMessagesPlaceholder extends StatelessWidget {
-  const _EmptyMessagesPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Values.horizontalPadding,
-        ),
-        child: Text(
-          context.texts.chatEmptyMessagesPlaceholder,
-          textAlign: TextAlign.center,
-          style: context.style12w500$labels,
-        ),
-      ),
-    );
   }
 }
