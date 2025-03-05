@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
-import 'package:quectochat/domain/models/chat_message.dart';
+import 'package:quectochat/domain/models/message.dart';
 
 import '../../../../common/common_pending_indicator.dart';
 import 'widgets/between_days_divider.dart';
@@ -76,7 +76,7 @@ class ReadingView extends StatelessWidget {
   // ---------------------------------------------------------------------------
   /// Определяет атрибут кластеризации сообщения (первое, среднее или последнее в группе)
   ClusterAttribute? _getClusterAttribute(
-    Iterable<ChatMessage> messages,
+    Iterable<Message> messages,
     int builderIndex,
   ) {
     final messageList = messages.toList();
@@ -101,7 +101,7 @@ class ReadingView extends StatelessWidget {
 
   // ---------------------------------------------------------------------------
   /// Проверяет, написаны ли текущее и предыдущее сообщение в один день
-  bool _isInsideDay(Iterable<ChatMessage> messages, int builderIndex) {
+  bool _isInsideDay(Iterable<Message> messages, int builderIndex) {
     final messageList = messages.toList();
     final i = messages.length - 1 - builderIndex;
     return _isSameDay(messageList[i], messageList[i - 1]);
@@ -109,7 +109,7 @@ class ReadingView extends StatelessWidget {
 
   // ---------------------------------------------------------------------------
   /// Проверяет, принадлежат ли два сообщения одному дню
-  bool _isSameDay(ChatMessage a, ChatMessage b) {
+  bool _isSameDay(Message a, Message b) {
     return a.createdAt.year == b.createdAt.year &&
         a.createdAt.month == b.createdAt.month &&
         a.createdAt.day == b.createdAt.day;

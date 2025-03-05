@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/user_details.dart';
 
-import '../../domain/models/chat_message.dart';
-import '../../domain/models/chat_message_type.dart';
+import '../../domain/models/interlocutor.dart';
+import '../../domain/models/message.dart';
+import '../../domain/models/message_content_type.dart';
 import '../../domain/models/network_exceptions.dart';
+import '../../domain/models/paginated.dart';
+import '../../domain/utils/id_tools/id_tools.dart';
 
 part 'keys.dart';
 
@@ -29,11 +32,9 @@ final class FirebaseService implements INetworkFacade {
   /// ID текущего пользователя
   String _currentUserId = '';
 
-  /// Пагинация сообщений: количество сообщений на страницу
+  /// Лимиты пагинации
   static const _messagesPaginationLimit = 20;
-
-  /// Пагинация сообщений: текущий снэпшот сообщений, для получения следующей страницы
-  QueryDocumentSnapshot<Map<String, dynamic>>? _lastVisible;
+  static const _interlocutorsPaginationLimit = 20;
 
   // ГЕТТЕРЫ:
   // ---------------------------------------------------------------------------
@@ -98,26 +99,20 @@ final class FirebaseService implements INetworkFacade {
         password: password,
       );
 
-      _currentUserId = credentials.user?.uid ?? '';
+      final userId = credentials.user?.uid;
+      if (userId == null) {
+        Error.throwWithStackTrace('Registration failed', StackTrace.current);
+      }
 
-      // Проверяем, если пользователь успешно создан:
-      if (_currentUserId.isNotEmpty) {
-        final result = await _firebaseFirestore
-            .collection(_Keys._tUsers)
-            .where(_Keys._fUser$id, isEqualTo: _currentUserId)
-            .get();
+      final userDoc = _firebaseFirestore.collection(_Keys._tUsers).doc(userId);
+      final userSnapshot = await userDoc.get();
 
-        // Если нет данных по данному пользователю в Firestore, то делаем запись:
-        if (result.docs.isEmpty) {
-          await _firebaseFirestore
-              .collection(_Keys._tUsers)
-              .doc(_currentUserId)
-              .set(_mapper._mapUserDetails(UserDetails(
-                id: _currentUserId,
-                fullName: '$firstName $lastName',
-                createdAt: DateTime.now(),
-              )));
-        }
+      // Если документа нет, создаем новый
+      if (!userSnapshot.exists) {
+        await userDoc.set({
+          _Keys._fUser$fullName: '$firstName $lastName',
+          _Keys._fUser$createdAt: '${DateTime.now()}',
+        });
       }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -143,95 +138,327 @@ final class FirebaseService implements INetworkFacade {
 
   // СОБЕСЕДНИКИ:
   // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  /// Получение пользователей для переписки
   @override
-  Future<Iterable<UserDetails>> getUsers({
-    String textSearch = '',
+  Future<Paginated<Interlocutor>> getInterlocutors({
+    String? lastInterlocutorId,
+    String? search,
   }) async {
-    final response = textSearch.isEmpty
-        ? await _firebaseFirestore.collection(_Keys._tUsers).get()
-        : await _firebaseFirestore
+    const limit = _interlocutorsPaginationLimit;
+    DocumentSnapshot<Map<String, dynamic>>? lastDocument;
+
+    // Если есть lastInterlocutorId, получаем соответствующий документ
+    if (lastInterlocutorId != null) {
+      final lastDocSnapshot = await _firebaseFirestore
+          .collection(_Keys._tUsers)
+          .doc(lastInterlocutorId)
+          .get();
+
+      if (lastDocSnapshot.exists) {
+        lastDocument = lastDocSnapshot;
+      }
+    }
+
+    Query<Map<String, dynamic>> query = _firebaseFirestore
+        .collection(_Keys._tUsers)
+        .orderBy(_Keys._fUser$fullName)
+        .limit(limit + 1); // +1 для проверки hasNext
+
+    // Фильтрация по имени (поиск без учета регистра)
+    if (search != null && search.isNotEmpty) {
+      final lowerSearch = search.toLowerCase();
+      query = query.where(
+        _Keys._fUser$fullName,
+        isGreaterThanOrEqualTo: lowerSearch,
+        isLessThan: '$lowerSearch\uf8ff',
+      );
+    }
+
+    // Начинаем выборку после lastDocument, если он есть
+    if (lastDocument != null) {
+      query = query.startAfterDocument(lastDocument);
+    }
+
+    final response = await query.get();
+
+    // Проверяем, есть ли следующая страница
+    final hasNext = response.docs.length > limit;
+
+    // Если есть лишний документ (чтобы проверить hasNext), убираем его
+    final docs = hasNext ? response.docs.sublist(0, limit) : response.docs;
+
+    // Список ID пользователей-собеседников
+    final userIds = docs.map((doc) => doc.id).toList();
+
+    // Запрос последних сообщений для этих собеседников
+    final lastMessagesQuery = await _firebaseFirestore
+        .collection(_Keys._tMessages)
+        .where(_Keys._fMessage$chatId,
+            whereIn: userIds
+                .map((id) => IdTools.getChatId([_currentUserId, id]))
+                .toList())
+        .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .get();
+
+    // Создаем мапу {chatId -> последнее сообщение}
+    final Map<String, QueryDocumentSnapshot<Map<String, dynamic>>>
+        lastMessages = {};
+    for (var doc in lastMessagesQuery.docs) {
+      final chatId = doc[_Keys._fMessage$chatId] as String;
+      if (!lastMessages.containsKey(chatId)) {
+        lastMessages[chatId] = doc;
+      }
+    }
+
+    // Парсим пользователей и добавляем данные о последнем сообщении
+    final users = docs.map((doc) {
+      final data = doc.data();
+      final userId = doc.id;
+      final chatId = IdTools.getChatId([_currentUserId, userId]);
+
+      final lastMessageDoc = lastMessages[chatId];
+      final lastMessageData = lastMessageDoc?.data();
+
+      return Interlocutor(
+        userId: userId,
+        firstName: (data[_Keys._fUser$fullName] as String).split(' ').first,
+        lastName: (data[_Keys._fUser$fullName] as String)
+            .split(' ')
+            .skip(1)
+            .join(' '),
+        lastSentContent: lastMessageData?[_Keys._fMessage$content] as String?,
+        lastSentContentType: _mapChatMessageTypeReverse(
+            lastMessageData?[_Keys._fMessage$type] as String?),
+        lastSentAt: lastMessageData?[_Keys._fMessage$timestamp] != null
+            ? DateTime.fromMicrosecondsSinceEpoch(
+                lastMessageData![_Keys._fMessage$timestamp] as int)
+            : null,
+        isSentByYou: lastMessageData?[_Keys._fMessage$fromId] == _currentUserId,
+      );
+    }).toList();
+
+    return Paginated<Interlocutor>(
+      hasNext: hasNext,
+      result: users,
+    );
+  }
+
+  /// Метод для обратного маппинга типа сообщения
+  MessageContentType? _mapChatMessageTypeReverse(String? type) {
+    switch (type) {
+      case 'text':
+        return MessageContentType.text;
+      case 'image':
+        return MessageContentType.image;
+      default:
+        return null;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  @override
+  Stream<Set<Interlocutor>> getActualInterlocutors() {
+    return _firebaseFirestore
+        .collection(_Keys._tMessages)
+        .where(
+          Filter.or(
+            Filter(_Keys._fMessage$fromId, isEqualTo: _currentUserId),
+            Filter(_Keys._fMessage$toId, isEqualTo: _currentUserId),
+          ),
+        )
+        .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      final interlocutors = <String, Interlocutor>{};
+
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final fromId = data[_Keys._fMessage$fromId] as String;
+        final toId = data[_Keys._fMessage$toId] as String;
+        final messageContent = data[_Keys._fMessage$content] as String?;
+        final messageType =
+            _mapChatMessageTypeReverse(data[_Keys._fMessage$type] as String?);
+        final timestamp = data[_Keys._fMessage$timestamp] as int?;
+
+        final interlocutorId = fromId == _currentUserId ? toId : fromId;
+        if (interlocutors.containsKey(interlocutorId)) {
+          continue; // Уже добавлен более свежее сообщение
+        }
+
+        final userDoc = await _firebaseFirestore
             .collection(_Keys._tUsers)
-            .where(_Keys._fUser$fullName, arrayContains: textSearch)
+            .doc(interlocutorId)
             .get();
 
-    return response.docs
-        .map((doc) => _mapper._parseUserDetails(doc.data()))
-        .where((user) => user.id != _currentUserId);
+        if (!userDoc.exists) continue;
+
+        final userData = userDoc.data()!;
+        final fullName = userData[_Keys._fUser$fullName] as String;
+        final nameParts = fullName.split(' ');
+        final firstName = nameParts.first;
+        final lastName = nameParts.skip(1).join(' ');
+
+        interlocutors[interlocutorId] = Interlocutor(
+          userId: interlocutorId,
+          firstName: firstName,
+          lastName: lastName,
+          lastSentContent: messageContent,
+          lastSentContentType: messageType,
+          lastSentAt: timestamp != null
+              ? DateTime.fromMicrosecondsSinceEpoch(timestamp)
+              : null,
+          isSentByYou: fromId == _currentUserId,
+        );
+      }
+
+      return interlocutors.values.toSet();
+    });
   }
 
   // СООБЩЕНИЯ:
   // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  /// Получение сообщений в пагинированном виде
-  /// (для получения последующих страниц isNext должен быть true)
   @override
-  Future<Iterable<ChatMessage>> getChatMessages({
-    required String chatId,
-    bool isNext = false,
+  Future<Paginated<Message>> getChatMessages({
+    required Set<String> interlocutorsIds,
+    String? lastMessageId,
   }) async {
-    final response = !isNext
-        ? await _firebaseFirestore
-            .collection(_Keys._tMessages)
-            .doc(chatId)
-            .collection(chatId)
-            .orderBy(_Keys._fMessage$timestamp, descending: false)
-            .limit(_messagesPaginationLimit)
-            .get()
-        : await _firebaseFirestore
-            .collection(_Keys._tMessages)
-            .doc(chatId)
-            .collection(chatId)
-            .orderBy(_Keys._fMessage$timestamp, descending: true)
-            .startAfterDocument(_lastVisible!)
-            .limit(_messagesPaginationLimit)
-            .get();
+    const limit = _messagesPaginationLimit;
+    final chatId = IdTools.getChatId(interlocutorsIds.toList());
 
-    if (response.docs.isNotEmpty) _lastVisible = response.docs.last;
+    DocumentSnapshot<Map<String, dynamic>>? lastMessage;
 
-    return response.docs.map((doc) => _mapper._parseChatMessage(
-          src: doc.data(),
-          currentUserId: _currentUserId,
-        ));
-  }
+    // Если передан lastMessageId, получаем этот документ из Firestore
+    if (lastMessageId != null) {
+      final lastMsgSnapshot = await _firebaseFirestore
+          .collection(_Keys._tMessages)
+          .doc(lastMessageId)
+          .get();
 
-  /// Отправка сообщения
-  @override
-  Future<ChatMessage> sendMessage({
-    required ChatMessage message,
-    required String chatId,
-  }) async {
-    final docReference = _firebaseFirestore
+      if (lastMsgSnapshot.exists) {
+        lastMessage = lastMsgSnapshot;
+      }
+    }
+
+    Query<Map<String, dynamic>> query = _firebaseFirestore
         .collection(_Keys._tMessages)
-        .doc(chatId)
-        .collection(chatId)
-        .doc(message.createdAt.microsecondsSinceEpoch.toString());
+        .where(_Keys._fMessage$chatId, isEqualTo: chatId)
+        .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .limit(limit + 1); // +1, чтобы проверить hasNext
 
-    await _firebaseFirestore.runTransaction((transaction) async {
-      transaction.set(docReference, _mapper._mapChatMessage(message));
-    });
+    // Начинаем выборку после lastMessage, если оно есть
+    if (lastMessage != null) {
+      query = query.startAfterDocument(lastMessage);
+    }
 
-    return message;
+    final response = await query.get();
+
+    // Проверяем, есть ли еще сообщения для следующей страницы
+    final hasNext = response.docs.length > limit;
+
+    // Если есть лишний документ (для проверки hasNext), убираем его
+    final docs = hasNext ? response.docs.sublist(0, limit) : response.docs;
+
+    return Paginated<Message>(
+      hasNext: hasNext,
+      result: docs.map(
+        (doc) => _mapper._parseChatMessage(
+          messageId: doc.id,
+          currentUserId: _currentUserId,
+          src: doc.data(),
+        ),
+      ),
+    );
   }
 
-  /// Получить стрим сообщений
+  // ---------------------------------------------------------------------------
   @override
-  Stream<ChatMessage> getChatStream({required String chatId}) {
+  Future<Message> sendMessage({
+    required String toId,
+    required String content,
+    required MessageContentType type,
+  }) async {
+    final docReference = _firebaseFirestore.collection(_Keys._tMessages).doc();
+
+    final messageData = {
+      _Keys._fMessage$chatId: IdTools.getChatId([_currentUserId, toId]),
+      _Keys._fMessage$fromId: _currentUserId,
+      _Keys._fMessage$toId: toId,
+      _Keys._fMessage$content: content,
+      _Keys._fMessage$type: _mapChatMessageType(type),
+      _Keys._fMessage$timestamp: DateTime.now().microsecondsSinceEpoch,
+      _Keys._fMessage$isViewed: false,
+    };
+
+    try {
+      await _firebaseFirestore.runTransaction((transaction) async {
+        transaction.set(docReference, messageData);
+      });
+
+      return _mapper._parseChatMessage(
+        messageId: docReference.id,
+        currentUserId: currentUserId,
+        src: messageData,
+      );
+    } catch (e) {
+      throw Exception('Ошибка при отправке сообщения: $e');
+    }
+  }
+
+  String _mapChatMessageType(MessageContentType src) {
+    return switch (src) {
+      MessageContentType.text => 'text',
+      MessageContentType.image => 'image',
+    };
+  }
+
+  // ---------------------------------------------------------------------------
+  @override
+  Stream<Set<Message>> getAddedModifiedMessagesStream({
+    required Set<String> interlocutorsIds,
+  }) {
+    final chatId = IdTools.getChatId(interlocutorsIds.toList());
+
     return _firebaseFirestore
         .collection(_Keys._tMessages)
-        .doc(chatId)
-        .collection(chatId)
+        .where(_Keys._fMessage$chatId, isEqualTo: chatId)
         .orderBy(_Keys._fMessage$timestamp, descending: true)
-        .limit(1)
         .snapshots()
-        .map(
-          (m) => _mapper._parseChatMessage(
-            src: m.docs.first.data(),
-            currentUserId: _currentUserId,
-          ),
-        );
+        .map((snapshot) {
+      // Отбираем только новые и измененные сообщения
+      final updatedMessages = snapshot.docChanges
+          .where((change) =>
+              change.type == DocumentChangeType.added ||
+              change.type == DocumentChangeType.modified)
+          .map((change) => _mapper._parseChatMessage(
+                messageId: change.doc.id,
+                currentUserId: _currentUserId,
+                src: change.doc.data() as Map<String, dynamic>,
+              ))
+          .toSet();
+
+      return updatedMessages;
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  @override
+  Future<void> markAsViewed({required String fromId}) async {
+    final chatId = IdTools.getChatId([_currentUserId, fromId]);
+
+    final batch = _firebaseFirestore.batch();
+
+    // Запрашиваем все сообщения, отправленные fromId, но еще не помеченные как прочитанные
+    final querySnapshot = await _firebaseFirestore
+        .collection(_Keys._tMessages)
+        .where(_Keys._fMessage$chatId, isEqualTo: chatId)
+        .where(_Keys._fMessage$fromId, isEqualTo: fromId)
+        .where(_Keys._fMessage$isViewed, isEqualTo: false)
+        .get();
+
+    for (final doc in querySnapshot.docs) {
+      batch.update(doc.reference, {_Keys._fMessage$isViewed: true});
+    }
+
+    // Применяем все обновления за один запрос
+    await batch.commit();
   }
 }

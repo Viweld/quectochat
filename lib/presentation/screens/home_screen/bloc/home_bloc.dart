@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 
 import '../../../../domain/interfaces/i_auth_repository.dart';
-import '../../../../domain/models/chat_list_item.dart';
+import '../../../../domain/models/interlocutor.dart';
 
 part 'home_bloc.freezed.dart';
 
@@ -44,7 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   // ПРИВАТНЫЕ ДАННЫЕ:
   // ---------------------------------------------------------------------------
-  late Iterable<ChatListItem> _chatList;
+  late Iterable<Interlocutor> _interlocutors;
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
   // ---------------------------------------------------------------------------
@@ -53,17 +53,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnInitializationRequested event,
     Emitter<HomeState> emitter,
   ) async {
-    final users = await _facade.getUsers();
-    // TODO(Vadim) #unimplemented временно подмешиваем фейковые данные
-    _chatList = users.indexed.map((i) => ChatListItem(
-          id: i.$2.id,
-          firstName: i.$2.fullName.split(' ').first,
-          lastName: i.$2.fullName.split(' ').last,
-          lastMessageText: _fakeChatList.elementAt(i.$1).lastMessageText,
-          lastMessageSentAt: _fakeChatList.elementAt(i.$1).lastMessageSentAt,
-          isSentByYou: _fakeChatList.elementAt(i.$1).isSentByYou,
-        ));
-    _viewState = HomeState.view(chatList: _chatList) as _StateView;
+    _interlocutors = await _facade.getInterlocutors();
+    _viewState = HomeState.view(interlocutors: _interlocutors) as _StateView;
     emitter(_viewState);
   }
 
@@ -72,7 +63,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnSearchFieldClearTapped event,
     Emitter<HomeState> emitter,
   ) async {
-    _viewState = _viewState.copyWith(chatList: _chatList);
+    _viewState = _viewState.copyWith(interlocutors: _interlocutors);
     emitter(_viewState);
   }
 
@@ -83,13 +74,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     final searchSample = event.val.toLowerCase();
     final filteredChatList = searchSample.isEmpty
-        ? _chatList
-        : _chatList.where((item) {
+        ? _interlocutors
+        : _interlocutors.where((item) {
             return item.firstName.toLowerCase().contains(searchSample) ||
                 item.lastName.toLowerCase().contains(searchSample);
           });
 
-    _viewState = _viewState.copyWith(chatList: filteredChatList);
+    _viewState = _viewState.copyWith(interlocutors: filteredChatList);
     emitter(_viewState);
   }
 
@@ -118,107 +109,3 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 }
-
-Iterable<ChatListItem> _fakeChatList = [
-  ChatListItem(
-    id: '',
-    firstName: 'Степан',
-    lastName: 'Иванов',
-    lastMessageText: 'Пришел я в кино а там ничего нет. '
-        'Развернулся и ушел домой',
-    lastMessageSentAt: DateTime.parse('2024-07-05 18:37:06.880429'),
-    isSentByYou: true,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Геннадий',
-    lastName: 'Купчихин',
-    lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
-    lastMessageSentAt: DateTime.parse('2024-07-05 18:35:06.880429'),
-    isSentByYou: false,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Иннокентий',
-    lastName: 'Клюшкин',
-    lastMessageText:
-        'На чем поехал в Ленинград человек рассеянный с улицы Бассейной?',
-    lastMessageSentAt: DateTime.parse('2024-07-04 22:37:06.880429'),
-    isSentByYou: false,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Маргарита',
-    lastName: 'Широпопова',
-    lastMessageText: 'Это не я',
-    lastMessageSentAt: DateTime.parse('2024-07-03 22:37:06.880429'),
-    isSentByYou: true,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Анна',
-    lastName: 'Хотькудатова',
-    lastMessageText: 'Пришел я в кино а там ничего нет. '
-        'Развернулся и ушел домой',
-    lastMessageSentAt: DateTime.parse('2002-02-27T14:00:00-0500'),
-    isSentByYou: true,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Егор',
-    lastName: 'Коромысликов',
-    lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
-    lastMessageSentAt: DateTime.parse('2024-07-03T14:00:00-0500'),
-    isSentByYou: false,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Василий',
-    lastName: 'Жбан',
-    lastMessageText:
-        'На чем поехал в Ленинград человек рассеянный с улицы Бассейной?',
-    lastMessageSentAt: DateTime.parse('2024-06-28T14:00:00-0500'),
-    isSentByYou: false,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Константин',
-    lastName: 'Большебревников',
-    lastMessageText: 'Это не я',
-    lastMessageSentAt: DateTime.parse('2024-07-03T19:01:00-0500'),
-    isSentByYou: true,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Козьма',
-    lastName: 'Востропипов',
-    lastMessageText: 'Пришел я в кино а там ничего нет. '
-        'Развернулся и ушел домой',
-    lastMessageSentAt: DateTime.parse('2002-02-27T14:00:00-0500'),
-    isSentByYou: true,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Родеон',
-    lastName: 'Трындотырский',
-    lastMessageText: 'Жил-был человек рассеянный на улице Бассейной',
-    lastMessageSentAt: DateTime.parse('2024-07-03T14:00:00-0500'),
-    isSentByYou: false,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Ипполит',
-    lastName: 'Коков',
-    lastMessageText: 'Как поживаешь?',
-    lastMessageSentAt: DateTime.parse('2024-06-28T14:00:00-0500'),
-    isSentByYou: false,
-  ),
-  ChatListItem(
-    id: '',
-    firstName: 'Инна',
-    lastName: 'Пышногривова',
-    lastMessageText: 'Привет!',
-    lastMessageSentAt: DateTime.parse('2024-07-03T19:01:00-0500'),
-    isSentByYou: true,
-  ),
-];

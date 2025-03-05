@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
-import '../../../../../../domain/models/chat_message.dart';
+import '../../../../../../domain/models/message.dart';
 import 'cluster_attribute.dart';
 
 class LeftMessage extends StatelessWidget {
@@ -15,7 +15,7 @@ class LeftMessage extends StatelessWidget {
     super.key,
   });
 
-  final ChatMessage message;
+  final Message message;
   final Color backgroundColor;
   final ClusterAttribute? clusterAttribute;
 
@@ -92,7 +92,7 @@ class _MessageContent extends StatelessWidget {
     this.withTail = false,
   });
 
-  final ChatMessage message;
+  final Message message;
   final Color backgroundColor;
   final bool withTail;
 

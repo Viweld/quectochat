@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
-import '../../../../../../domain/models/chat_message.dart';
+import '../../../../../../domain/models/message.dart';
 import 'cluster_attribute.dart';
 import 'left_message.dart';
 import 'right_message.dart';
@@ -14,7 +14,7 @@ class MessageBubble extends StatelessWidget {
     super.key,
   });
 
-  final ChatMessage message;
+  final Message message;
   final ClusterAttribute? clusterAttribute;
 
   @override

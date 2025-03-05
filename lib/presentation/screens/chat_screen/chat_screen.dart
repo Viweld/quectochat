@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     _firstName = arguments.firstName;
     _lastName = arguments.lastName;
-    _bloc ??= context.depGen().buildChatBloc(partnerId: arguments.id);
+    _bloc ??= context.depGen().buildChatBloc(interlocutorId: arguments.id);
   }
 
   @override

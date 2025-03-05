@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../domain/models/chat_message.dart';
+import '../../../../../../domain/models/message.dart';
 
 /// Разделитель между сообщениями внутри дня
 class VerticalMessageSpacer extends StatelessWidget {
@@ -10,7 +10,7 @@ class VerticalMessageSpacer extends StatelessWidget {
     super.key,
   });
 
-  final Iterable<ChatMessage> messages;
+  final Iterable<Message> messages;
   final int builderIndex;
 
   @override
@@ -22,7 +22,7 @@ class VerticalMessageSpacer extends StatelessWidget {
 
   // ---------------------------------------------------------------------------
   /// Возвращает интервал: 6 - между сообщениями в кластере, 20 - между кластерами
-  double _getInterval(Iterable<ChatMessage> messages, int builderIndex) {
+  double _getInterval(Iterable<Message> messages, int builderIndex) {
     final messageList = messages.toList();
     final i = messages.length - 1 - builderIndex;
     if (i <= 0 || i >= messageList.length) return 20.0;
@@ -39,7 +39,7 @@ class VerticalMessageSpacer extends StatelessWidget {
   // ---------------------------------------------------------------------------
   /// Возвращает [true] - если даты сообщений одинаковы
   /// и [false] - если даты сообщений различаются
-  bool _isSameDay(ChatMessage a, ChatMessage b) {
+  bool _isSameDay(Message a, Message b) {
     return a.createdAt.year == b.createdAt.year &&
         a.createdAt.month == b.createdAt.month &&
         a.createdAt.day == b.createdAt.day;

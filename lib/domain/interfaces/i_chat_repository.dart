@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-import '../models/chat_message.dart';
-import '../models/chat_message_type.dart';
+import '../models/message.dart';
+import '../models/message_content_type.dart';
 
 // -----------------------------------------------------------------------------
 /// Ошибки в репозитории
@@ -17,7 +17,7 @@ final class ChatRepositoryError {
 // ПОДПИСКИ:
 // -----------------------------------------------------------------------------
 /// Подписка на стрим с сообщениями
-typedef ChatMessagesSubscription = StreamSubscription<Iterable<ChatMessage>>;
+typedef ChatMessagesSubscription = StreamSubscription<Iterable<Message>>;
 
 /// Подписка на стрим с ошибками
 typedef ChatErrorsSubscription = StreamSubscription<ChatRepositoryError>;
@@ -31,7 +31,7 @@ abstract interface class IChatRepository {
 
   /// подписка на изменения данных в репозитории
   ChatMessagesSubscription subscribeEvents(
-    Function(Iterable<ChatMessage>) listener,
+    Function(Iterable<Message>) listener,
   );
 
   /// подписка на ошибки в репозитории
@@ -50,7 +50,6 @@ abstract interface class IChatRepository {
 
   /// Отправка сообщения
   Future<void> sendMessage({
-    required String content,
-    required ChatMessageType type,
+    required Message message,
   });
 }

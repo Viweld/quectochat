@@ -2,11 +2,11 @@ part of '../home_screen.dart';
 
 class _ChatTile extends StatelessWidget {
   const _ChatTile({
-    required this.chatListItem,
+    required this.interlocutor,
     required this.onTapped,
   });
 
-  final ChatListItem chatListItem;
+  final Interlocutor interlocutor;
   final void Function() onTapped;
 
   static const double _horizontalInterval = 12;
@@ -31,8 +31,8 @@ class _ChatTile extends StatelessWidget {
                 children: [
                   /// Бирка с инициалами
                   CommonUserAvatar(
-                    firstName: chatListItem.firstName,
-                    lastName: chatListItem.lastName,
+                    firstName: interlocutor.firstName,
+                    lastName: interlocutor.lastName,
                   ),
                   const SizedBox(width: _horizontalInterval),
 
@@ -42,16 +42,15 @@ class _ChatTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         /// Полное имя собеседника
-                        // TODO(Vadim): #idea сделать выделение фрагмента, совпавшего с поисковым запросом
                         Text(
-                          '${chatListItem.firstName} ${chatListItem.lastName}',
+                          '${interlocutor.firstName} ${interlocutor.lastName}',
                           style: context.style15w600$username,
                         ),
 
                         /// Последнее сообщение в чате
                         Row(
                           children: [
-                            if (chatListItem.isSentByYou)
+                            if (interlocutor.isSentByYou ?? false)
                               Text(
                                 context.texts.homeChatTileYouLabel,
                                 style: context.style12w500$labels?.copyWith(
@@ -60,7 +59,7 @@ class _ChatTile extends StatelessWidget {
                               ),
                             Expanded(
                               child: Text(
-                                chatListItem.lastMessageText,
+                                interlocutor.lastMessageText ?? '',
                                 style: context.style12w500$labels,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -77,10 +76,11 @@ class _ChatTile extends StatelessWidget {
             ),
 
             /// Интервал с момента отправки последнего сообщения
-            Text(
-              timeAgoSinceDate(context, chatListItem.lastMessageSentAt),
-              style: context.style12w500$labels,
-            ),
+            if (interlocutor.lastMessageSentAt != null)
+              Text(
+                timeAgoSinceDate(context, interlocutor.lastMessageSentAt!),
+                style: context.style12w500$labels,
+              ),
             const SizedBox(width: _horizontalInterval),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:quectochat/domain/environment/builders.dep_gen.dart';
@@ -7,7 +6,7 @@ import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 import 'package:quectochat/presentation/values/qicons.dart';
 
-import '../../../domain/models/chat_list_item.dart';
+import '../../../domain/models/interlocutor.dart';
 import '../../common/common_pending_indicator.dart';
 import '../../common/common_toast.dart';
 import '../../common/common_user_avatar.dart';
@@ -46,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               'Wrong state for HomeScreen',
             ),
             pending: (s) => const Center(child: CommonPendingIndicator()),
-            view: (s) => _HomeView(chatList: s.chatList),
+            view: (s) => _HomeView(interlocutors: s.interlocutors),
           ),
         ),
       ),
@@ -63,10 +62,10 @@ class HomeScreen extends StatelessWidget {
 
 class _HomeView extends StatelessWidget {
   const _HomeView({
-    required this.chatList,
+    required this.interlocutors,
   });
 
-  final Iterable<ChatListItem> chatList;
+  final Iterable<Interlocutor> interlocutors;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,7 @@ class _HomeView extends StatelessWidget {
           ),
 
           /// Либо надпись об отсутствии переписок, либо список переписок
-          if (chatList.isEmpty)
+          if (interlocutors.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
               child: Center(
@@ -122,7 +121,7 @@ class _HomeView extends StatelessWidget {
             )
           else
             SliverList.separated(
-              itemCount: chatList.length,
+              itemCount: interlocutors.length,
               separatorBuilder: (context, i) => Divider(
                 height: Values.dividerThickness,
                 color: context.palette.gray,
@@ -130,12 +129,12 @@ class _HomeView extends StatelessWidget {
                 endIndent: Values.horizontalPadding,
               ),
               itemBuilder: (context, i) {
-                final chatLIstItem = chatList.elementAt(i);
+                final interlocutor = interlocutors.elementAt(i);
                 return _ChatTile(
-                  chatListItem: chatLIstItem,
+                  interlocutor: interlocutor,
                   onTapped: () => _onChatListItemTapped(
                     context,
-                    chatLIstItem,
+                    interlocutor,
                   ),
                 );
               },
@@ -151,14 +150,14 @@ class _HomeView extends StatelessWidget {
     context.read<HomeBloc>().add(const HomeEvent.onLogoutTapped());
   }
 
-  void _onChatListItemTapped(BuildContext context, ChatListItem chatListItem) {
+  void _onChatListItemTapped(BuildContext context, Interlocutor interlocutor) {
     Navigator.pushNamed(
       context,
       NestedRoutes.routeChat,
       arguments: ChatScreenArguments(
-        id: chatListItem.id,
-        firstName: chatListItem.firstName,
-        lastName: chatListItem.lastName,
+        id: interlocutor.userId,
+        firstName: interlocutor.firstName,
+        lastName: interlocutor.lastName,
       ),
     );
   }

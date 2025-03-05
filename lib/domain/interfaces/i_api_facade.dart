@@ -1,4 +1,7 @@
-import '../models/chat_message.dart';
+import '../models/message_content_type.dart';
+import '../models/interlocutor.dart';
+import '../models/message.dart';
+import '../models/paginated.dart';
 import '../models/user_details.dart';
 
 abstract interface class INetworkFacade {
@@ -31,32 +34,37 @@ abstract interface class INetworkFacade {
 
   // СОБЕСЕДНИКИ:
   // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  /// Получение пользователей для переписки
-  Future<Iterable<UserDetails>> getUsers({
-    String textSearch,
+  /// Получение списка собеседников с их последними сообщениями
+  Future<Paginated<Interlocutor>> getInterlocutors({
+    String? lastInterlocutorId,
+    String? search,
   });
+
+  /// Получение актуального списка собеседников в потоке
+  Stream<Set<Interlocutor>> getActualInterlocutors();
 
   // СООБЩЕНИЯ:
   // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
   /// Получение сообщений в пагинированном виде
-  /// (для получения последующих страниц isNext должен быть true)
-  Future<Iterable<ChatMessage>> getChatMessages({
-    required String chatId,
-    bool isNext,
+  Future<Paginated<Message>> getChatMessages({
+    required Set<String> interlocutorsIds,
+    String? lastMessageId,
   });
 
   /// Отправка сообщения
-  Future<ChatMessage> sendMessage({
-    required ChatMessage message,
-    required String chatId,
+  Future<Message> sendMessage({
+    required String toId,
+    required String content,
+    required MessageContentType type,
   });
 
-  /// Получить стрим сообщений
-  Stream<ChatMessage> getChatStream({required String chatId});
+  /// Получить стрим наборами новых или измененных сообщений
+  Stream<Set<Message>> getAddedModifiedMessagesStream({
+    required Set<String> interlocutorsIds,
+  });
+
+  /// Помечает сообщения пользователя как прочитанные
+  Future<void> markAsViewed({required String fromId});
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------

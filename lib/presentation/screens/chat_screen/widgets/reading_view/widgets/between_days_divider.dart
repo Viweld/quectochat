@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 
-import '../../../../../../domain/models/chat_message.dart';
+import '../../../../../../domain/models/message.dart';
 
 /// Разделитель между днями
 class BetweenDaysDivider extends StatelessWidget {
@@ -11,7 +11,7 @@ class BetweenDaysDivider extends StatelessWidget {
     super.key,
   });
 
-  final ChatMessage message;
+  final Message message;
 
   @override
   Widget build(BuildContext context) {

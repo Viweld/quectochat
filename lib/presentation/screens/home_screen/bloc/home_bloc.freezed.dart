@@ -628,7 +628,7 @@ mixin _$HomeState {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(
-            Iterable<ChatListItem> chatList, dynamic isLoading)
+            Iterable<Interlocutor> interlocutors, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) =>
@@ -636,14 +636,16 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult? Function(String? errorText)? requestError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) =>
@@ -729,7 +731,7 @@ class _$StatePendingImpl implements _StatePending {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(
-            Iterable<ChatListItem> chatList, dynamic isLoading)
+            Iterable<Interlocutor> interlocutors, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) {
@@ -740,7 +742,8 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult? Function(String? errorText)? requestError,
   }) {
     return pending?.call();
@@ -750,7 +753,8 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
@@ -805,7 +809,7 @@ abstract class _$$StateViewImplCopyWith<$Res> {
           _$StateViewImpl value, $Res Function(_$StateViewImpl) then) =
       __$$StateViewImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Iterable<ChatListItem> chatList, dynamic isLoading});
+  $Res call({Iterable<Interlocutor> interlocutors, dynamic isLoading});
 }
 
 /// @nodoc
@@ -819,14 +823,14 @@ class __$$StateViewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatList = null,
+    Object? interlocutors = null,
     Object? isLoading = freezed,
   }) {
     return _then(_$StateViewImpl(
-      chatList: null == chatList
-          ? _value.chatList
-          : chatList // ignore: cast_nullable_to_non_nullable
-              as Iterable<ChatListItem>,
+      interlocutors: null == interlocutors
+          ? _value.interlocutors
+          : interlocutors // ignore: cast_nullable_to_non_nullable
+              as Iterable<Interlocutor>,
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
     ));
   }
@@ -835,18 +839,19 @@ class __$$StateViewImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$StateViewImpl implements _StateView {
-  const _$StateViewImpl({this.chatList = const [], this.isLoading = false});
+  const _$StateViewImpl(
+      {this.interlocutors = const [], this.isLoading = false});
 
   @override
   @JsonKey()
-  final Iterable<ChatListItem> chatList;
+  final Iterable<Interlocutor> interlocutors;
   @override
   @JsonKey()
   final dynamic isLoading;
 
   @override
   String toString() {
-    return 'HomeState.view(chatList: $chatList, isLoading: $isLoading)';
+    return 'HomeState.view(interlocutors: $interlocutors, isLoading: $isLoading)';
   }
 
   @override
@@ -854,14 +859,15 @@ class _$StateViewImpl implements _StateView {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StateViewImpl &&
-            const DeepCollectionEquality().equals(other.chatList, chatList) &&
+            const DeepCollectionEquality()
+                .equals(other.interlocutors, interlocutors) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(chatList),
+      const DeepCollectionEquality().hash(interlocutors),
       const DeepCollectionEquality().hash(isLoading));
 
   @JsonKey(ignore: true)
@@ -875,33 +881,35 @@ class _$StateViewImpl implements _StateView {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(
-            Iterable<ChatListItem> chatList, dynamic isLoading)
+            Iterable<Interlocutor> interlocutors, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) {
-    return view(chatList, isLoading);
+    return view(interlocutors, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult? Function(String? errorText)? requestError,
   }) {
-    return view?.call(chatList, isLoading);
+    return view?.call(interlocutors, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
-      return view(chatList, isLoading);
+      return view(interlocutors, isLoading);
     }
     return orElse();
   }
@@ -943,10 +951,10 @@ class _$StateViewImpl implements _StateView {
 
 abstract class _StateView implements HomeState {
   const factory _StateView(
-      {final Iterable<ChatListItem> chatList,
+      {final Iterable<Interlocutor> interlocutors,
       final dynamic isLoading}) = _$StateViewImpl;
 
-  Iterable<ChatListItem> get chatList;
+  Iterable<Interlocutor> get interlocutors;
   dynamic get isLoading;
   @JsonKey(ignore: true)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
@@ -1021,7 +1029,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
     required TResult Function(
-            Iterable<ChatListItem> chatList, dynamic isLoading)
+            Iterable<Interlocutor> interlocutors, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) {
@@ -1032,7 +1040,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult? Function(String? errorText)? requestError,
   }) {
     return requestError?.call(errorText);
@@ -1042,7 +1051,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatListItem> chatList, dynamic isLoading)? view,
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+        view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {

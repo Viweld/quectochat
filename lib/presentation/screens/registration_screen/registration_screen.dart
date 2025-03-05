@@ -6,7 +6,6 @@ import 'package:quectochat/presentation/common/common_accent_button.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 
 import '../../../domain/utils/form_fields/form_fields.dart';
-import '../../common/common_back_button.dart';
 import '../../common/common_floating_back_button.dart';
 import '../../common/common_toast.dart';
 import '../../values/images.dart';

@@ -7,7 +7,7 @@ class ReadingViewState with _$ReadingViewState {
 
   /// основное состояние вью
   const factory ReadingViewState.view({
-    @Default([]) Iterable<ChatMessage> messages,
+    @Default([]) Iterable<Message> messages,
   }) = _StateView;
 
   /// состояние ошибки инициализации

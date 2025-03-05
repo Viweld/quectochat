@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../../domain/interfaces/i_chat_repository.dart';
-import '../../../../../../domain/models/chat_message.dart';
+import '../../../../../../domain/models/message.dart';
 
 part 'reading_view_bloc.freezed.dart';
 
@@ -40,7 +40,7 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
   // ---------------------------------------------------------------------------
   late ChatMessagesSubscription _chatMessagesStreamSubscription;
 
-  void _chatMessagesStreamListener(Iterable<ChatMessage> messages) {
+  void _chatMessagesStreamListener(Iterable<Message> messages) {
     // TODO(Vadim): #unimplemented тут сравнение списков полученных с имеющимися
 
     _viewState = super.state is _StatePending

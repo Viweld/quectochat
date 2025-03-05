@@ -7,7 +7,7 @@ class HomeState with _$HomeState {
 
   /// основное состояние вью
   const factory HomeState.view({
-    @Default([]) Iterable<ChatListItem> chatList,
+    @Default([]) Iterable<Interlocutor> interlocutors,
     @Default(false) isLoading,
   }) = _StateView;
 

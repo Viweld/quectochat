@@ -299,21 +299,21 @@ mixin _$ReadingViewState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(Iterable<ChatMessage> messages) view,
+    required TResult Function(Iterable<Message> messages) view,
     required TResult Function() initializationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatMessage> messages)? view,
+    TResult? Function(Iterable<Message> messages)? view,
     TResult? Function()? initializationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<Message> messages)? view,
     TResult Function()? initializationError,
     required TResult orElse(),
   }) =>
@@ -400,7 +400,7 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(Iterable<ChatMessage> messages) view,
+    required TResult Function(Iterable<Message> messages) view,
     required TResult Function() initializationError,
   }) {
     return pending();
@@ -410,7 +410,7 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatMessage> messages)? view,
+    TResult? Function(Iterable<Message> messages)? view,
     TResult? Function()? initializationError,
   }) {
     return pending?.call();
@@ -420,7 +420,7 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<Message> messages)? view,
     TResult Function()? initializationError,
     required TResult orElse(),
   }) {
@@ -476,7 +476,7 @@ abstract class _$$StateViewImplCopyWith<$Res> {
           _$StateViewImpl value, $Res Function(_$StateViewImpl) then) =
       __$$StateViewImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Iterable<ChatMessage> messages});
+  $Res call({Iterable<Message> messages});
 }
 
 /// @nodoc
@@ -496,7 +496,7 @@ class __$$StateViewImplCopyWithImpl<$Res>
       messages: null == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
-              as Iterable<ChatMessage>,
+              as Iterable<Message>,
     ));
   }
 }
@@ -508,7 +508,7 @@ class _$StateViewImpl implements _StateView {
 
   @override
   @JsonKey()
-  final Iterable<ChatMessage> messages;
+  final Iterable<Message> messages;
 
   @override
   String toString() {
@@ -537,7 +537,7 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(Iterable<ChatMessage> messages) view,
+    required TResult Function(Iterable<Message> messages) view,
     required TResult Function() initializationError,
   }) {
     return view(messages);
@@ -547,7 +547,7 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatMessage> messages)? view,
+    TResult? Function(Iterable<Message> messages)? view,
     TResult? Function()? initializationError,
   }) {
     return view?.call(messages);
@@ -557,7 +557,7 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<Message> messages)? view,
     TResult Function()? initializationError,
     required TResult orElse(),
   }) {
@@ -604,10 +604,10 @@ class _$StateViewImpl implements _StateView {
 }
 
 abstract class _StateView implements ReadingViewState {
-  const factory _StateView({final Iterable<ChatMessage> messages}) =
+  const factory _StateView({final Iterable<Message> messages}) =
       _$StateViewImpl;
 
-  Iterable<ChatMessage> get messages;
+  Iterable<Message> get messages;
   @JsonKey(ignore: true)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -655,7 +655,7 @@ class _$StateInitializationErrorImpl implements _StateInitializationError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(Iterable<ChatMessage> messages) view,
+    required TResult Function(Iterable<Message> messages) view,
     required TResult Function() initializationError,
   }) {
     return initializationError();
@@ -665,7 +665,7 @@ class _$StateInitializationErrorImpl implements _StateInitializationError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<ChatMessage> messages)? view,
+    TResult? Function(Iterable<Message> messages)? view,
     TResult? Function()? initializationError,
   }) {
     return initializationError?.call();
@@ -675,7 +675,7 @@ class _$StateInitializationErrorImpl implements _StateInitializationError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<ChatMessage> messages)? view,
+    TResult Function(Iterable<Message> messages)? view,
     TResult Function()? initializationError,
     required TResult orElse(),
   }) {

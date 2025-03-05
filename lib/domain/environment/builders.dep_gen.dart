@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: type=lint
+// coverage:ignore-start
 
 import 'dart:collection';
 
@@ -78,6 +79,7 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   /// A pre-configured environment containing the dependencies used
   final DepGenEnvironment _env;
+  DepGenEnvironment get environment => _env;
 
   // ---------------------------------------------------------------------------
   static DepProvider of(BuildContext context) {
@@ -111,10 +113,10 @@ class DepProvider extends InheritedWidget {
 
   // ---------------------------------------------------------------------------
   ChatBloc buildChatBloc({
-    required String partnerId,
+    required String interlocutorId,
   }) =>
       ChatBloc(
-        partnerId: partnerId,
+        partnerId: interlocutorId,
         chatRepository: _env.g<IChatRepository>(),
       );
 
@@ -124,7 +126,13 @@ class DepProvider extends InheritedWidget {
       );
 
   // ---------------------------------------------------------------------------
-  TypingViewBloc buildTypingViewBloc() => TypingViewBloc(
+  TypingViewBloc buildTypingViewBloc({
+    required String currentUserId,
+    required String interlocutorId,
+  }) =>
+      TypingViewBloc(
+        currentUserId: currentUserId,
+        interlocutorId: interlocutorId,
         chatRepository: _env.g<IChatRepository>(),
       );
 
@@ -149,3 +157,4 @@ class DepProvider extends InheritedWidget {
         authRepository: _env.g<IAuthRepository>(),
       );
 }
+// coverage:ignore-end
