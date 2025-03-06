@@ -146,7 +146,6 @@ final class FirebaseService implements INetworkFacade {
     const limit = _interlocutorsPaginationLimit;
     DocumentSnapshot<Map<String, dynamic>>? lastDocument;
 
-    // Если есть lastInterlocutorId, получаем соответствующий документ
     if (lastInterlocutorId != null) {
       final lastDocSnapshot = await _firebaseFirestore
           .collection(_Keys._tUsers)
@@ -158,73 +157,47 @@ final class FirebaseService implements INetworkFacade {
       }
     }
 
-    Query<Map<String, dynamic>> query = _firebaseFirestore
-        .collection(_Keys._tUsers)
-        .orderBy(_Keys._fUser$fullName)
-        .limit(limit + 1); // +1 для проверки hasNext
-
-    // Фильтрация по имени (поиск без учета регистра)
-    if (search != null && search.isNotEmpty) {
-      final lowerSearch = search.toLowerCase();
-      query = query.where(
-        _Keys._fUser$fullName,
-        isGreaterThanOrEqualTo: lowerSearch,
-        isLessThan: '$lowerSearch\uf8ff',
-      );
-    }
-
-    // Начинаем выборку после lastDocument, если он есть
-    if (lastDocument != null) {
-      query = query.startAfterDocument(lastDocument);
-    }
-
-    final response = await query.get();
-
-    // Проверяем, есть ли следующая страница
-    final hasNext = response.docs.length > limit;
-
-    // Если есть лишний документ (чтобы проверить hasNext), убираем его
-    final docs = hasNext ? response.docs.sublist(0, limit) : response.docs;
-
-    // Список ID пользователей-собеседников
-    final userIds = docs.map((doc) => doc.id).toList();
-
-    // Запрос последних сообщений для этих собеседников
+    // 1. Загружаем последние сообщения, упорядоченные по времени
     final lastMessagesQuery = await _firebaseFirestore
         .collection(_Keys._tMessages)
-        .where(_Keys._fMessage$chatId,
-            whereIn: userIds
-                .map((id) => IdTools.getChatId([_currentUserId, id]))
-                .toList())
+        .where(_Keys._fMessage$fromId, isEqualTo: _currentUserId)
         .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .limit(limit + 1)
         .get();
 
-    // Создаем мапу {chatId -> последнее сообщение}
+    final Set<String> interlocutorIdsWithMessages = {};
     final Map<String, QueryDocumentSnapshot<Map<String, dynamic>>>
         lastMessages = {};
+
     for (var doc in lastMessagesQuery.docs) {
-      final chatId = doc[_Keys._fMessage$chatId] as String;
-      if (!lastMessages.containsKey(chatId)) {
-        lastMessages[chatId] = doc;
+      final fromId = doc[_Keys._fMessage$fromId] as String;
+      final toId = doc[_Keys._fMessage$toId] as String;
+      final interlocutorId = fromId == _currentUserId ? toId : fromId;
+
+      if (!interlocutorIdsWithMessages.contains(interlocutorId)) {
+        interlocutorIdsWithMessages.add(interlocutorId);
+        lastMessages[interlocutorId] = doc;
       }
     }
 
-    // Парсим пользователей и добавляем данные о последнем сообщении
-    final users = docs.map((doc) {
+    // 2. Загружаем пользователей, у которых есть сообщения
+    final usersWithMessagesQuery = await _firebaseFirestore
+        .collection(_Keys._tUsers)
+        .where(FieldPath.documentId,
+            whereIn: interlocutorIdsWithMessages.toList())
+        .get();
+
+    final List<Interlocutor> withMessages =
+        usersWithMessagesQuery.docs.map((doc) {
       final data = doc.data();
       final userId = doc.id;
-      final chatId = IdTools.getChatId([_currentUserId, userId]);
-
-      final lastMessageDoc = lastMessages[chatId];
+      final lastMessageDoc = lastMessages[userId];
       final lastMessageData = lastMessageDoc?.data();
 
       return Interlocutor(
         userId: userId,
         firstName: (data[_Keys._fUser$fullName] as String).split(' ').first,
-        lastName: (data[_Keys._fUser$fullName] as String)
-            .split(' ')
-            .skip(1)
-            .join(' '),
+        lastName: (data[_Keys._fUser$fullName]).split(' ').skip(1).join(' '),
         lastSentContent: lastMessageData?[_Keys._fMessage$content] as String?,
         lastSentContentType: _mapChatMessageTypeReverse(
             lastMessageData?[_Keys._fMessage$type] as String?),
@@ -236,9 +209,48 @@ final class FirebaseService implements INetworkFacade {
       );
     }).toList();
 
+    // 3. Загружаем оставшихся пользователей (без сообщений), исключая тех, у кого они есть
+    Query<Map<String, dynamic>> query = _firebaseFirestore
+        .collection(_Keys._tUsers)
+        .orderBy(_Keys._fUser$fullName)
+        .limit(limit + 1);
+
+    if (search != null && search.isNotEmpty) {
+      final lowerSearch = search.toLowerCase();
+      query = query.where(
+        _Keys._fUser$fullName,
+        isGreaterThanOrEqualTo: lowerSearch,
+        isLessThan: '$lowerSearch\uf8ff',
+      );
+    }
+
+    if (lastDocument != null) {
+      query = query.startAfterDocument(lastDocument);
+    }
+
+    final response = await query.get();
+    final withoutMessages = response.docs
+        .where((doc) => !interlocutorIdsWithMessages.contains(doc.id))
+        .map((doc) {
+      final data = doc.data();
+      return Interlocutor(
+        userId: doc.id,
+        firstName: (data[_Keys._fUser$fullName] as String).split(' ').first,
+        lastName: (data[_Keys._fUser$fullName]).split(' ').skip(1).join(' '),
+        lastSentContent: null,
+        lastSentContentType: null,
+        lastSentAt: null,
+        isSentByYou: false,
+      );
+    }).toList();
+
+    // 4. Объединяем два списка
+    final sortedUsers = [...withMessages, ...withoutMessages];
+    final hasNext = sortedUsers.length > limit;
+
     return Paginated<Interlocutor>(
       hasNext: hasNext,
-      result: users,
+      result: hasNext ? sortedUsers.sublist(0, limit) : sortedUsers,
     );
   }
 
@@ -312,6 +324,20 @@ final class FirebaseService implements INetworkFacade {
 
       return interlocutors.values.toSet();
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  @override
+  Future<void> clearChat({required String interlocutorId}) async {
+    final chatId = IdTools.getChatId([_currentUserId, interlocutorId]);
+    final messagesQuery = await _firebaseFirestore
+        .collection(_Keys._tMessages)
+        .where(_Keys._fMessage$chatId, isEqualTo: chatId)
+        .get();
+
+    for (var doc in messagesQuery.docs) {
+      await doc.reference.delete();
+    }
   }
 
   // СООБЩЕНИЯ:

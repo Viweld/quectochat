@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:quectochat/domain/models/message_content_type.dart';
-
 import '../../domain/interfaces/i_api_facade.dart';
 import '../../domain/interfaces/i_chat_repository.dart';
 import '../../domain/models/message.dart';
