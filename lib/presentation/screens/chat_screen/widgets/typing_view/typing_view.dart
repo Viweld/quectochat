@@ -10,12 +10,19 @@ import 'widgets/send_message_button.dart';
 
 /// ОБЛАСТЬ ВВОДА СООБЩЕНИЙ
 class TypingView extends StatelessWidget {
-  const TypingView({super.key});
+  const TypingView({
+    required this.interlocutorId,
+    super.key,
+  });
+
+  final String interlocutorId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildTypingViewBloc(),
+      create: (context) => context.depGen().buildTypingViewBloc(
+            interlocutorId: interlocutorId,
+          ),
       child: BlocBuilder<TypingViewBloc, TypingViewState>(
         buildWhen: (_, state) => state.maybeMap(
           view: (_) => true,

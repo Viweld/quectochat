@@ -65,7 +65,7 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
     Emitter<ReadingViewState> emitter,
   ) async {
     try {
-      await _chatRepository.fetchNextMessages();
+      // await _chatRepository.fetchNextMessages();
     } on Object {
       rethrow;
     } finally {

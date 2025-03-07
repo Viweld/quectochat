@@ -20,6 +20,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  String? _interlocutorId;
   String? _firstName;
   String? _lastName;
   ChatBloc? _bloc;
@@ -31,6 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (arguments is! ChatScreenArguments) {
       throw UnsupportedError('Expected arguments of type ChatScreenArguments');
     }
+    _interlocutorId = arguments.id;
     _firstName = arguments.firstName;
     _lastName = arguments.lastName;
     _bloc ??= context.depGen().buildChatBloc(interlocutorId: arguments.id);
@@ -60,13 +62,13 @@ class _ChatScreenState extends State<ChatScreen> {
             lastName: _lastName ?? '',
             status: 'status',
           ),
-          body: const Column(
+          body: Column(
             children: [
               /// Область просмотра сообщений
-              Expanded(child: ReadingView()),
+              const Expanded(child: ReadingView()),
 
               /// Область написания сообщений
-              TypingView(),
+              TypingView(interlocutorId: _interlocutorId!),
             ],
           ),
         ),

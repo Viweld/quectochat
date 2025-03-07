@@ -79,6 +79,7 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   /// A pre-configured environment containing the dependencies used
   final DepGenEnvironment _env;
+
   DepGenEnvironment get environment => _env;
 
   // ---------------------------------------------------------------------------
@@ -113,10 +114,10 @@ class DepProvider extends InheritedWidget {
 
   // ---------------------------------------------------------------------------
   ChatBloc buildChatBloc({
-    required String partnerId,
+    required String interlocutorId,
   }) =>
       ChatBloc(
-        partnerId: partnerId,
+        interlocutorId: interlocutorId,
         chatRepository: _env.g<IChatRepository>(),
       );
 

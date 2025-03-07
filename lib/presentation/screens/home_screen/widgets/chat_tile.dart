@@ -59,7 +59,7 @@ class _ChatTile extends StatelessWidget {
                               ),
                             Expanded(
                               child: Text(
-                                interlocutor.lastMessageText ?? '',
+                                interlocutor.lastSentContent ?? '',
                                 style: context.style12w500$labels,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -76,9 +76,9 @@ class _ChatTile extends StatelessWidget {
             ),
 
             /// Интервал с момента отправки последнего сообщения
-            if (interlocutor.lastMessageSentAt != null)
+            if (interlocutor.lastSentAt != null)
               Text(
-                timeAgoSinceDate(context, interlocutor.lastMessageSentAt!),
+                timeAgoSinceDate(context, interlocutor.lastSentAt!),
                 style: context.style12w500$labels,
               ),
             const SizedBox(width: _horizontalInterval),

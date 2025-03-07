@@ -13,9 +13,9 @@ part 'states.dart';
 @DepGen()
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc({
-    required String partnerId,
+    required String interlocutorId,
     @DepArg() required IChatRepository chatRepository,
-  })  : _partnerId = partnerId,
+  })  : _interlocutorId = interlocutorId,
         _chatRepository = chatRepository,
         super(const ChatState.view()) {
     on<ChatEvent>(
@@ -37,7 +37,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   // ДАННЫЕ:
   // ---------------------------------------------------------------------------
-  final String _partnerId;
+  final String _interlocutorId;
 
   // СТРИМЫ:
   // ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _EventOnInitializationRequested event,
     Emitter<ChatState> emitter,
   ) async {
-    await _chatRepository.initialize(interlocutorId: _partnerId);
+    await _chatRepository.initialize(interlocutorId: _interlocutorId);
   }
 
   /// Обработчик ВНУТРЕННЕГО события "прилетела ошибка"
