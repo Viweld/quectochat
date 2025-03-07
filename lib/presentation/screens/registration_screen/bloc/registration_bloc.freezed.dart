@@ -143,6 +143,9 @@ class _$RegistrationEventCopyWithImpl<$Res, $Val extends RegistrationEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -164,6 +167,8 @@ class __$$EventOnFirstNameChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnFirstNameChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -202,7 +207,9 @@ class _$EventOnFirstNameChangedImpl implements _EventOnFirstNameChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnFirstNameChangedImplCopyWith<_$EventOnFirstNameChangedImpl>
@@ -348,7 +355,10 @@ abstract class _EventOnFirstNameChanged implements RegistrationEvent {
       _$EventOnFirstNameChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnFirstNameChangedImplCopyWith<_$EventOnFirstNameChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -370,6 +380,9 @@ class __$$EventOnFirstNameFieldUnfocusedImplCopyWithImpl<$Res>
       _$EventOnFirstNameFieldUnfocusedImpl _value,
       $Res Function(_$EventOnFirstNameFieldUnfocusedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -551,6 +564,8 @@ class __$$EventOnLastNameChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnLastNameChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -589,7 +604,9 @@ class _$EventOnLastNameChangedImpl implements _EventOnLastNameChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnLastNameChangedImplCopyWith<_$EventOnLastNameChangedImpl>
@@ -735,7 +752,10 @@ abstract class _EventOnLastNameChanged implements RegistrationEvent {
       _$EventOnLastNameChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnLastNameChangedImplCopyWith<_$EventOnLastNameChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -757,6 +777,9 @@ class __$$EventOnLastNameFieldUnfocusedImplCopyWithImpl<$Res>
       _$EventOnLastNameFieldUnfocusedImpl _value,
       $Res Function(_$EventOnLastNameFieldUnfocusedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -936,6 +959,8 @@ class __$$EventOnEmailChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnEmailChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -974,7 +999,9 @@ class _$EventOnEmailChangedImpl implements _EventOnEmailChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnEmailChangedImplCopyWith<_$EventOnEmailChangedImpl> get copyWith =>
@@ -1120,7 +1147,10 @@ abstract class _EventOnEmailChanged implements RegistrationEvent {
       _$EventOnEmailChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnEmailChangedImplCopyWith<_$EventOnEmailChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1142,6 +1172,9 @@ class __$$EventOnEmailFieldUnfocusedImplCopyWithImpl<$Res>
       _$EventOnEmailFieldUnfocusedImpl _value,
       $Res Function(_$EventOnEmailFieldUnfocusedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1322,6 +1355,8 @@ class __$$EventOnPasswordChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnPasswordChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1360,7 +1395,9 @@ class _$EventOnPasswordChangedImpl implements _EventOnPasswordChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnPasswordChangedImplCopyWith<_$EventOnPasswordChangedImpl>
@@ -1506,7 +1543,10 @@ abstract class _EventOnPasswordChanged implements RegistrationEvent {
       _$EventOnPasswordChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnPasswordChangedImplCopyWith<_$EventOnPasswordChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1528,6 +1568,9 @@ class __$$EventOnPasswordFieldUnfocusedImplCopyWithImpl<$Res>
       _$EventOnPasswordFieldUnfocusedImpl _value,
       $Res Function(_$EventOnPasswordFieldUnfocusedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1710,6 +1753,8 @@ class __$$EventOnConfirmPasswordChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnConfirmPasswordChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1749,7 +1794,9 @@ class _$EventOnConfirmPasswordChangedImpl
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnConfirmPasswordChangedImplCopyWith<
@@ -1896,7 +1943,10 @@ abstract class _EventOnConfirmPasswordChanged implements RegistrationEvent {
       _$EventOnConfirmPasswordChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnConfirmPasswordChangedImplCopyWith<
           _$EventOnConfirmPasswordChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1919,6 +1969,9 @@ class __$$EventOnConfirmPasswordFieldUnfocusedImplCopyWithImpl<$Res>
       _$EventOnConfirmPasswordFieldUnfocusedImpl _value,
       $Res Function(_$EventOnConfirmPasswordFieldUnfocusedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2096,6 +2149,9 @@ class __$$EventOnLoginTappedImplCopyWithImpl<$Res>
   __$$EventOnLoginTappedImplCopyWithImpl(_$EventOnLoginTappedImpl _value,
       $Res Function(_$EventOnLoginTappedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2334,6 +2390,9 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2359,6 +2418,8 @@ class __$$StateViewImplCopyWithImpl<$Res>
       _$StateViewImpl _value, $Res Function(_$StateViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2453,7 +2514,9 @@ class _$StateViewImpl implements _StateView {
       confirmPasswordField,
       const DeepCollectionEquality().hash(isLoading));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
@@ -2561,7 +2624,10 @@ abstract class _StateView implements RegistrationState {
   PasswordField get passwordField;
   ConfirmPasswordField get confirmPasswordField;
   dynamic get isLoading;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2583,6 +2649,8 @@ class __$$StateRequestErrorImplCopyWithImpl<$Res>
       $Res Function(_$StateRequestErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2621,7 +2689,9 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
@@ -2717,7 +2787,10 @@ abstract class _StateRequestError implements RegistrationState {
       _$StateRequestErrorImpl;
 
   RegistrationError? get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

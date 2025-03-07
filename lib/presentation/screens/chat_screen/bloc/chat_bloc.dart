@@ -62,10 +62,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _EventOnInitializationRequested event,
     Emitter<ChatState> emitter,
   ) async {
-    await _chatRepository.initialize(toId: _partnerId);
+    await _chatRepository.initialize(interlocutorId: _partnerId);
   }
 
-  /// Обработчик ВНУТРЕННЕГО события "запрос на инициализацию"
+  /// Обработчик ВНУТРЕННЕГО события "прилетела ошибка"
   Future<void> _onErrorReceived(
       _EventOnErrorReceived e, Emitter<ChatState> emitter) async {
     emitter(ChatState.requestError(errorText: e.message));

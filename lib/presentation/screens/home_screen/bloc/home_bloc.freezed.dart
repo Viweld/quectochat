@@ -22,6 +22,7 @@ mixin _$HomeEvent {
     required TResult Function() onSearchFieldClearTapped,
     required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
+    required TResult Function() onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$HomeEvent {
     TResult? Function()? onSearchFieldClearTapped,
     TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
+    TResult? Function()? onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$HomeEvent {
     TResult Function()? onSearchFieldClearTapped,
     TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
+    TResult Function()? onStateChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -50,6 +53,7 @@ mixin _$HomeEvent {
     required TResult Function(_EventOnSearchTextChanged value)
         onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+    required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +64,7 @@ mixin _$HomeEvent {
         onSearchFieldClearTapped,
     TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -70,6 +75,7 @@ mixin _$HomeEvent {
         onSearchFieldClearTapped,
     TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -90,6 +96,9 @@ class _$HomeEventCopyWithImpl<$Res, $Val extends HomeEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -108,6 +117,9 @@ class __$$EventOnInitializationRequestedImplCopyWithImpl<$Res>
       _$EventOnInitializationRequestedImpl _value,
       $Res Function(_$EventOnInitializationRequestedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -138,6 +150,7 @@ class _$EventOnInitializationRequestedImpl
     required TResult Function() onSearchFieldClearTapped,
     required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
+    required TResult Function() onStateChanged,
   }) {
     return onInitializationRequested();
   }
@@ -149,6 +162,7 @@ class _$EventOnInitializationRequestedImpl
     TResult? Function()? onSearchFieldClearTapped,
     TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
+    TResult? Function()? onStateChanged,
   }) {
     return onInitializationRequested?.call();
   }
@@ -160,6 +174,7 @@ class _$EventOnInitializationRequestedImpl
     TResult Function()? onSearchFieldClearTapped,
     TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
+    TResult Function()? onStateChanged,
     required TResult orElse(),
   }) {
     if (onInitializationRequested != null) {
@@ -178,6 +193,7 @@ class _$EventOnInitializationRequestedImpl
     required TResult Function(_EventOnSearchTextChanged value)
         onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+    required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) {
     return onInitializationRequested(this);
   }
@@ -191,6 +207,7 @@ class _$EventOnInitializationRequestedImpl
         onSearchFieldClearTapped,
     TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) {
     return onInitializationRequested?.call(this);
   }
@@ -204,6 +221,7 @@ class _$EventOnInitializationRequestedImpl
         onSearchFieldClearTapped,
     TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) {
     if (onInitializationRequested != null) {
@@ -234,6 +252,9 @@ class __$$EventOnSearchFieldClearTappedImplCopyWithImpl<$Res>
       _$EventOnSearchFieldClearTappedImpl _value,
       $Res Function(_$EventOnSearchFieldClearTappedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -264,6 +285,7 @@ class _$EventOnSearchFieldClearTappedImpl
     required TResult Function() onSearchFieldClearTapped,
     required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
+    required TResult Function() onStateChanged,
   }) {
     return onSearchFieldClearTapped();
   }
@@ -275,6 +297,7 @@ class _$EventOnSearchFieldClearTappedImpl
     TResult? Function()? onSearchFieldClearTapped,
     TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
+    TResult? Function()? onStateChanged,
   }) {
     return onSearchFieldClearTapped?.call();
   }
@@ -286,6 +309,7 @@ class _$EventOnSearchFieldClearTappedImpl
     TResult Function()? onSearchFieldClearTapped,
     TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
+    TResult Function()? onStateChanged,
     required TResult orElse(),
   }) {
     if (onSearchFieldClearTapped != null) {
@@ -304,6 +328,7 @@ class _$EventOnSearchFieldClearTappedImpl
     required TResult Function(_EventOnSearchTextChanged value)
         onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+    required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) {
     return onSearchFieldClearTapped(this);
   }
@@ -317,6 +342,7 @@ class _$EventOnSearchFieldClearTappedImpl
         onSearchFieldClearTapped,
     TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) {
     return onSearchFieldClearTapped?.call(this);
   }
@@ -330,6 +356,7 @@ class _$EventOnSearchFieldClearTappedImpl
         onSearchFieldClearTapped,
     TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) {
     if (onSearchFieldClearTapped != null) {
@@ -363,6 +390,8 @@ class __$$EventOnSearchTextChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnSearchTextChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -401,7 +430,9 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnSearchTextChangedImplCopyWith<_$EventOnSearchTextChangedImpl>
@@ -415,6 +446,7 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
     required TResult Function() onSearchFieldClearTapped,
     required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
+    required TResult Function() onStateChanged,
   }) {
     return onSearchTextChanged(val);
   }
@@ -426,6 +458,7 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
     TResult? Function()? onSearchFieldClearTapped,
     TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
+    TResult? Function()? onStateChanged,
   }) {
     return onSearchTextChanged?.call(val);
   }
@@ -437,6 +470,7 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
     TResult Function()? onSearchFieldClearTapped,
     TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
+    TResult Function()? onStateChanged,
     required TResult orElse(),
   }) {
     if (onSearchTextChanged != null) {
@@ -455,6 +489,7 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
     required TResult Function(_EventOnSearchTextChanged value)
         onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+    required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) {
     return onSearchTextChanged(this);
   }
@@ -468,6 +503,7 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
         onSearchFieldClearTapped,
     TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) {
     return onSearchTextChanged?.call(this);
   }
@@ -481,6 +517,7 @@ class _$EventOnSearchTextChangedImpl implements _EventOnSearchTextChanged {
         onSearchFieldClearTapped,
     TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) {
     if (onSearchTextChanged != null) {
@@ -495,7 +532,10 @@ abstract class _EventOnSearchTextChanged implements HomeEvent {
       _$EventOnSearchTextChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnSearchTextChangedImplCopyWith<_$EventOnSearchTextChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -514,6 +554,9 @@ class __$$EventOnLogoutTappedImplCopyWithImpl<$Res>
   __$$EventOnLogoutTappedImplCopyWithImpl(_$EventOnLogoutTappedImpl _value,
       $Res Function(_$EventOnLogoutTappedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -543,6 +586,7 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
     required TResult Function() onSearchFieldClearTapped,
     required TResult Function(String val) onSearchTextChanged,
     required TResult Function() onLogoutTapped,
+    required TResult Function() onStateChanged,
   }) {
     return onLogoutTapped();
   }
@@ -554,6 +598,7 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
     TResult? Function()? onSearchFieldClearTapped,
     TResult? Function(String val)? onSearchTextChanged,
     TResult? Function()? onLogoutTapped,
+    TResult? Function()? onStateChanged,
   }) {
     return onLogoutTapped?.call();
   }
@@ -565,6 +610,7 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
     TResult Function()? onSearchFieldClearTapped,
     TResult Function(String val)? onSearchTextChanged,
     TResult Function()? onLogoutTapped,
+    TResult Function()? onStateChanged,
     required TResult orElse(),
   }) {
     if (onLogoutTapped != null) {
@@ -583,6 +629,7 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
     required TResult Function(_EventOnSearchTextChanged value)
         onSearchTextChanged,
     required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+    required TResult Function(_EventOnStateChanged value) onStateChanged,
   }) {
     return onLogoutTapped(this);
   }
@@ -596,6 +643,7 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
         onSearchFieldClearTapped,
     TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult? Function(_EventOnStateChanged value)? onStateChanged,
   }) {
     return onLogoutTapped?.call(this);
   }
@@ -609,6 +657,7 @@ class _$EventOnLogoutTappedImpl implements _EventOnLogoutTapped {
         onSearchFieldClearTapped,
     TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
     TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult Function(_EventOnStateChanged value)? onStateChanged,
     required TResult orElse(),
   }) {
     if (onLogoutTapped != null) {
@@ -623,12 +672,143 @@ abstract class _EventOnLogoutTapped implements HomeEvent {
 }
 
 /// @nodoc
+abstract class _$$EventOnStateChangedImplCopyWith<$Res> {
+  factory _$$EventOnStateChangedImplCopyWith(_$EventOnStateChangedImpl value,
+          $Res Function(_$EventOnStateChangedImpl) then) =
+      __$$EventOnStateChangedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EventOnStateChangedImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$EventOnStateChangedImpl>
+    implements _$$EventOnStateChangedImplCopyWith<$Res> {
+  __$$EventOnStateChangedImplCopyWithImpl(_$EventOnStateChangedImpl _value,
+      $Res Function(_$EventOnStateChangedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$EventOnStateChangedImpl implements _EventOnStateChanged {
+  const _$EventOnStateChangedImpl();
+
+  @override
+  String toString() {
+    return 'HomeEvent.onStateChanged()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EventOnStateChangedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onInitializationRequested,
+    required TResult Function() onSearchFieldClearTapped,
+    required TResult Function(String val) onSearchTextChanged,
+    required TResult Function() onLogoutTapped,
+    required TResult Function() onStateChanged,
+  }) {
+    return onStateChanged();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onInitializationRequested,
+    TResult? Function()? onSearchFieldClearTapped,
+    TResult? Function(String val)? onSearchTextChanged,
+    TResult? Function()? onLogoutTapped,
+    TResult? Function()? onStateChanged,
+  }) {
+    return onStateChanged?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onInitializationRequested,
+    TResult Function()? onSearchFieldClearTapped,
+    TResult Function(String val)? onSearchTextChanged,
+    TResult Function()? onLogoutTapped,
+    TResult Function()? onStateChanged,
+    required TResult orElse(),
+  }) {
+    if (onStateChanged != null) {
+      return onStateChanged();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EventOnInitializationRequested value)
+        onInitializationRequested,
+    required TResult Function(_EventOnSearchFieldClearTapped value)
+        onSearchFieldClearTapped,
+    required TResult Function(_EventOnSearchTextChanged value)
+        onSearchTextChanged,
+    required TResult Function(_EventOnLogoutTapped value) onLogoutTapped,
+    required TResult Function(_EventOnStateChanged value) onStateChanged,
+  }) {
+    return onStateChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult? Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult? Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult? Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult? Function(_EventOnStateChanged value)? onStateChanged,
+  }) {
+    return onStateChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EventOnInitializationRequested value)?
+        onInitializationRequested,
+    TResult Function(_EventOnSearchFieldClearTapped value)?
+        onSearchFieldClearTapped,
+    TResult Function(_EventOnSearchTextChanged value)? onSearchTextChanged,
+    TResult Function(_EventOnLogoutTapped value)? onLogoutTapped,
+    TResult Function(_EventOnStateChanged value)? onStateChanged,
+    required TResult orElse(),
+  }) {
+    if (onStateChanged != null) {
+      return onStateChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EventOnStateChanged implements HomeEvent {
+  const factory _EventOnStateChanged() = _$EventOnStateChangedImpl;
+}
+
+/// @nodoc
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            Iterable<Interlocutor> interlocutors, dynamic isLoading)
+    required TResult Function(Iterable<Interlocutor> interlocutors,
+            dynamic hasNext, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) =>
@@ -636,7 +816,8 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult? Function(String? errorText)? requestError,
   }) =>
@@ -644,7 +825,8 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
@@ -689,6 +871,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -705,6 +890,9 @@ class __$$StatePendingImplCopyWithImpl<$Res>
   __$$StatePendingImplCopyWithImpl(
       _$StatePendingImpl _value, $Res Function(_$StatePendingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -730,8 +918,8 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            Iterable<Interlocutor> interlocutors, dynamic isLoading)
+    required TResult Function(Iterable<Interlocutor> interlocutors,
+            dynamic hasNext, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) {
@@ -742,7 +930,8 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult? Function(String? errorText)? requestError,
   }) {
@@ -753,7 +942,8 @@ class _$StatePendingImpl implements _StatePending {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
@@ -809,7 +999,10 @@ abstract class _$$StateViewImplCopyWith<$Res> {
           _$StateViewImpl value, $Res Function(_$StateViewImpl) then) =
       __$$StateViewImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Iterable<Interlocutor> interlocutors, dynamic isLoading});
+  $Res call(
+      {Iterable<Interlocutor> interlocutors,
+      dynamic hasNext,
+      dynamic isLoading});
 }
 
 /// @nodoc
@@ -820,10 +1013,13 @@ class __$$StateViewImplCopyWithImpl<$Res>
       _$StateViewImpl _value, $Res Function(_$StateViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? interlocutors = null,
+    Object? hasNext = freezed,
     Object? isLoading = freezed,
   }) {
     return _then(_$StateViewImpl(
@@ -831,6 +1027,7 @@ class __$$StateViewImplCopyWithImpl<$Res>
           ? _value.interlocutors
           : interlocutors // ignore: cast_nullable_to_non_nullable
               as Iterable<Interlocutor>,
+      hasNext: freezed == hasNext ? _value.hasNext! : hasNext,
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
     ));
   }
@@ -840,18 +1037,23 @@ class __$$StateViewImplCopyWithImpl<$Res>
 
 class _$StateViewImpl implements _StateView {
   const _$StateViewImpl(
-      {this.interlocutors = const [], this.isLoading = false});
+      {this.interlocutors = const [],
+      this.hasNext = true,
+      this.isLoading = false});
 
   @override
   @JsonKey()
   final Iterable<Interlocutor> interlocutors;
   @override
   @JsonKey()
+  final dynamic hasNext;
+  @override
+  @JsonKey()
   final dynamic isLoading;
 
   @override
   String toString() {
-    return 'HomeState.view(interlocutors: $interlocutors, isLoading: $isLoading)';
+    return 'HomeState.view(interlocutors: $interlocutors, hasNext: $hasNext, isLoading: $isLoading)';
   }
 
   @override
@@ -861,6 +1063,7 @@ class _$StateViewImpl implements _StateView {
             other is _$StateViewImpl &&
             const DeepCollectionEquality()
                 .equals(other.interlocutors, interlocutors) &&
+            const DeepCollectionEquality().equals(other.hasNext, hasNext) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading));
   }
 
@@ -868,9 +1071,12 @@ class _$StateViewImpl implements _StateView {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(interlocutors),
+      const DeepCollectionEquality().hash(hasNext),
       const DeepCollectionEquality().hash(isLoading));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
@@ -880,36 +1086,38 @@ class _$StateViewImpl implements _StateView {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            Iterable<Interlocutor> interlocutors, dynamic isLoading)
+    required TResult Function(Iterable<Interlocutor> interlocutors,
+            dynamic hasNext, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) {
-    return view(interlocutors, isLoading);
+    return view(interlocutors, hasNext, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult? Function(String? errorText)? requestError,
   }) {
-    return view?.call(interlocutors, isLoading);
+    return view?.call(interlocutors, hasNext, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
   }) {
     if (view != null) {
-      return view(interlocutors, isLoading);
+      return view(interlocutors, hasNext, isLoading);
     }
     return orElse();
   }
@@ -952,11 +1160,16 @@ class _$StateViewImpl implements _StateView {
 abstract class _StateView implements HomeState {
   const factory _StateView(
       {final Iterable<Interlocutor> interlocutors,
+      final dynamic hasNext,
       final dynamic isLoading}) = _$StateViewImpl;
 
   Iterable<Interlocutor> get interlocutors;
+  dynamic get hasNext;
   dynamic get isLoading;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -978,6 +1191,8 @@ class __$$StateRequestErrorImplCopyWithImpl<$Res>
       $Res Function(_$StateRequestErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1017,7 +1232,9 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   int get hashCode => Object.hash(runtimeType, errorText);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
@@ -1028,8 +1245,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pending,
-    required TResult Function(
-            Iterable<Interlocutor> interlocutors, dynamic isLoading)
+    required TResult Function(Iterable<Interlocutor> interlocutors,
+            dynamic hasNext, dynamic isLoading)
         view,
     required TResult Function(String? errorText) requestError,
   }) {
@@ -1040,7 +1257,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pending,
-    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult? Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult? Function(String? errorText)? requestError,
   }) {
@@ -1051,7 +1269,8 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pending,
-    TResult Function(Iterable<Interlocutor> interlocutors, dynamic isLoading)?
+    TResult Function(Iterable<Interlocutor> interlocutors, dynamic hasNext,
+            dynamic isLoading)?
         view,
     TResult Function(String? errorText)? requestError,
     required TResult orElse(),
@@ -1102,7 +1321,10 @@ abstract class _StateRequestError implements HomeState {
       _$StateRequestErrorImpl;
 
   String? get errorText;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

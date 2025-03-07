@@ -11,9 +11,9 @@ import 'package:flutter/widgets.dart';
 // DepGen code generator
 // **************************************************************************
 
-import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 import 'package:quectochat/domain/interfaces/i_chat_repository.dart';
+import 'package:quectochat/domain/interfaces/i_home_repository.dart';
 import 'package:quectochat/presentation/navigation/auth_node/bloc/auth_bloc.dart';
 import 'package:quectochat/presentation/screens/chat_screen/bloc/chat_bloc.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/reading_view/bloc/reading_view_bloc.dart';
@@ -113,10 +113,10 @@ class DepProvider extends InheritedWidget {
 
   // ---------------------------------------------------------------------------
   ChatBloc buildChatBloc({
-    required String interlocutorId,
+    required String partnerId,
   }) =>
       ChatBloc(
-        partnerId: interlocutorId,
+        partnerId: partnerId,
         chatRepository: _env.g<IChatRepository>(),
       );
 
@@ -127,11 +127,9 @@ class DepProvider extends InheritedWidget {
 
   // ---------------------------------------------------------------------------
   TypingViewBloc buildTypingViewBloc({
-    required String currentUserId,
     required String interlocutorId,
   }) =>
       TypingViewBloc(
-        currentUserId: currentUserId,
         interlocutorId: interlocutorId,
         chatRepository: _env.g<IChatRepository>(),
       );
@@ -139,7 +137,7 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   HomeBloc buildHomeBloc() => HomeBloc(
         authRepository: _env.g<IAuthRepository>(),
-        facade: _env.g<INetworkFacade>(),
+        homeRepository: _env.g<IHomeRepository>(),
       );
 
   // ---------------------------------------------------------------------------

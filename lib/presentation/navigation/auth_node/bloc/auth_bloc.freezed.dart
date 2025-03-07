@@ -51,7 +51,9 @@ mixin _$AuthEvent {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AuthEventCopyWith<AuthEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,6 +76,8 @@ class _$AuthEventCopyWithImpl<$Res, $Val extends AuthEvent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class __$$EventOnAuthStatusChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnAuthStatusChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,7 +153,9 @@ class _$EventOnAuthStatusChangedImpl implements _EventOnAuthStatusChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnAuthStatusChangedImplCopyWith<_$EventOnAuthStatusChangedImpl>
@@ -218,8 +226,11 @@ abstract class _EventOnAuthStatusChanged implements AuthEvent {
 
   @override
   AuthStatus get val;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnAuthStatusChangedImplCopyWith<_$EventOnAuthStatusChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -281,6 +292,9 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -297,6 +311,9 @@ class __$$StateAuthorizedImplCopyWithImpl<$Res>
   __$$StateAuthorizedImplCopyWithImpl(
       _$StateAuthorizedImpl _value, $Res Function(_$StateAuthorizedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -399,6 +416,9 @@ class __$$StateNotAuthorizedImplCopyWithImpl<$Res>
   __$$StateNotAuthorizedImplCopyWithImpl(_$StateNotAuthorizedImpl _value,
       $Res Function(_$StateNotAuthorizedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

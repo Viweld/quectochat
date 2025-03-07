@@ -74,6 +74,9 @@ class _$ChatEventCopyWithImpl<$Res, $Val extends ChatEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -92,6 +95,9 @@ class __$$EventOnInitializationRequestedImplCopyWithImpl<$Res>
       _$EventOnInitializationRequestedImpl _value,
       $Res Function(_$EventOnInitializationRequestedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -203,6 +209,8 @@ class __$$EventOnErrorReceivedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnErrorReceivedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -241,7 +249,9 @@ class _$EventOnErrorReceivedImpl implements _EventOnErrorReceived {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnErrorReceivedImplCopyWith<_$EventOnErrorReceivedImpl>
@@ -320,7 +330,10 @@ abstract class _EventOnErrorReceived implements ChatEvent {
       _$EventOnErrorReceivedImpl;
 
   String? get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnErrorReceivedImplCopyWith<_$EventOnErrorReceivedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -382,6 +395,9 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -398,6 +414,9 @@ class __$$StateViewImplCopyWithImpl<$Res>
   __$$StateViewImplCopyWithImpl(
       _$StateViewImpl _value, $Res Function(_$StateViewImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChatState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -503,6 +522,8 @@ class __$$StateRequestErrorImplCopyWithImpl<$Res>
       $Res Function(_$StateRequestErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -542,7 +563,9 @@ class _$StateRequestErrorImpl implements _StateRequestError {
   @override
   int get hashCode => Object.hash(runtimeType, errorText);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
@@ -617,7 +640,10 @@ abstract class _StateRequestError implements ChatState {
       _$StateRequestErrorImpl;
 
   String? get errorText;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateRequestErrorImplCopyWith<_$StateRequestErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -54,22 +54,22 @@ abstract interface class INetworkFacade {
   // ---------------------------------------------------------------------------
   /// Получение сообщений в пагинированном виде
   Future<Paginated<Message>> getChatMessages({
-    required Set<String> interlocutorsIds,
+    required String interlocutorId,
     String? lastMessageId,
   });
 
   /// Отправка сообщения
   Future<Message> sendMessage({
-    required String toId,
+    required String interlocutorId,
     required String content,
     required MessageContentType type,
   });
 
   /// Получить стрим наборами новых или измененных сообщений
   Stream<Set<Message>> getAddedModifiedMessagesStream({
-    required Set<String> interlocutorsIds,
+    required String interlocutorId,
   });
 
   /// Помечает сообщения пользователя как прочитанные
-  Future<void> markAsViewed({required String fromId});
+  Future<void> markAsViewed({required String interlocutorId});
 }

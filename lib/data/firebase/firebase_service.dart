@@ -344,11 +344,11 @@ final class FirebaseService implements INetworkFacade {
   // ---------------------------------------------------------------------------
   @override
   Future<Paginated<Message>> getChatMessages({
-    required Set<String> interlocutorsIds,
+    required String interlocutorId,
     String? lastMessageId,
   }) async {
     const limit = _messagesPaginationLimit;
-    final chatId = IdTools.getChatId(interlocutorsIds.toList());
+    final chatId = IdTools.getChatId([interlocutorId, _currentUserId]);
 
     DocumentSnapshot<Map<String, dynamic>>? lastMessage;
 
@@ -398,16 +398,17 @@ final class FirebaseService implements INetworkFacade {
   // ---------------------------------------------------------------------------
   @override
   Future<Message> sendMessage({
-    required String toId,
+    required String interlocutorId,
     required String content,
     required MessageContentType type,
   }) async {
     final docReference = _firebaseFirestore.collection(_Keys._tMessages).doc();
 
     final messageData = {
-      _Keys._fMessage$chatId: IdTools.getChatId([_currentUserId, toId]),
+      _Keys._fMessage$chatId:
+          IdTools.getChatId([_currentUserId, interlocutorId]),
       _Keys._fMessage$fromId: _currentUserId,
-      _Keys._fMessage$toId: toId,
+      _Keys._fMessage$toId: interlocutorId,
       _Keys._fMessage$content: content,
       _Keys._fMessage$type: _mapChatMessageType(type),
       _Keys._fMessage$timestamp: DateTime.now().microsecondsSinceEpoch,
@@ -439,9 +440,9 @@ final class FirebaseService implements INetworkFacade {
   // ---------------------------------------------------------------------------
   @override
   Stream<Set<Message>> getAddedModifiedMessagesStream({
-    required Set<String> interlocutorsIds,
+    required String interlocutorId,
   }) {
-    final chatId = IdTools.getChatId(interlocutorsIds.toList());
+    final chatId = IdTools.getChatId([interlocutorId, _currentUserId]);
 
     return _firebaseFirestore
         .collection(_Keys._tMessages)
@@ -467,16 +468,15 @@ final class FirebaseService implements INetworkFacade {
 
   // ---------------------------------------------------------------------------
   @override
-  Future<void> markAsViewed({required String fromId}) async {
-    final chatId = IdTools.getChatId([_currentUserId, fromId]);
-
+  Future<void> markAsViewed({required String interlocutorId}) async {
+    final chatId = IdTools.getChatId([interlocutorId, _currentUserId]);
     final batch = _firebaseFirestore.batch();
 
     // Запрашиваем все сообщения, отправленные fromId, но еще не помеченные как прочитанные
     final querySnapshot = await _firebaseFirestore
         .collection(_Keys._tMessages)
         .where(_Keys._fMessage$chatId, isEqualTo: chatId)
-        .where(_Keys._fMessage$fromId, isEqualTo: fromId)
+        .where(_Keys._fMessage$fromId, isEqualTo: interlocutorId)
         .where(_Keys._fMessage$isViewed, isEqualTo: false)
         .get();
 

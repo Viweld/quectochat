@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/message.dart';
 import '../models/message_content_type.dart';
+import '../models/paginated.dart';
 
 // -----------------------------------------------------------------------------
 /// Ошибки в репозитории
@@ -40,16 +41,24 @@ abstract interface class IChatRepository {
   );
 
   /// Инициализация данных при открытии чата
-  Future<void> initialize({required String toId});
+  Future<void> initialize({required String interlocutorId});
+
+  /// Помечает сообщения пользователя как прочитанные
+  Future<void> markAsViewed({required String interlocutorId});
 
   /// Очистка данных при закрытии чата
   Future<void> cleanup();
 
-  /// Получение следующей страницы с сообщениями
-  Future<void> fetchNextMessages();
+  /// Получение сообщений в пагинированном виде
+  Future<Paginated<Message>> getChatMessages({
+    required String interlocutorId,
+    String? lastMessageId,
+  });
 
   /// Отправка сообщения
   Future<void> sendMessage({
-    required Message message,
+    required String interlocutorId,
+    required String content,
+    required MessageContentType type,
   });
 }

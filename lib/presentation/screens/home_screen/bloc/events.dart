@@ -17,4 +17,7 @@ class HomeEvent with _$HomeEvent {
 
   /// ВНЕШНЕЕ событие "нажата кнопка выйти"
   const factory HomeEvent.onLogoutTapped() = _EventOnLogoutTapped;
+
+  /// ВНУТРЕННЕЕ событие "состояние экрана изменилось"
+  const factory HomeEvent.onStateChanged() = _EventOnStateChanged;
 }

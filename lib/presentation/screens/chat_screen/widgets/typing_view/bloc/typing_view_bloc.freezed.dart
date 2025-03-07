@@ -72,6 +72,9 @@ class _$TypingViewEventCopyWithImpl<$Res, $Val extends TypingViewEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TypingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -92,6 +95,8 @@ class __$$EventOnMessageChangedImplCopyWithImpl<$Res>
       $Res Function(_$EventOnMessageChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TypingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,7 +135,9 @@ class _$EventOnMessageChangedImpl implements _EventOnMessageChanged {
   @override
   int get hashCode => Object.hash(runtimeType, val);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TypingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EventOnMessageChangedImplCopyWith<_$EventOnMessageChangedImpl>
@@ -205,7 +212,10 @@ abstract class _EventOnMessageChanged implements TypingViewEvent {
       _$EventOnMessageChangedImpl;
 
   String get val;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TypingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EventOnMessageChangedImplCopyWith<_$EventOnMessageChangedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -224,6 +234,9 @@ class __$$EventOnSendTappedImplCopyWithImpl<$Res>
   __$$EventOnSendTappedImplCopyWithImpl(_$EventOnSendTappedImpl _value,
       $Res Function(_$EventOnSendTappedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TypingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -348,7 +361,9 @@ mixin _$TypingViewState {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TypingViewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TypingViewStateCopyWith<TypingViewState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -372,6 +387,8 @@ class _$TypingViewStateCopyWithImpl<$Res, $Val extends TypingViewState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TypingViewState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -405,6 +422,8 @@ class __$$StateViewImplCopyWithImpl<$Res>
       _$StateViewImpl _value, $Res Function(_$StateViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TypingViewState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -445,7 +464,9 @@ class _$StateViewImpl implements _StateView {
   @override
   int get hashCode => Object.hash(runtimeType, typedMessage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TypingViewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
@@ -513,8 +534,11 @@ abstract class _StateView implements TypingViewState {
 
   @override
   String get typedMessage;
+
+  /// Create a copy of TypingViewState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

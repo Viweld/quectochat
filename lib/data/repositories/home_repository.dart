@@ -6,14 +6,14 @@ import '../../domain/models/interlocutor.dart';
 import '../../domain/models/paginated.dart';
 
 class HomeRepository implements IHomeRepository {
-  final INetworkFacade _networkFacade;
-  late final StreamController<Set<Interlocutor>> _interlocutorsStreamController;
-
   HomeRepository({required INetworkFacade networkFacade})
       : _networkFacade = networkFacade {
     _interlocutorsStreamController =
         StreamController<Set<Interlocutor>>.broadcast();
   }
+
+  final INetworkFacade _networkFacade;
+  late final StreamController<Set<Interlocutor>> _interlocutorsStreamController;
 
   @override
   Future<void> close() async {
@@ -27,9 +27,12 @@ class HomeRepository implements IHomeRepository {
 
   @override
   Future<void> initialize() async {
-    _networkFacade.getActualInterlocutors().listen((interlocutors) {
-      _interlocutorsStreamController.add(interlocutors);
-    });
+    _networkFacade.getActualInterlocutors().listen(_interlocutorsListener);
+  }
+
+  void _interlocutorsListener(interlocutors) {
+    if (_interlocutorsStreamController.isClosed) return;
+    _interlocutorsStreamController.add(interlocutors);
   }
 
   @override

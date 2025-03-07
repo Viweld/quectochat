@@ -3,26 +3,20 @@ import 'dart:async';
 import '../../domain/interfaces/i_api_facade.dart';
 import '../../domain/interfaces/i_chat_repository.dart';
 import '../../domain/models/message.dart';
-import '../../domain/utils/id_tools/id_tools.dart';
+import '../../domain/models/message_content_type.dart';
+import '../../domain/models/paginated.dart';
 
 final class ChatRepository implements IChatRepository {
   ChatRepository({
     required INetworkFacade networkFacade,
   }) : _networkFacade = networkFacade {
-    _messagesStreamController = StreamController<Iterable<Message>>.broadcast();
+    _messagesStreamController = StreamController<Set<Message>>.broadcast();
     _errorsStreamController = StreamController<ChatRepositoryError>.broadcast();
-
-    _messages = [];
-    _partnerId = '';
   }
 
   // СОСТОЯНИЕ:
   // ---------------------------------------------------------------------------
-  StreamSubscription<Message>? _chatStreamSubscription;
-  late Iterable<Message> _messages;
-  late String _currentUserId;
-  late String _partnerId;
-  late String _chatId;
+  StreamSubscription<Set<Message>>? _chatStreamSubscription;
 
   // ЗАВИСИМОСТИ:
   // ---------------------------------------------------------------------------
@@ -30,10 +24,10 @@ final class ChatRepository implements IChatRepository {
 
   // СТРИМЫ:
   // ---------------------------------------------------------------------------
-  late final StreamController<Iterable<Message>> _messagesStreamController;
+  late final StreamController<Set<Message>> _messagesStreamController;
   late final StreamController<ChatRepositoryError> _errorsStreamController;
 
-  /// подписка на изменения данных в репозитории
+  // ---------------------------------------------------------------------------
   @override
   ChatMessagesSubscription subscribeEvents(
     Function(Iterable<Message>) listener,
@@ -41,7 +35,7 @@ final class ChatRepository implements IChatRepository {
     return _messagesStreamController.stream.listen(listener);
   }
 
-  /// подписка на ошибки в репозитории
+  // ---------------------------------------------------------------------------
   @override
   ChatErrorsSubscription subscribeErrors(
     Function(ChatRepositoryError) listener,
@@ -49,6 +43,7 @@ final class ChatRepository implements IChatRepository {
     return _errorsStreamController.stream.listen(listener);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<void> close() async {
     await _messagesStreamController.close();
@@ -57,68 +52,65 @@ final class ChatRepository implements IChatRepository {
 
   // МЕТОДЫ:
   // ---------------------------------------------------------------------------
-  /// Инициализация данных при открытии чата
   @override
-  Future<void> initialize({required String toId}) async {
-    _currentUserId = _networkFacade.currentUserId;
-    if (_currentUserId.isEmpty) {
-      throw UnsupportedError('Current user id is expected in ChatRepository');
-    }
-
-    _partnerId = toId;
-    if (_partnerId.isEmpty) {
-      throw UnsupportedError('Chat partner id is expected in ChatRepository');
-    }
-
-    _chatId = IdTools.getChatId([_currentUserId, _partnerId]);
-
-    try {
-      // Подписываемся на стрим новых сообщений в чате
-      _chatStreamSubscription =
-          _networkFacade.getMessagesStream(chatId: _chatId).listen(
-                _onChatStreamMessageReceived,
-                onError: _onChatStreamErrorReceived,
-              );
-
-      // Тянем первую страницу с сообщениями
-      _messages = await _networkFacade.getChatMessages(chatId: _chatId);
-      _emitMessages();
-    } on Object {
-      _emitError();
-      rethrow;
-    }
+  Future<void> initialize({required String interlocutorId}) async {
+    _chatStreamSubscription = _networkFacade
+        .getAddedModifiedMessagesStream(interlocutorId: interlocutorId)
+        .listen(
+          _onChatStreamMessageReceived,
+          onError: _onChatStreamErrorReceived,
+        );
   }
 
-  /// Очистка данных при закрытии чата
+  // ---------------------------------------------------------------------------
   @override
   Future<void> cleanup() async {
     await _chatStreamSubscription?.cancel();
-    _messages = [];
-    _partnerId = '';
-    _chatId = '';
   }
 
-  /// Получение следующей страницы с сообщениями
+  // ---------------------------------------------------------------------------
   @override
-  Future<void> fetchNextMessages() async {
+  Future<void> markAsViewed({required String interlocutorId}) async {
     try {
-      _messages = await _networkFacade.getChatMessages(
-        chatId: _chatId,
-        isNext: true,
-      );
-      _emitMessages();
+      await _networkFacade.markAsViewed(interlocutorId: interlocutorId);
     } on Object {
       _emitError();
       rethrow;
     }
   }
 
+  // ---------------------------------------------------------------------------
   @override
-  Future<void> sendMessage({
-    required Message message,
+  Future<Paginated<Message>> getChatMessages({
+    required String interlocutorId,
+    String? lastMessageId,
   }) async {
     try {
-      await _networkFacade.sendMessage(message: message, chatId: _chatId);
+      final messages = await _networkFacade.getChatMessages(
+        interlocutorId: interlocutorId,
+        lastMessageId: lastMessageId,
+      );
+      return messages;
+    } on Object {
+      _emitError();
+      rethrow;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  @override
+  Future<void> sendMessage({
+    required String interlocutorId,
+    required String content,
+    required MessageContentType type,
+  }) async {
+    try {
+      final message = await _networkFacade.sendMessage(
+        interlocutorId: interlocutorId,
+        content: content,
+        type: type,
+      );
+      _emitMessage(message);
     } on Object {
       _emitError();
       rethrow;
@@ -128,9 +120,9 @@ final class ChatRepository implements IChatRepository {
   // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
   // ---------------------------------------------------------------------------
   /// Эмитирует свежий список сообщений подписчикам
-  void _emitMessages() {
+  void _emitMessage(Message message) {
     if (_messagesStreamController.isClosed) return;
-    _messagesStreamController.add(_messages);
+    _messagesStreamController.add({message});
   }
 
   /// Эмитирует ошибки подписчикам
@@ -140,11 +132,9 @@ final class ChatRepository implements IChatRepository {
   }
 
   /// Обработчик событий в стриме чата
-  void _onChatStreamMessageReceived(Message message) {
-    _messages = _messages.followedBy([message]);
-
+  void _onChatStreamMessageReceived(Set<Message> messages) {
     if (_messagesStreamController.isClosed) return;
-    _messagesStreamController.add(_messages);
+    _messagesStreamController.add(messages);
   }
 
   /// Обработчик ошибок в стриме чата

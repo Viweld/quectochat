@@ -4,8 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quectochat/domain/interfaces/i_chat_repository.dart';
 import 'package:quectochat/domain/models/message_content_type.dart';
 
-import '../../../../../../domain/models/message.dart';
-
 part 'typing_view_bloc.freezed.dart';
 
 part 'events.dart';
@@ -15,11 +13,9 @@ part 'states.dart';
 @DepGen()
 class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   TypingViewBloc({
-    required String currentUserId,
     required String interlocutorId,
     @DepArg() required IChatRepository chatRepository,
-  })  : _currentUserId = currentUserId,
-        _interlocutorId = interlocutorId,
+  })  : _interlocutorId = interlocutorId,
         _chatRepository = chatRepository,
         super(const TypingViewState.view()) {
     on<TypingViewEvent>(
@@ -32,7 +28,6 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
     _viewState = super.state as _StateView;
   }
 
-  final String _currentUserId;
   final String _interlocutorId;
 
   // ЗАВИСИМОСТИ
@@ -61,16 +56,11 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   ) async {
     if (_viewState.typedMessage.trim().isEmpty) return;
     try {
-      final message = Message(
-        fromId: _currentUserId,
-        toId: _interlocutorId,
-        createdAt: DateTime.now(),
+      await _chatRepository.sendMessage(
+        interlocutorId: _interlocutorId,
         content: _viewState.typedMessage,
         type: MessageContentType.text,
-        isOwn: true,
       );
-
-      await _chatRepository.sendMessage(message: message);
       _viewState = _viewState.copyWith(typedMessage: '');
       emitter(_viewState);
     } on Object {

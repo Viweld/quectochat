@@ -75,6 +75,9 @@ class _$ReadingViewEventCopyWithImpl<$Res, $Val extends ReadingViewEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ReadingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -94,6 +97,9 @@ class __$$EventOnInitializationRequestedImplCopyWithImpl<$Res>
       _$EventOnInitializationRequestedImpl _value,
       $Res Function(_$EventOnInitializationRequestedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ReadingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -202,6 +208,9 @@ class __$$EventOnStateChangedImplCopyWithImpl<$Res>
   __$$EventOnStateChangedImplCopyWithImpl(_$EventOnStateChangedImpl _value,
       $Res Function(_$EventOnStateChangedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ReadingViewEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -359,6 +368,9 @@ class _$ReadingViewStateCopyWithImpl<$Res, $Val extends ReadingViewState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ReadingViewState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -375,6 +387,9 @@ class __$$StatePendingImplCopyWithImpl<$Res>
   __$$StatePendingImplCopyWithImpl(
       _$StatePendingImpl _value, $Res Function(_$StatePendingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ReadingViewState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -487,6 +502,8 @@ class __$$StateViewImplCopyWithImpl<$Res>
       _$StateViewImpl _value, $Res Function(_$StateViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ReadingViewState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -527,7 +544,9 @@ class _$StateViewImpl implements _StateView {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(messages));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReadingViewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
@@ -608,7 +627,10 @@ abstract class _StateView implements ReadingViewState {
       _$StateViewImpl;
 
   Iterable<Message> get messages;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ReadingViewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StateViewImplCopyWith<_$StateViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -629,6 +651,9 @@ class __$$StateInitializationErrorImplCopyWithImpl<$Res>
       _$StateInitializationErrorImpl _value,
       $Res Function(_$StateInitializationErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ReadingViewState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
