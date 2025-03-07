@@ -59,35 +59,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     return super.close();
   }
 
-  /// получая из стрима сеты с обновленными собеседниками заменяет ими имеющихся
-  /// в списке (при совпадении id), либо вставляет в список соблюдая правила сортировки
-  void _interlocutorsListener(Set<Interlocutor> updatedInterlocutors) {
-    if (isClosed) return;
-    if (_viewState.isFirstLoading) return;
-
-    final interlocutors = _viewState.interlocutors.toList();
-
-    for (final updated in updatedInterlocutors) {
-      final index = interlocutors.indexWhere((i) => i.userId == updated.userId);
-
-      if (index != -1) {
-        // Если собеседник уже есть, заменяем его на новую версию
-        interlocutors[index] = updated;
-      } else {
-        // Определяем позицию для вставки
-        int insertIndex = _findInsertPosition(interlocutors, updated);
-
-        // Проверяем, не попадает ли новый собеседник в конец списка (где идет пагинация)
-        if (insertIndex < interlocutors.length) {
-          interlocutors.insert(insertIndex, updated);
-        }
-      }
-    }
-
-    _viewState = _viewState.copyWith(interlocutors: interlocutors);
-    add(HomeEvent.onStateChanged());
-  }
-
   // ДЕБАУНСЕР:
   // ---------------------------------------------------------------------------
   late final Debouncer<_StateView> _debouncer;
@@ -110,7 +81,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     // 2. Подписываемся на стрим с обновленными собеседниками
     _interlocutorsSubscription =
-        _homeRepository.subscribe(_interlocutorsListener);
+        _homeRepository.subscribe(_interlocutorsStreamListener);
   }
 
   // ---------------------------------------------------------------------------
@@ -233,7 +204,56 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  /// Бинарный поиск для нахождения правильной позиции вставки
+  /// получая из стрима сеты с обновленными собеседниками заменяет ими имеющихся
+  /// в списке (при совпадении id), либо вставляет в список соблюдая правила сортировки
+  void _interlocutorsStreamListener(Set<Interlocutor> updatedInterlocutors) {
+    if (isClosed) return;
+    if (_viewState.isFirstLoading) return;
+
+    final interlocutors = _viewState.interlocutors.toList();
+
+    for (final updated in updatedInterlocutors) {
+      final index = interlocutors.indexWhere((i) => i.userId == updated.userId);
+
+      if (index != -1) {
+        final existing = interlocutors[index];
+
+        final hadLastSentData = existing.lastSentAt != null &&
+            existing.lastSentContent != null &&
+            existing.lastSentContentType != null;
+        final lostLastSentData = updated.lastSentAt == null &&
+            updated.lastSentContent == null &&
+            updated.lastSentContentType == null;
+
+        if (hadLastSentData && lostLastSentData) {
+          // Если обновленный собеседник потерял lastSent данные, удаляем старого
+          interlocutors.removeAt(index);
+
+          // Ищем место в алфавитном порядке
+          int insertIndex = _findInsertPositionAlpha(interlocutors, updated);
+
+          if (insertIndex < interlocutors.length) {
+            interlocutors.insert(insertIndex, updated);
+          }
+        } else {
+          // Обычное обновление (не теряет lastSent данные)
+          interlocutors[index] = updated;
+        }
+      } else {
+        // Вставка нового собеседника по стандартным правилам
+        int insertIndex = _findInsertPosition(interlocutors, updated);
+
+        if (insertIndex < interlocutors.length) {
+          interlocutors.insert(insertIndex, updated);
+        }
+      }
+    }
+
+    _viewState = _viewState.copyWith(interlocutors: interlocutors);
+    add(HomeEvent.onStateChanged());
+  }
+
+  /// Бинарный поиск для нахождения позиции вставки (основной порядок)
   int _findInsertPosition(List<Interlocutor> list, Interlocutor target) {
     int left = 0, right = list.length;
 
@@ -249,16 +269,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     return left;
   }
 
-  /// Функция сравнения собеседников по приоритету
+  /// Бинарный поиск для вставки в алфавитный порядок
+  int _findInsertPositionAlpha(List<Interlocutor> list, Interlocutor target) {
+    int left = 0, right = list.length;
+
+    while (left < right) {
+      int mid = (left + right) ~/ 2;
+      if (_compareInterlocutorsAlpha(list[mid], target) > 0) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+
+    return left;
+  }
+
+  /// Сравнение собеседников по основному порядку (по lastSentAt)
   int _compareInterlocutors(Interlocutor a, Interlocutor b) {
-    // сортировка собеседников по убыванию даты последних сообщений в чате
     if (a.lastSentAt != null && b.lastSentAt != null) {
       return b.lastSentAt!.compareTo(a.lastSentAt!);
     }
     if (a.lastSentAt != null) return -1;
     if (b.lastSentAt != null) return 1;
 
-    // сортировка собеседников по алфавиту имен (нет последних сообщений в чате)
+    return _compareInterlocutorsAlpha(a, b);
+  }
+
+  /// Сравнение по алфавитному порядку (для вставки в конец)
+  int _compareInterlocutorsAlpha(Interlocutor a, Interlocutor b) {
     final aName = '${a.firstName} ${a.lastName}'.toLowerCase();
     final bName = '${b.firstName} ${b.lastName}'.toLowerCase();
     return aName.compareTo(bName);
