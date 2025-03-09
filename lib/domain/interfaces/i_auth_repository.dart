@@ -23,7 +23,7 @@ abstract interface class IAuthRepository {
   // АВТОРИЗАЦИЯ
   // --------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
-  void checkAuth();
+  Future<void> checkAuth();
 
   /// Логин пользователя
   Future<void> logIn({

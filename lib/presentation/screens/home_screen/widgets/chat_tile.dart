@@ -48,25 +48,26 @@ class _ChatTile extends StatelessWidget {
                         ),
 
                         /// Последнее сообщение в чате
-                        Row(
-                          children: [
-                            if (interlocutor.isSentByYou ?? false)
-                              Text(
-                                context.texts.homeChatTileYouLabel,
-                                style: context.style12w500$labels?.copyWith(
-                                  color: context.palette.black,
+                        if (interlocutor.lastSentContent != null)
+                          Row(
+                            children: [
+                              if (interlocutor.isSentByYou ?? false)
+                                Text(
+                                  context.texts.homeChatTileYouLabel,
+                                  style: context.style12w500$labels?.copyWith(
+                                    color: context.palette.black,
+                                  ),
+                                ),
+                              Expanded(
+                                child: Text(
+                                  interlocutor.lastSentContent ?? '',
+                                  style: context.style12w500$labels,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                               ),
-                            Expanded(
-                              child: Text(
-                                interlocutor.lastSentContent ?? '',
-                                style: context.style12w500$labels,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                       ],
                     ),
                   ),

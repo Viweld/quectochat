@@ -30,7 +30,11 @@ abstract interface class IHomeRepository {
   /// Получение списка собеседников с их последними сообщениями
   Future<Paginated<Interlocutor>> getInterlocutors({
     String? lastInterlocutorId,
-    String? search,
+  });
+
+  /// Поиск собеседников
+  Future<Iterable<Interlocutor>> searchInterlocutors({
+    required String searchText,
   });
 
   /// Очищает переписку с собеседником

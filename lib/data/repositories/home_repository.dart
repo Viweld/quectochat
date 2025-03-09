@@ -15,16 +15,19 @@ class HomeRepository implements IHomeRepository {
   final INetworkFacade _networkFacade;
   late final StreamController<Set<Interlocutor>> _interlocutorsStreamController;
 
+  // ---------------------------------------------------------------------------
   @override
   Future<void> close() async {
     await _interlocutorsStreamController.close();
   }
 
+  // ---------------------------------------------------------------------------
   @override
   InterlocutorsSubscription subscribe(Function(Set<Interlocutor>) listener) {
     return _interlocutorsStreamController.stream.listen(listener);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<void> initialize() async {
     _networkFacade.getActualInterlocutors().listen(_interlocutorsListener);
@@ -35,17 +38,27 @@ class HomeRepository implements IHomeRepository {
     _interlocutorsStreamController.add(interlocutors);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Paginated<Interlocutor>> getInterlocutors({
     String? lastInterlocutorId,
-    String? search,
   }) async {
     return _networkFacade.getInterlocutors(
       lastInterlocutorId: lastInterlocutorId,
-      search: search,
     );
   }
 
+  // ---------------------------------------------------------------------------
+  @override
+  Future<Iterable<Interlocutor>> searchInterlocutors({
+    required String searchText,
+  }) async {
+    return _networkFacade.searchInterlocutors(
+      searchText: searchText,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
   @override
   Future<void> clearChat({required String interlocutorId}) async {
     await _networkFacade.clearChat(interlocutorId: interlocutorId);

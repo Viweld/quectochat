@@ -27,6 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         onInitializationRequested: (e) =>
             _onInitializationRequested(e, emitter),
         onFetchRequested: (e) => _onFetchRequested(e, emitter),
+        onSearchRequested: (e) => _onSearchRequested(e, emitter),
         onSearchFieldClearTapped: (e) => _onSearchFieldClearTapped(e, emitter),
         onSearchTextChanged: (e) => _onSearchTextChanged(e, emitter),
         onNextPageRequested: (e) => _onNextPageRequested(e, emitter),
@@ -66,7 +67,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   /// Коллбэк дебаунсера
   void _onDebouncerCalled(_StateView? viewState) {
     if (isClosed) return;
-    add(const HomeEvent.onFetchRequested());
+    add(const HomeEvent.onSearchRequested());
   }
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
@@ -130,7 +131,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emitter,
   ) async {
     if (_viewState.searchText.isEmpty) return;
-    _viewState = _viewState.copyWith(searchText: '');
+    _viewState = _viewState.copyWith(
+      searchText: '',
+      isSearchMode: false,
+    );
     emitter(_viewState);
     add(const HomeEvent.onFetchRequested());
   }
@@ -140,10 +144,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnSearchTextChanged event,
     Emitter<HomeState> emitter,
   ) async {
-    final searchText = event.val.toLowerCase();
-    _viewState = _viewState.copyWith(searchText: searchText);
-    emitter(_viewState);
+    _viewState = _viewState.copyWith(
+      searchText: event.val,
+      isSearchMode: event.val.isNotEmpty,
+    );
     _debouncer.onEvent(_viewState);
+  }
+
+  // ---------------------------------------------------------------------------
+  /// Обработчик ВНУТРЕННЕГО события "запрошен поиск данных"
+  Future<void> _onSearchRequested(
+    _EventOnSearchRequested event,
+    Emitter<HomeState> emitter,
+  ) async {
+    final searchId = _viewState.searchId;
+    try {
+      final foundInterlocutors = await _homeRepository.searchInterlocutors(
+        searchText: _viewState.searchText,
+      );
+
+      // если пока скачивалось searchId изменился, то прерываем
+      if (searchId != _viewState.searchId) return;
+      _viewState = _viewState.copyWith(
+        interlocutors: foundInterlocutors,
+        hasNext: false,
+      );
+      emitter(_viewState);
+    } on Object {
+      super.state is _StatePending
+          ? emitter(const HomeState.initializationError())
+          : emitter(const HomeState.requestError());
+      rethrow;
+    }
   }
 
   /// Обработчик ВНЕШНЕГО события "нажата кнопка выйти"
@@ -180,19 +212,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required bool isNextPageRequired,
   }) async {
     try {
-      final interlocutors = await _homeRepository.getInterlocutors(
-        search: _viewState.searchText,
-        lastInterlocutorId:
-            isNextPageRequired ? null : _viewState.interlocutors.last.userId,
-      );
-      // если пока скачивалось searchId изменился, то прерываем
-      if (searchId != _viewState.searchId) return;
-      _viewState = _viewState.copyWith(
-        interlocutors:
-            _viewState.interlocutors.followedBy(interlocutors.result),
-        hasNext: interlocutors.hasNext,
-      );
-      emitter(_viewState);
+      if (isNextPageRequired) {
+        final interlocutors = await _homeRepository.getInterlocutors(
+          lastInterlocutorId: _viewState.interlocutors.last.userId,
+        );
+        // если пока скачивалось searchId изменился, то прерываем
+        if (searchId != _viewState.searchId) return;
+        _viewState = _viewState.copyWith(
+          interlocutors:
+              _viewState.interlocutors.followedBy(interlocutors.result),
+          hasNext: interlocutors.hasNext,
+        );
+        emitter(_viewState);
+      } else {
+        final interlocutors = await _homeRepository.getInterlocutors();
+        // если пока скачивалось searchId изменился, то прерываем
+        if (searchId != _viewState.searchId) return;
+        _viewState = _viewState.copyWith(
+          interlocutors: interlocutors.result,
+          hasNext: interlocutors.hasNext,
+        );
+        emitter(_viewState);
+      }
     } on Object {
       super.state is _StatePending
           ? emitter(const HomeState.initializationError())
@@ -208,6 +249,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   /// в списке (при совпадении id), либо вставляет в список соблюдая правила сортировки
   void _interlocutorsStreamListener(Set<Interlocutor> updatedInterlocutors) {
     if (isClosed) return;
+    if (_viewState.isSearchMode) return;
     if (_viewState.isFirstLoading) return;
 
     final interlocutors = _viewState.interlocutors.toList();

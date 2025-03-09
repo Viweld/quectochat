@@ -5,15 +5,15 @@ import '../models/paginated.dart';
 import '../models/user_details.dart';
 
 abstract interface class INetworkFacade {
-  /// Возвращает ID текущего пользователя
-  String get currentUserId;
-
   // АВТРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   /// Проверка залогиненности пользователя
-  bool checkAuth();
+  Future<bool> checkAuth();
+
+  /// Возвращает стрим с актуальными статусами халогиненности
+  Stream<bool> authStateChanges();
 
   /// Логин пользователя
   Future<void> logIn({
@@ -39,7 +39,11 @@ abstract interface class INetworkFacade {
   /// Получение списка собеседников с их последними сообщениями
   Future<Paginated<Interlocutor>> getInterlocutors({
     String? lastInterlocutorId,
-    String? search,
+  });
+
+  /// Поиск собеседников
+  Future<Iterable<Interlocutor>> searchInterlocutors({
+    required String searchText,
   });
 
   /// Получение актуального списка собеседников в потоке

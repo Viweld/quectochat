@@ -42,8 +42,8 @@ final class AuthRepository implements IAuthRepository {
   // МЕТОДЫ:
   // ---------------------------------------------------------------------------
   @override
-  void checkAuth() {
-    final isLoggedIn = _networkFacade.checkAuth();
+  Future<void> checkAuth() async {
+    final isLoggedIn = await _networkFacade.checkAuth();
     _authStatus = isLoggedIn ? AuthStatus.authorized : AuthStatus.notAuthorized;
     if (!_authStreamController.isClosed) _authStreamController.add(_authStatus);
   }

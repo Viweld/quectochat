@@ -14,6 +14,7 @@ class HomeState with _$HomeState {
     @Default(true) hasNext,
     @Default(true) isFirstLoading,
     @Default(false) isLogoutLoading,
+    @Default(false) isSearchMode,
     @Default('') String searchText,
     @Default(0) int searchId,
   }) = _StateView;

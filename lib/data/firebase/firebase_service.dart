@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
@@ -27,7 +29,7 @@ final class FirebaseService implements INetworkFacade {
   late final FirebaseFirestore _firebaseFirestore;
   late final _Mapper _mapper;
 
-  // ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ:
+  // ДАННЫЕ:
   // ---------------------------------------------------------------------------
   /// ID текущего пользователя
   String _currentUserId = '';
@@ -36,26 +38,27 @@ final class FirebaseService implements INetworkFacade {
   static const _messagesPaginationLimit = 20;
   static const _interlocutorsPaginationLimit = 20;
 
-  // ГЕТТЕРЫ:
+  // АВТОРИЗАЦИЯ:
   // ---------------------------------------------------------------------------
-  /// Возвращает ID текущего пользователя
   @override
-  String get currentUserId => _currentUserId;
-
-  // АВТРИЗАЦИЯ:
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  /// Проверка залогиненности пользователя
-  @override
-  bool checkAuth() {
+  Future<bool> checkAuth() async {
+    await FirebaseAuth.instance.authStateChanges().first;
     final isAuthed = _firebaseAuth.currentUser != null;
     _currentUserId = _firebaseAuth.currentUser?.uid ?? '';
     return isAuthed;
   }
 
   // ---------------------------------------------------------------------------
-  /// Логин пользователя
+  @override
+  Stream<bool> authStateChanges() {
+    return FirebaseAuth.instance.authStateChanges().map((user) {
+      final isAuthed = user != null;
+      _currentUserId = user?.uid ?? '';
+      return isAuthed;
+    });
+  }
+
+  // ---------------------------------------------------------------------------
   @override
   Future<void> logIn({
     required String email,
@@ -85,7 +88,6 @@ final class FirebaseService implements INetworkFacade {
   }
 
   // ---------------------------------------------------------------------------
-  /// Регистрация пользователя
   @override
   Future<void> registration({
     required String firstName,
@@ -129,7 +131,6 @@ final class FirebaseService implements INetworkFacade {
   }
 
   // ---------------------------------------------------------------------------
-  /// Разлогин пользователя
   @override
   Future<void> logOut() async {
     await _firebaseAuth.signOut();
@@ -141,7 +142,6 @@ final class FirebaseService implements INetworkFacade {
   @override
   Future<Paginated<Interlocutor>> getInterlocutors({
     String? lastInterlocutorId,
-    String? search,
   }) async {
     const limit = _interlocutorsPaginationLimit;
     DocumentSnapshot<Map<String, dynamic>>? lastDocument;
@@ -152,7 +152,7 @@ final class FirebaseService implements INetworkFacade {
           .doc(lastInterlocutorId)
           .get();
 
-      if (lastDocSnapshot.exists) {
+      if (lastDocSnapshot.exists && lastDocSnapshot.id != _currentUserId) {
         lastDocument = lastDocSnapshot;
       }
     }
@@ -174,55 +174,53 @@ final class FirebaseService implements INetworkFacade {
       final toId = doc[_Keys._fMessage$toId] as String;
       final interlocutorId = fromId == _currentUserId ? toId : fromId;
 
-      if (!interlocutorIdsWithMessages.contains(interlocutorId)) {
+      if (interlocutorId != _currentUserId &&
+          !interlocutorIdsWithMessages.contains(interlocutorId)) {
         interlocutorIdsWithMessages.add(interlocutorId);
         lastMessages[interlocutorId] = doc;
       }
     }
 
-    // 2. Загружаем пользователей, у которых есть сообщения
-    final usersWithMessagesQuery = await _firebaseFirestore
-        .collection(_Keys._tUsers)
-        .where(FieldPath.documentId,
-            whereIn: interlocutorIdsWithMessages.toList())
-        .get();
+    List<Interlocutor> withMessages = [];
 
-    final List<Interlocutor> withMessages =
-        usersWithMessagesQuery.docs.map((doc) {
-      final data = doc.data();
-      final userId = doc.id;
-      final lastMessageDoc = lastMessages[userId];
-      final lastMessageData = lastMessageDoc?.data();
+    // 2. Загружаем пользователей, у которых есть сообщения (если список не пуст)
+    if (interlocutorIdsWithMessages.isNotEmpty) {
+      final usersWithMessagesQuery = await _firebaseFirestore
+          .collection(_Keys._tUsers)
+          .where(FieldPath.documentId,
+              whereIn: interlocutorIdsWithMessages.toList())
+          .get();
 
-      return Interlocutor(
-        userId: userId,
-        firstName: (data[_Keys._fUser$fullName] as String).split(' ').first,
-        lastName: (data[_Keys._fUser$fullName]).split(' ').skip(1).join(' '),
-        lastSentContent: lastMessageData?[_Keys._fMessage$content] as String?,
-        lastSentContentType: _mapChatMessageTypeReverse(
-            lastMessageData?[_Keys._fMessage$type] as String?),
-        lastSentAt: lastMessageData?[_Keys._fMessage$timestamp] != null
-            ? DateTime.fromMicrosecondsSinceEpoch(
-                lastMessageData![_Keys._fMessage$timestamp] as int)
-            : null,
-        isSentByYou: lastMessageData?[_Keys._fMessage$fromId] == _currentUserId,
-      );
-    }).toList();
+      withMessages = usersWithMessagesQuery.docs
+          .where((doc) => doc.id != _currentUserId)
+          .map((doc) {
+        final data = doc.data();
+        final userId = doc.id;
+        final lastMessageDoc = lastMessages[userId];
+        final lastMessageData = lastMessageDoc?.data();
 
-    // 3. Загружаем оставшихся пользователей (без сообщений), исключая тех, у кого они есть
+        return Interlocutor(
+          userId: userId,
+          firstName: (data[_Keys._fUser$fullName] as String).split(' ').first,
+          lastName: (data[_Keys._fUser$fullName]).split(' ').skip(1).join(' '),
+          lastSentContent: lastMessageData?[_Keys._fMessage$content] as String?,
+          lastSentContentType: _mapChatMessageTypeReverse(
+              lastMessageData?[_Keys._fMessage$type] as String?),
+          lastSentAt: lastMessageData?[_Keys._fMessage$timestamp] != null
+              ? DateTime.fromMicrosecondsSinceEpoch(
+                  lastMessageData![_Keys._fMessage$timestamp] as int)
+              : null,
+          isSentByYou:
+              lastMessageData?[_Keys._fMessage$fromId] == _currentUserId,
+        );
+      }).toList();
+    }
+
+    // 3. Загружаем оставшихся пользователей (без сообщений), исключая текущего пользователя
     Query<Map<String, dynamic>> query = _firebaseFirestore
         .collection(_Keys._tUsers)
         .orderBy(_Keys._fUser$fullName)
         .limit(limit + 1);
-
-    if (search != null && search.isNotEmpty) {
-      final lowerSearch = search.toLowerCase();
-      query = query.where(
-        _Keys._fUser$fullName,
-        isGreaterThanOrEqualTo: lowerSearch,
-        isLessThan: '$lowerSearch\uf8ff',
-      );
-    }
 
     if (lastDocument != null) {
       query = query.startAfterDocument(lastDocument);
@@ -230,7 +228,9 @@ final class FirebaseService implements INetworkFacade {
 
     final response = await query.get();
     final withoutMessages = response.docs
-        .where((doc) => !interlocutorIdsWithMessages.contains(doc.id))
+        .where((doc) =>
+            !interlocutorIdsWithMessages.contains(doc.id) &&
+            doc.id != _currentUserId)
         .map((doc) {
       final data = doc.data();
       return Interlocutor(
@@ -268,8 +268,42 @@ final class FirebaseService implements INetworkFacade {
 
   // ---------------------------------------------------------------------------
   @override
+  Future<Iterable<Interlocutor>> searchInterlocutors({
+    required String searchText,
+  }) async {
+    final querySnapshot =
+        await _firebaseFirestore.collection(_Keys._tUsers).get();
+
+    final lowerSearchText = searchText.toLowerCase();
+
+    return querySnapshot.docs.map((doc) {
+      final data = doc.data();
+      final fullName = data[_Keys._fUser$fullName] as String;
+      if (doc.id != _currentUserId &&
+          fullName.toLowerCase().contains(lowerSearchText)) {
+        return Interlocutor(
+          userId: doc.id,
+          firstName: fullName.split(' ').first,
+          lastName: fullName.split(' ').skip(1).join(' '),
+          lastSentContent: null,
+          lastSentContentType: null,
+          lastSentAt: null,
+          isSentByYou: false,
+        );
+      }
+      return null;
+    }).whereType<Interlocutor>();
+  }
+
+  // ---------------------------------------------------------------------------
+  @override
   Stream<Set<Interlocutor>> getActualInterlocutors() {
-    return _firebaseFirestore
+    final StreamController<Set<Interlocutor>> controller =
+        StreamController.broadcast();
+    Set<Interlocutor> currentInterlocutors = {};
+
+    // Поток сообщений
+    final messageStream = _firebaseFirestore
         .collection(_Keys._tMessages)
         .where(
           Filter.or(
@@ -278,11 +312,20 @@ final class FirebaseService implements INetworkFacade {
           ),
         )
         .orderBy(_Keys._fMessage$timestamp, descending: true)
-        .snapshots()
-        .asyncMap((snapshot) async {
-      final interlocutors = <String, Interlocutor>{};
+        .snapshots();
 
-      for (var doc in snapshot.docs) {
+    // Поток пользователей
+    final userStream = _firebaseFirestore.collection(_Keys._tUsers).snapshots();
+
+    // Обработчик для обновления данных
+    Future<void> updateInterlocutors(
+      QuerySnapshot<Map<String, dynamic>> messagesSnapshot,
+      QuerySnapshot<Map<String, dynamic>> usersSnapshot,
+    ) async {
+      final interlocutors = <String, Interlocutor>{};
+      final userDocs = {for (var doc in usersSnapshot.docs) doc.id: doc};
+
+      for (var doc in messagesSnapshot.docs) {
         final data = doc.data();
         final fromId = data[_Keys._fMessage$fromId] as String;
         final toId = data[_Keys._fMessage$toId] as String;
@@ -292,18 +335,15 @@ final class FirebaseService implements INetworkFacade {
         final timestamp = data[_Keys._fMessage$timestamp] as int?;
 
         final interlocutorId = fromId == _currentUserId ? toId : fromId;
-        if (interlocutors.containsKey(interlocutorId)) {
-          continue; // Уже добавлен более свежее сообщение
+        if (interlocutorId == _currentUserId ||
+            interlocutors.containsKey(interlocutorId)) {
+          continue; // Пропускаем самого себя или уже добавленного пользователя
         }
 
-        final userDoc = await _firebaseFirestore
-            .collection(_Keys._tUsers)
-            .doc(interlocutorId)
-            .get();
+        final userDoc = userDocs[interlocutorId];
+        if (userDoc == null || !userDoc.exists) continue;
 
-        if (!userDoc.exists) continue;
-
-        final userData = userDoc.data()!;
+        final userData = userDoc.data();
         final fullName = userData[_Keys._fUser$fullName] as String;
         final nameParts = fullName.split(' ');
         final firstName = nameParts.first;
@@ -322,8 +362,44 @@ final class FirebaseService implements INetworkFacade {
         );
       }
 
-      return interlocutors.values.toSet();
+      // Обновляем поток, если данные изменились
+      if (currentInterlocutors != interlocutors.values.toSet()) {
+        currentInterlocutors = interlocutors.values.toSet();
+        controller.add(currentInterlocutors);
+      }
+    }
+
+    // Подписки на два потока
+    late StreamSubscription messageSubscription;
+    late StreamSubscription userSubscription;
+
+    messageSubscription = messageStream.listen((messageSnapshot) async {
+      final latestUsersSnapshot =
+          await _firebaseFirestore.collection(_Keys._tUsers).get();
+      await updateInterlocutors(messageSnapshot, latestUsersSnapshot);
     });
+
+    userSubscription = userStream.listen((userSnapshot) async {
+      final latestMessagesSnapshot = await _firebaseFirestore
+          .collection(_Keys._tMessages)
+          .where(
+            Filter.or(
+              Filter(_Keys._fMessage$fromId, isEqualTo: _currentUserId),
+              Filter(_Keys._fMessage$toId, isEqualTo: _currentUserId),
+            ),
+          )
+          .orderBy(_Keys._fMessage$timestamp, descending: true)
+          .get();
+      await updateInterlocutors(latestMessagesSnapshot, userSnapshot);
+    });
+
+    // Закрываем поток при отмене подписки
+    controller.onCancel = () {
+      messageSubscription.cancel();
+      userSubscription.cancel();
+    };
+
+    return controller.stream;
   }
 
   // ---------------------------------------------------------------------------
@@ -422,7 +498,7 @@ final class FirebaseService implements INetworkFacade {
 
       return _mapper._parseChatMessage(
         messageId: docReference.id,
-        currentUserId: currentUserId,
+        currentUserId: _currentUserId,
         src: messageData,
       );
     } catch (e) {

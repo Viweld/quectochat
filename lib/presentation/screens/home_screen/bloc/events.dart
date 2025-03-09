@@ -9,6 +9,9 @@ class HomeEvent with _$HomeEvent {
   /// ВНУТРЕННЕЕ событие "запрошена загрузка данных"
   const factory HomeEvent.onFetchRequested() = _EventOnFetchRequested;
 
+  /// ВНУТРЕННЕЕ событие "запрошен поиск данных"
+  const factory HomeEvent.onSearchRequested() = _EventOnSearchRequested;
+
   /// ВНЕШНЕЕ событие "нажата кнопка очистки поля поиска"
   const factory HomeEvent.onSearchFieldClearTapped() =
       _EventOnSearchFieldClearTapped;
