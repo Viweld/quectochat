@@ -462,7 +462,7 @@ final class FirebaseService implements INetworkFacade {
     Query<Map<String, dynamic>> query = _firebaseFirestore
         .collection(_Keys._tMessages)
         .where(_Keys._fMessage$chatId, isEqualTo: chatId)
-        .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .orderBy(_Keys._fMessage$timestamp, descending: false)
         .limit(limit + 1); // +1, чтобы проверить hasNext
 
     // Начинаем выборку после lastMessage, если оно есть
@@ -542,7 +542,7 @@ final class FirebaseService implements INetworkFacade {
     return _firebaseFirestore
         .collection(_Keys._tMessages)
         .where(_Keys._fMessage$chatId, isEqualTo: chatId)
-        .orderBy(_Keys._fMessage$timestamp, descending: true)
+        .orderBy(_Keys._fMessage$timestamp, descending: false)
         .snapshots()
         .map((snapshot) {
       // Отбираем только новые и измененные сообщения

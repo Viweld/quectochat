@@ -41,11 +41,39 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
   late ChatMessagesSubscription _chatMessagesStreamSubscription;
 
   void _chatMessagesStreamListener(Iterable<Message> messages) {
-    // TODO(Vadim): #unimplemented тут сравнение списков полученных с имеющимися
+    if (super.state is _StatePending) {
+      _viewState = ReadingViewState.view(messages: []) as _StateView;
+    }
+    final List<Message> updatedMessages = [];
 
-    _viewState = super.state is _StatePending
-        ? ReadingViewState.view(messages: messages) as _StateView
-        : _viewState.copyWith(messages: messages);
+    final Iterator<Message> oldIter = _viewState.messages.iterator;
+    final Iterator<Message> newIter = messages.iterator;
+
+    bool hasOld = oldIter.moveNext();
+    bool hasNew = newIter.moveNext();
+
+    while (hasOld || hasNew) {
+      if (!hasNew) {
+        updatedMessages.add(oldIter.current);
+        hasOld = oldIter.moveNext();
+      } else if (!hasOld) {
+        updatedMessages.add(newIter.current);
+        hasNew = newIter.moveNext();
+      } else if (oldIter.current.id == newIter.current.id) {
+        updatedMessages.add(newIter.current); // Заменяем существующее
+        hasOld = oldIter.moveNext();
+        hasNew = newIter.moveNext();
+      } else if (oldIter.current.createdAt
+          .isBefore(newIter.current.createdAt)) {
+        updatedMessages.add(oldIter.current);
+        hasOld = oldIter.moveNext();
+      } else {
+        updatedMessages.add(newIter.current);
+        hasNew = newIter.moveNext();
+      }
+    }
+
+    _viewState = _viewState.copyWith(messages: updatedMessages);
 
     if (isClosed) return;
     add(const ReadingViewEvent.onStateChanged());
