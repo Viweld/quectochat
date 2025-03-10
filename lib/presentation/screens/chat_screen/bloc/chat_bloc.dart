@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -63,6 +65,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emitter,
   ) async {
     await _chatRepository.initialize(interlocutorId: _interlocutorId);
+    unawaited(_chatRepository.markAsViewed(interlocutorId: _interlocutorId));
   }
 
   /// Обработчик ВНУТРЕННЕГО события "прилетела ошибка"

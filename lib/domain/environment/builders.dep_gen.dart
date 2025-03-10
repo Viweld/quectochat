@@ -79,7 +79,6 @@ class DepProvider extends InheritedWidget {
   // ---------------------------------------------------------------------------
   /// A pre-configured environment containing the dependencies used
   final DepGenEnvironment _env;
-
   DepGenEnvironment get environment => _env;
 
   // ---------------------------------------------------------------------------

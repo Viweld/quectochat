@@ -317,7 +317,10 @@ final class FirebaseService implements INetworkFacade {
     // Поток пользователей
     final userStream = _firebaseFirestore.collection(_Keys._tUsers).snapshots();
 
-    // Обработчик для обновления данных
+    // Подписки на два потока
+    late StreamSubscription messageSubscription;
+    late StreamSubscription userSubscription;
+
     Future<void> updateInterlocutors(
       QuerySnapshot<Map<String, dynamic>> messagesSnapshot,
       QuerySnapshot<Map<String, dynamic>> usersSnapshot,
@@ -325,20 +328,40 @@ final class FirebaseService implements INetworkFacade {
       final interlocutors = <String, Interlocutor>{};
       final userDocs = {for (var doc in usersSnapshot.docs) doc.id: doc};
 
-      for (var doc in messagesSnapshot.docs) {
-        final data = doc.data();
+      // Карта для отслеживания самого последнего сообщения с каждым собеседником
+      final latestMessages = <String, Map<String, dynamic>>{};
+
+      for (var messageDoc in messagesSnapshot.docs) {
+        final messageData = messageDoc.data();
+        final fromId = messageData[_Keys._fMessage$fromId] as String;
+        final toId = messageData[_Keys._fMessage$toId] as String;
+
+        // Если сообщение не связано (адресовано/отправлено) с текущим пользователем, переходим к следующему
+        if (toId != _currentUserId && fromId != _currentUserId) continue;
+
+        final timestamp = messageData[_Keys._fMessage$timestamp] as int?;
+        final interlocutorId = fromId == _currentUserId ? toId : fromId;
+
+        // Проверяем, является ли это сообщение самым последним для данного собеседника
+        if (!latestMessages.containsKey(interlocutorId) ||
+            (timestamp != null &&
+                (latestMessages[interlocutorId]![_Keys._fMessage$timestamp]
+                        as int?) !=
+                    null &&
+                timestamp >
+                    latestMessages[interlocutorId]![
+                        _Keys._fMessage$timestamp])) {
+          latestMessages[interlocutorId] = messageData;
+        }
+      }
+
+      for (var interlocutorId in latestMessages.keys) {
+        final data = latestMessages[interlocutorId]!;
         final fromId = data[_Keys._fMessage$fromId] as String;
-        final toId = data[_Keys._fMessage$toId] as String;
         final messageContent = data[_Keys._fMessage$content] as String?;
         final messageType =
             _mapChatMessageTypeReverse(data[_Keys._fMessage$type] as String?);
         final timestamp = data[_Keys._fMessage$timestamp] as int?;
-
-        final interlocutorId = fromId == _currentUserId ? toId : fromId;
-        if (interlocutorId == _currentUserId ||
-            interlocutors.containsKey(interlocutorId)) {
-          continue; // Пропускаем самого себя или уже добавленного пользователя
-        }
 
         final userDoc = userDocs[interlocutorId];
         if (userDoc == null || !userDoc.exists) continue;
@@ -362,24 +385,13 @@ final class FirebaseService implements INetworkFacade {
         );
       }
 
-      // Обновляем поток, если данные изменились
       if (currentInterlocutors != interlocutors.values.toSet()) {
         currentInterlocutors = interlocutors.values.toSet();
         controller.add(currentInterlocutors);
       }
     }
 
-    // Подписки на два потока
-    late StreamSubscription messageSubscription;
-    late StreamSubscription userSubscription;
-
-    messageSubscription = messageStream.listen((messageSnapshot) async {
-      final latestUsersSnapshot =
-          await _firebaseFirestore.collection(_Keys._tUsers).get();
-      await updateInterlocutors(messageSnapshot, latestUsersSnapshot);
-    });
-
-    userSubscription = userStream.listen((userSnapshot) async {
+    void onNewData() async {
       final latestMessagesSnapshot = await _firebaseFirestore
           .collection(_Keys._tMessages)
           .where(
@@ -390,13 +402,20 @@ final class FirebaseService implements INetworkFacade {
           )
           .orderBy(_Keys._fMessage$timestamp, descending: true)
           .get();
-      await updateInterlocutors(latestMessagesSnapshot, userSnapshot);
-    });
 
-    // Закрываем поток при отмене подписки
+      final latestUsersSnapshot =
+          await _firebaseFirestore.collection(_Keys._tUsers).get();
+      await updateInterlocutors(latestMessagesSnapshot, latestUsersSnapshot);
+    }
+
+    messageSubscription =
+        messageStream.listen((messageSnapshot) => onNewData());
+    userSubscription = userStream.listen((userSnapshot) => onNewData());
+
     controller.onCancel = () {
       messageSubscription.cancel();
       userSubscription.cancel();
+      controller.close();
     };
 
     return controller.stream;

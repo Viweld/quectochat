@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:quectochat/domain/models/message_content_type.dart';
 
-import '../utils/id_tools/id_tools.dart';
-
 @immutable
 final class Message {
   const Message({

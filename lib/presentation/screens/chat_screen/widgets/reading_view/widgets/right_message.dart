@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
+import 'package:quectochat/presentation/values/qicons.dart';
 
 import '../../../../../../domain/models/message.dart';
 import 'cluster_attribute.dart';
@@ -25,59 +26,73 @@ class RightMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-        alignment: Alignment.centerRight,
-        child: switch (clusterAttribute) {
-          ClusterAttribute.first => Padding(
-              padding: const EdgeInsets.only(
-                right: _RightStartBubbleClip.tailWidth,
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(radius),
-                  topRight: Radius.circular(radius),
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radiusMini),
+      alignment: Alignment.centerRight,
+      child: Stack(
+        children: [
+          switch (clusterAttribute) {
+            ClusterAttribute.first => Padding(
+                padding: const EdgeInsets.only(
+                  right: _RightStartBubbleClip.tailWidth,
                 ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(radius),
+                    topRight: Radius.circular(radius),
+                    bottomLeft: Radius.circular(radius),
+                    bottomRight: Radius.circular(radiusMini),
+                  ),
+                  child: _MessageContent(
+                    message: message,
+                    backgroundColor: backgroundColor,
+                  ),
+                ),
+              ),
+            ClusterAttribute.middle => Padding(
+                padding: const EdgeInsets.only(
+                  right: _RightStartBubbleClip.tailWidth,
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(radius),
+                    topRight: Radius.circular(radiusMini),
+                    bottomLeft: Radius.circular(radius),
+                    bottomRight: Radius.circular(radiusMini),
+                  ),
+                  child: _MessageContent(
+                    message: message,
+                    backgroundColor: backgroundColor,
+                  ),
+                ),
+              ),
+            ClusterAttribute.last => ClipPath(
+                clipper: const _RightStartBubbleClip.lastInCluster(),
                 child: _MessageContent(
                   message: message,
                   backgroundColor: backgroundColor,
+                  withTail: true,
                 ),
               ),
-            ),
-          ClusterAttribute.middle => Padding(
-              padding: const EdgeInsets.only(
-                right: _RightStartBubbleClip.tailWidth,
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(radius),
-                  topRight: Radius.circular(radiusMini),
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radiusMini),
-                ),
+            _ => ClipPath(
+                clipper: const _RightStartBubbleClip.single(),
                 child: _MessageContent(
                   message: message,
                   backgroundColor: backgroundColor,
+                  withTail: true,
                 ),
               ),
+          },
+          Positioned(
+            bottom: 10,
+            right: 20,
+            child: Icon(
+              message.isViewed ? Qicons.checkTwin : Qicons.check,
+              size: 12,
+              color: context.palette.greenDark,
             ),
-          ClusterAttribute.last => ClipPath(
-              clipper: const _RightStartBubbleClip.lastInCluster(),
-              child: _MessageContent(
-                message: message,
-                backgroundColor: backgroundColor,
-                withTail: true,
-              ),
-            ),
-          _ => ClipPath(
-              clipper: const _RightStartBubbleClip.single(),
-              child: _MessageContent(
-                message: message,
-                backgroundColor: backgroundColor,
-                withTail: true,
-              ),
-            ),
-        });
+          ),
+        ],
+      ),
+    );
   }
 }
 

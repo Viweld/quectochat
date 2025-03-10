@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -67,7 +69,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   /// Коллбэк дебаунсера
   void _onDebouncerCalled(_StateView? viewState) {
     if (isClosed) return;
-    add(const HomeEvent.onSearchRequested());
+    _viewState.isSearchMode
+        ? add(const HomeEvent.onSearchRequested())
+        : add(const HomeEvent.onFetchRequested());
   }
 
   // МЕТОДЫ ОБРАБОТКИ СОБЫТИЙ:
@@ -77,10 +81,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnInitializationRequested event,
     Emitter<HomeState> emitter,
   ) async {
-    // 1. Загружаем первую страницу собеседников
+    // 1. инициализируем репозиторий
+    unawaited(_homeRepository.initialize());
+
+    // 2. Загружаем первую страницу собеседников
     add(const HomeEvent.onFetchRequested());
 
-    // 2. Подписываемся на стрим с обновленными собеседниками
+    // 3. Подписываемся на стрим с обновленными собеседниками
     _interlocutorsSubscription =
         _homeRepository.subscribe(_interlocutorsStreamListener);
   }
@@ -231,6 +238,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _viewState = _viewState.copyWith(
           interlocutors: interlocutors.result,
           hasNext: interlocutors.hasNext,
+          isFirstLoading: false,
         );
         emitter(_viewState);
       }
@@ -291,7 +299,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     }
 
-    _viewState = _viewState.copyWith(interlocutors: interlocutors);
+    _viewState = _viewState.copyWith(
+      interlocutors: interlocutors,
+      searchId: _viewState.searchId + 1,
+    );
     add(HomeEvent.onStateChanged());
   }
 

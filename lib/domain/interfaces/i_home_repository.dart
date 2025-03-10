@@ -1,10 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 import '../models/interlocutor.dart';
-import '../models/message.dart';
-import '../models/message_content_type.dart';
 import '../models/paginated.dart';
 
 // ПОДПИСКИ:

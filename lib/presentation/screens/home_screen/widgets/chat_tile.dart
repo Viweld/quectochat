@@ -31,6 +31,7 @@ class _ChatTile extends StatelessWidget {
                 children: [
                   /// Бирка с инициалами
                   CommonUserAvatar(
+                    key: UniqueKey(),
                     firstName: interlocutor.firstName,
                     lastName: interlocutor.lastName,
                   ),

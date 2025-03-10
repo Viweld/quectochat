@@ -2,7 +2,6 @@ import '../models/message_content_type.dart';
 import '../models/interlocutor.dart';
 import '../models/message.dart';
 import '../models/paginated.dart';
-import '../models/user_details.dart';
 
 abstract interface class INetworkFacade {
   // АВТРИЗАЦИЯ:
