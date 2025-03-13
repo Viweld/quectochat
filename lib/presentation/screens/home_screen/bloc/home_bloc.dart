@@ -130,6 +130,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emitter,
   ) async {
     await _homeRepository.clearChat(interlocutorId: event.interlocutorId);
+    final changedInterlocutors = _viewState.interlocutors
+        .map((item) => item.userId != event.interlocutorId
+            ? item
+            : Interlocutor(
+                userId: item.userId,
+                firstName: item.firstName,
+                lastName: item.lastName,
+              ));
+    _viewState = _viewState.copyWith(
+      interlocutors: changedInterlocutors,
+      searchId: _viewState.searchId + 1,
+    );
+    emitter(_viewState);
   }
 
   /// Обработчик ВНЕШНЕГО события "нажата кнопка очистки поля поиска"

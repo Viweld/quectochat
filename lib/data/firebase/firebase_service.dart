@@ -425,13 +425,22 @@ final class FirebaseService implements INetworkFacade {
   @override
   Future<void> clearChat({required String interlocutorId}) async {
     final chatId = IdTools.getChatId([_currentUserId, interlocutorId]);
-    final messagesQuery = await _firebaseFirestore
-        .collection(_Keys._tMessages)
-        .where(_Keys._fMessage$chatId, isEqualTo: chatId)
-        .get();
 
-    for (var doc in messagesQuery.docs) {
-      await doc.reference.delete();
+    while (true) {
+      final messagesQuery = await _firebaseFirestore
+          .collection(_Keys._tMessages)
+          .where(_Keys._fMessage$chatId, isEqualTo: chatId)
+          .limit(500)
+          .get();
+
+      if (messagesQuery.docs.isEmpty) break;
+
+      final batch = _firebaseFirestore.batch();
+      for (var doc in messagesQuery.docs) {
+        batch.delete(doc.reference);
+      }
+
+      await batch.commit(); // Удаляем 500 сообщений разом
     }
   }
 

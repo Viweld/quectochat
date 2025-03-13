@@ -14,6 +14,7 @@ import '../../navigation/nested_navigation/nested_routes.dart';
 import '../../values/values.dart';
 import '../chat_screen/chat_screen_arguments.dart';
 import 'bloc/home_bloc.dart';
+import 'widgets/swipe_clear_wrapper.dart';
 
 part 'widgets/flexible_header.dart';
 
@@ -136,6 +137,10 @@ class _HomeView extends StatelessWidget {
                     context,
                     interlocutor,
                   ),
+                  onClearChatRequested: () => _onClearChatRequested(
+                    context,
+                    interlocutor,
+                  ),
                 );
               },
             ),
@@ -162,11 +167,17 @@ class _HomeView extends StatelessWidget {
     );
   }
 
-  _onSearchFieldClearTapped(BuildContext context) {
+  void _onSearchFieldClearTapped(BuildContext context) {
     context.read<HomeBloc>().add(const HomeEvent.onSearchFieldClearTapped());
   }
 
-  _onSearchTextChanged(BuildContext context, String val) {
+  void _onSearchTextChanged(BuildContext context, String val) {
     context.read<HomeBloc>().add(HomeEvent.onSearchTextChanged(val));
+  }
+
+  void _onClearChatRequested(BuildContext context, Interlocutor interlocutor) {
+    context.read<HomeBloc>().add(
+          HomeEvent.onClearChatRequested(interlocutorId: interlocutor.userId),
+        );
   }
 }
