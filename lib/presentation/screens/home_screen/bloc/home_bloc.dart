@@ -266,51 +266,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  /// получая из стрима сеты с обновленными собеседниками заменяет ими имеющихся
-  /// в списке (при совпадении id), либо вставляет в список соблюдая правила сортировки
   void _interlocutorsStreamListener(Set<Interlocutor> updatedInterlocutors) {
     if (isClosed) return;
     if (_viewState.isSearchMode) return;
     if (_viewState.isFirstLoading) return;
 
     final interlocutors = _viewState.interlocutors.toList();
+    final updatedList = updatedInterlocutors.toList();
 
-    for (final updated in updatedInterlocutors) {
+    for (final updated in updatedList) {
       final index = interlocutors.indexWhere((i) => i.userId == updated.userId);
 
       if (index != -1) {
-        final existing = interlocutors[index];
-
-        final hadLastSentData = existing.lastSentAt != null &&
-            existing.lastSentContent != null &&
-            existing.lastSentContentType != null;
-        final lostLastSentData = updated.lastSentAt == null &&
-            updated.lastSentContent == null &&
-            updated.lastSentContentType == null;
-
-        if (hadLastSentData && lostLastSentData) {
-          // Если обновленный собеседник потерял lastSent данные, удаляем старого
-          interlocutors.removeAt(index);
-
-          // Ищем место в алфавитном порядке
-          int insertIndex = _findInsertPositionAlpha(interlocutors, updated);
-
-          if (insertIndex < interlocutors.length) {
-            interlocutors.insert(insertIndex, updated);
-          }
-        } else {
-          // Обычное обновление (не теряет lastSent данные)
-          interlocutors[index] = updated;
-        }
+        // Обновление существующего собеседника
+        interlocutors[index] = updated;
       } else {
-        // Вставка нового собеседника по стандартным правилам
-        int insertIndex = _findInsertPosition(interlocutors, updated);
-
-        if (insertIndex < interlocutors.length) {
-          interlocutors.insert(insertIndex, updated);
-        }
+        // Добавление нового собеседника
+        interlocutors.add(updated);
       }
     }
+    // Пересортировка списка
+    interlocutors.sort(_compareInterlocutors);
 
     _viewState = _viewState.copyWith(
       interlocutors: interlocutors,
@@ -319,47 +295,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(HomeEvent.onStateChanged());
   }
 
-  /// Бинарный поиск для нахождения позиции вставки (основной порядок)
-  int _findInsertPosition(List<Interlocutor> list, Interlocutor target) {
-    int left = 0, right = list.length;
-
-    while (left < right) {
-      int mid = (left + right) ~/ 2;
-      if (_compareInterlocutors(list[mid], target) > 0) {
-        left = mid + 1;
-      } else {
-        right = mid;
-      }
-    }
-
-    return left;
-  }
-
-  /// Бинарный поиск для вставки в алфавитный порядок
-  int _findInsertPositionAlpha(List<Interlocutor> list, Interlocutor target) {
-    int left = 0, right = list.length;
-
-    while (left < right) {
-      int mid = (left + right) ~/ 2;
-      if (_compareInterlocutorsAlpha(list[mid], target) > 0) {
-        left = mid + 1;
-      } else {
-        right = mid;
-      }
-    }
-
-    return left;
-  }
-
   /// Сравнение собеседников по основному порядку (по lastSentAt)
   int _compareInterlocutors(Interlocutor a, Interlocutor b) {
-    if (a.lastSentAt != null && b.lastSentAt != null) {
-      return b.lastSentAt!.compareTo(a.lastSentAt!);
-    }
-    if (a.lastSentAt != null) return -1;
-    if (b.lastSentAt != null) return 1;
+    final aHasLastSent = a.lastSentAt != null;
+    final bHasLastSent = b.lastSentAt != null;
 
-    return _compareInterlocutorsAlpha(a, b);
+    if (aHasLastSent && bHasLastSent) {
+      // Оба собеседника имеют lastSent, сортируем по дате
+      return b.lastSentAt!.compareTo(a.lastSentAt!);
+    } else if (aHasLastSent) {
+      // Только a имеет lastSent, он должен быть выше
+      return -1;
+    } else if (bHasLastSent) {
+      // Только b имеет lastSent, он должен быть выше
+      return 1;
+    } else {
+      // Оба собеседника не имеют lastSent, сортируем по алфавиту
+      return _compareInterlocutorsAlpha(a, b);
+    }
   }
 
   /// Сравнение по алфавитному порядку (для вставки в конец)

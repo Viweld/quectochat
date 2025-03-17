@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-class _ChatTile extends StatelessWidget {
+class _ChatTile extends StatefulWidget {
   const _ChatTile({
     required this.interlocutor,
     required this.onTapped,
@@ -11,17 +11,79 @@ class _ChatTile extends StatelessWidget {
   final void Function() onTapped;
   final void Function() onClearChatRequested;
 
+  @override
+  State<_ChatTile> createState() => _ChatTileState();
+}
+
+class _ChatTileState extends State<_ChatTile> {
   static const double _horizontalInterval = 12;
   static const double _verticalContentPadding = 10;
+  Timer? _timer;
+  String _timeAgo = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateTimeAgo();
+  }
+
+  @override
+  void didUpdateWidget(covariant _ChatTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.interlocutor.lastSentAt != oldWidget.interlocutor.lastSentAt) {
+      _updateTimeAgo();
+      _stopTimer();
+      _startTimer();
+    }
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    if (widget.interlocutor.lastSentAt != null) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (mounted) {
+          _updateTimeAgo();
+        }
+      });
+    }
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _updateTimeAgo() {
+    if (widget.interlocutor.lastSentAt != null) {
+      setState(() {
+        _timeAgo = timeAgoSinceDate(context, widget.interlocutor.lastSentAt!);
+      });
+    } else {
+      setState(() {
+        _timeAgo = '';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SwipeClearWrapper(
-      onClearChatRequested: onClearChatRequested,
+      onClearChatRequested: widget.onClearChatRequested,
       child: Material(
         child: InkWell(
           overlayColor: WidgetStateProperty.all(context.palette.green),
-          onTap: onTapped,
+          onTap: widget.onTapped,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: _verticalContentPadding,
@@ -37,8 +99,8 @@ class _ChatTile extends StatelessWidget {
                       /// Бирка с инициалами
                       CommonUserAvatar(
                         key: UniqueKey(),
-                        firstName: interlocutor.firstName,
-                        lastName: interlocutor.lastName,
+                        firstName: widget.interlocutor.firstName,
+                        lastName: widget.interlocutor.lastName,
                       ),
                       const SizedBox(width: _horizontalInterval),
 
@@ -49,15 +111,15 @@ class _ChatTile extends StatelessWidget {
                           children: [
                             /// Полное имя собеседника
                             Text(
-                              '${interlocutor.firstName} ${interlocutor.lastName}',
+                              '${widget.interlocutor.firstName} ${widget.interlocutor.lastName}',
                               style: context.style15w600$username,
                             ),
 
                             /// Последнее сообщение в чате
-                            if (interlocutor.lastSentContent != null)
+                            if (widget.interlocutor.lastSentContent != null)
                               Row(
                                 children: [
-                                  if (interlocutor.isSentByYou ?? false)
+                                  if (widget.interlocutor.isSentByYou ?? false)
                                     Text(
                                       context.texts.homeChatTileYouLabel,
                                       style:
@@ -67,7 +129,7 @@ class _ChatTile extends StatelessWidget {
                                     ),
                                   Expanded(
                                     child: Text(
-                                      interlocutor.lastSentContent ?? '',
+                                      widget.interlocutor.lastSentContent ?? '',
                                       style: context.style12w500$labels,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -84,11 +146,10 @@ class _ChatTile extends StatelessWidget {
                 ),
 
                 /// Интервал с момента отправки последнего сообщения
-                if (interlocutor.lastSentAt != null)
-                  Text(
-                    timeAgoSinceDate(context, interlocutor.lastSentAt!),
-                    style: context.style12w500$labels,
-                  ),
+                Text(
+                  _timeAgo,
+                  style: context.style12w500$labels,
+                ),
                 const SizedBox(width: _horizontalInterval),
               ],
             ),
