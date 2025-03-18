@@ -106,6 +106,7 @@ final class FirebaseService implements INetworkFacade {
         Error.throwWithStackTrace('Registration failed', StackTrace.current);
       }
 
+      _currentUserId = userId;
       final userDoc = _firebaseFirestore.collection(_Keys._tUsers).doc(userId);
       final userSnapshot = await userDoc.get();
 
@@ -192,7 +193,9 @@ final class FirebaseService implements INetworkFacade {
           .get();
 
       withMessages = usersWithMessagesQuery.docs
-          .where((doc) => doc.id != _currentUserId)
+          .where((doc) =>
+              doc.id !=
+              _currentUserId) // Убеждаемся, что текущий пользователь исключен
           .map((doc) {
         final data = doc.data();
         final userId = doc.id;
@@ -230,7 +233,8 @@ final class FirebaseService implements INetworkFacade {
     final withoutMessages = response.docs
         .where((doc) =>
             !interlocutorIdsWithMessages.contains(doc.id) &&
-            doc.id != _currentUserId)
+            doc.id !=
+                _currentUserId) // Убеждаемся, что текущий пользователь исключен
         .map((doc) {
       final data = doc.data();
       return Interlocutor(

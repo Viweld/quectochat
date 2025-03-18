@@ -18,6 +18,7 @@ class _ChatTile extends StatefulWidget {
 class _ChatTileState extends State<_ChatTile> {
   static const double _horizontalInterval = 12;
   static const double _verticalContentPadding = 10;
+  static const int _updateDurationSec = 60;
   Timer? _timer;
   String _timeAgo = '';
 
@@ -51,11 +52,10 @@ class _ChatTileState extends State<_ChatTile> {
 
   void _startTimer() {
     if (widget.interlocutor.lastSentAt != null) {
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (mounted) {
-          _updateTimeAgo();
-        }
-      });
+      _timer = Timer.periodic(
+        const Duration(seconds: _updateDurationSec),
+        (timer) => mounted ? _updateTimeAgo() : null,
+      );
     }
   }
 
