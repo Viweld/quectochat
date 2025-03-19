@@ -13,6 +13,7 @@ class HomeState with _$HomeState {
     @Default([]) Iterable<Interlocutor> interlocutors,
     @Default(true) hasNext,
     @Default(true) isFirstLoading,
+    @Default(false) isNextLoading,
     @Default(false) isLogoutLoading,
     @Default(false) isSearchMode,
     @Default('') String searchText,

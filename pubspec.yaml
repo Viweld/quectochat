@@ -27,7 +27,7 @@ dependencies:
   string_to_color: 2.0.0
 
   # кодогенерация
-  freezed_annotation: 3.0.0
+  freezed_annotation: 2.4.4
   json_annotation: 4.9.0
 
   # иконка для приложения
@@ -53,8 +53,8 @@ dev_dependencies:
 
   # кодогенерация
   build_runner: 2.4.15
-  json_serializable: 6.9.4
-  freezed: ^3.0.0-0.0.dev
+  json_serializable: 6.8.0
+  freezed: 2.5.7
 
 flutter:
   uses-material-design: true

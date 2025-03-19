@@ -98,10 +98,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _EventOnFetchRequested event,
     Emitter<HomeState> emitter,
   ) async {
-    _viewState = _viewState.copyWith(
-      searchId: _viewState.searchId + 1,
-      isFirstLoading: true,
-    );
     await _getInterlocutors(
       emitter,
       searchId: _viewState.searchId,
@@ -116,6 +112,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emitter,
   ) async {
     if (!_viewState.hasNext) return;
+    if (_viewState.isNextLoading) return;
+    _viewState = _viewState.copyWith(
+      searchId: _viewState.searchId + 1,
+      isNextLoading: true,
+    );
     await _getInterlocutors(
       emitter,
       searchId: _viewState.searchId,
@@ -242,6 +243,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           interlocutors:
               _viewState.interlocutors.followedBy(interlocutors.result),
           hasNext: interlocutors.hasNext,
+          isNextLoading: false,
         );
         emitter(_viewState);
       } else {

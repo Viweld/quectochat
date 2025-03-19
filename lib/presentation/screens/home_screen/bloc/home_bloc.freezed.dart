@@ -1640,6 +1640,7 @@ mixin _$HomeState {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1656,6 +1657,7 @@ mixin _$HomeState {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1672,6 +1674,7 @@ mixin _$HomeState {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1776,6 +1779,7 @@ class _$StatePendingImpl implements _StatePending {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1795,6 +1799,7 @@ class _$StatePendingImpl implements _StatePending {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1814,6 +1819,7 @@ class _$StatePendingImpl implements _StatePending {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1921,6 +1927,7 @@ class _$StateInitializationErrorImpl implements _StateInitializationError {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1940,6 +1947,7 @@ class _$StateInitializationErrorImpl implements _StateInitializationError {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -1959,6 +1967,7 @@ class _$StateInitializationErrorImpl implements _StateInitializationError {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -2026,6 +2035,7 @@ abstract class _$$StateViewImplCopyWith<$Res> {
       {Iterable<Interlocutor> interlocutors,
       dynamic hasNext,
       dynamic isFirstLoading,
+      dynamic isNextLoading,
       dynamic isLogoutLoading,
       dynamic isSearchMode,
       String searchText,
@@ -2048,6 +2058,7 @@ class __$$StateViewImplCopyWithImpl<$Res>
     Object? interlocutors = null,
     Object? hasNext = freezed,
     Object? isFirstLoading = freezed,
+    Object? isNextLoading = freezed,
     Object? isLogoutLoading = freezed,
     Object? isSearchMode = freezed,
     Object? searchText = null,
@@ -2061,6 +2072,8 @@ class __$$StateViewImplCopyWithImpl<$Res>
       hasNext: freezed == hasNext ? _value.hasNext! : hasNext,
       isFirstLoading:
           freezed == isFirstLoading ? _value.isFirstLoading! : isFirstLoading,
+      isNextLoading:
+          freezed == isNextLoading ? _value.isNextLoading! : isNextLoading,
       isLogoutLoading: freezed == isLogoutLoading
           ? _value.isLogoutLoading!
           : isLogoutLoading,
@@ -2085,6 +2098,7 @@ class _$StateViewImpl implements _StateView {
       {this.interlocutors = const [],
       this.hasNext = true,
       this.isFirstLoading = true,
+      this.isNextLoading = false,
       this.isLogoutLoading = false,
       this.isSearchMode = false,
       this.searchText = '',
@@ -2101,6 +2115,9 @@ class _$StateViewImpl implements _StateView {
   final dynamic isFirstLoading;
   @override
   @JsonKey()
+  final dynamic isNextLoading;
+  @override
+  @JsonKey()
   final dynamic isLogoutLoading;
   @override
   @JsonKey()
@@ -2114,7 +2131,7 @@ class _$StateViewImpl implements _StateView {
 
   @override
   String toString() {
-    return 'HomeState.view(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId)';
+    return 'HomeState.view(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId)';
   }
 
   @override
@@ -2127,6 +2144,8 @@ class _$StateViewImpl implements _StateView {
             const DeepCollectionEquality().equals(other.hasNext, hasNext) &&
             const DeepCollectionEquality()
                 .equals(other.isFirstLoading, isFirstLoading) &&
+            const DeepCollectionEquality()
+                .equals(other.isNextLoading, isNextLoading) &&
             const DeepCollectionEquality()
                 .equals(other.isLogoutLoading, isLogoutLoading) &&
             const DeepCollectionEquality()
@@ -2143,6 +2162,7 @@ class _$StateViewImpl implements _StateView {
       const DeepCollectionEquality().hash(interlocutors),
       const DeepCollectionEquality().hash(hasNext),
       const DeepCollectionEquality().hash(isFirstLoading),
+      const DeepCollectionEquality().hash(isNextLoading),
       const DeepCollectionEquality().hash(isLogoutLoading),
       const DeepCollectionEquality().hash(isSearchMode),
       searchText,
@@ -2165,6 +2185,7 @@ class _$StateViewImpl implements _StateView {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -2172,8 +2193,8 @@ class _$StateViewImpl implements _StateView {
         view,
     required TResult Function(String? errorText) requestError,
   }) {
-    return view(interlocutors, hasNext, isFirstLoading, isLogoutLoading,
-        isSearchMode, searchText, searchId);
+    return view(interlocutors, hasNext, isFirstLoading, isNextLoading,
+        isLogoutLoading, isSearchMode, searchText, searchId);
   }
 
   @override
@@ -2185,6 +2206,7 @@ class _$StateViewImpl implements _StateView {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -2192,8 +2214,8 @@ class _$StateViewImpl implements _StateView {
         view,
     TResult? Function(String? errorText)? requestError,
   }) {
-    return view?.call(interlocutors, hasNext, isFirstLoading, isLogoutLoading,
-        isSearchMode, searchText, searchId);
+    return view?.call(interlocutors, hasNext, isFirstLoading, isNextLoading,
+        isLogoutLoading, isSearchMode, searchText, searchId);
   }
 
   @override
@@ -2205,6 +2227,7 @@ class _$StateViewImpl implements _StateView {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -2214,8 +2237,8 @@ class _$StateViewImpl implements _StateView {
     required TResult orElse(),
   }) {
     if (view != null) {
-      return view(interlocutors, hasNext, isFirstLoading, isLogoutLoading,
-          isSearchMode, searchText, searchId);
+      return view(interlocutors, hasNext, isFirstLoading, isNextLoading,
+          isLogoutLoading, isSearchMode, searchText, searchId);
     }
     return orElse();
   }
@@ -2264,6 +2287,7 @@ abstract class _StateView implements HomeState {
       {final Iterable<Interlocutor> interlocutors,
       final dynamic hasNext,
       final dynamic isFirstLoading,
+      final dynamic isNextLoading,
       final dynamic isLogoutLoading,
       final dynamic isSearchMode,
       final String searchText,
@@ -2272,6 +2296,7 @@ abstract class _StateView implements HomeState {
   Iterable<Interlocutor> get interlocutors;
   dynamic get hasNext;
   dynamic get isFirstLoading;
+  dynamic get isNextLoading;
   dynamic get isLogoutLoading;
   dynamic get isSearchMode;
   String get searchText;
@@ -2360,6 +2385,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -2379,6 +2405,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,
@@ -2398,6 +2425,7 @@ class _$StateRequestErrorImpl implements _StateRequestError {
             Iterable<Interlocutor> interlocutors,
             dynamic hasNext,
             dynamic isFirstLoading,
+            dynamic isNextLoading,
             dynamic isLogoutLoading,
             dynamic isSearchMode,
             String searchText,

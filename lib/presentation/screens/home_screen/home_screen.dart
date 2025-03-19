@@ -9,6 +9,7 @@ import 'package:quectochat/presentation/common/common_text_field.dart';
 import 'package:quectochat/presentation/values/qicons.dart';
 
 import '../../../domain/models/interlocutor.dart';
+import '../../common/common_pagination_listener.dart';
 import '../../common/common_pending_indicator.dart';
 import '../../common/common_toast.dart';
 import '../../common/common_user_avatar.dart';
@@ -85,68 +86,72 @@ class _HomeView extends StatelessWidget {
         1;
 
     return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            scrolledUnderElevation: 0,
-            forceMaterialTransparency: true,
-            floating: true,
-            snap: true,
-            pinned: true,
-            collapsedHeight: 0,
-            toolbarHeight: 0,
-            expandedHeight: flexibleAppBarHeight,
-            flexibleSpace: _FlexibleHeader(
-              onExitTapped: () => _onLogoutTapped(context),
-              onSearchFieldClearTapped: () =>
-                  _onSearchFieldClearTapped(context),
-              onSearchTextChanged: (val) => _onSearchTextChanged(context, val),
+      child: CommonPaginationListener(
+        onListEnded: () => _onNextPageRequested(context),
+        listenableChild: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              scrolledUnderElevation: 0,
+              forceMaterialTransparency: true,
+              floating: true,
+              snap: true,
+              pinned: true,
+              collapsedHeight: 0,
+              toolbarHeight: 0,
+              expandedHeight: flexibleAppBarHeight,
+              flexibleSpace: _FlexibleHeader(
+                onExitTapped: () => _onLogoutTapped(context),
+                onSearchFieldClearTapped: () =>
+                    _onSearchFieldClearTapped(context),
+                onSearchTextChanged: (val) =>
+                    _onSearchTextChanged(context, val),
+              ),
             ),
-          ),
 
-          /// Либо надпись об отсутствии переписок, либо список переписок
-          if (interlocutors.isEmpty)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Values.horizontalPadding,
-                  ),
-                  child: Text(
-                    // TODO(Vadim): #localization
-                    'Не с кем переписываться',
-                    textAlign: TextAlign.center,
-                    style: context.style12w500$labels,
+            /// Либо надпись об отсутствии переписок, либо список переписок
+            if (interlocutors.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Values.horizontalPadding,
+                    ),
+                    child: Text(
+                      // TODO(Vadim): #localization
+                      'Не с кем переписываться',
+                      textAlign: TextAlign.center,
+                      style: context.style12w500$labels,
+                    ),
                   ),
                 ),
+              )
+            else
+              SliverList.separated(
+                itemCount: interlocutors.length,
+                separatorBuilder: (context, i) => Divider(
+                  height: Values.dividerThickness,
+                  color: context.palette.gray,
+                  indent: Values.horizontalPadding,
+                  endIndent: Values.horizontalPadding,
+                ),
+                itemBuilder: (context, i) {
+                  final interlocutor = interlocutors.elementAt(i);
+                  return _ChatTile(
+                    interlocutor: interlocutor,
+                    onTapped: () => _onChatListItemTapped(
+                      context,
+                      interlocutor,
+                    ),
+                    onClearChatRequested: () => _onClearChatRequested(
+                      context,
+                      interlocutor,
+                    ),
+                  );
+                },
               ),
-            )
-          else
-            SliverList.separated(
-              itemCount: interlocutors.length,
-              separatorBuilder: (context, i) => Divider(
-                height: Values.dividerThickness,
-                color: context.palette.gray,
-                indent: Values.horizontalPadding,
-                endIndent: Values.horizontalPadding,
-              ),
-              itemBuilder: (context, i) {
-                final interlocutor = interlocutors.elementAt(i);
-                return _ChatTile(
-                  interlocutor: interlocutor,
-                  onTapped: () => _onChatListItemTapped(
-                    context,
-                    interlocutor,
-                  ),
-                  onClearChatRequested: () => _onClearChatRequested(
-                    context,
-                    interlocutor,
-                  ),
-                );
-              },
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -181,5 +186,9 @@ class _HomeView extends StatelessWidget {
     context.read<HomeBloc>().add(
           HomeEvent.onClearChatRequested(interlocutorId: interlocutor.userId),
         );
+  }
+
+  void _onNextPageRequested(BuildContext context) {
+    context.read<HomeBloc>().add(HomeEvent.onNextPageRequested());
   }
 }
