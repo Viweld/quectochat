@@ -137,6 +137,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get homeChatTileYouLabel => 'Вы: ';
 
   @override
+  String get homeClearChatLabel => 'Очистить\nчат';
+
+  @override
   String get timeAgoJustNow => 'Только что';
 
   @override

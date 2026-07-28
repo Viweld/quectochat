@@ -31,7 +31,7 @@ class ChatContent extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const Expanded(child: ReadingView()),
+          Expanded(child: ReadingView(interlocutorId: interlocutorId)),
           TypingView(interlocutorId: interlocutorId),
         ],
       ),

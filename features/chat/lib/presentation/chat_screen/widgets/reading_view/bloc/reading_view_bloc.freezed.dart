@@ -12,257 +12,6 @@ part of 'reading_view_bloc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$ReadingViewEffect {
-
- AppErrorKind get kind;
-/// Create a copy of ReadingViewEffect
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ReadingViewEffectCopyWith<ReadingViewEffect> get copyWith => _$ReadingViewEffectCopyWithImpl<ReadingViewEffect>(this as ReadingViewEffect, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReadingViewEffect&&(identical(other.kind, kind) || other.kind == kind));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,kind);
-
-@override
-String toString() {
-  return 'ReadingViewEffect(kind: $kind)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ReadingViewEffectCopyWith<$Res>  {
-  factory $ReadingViewEffectCopyWith(ReadingViewEffect value, $Res Function(ReadingViewEffect) _then) = _$ReadingViewEffectCopyWithImpl;
-@useResult
-$Res call({
- AppErrorKind kind
-});
-
-
-
-
-}
-/// @nodoc
-class _$ReadingViewEffectCopyWithImpl<$Res>
-    implements $ReadingViewEffectCopyWith<$Res> {
-  _$ReadingViewEffectCopyWithImpl(this._self, this._then);
-
-  final ReadingViewEffect _self;
-  final $Res Function(ReadingViewEffect) _then;
-
-/// Create a copy of ReadingViewEffect
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? kind = null,}) {
-  return _then(_self.copyWith(
-kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as AppErrorKind,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [ReadingViewEffect].
-extension ReadingViewEffectPatterns on ReadingViewEffect {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ShowError value)?  showError,required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ShowError value)  showError,}){
-final _that = this;
-switch (_that) {
-case _ShowError():
-return showError(_that);}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ShowError value)?  showError,}){
-final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( AppErrorKind kind)?  showError,required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that.kind);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( AppErrorKind kind)  showError,}) {final _that = this;
-switch (_that) {
-case _ShowError():
-return showError(_that.kind);}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( AppErrorKind kind)?  showError,}) {final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that.kind);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-
-
-class _ShowError implements ReadingViewEffect {
-  const _ShowError(this.kind);
-  
-
-@override final  AppErrorKind kind;
-
-/// Create a copy of ReadingViewEffect
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$ShowErrorCopyWith<_ShowError> get copyWith => __$ShowErrorCopyWithImpl<_ShowError>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShowError&&(identical(other.kind, kind) || other.kind == kind));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,kind);
-
-@override
-String toString() {
-  return 'ReadingViewEffect.showError(kind: $kind)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$ShowErrorCopyWith<$Res> implements $ReadingViewEffectCopyWith<$Res> {
-  factory _$ShowErrorCopyWith(_ShowError value, $Res Function(_ShowError) _then) = __$ShowErrorCopyWithImpl;
-@override @useResult
-$Res call({
- AppErrorKind kind
-});
-
-
-
-
-}
-/// @nodoc
-class __$ShowErrorCopyWithImpl<$Res>
-    implements _$ShowErrorCopyWith<$Res> {
-  __$ShowErrorCopyWithImpl(this._self, this._then);
-
-  final _ShowError _self;
-  final $Res Function(_ShowError) _then;
-
-/// Create a copy of ReadingViewEffect
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? kind = null,}) {
-  return _then(_ShowError(
-null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as AppErrorKind,
-  ));
-}
-
-
-}
-
-/// @nodoc
 mixin _$ReadingViewEvent {
 
 
@@ -306,13 +55,13 @@ extension ReadingViewEventPatterns on ReadingViewEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,TResult Function( _EffectHandled value)?  effectHandled,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _EventOnNextPageRequested() when onNextPageRequested != null:
+case _EventOnInitializationRequested() when onInitializationRequested != null:
+return onInitializationRequested(_that);case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested(_that);case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that);case _EffectHandled() when effectHandled != null:
-return effectHandled(_that);case _:
+return onMessagesUpdated(_that);case _:
   return orElse();
 
 }
@@ -330,13 +79,13 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnMessagesUpdated value)  onMessagesUpdated,required TResult Function( _EffectHandled value)  effectHandled,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnMessagesUpdated value)  onMessagesUpdated,}){
 final _that = this;
 switch (_that) {
-case _EventOnNextPageRequested():
+case _EventOnInitializationRequested():
+return onInitializationRequested(_that);case _EventOnNextPageRequested():
 return onNextPageRequested(_that);case _EventOnMessagesUpdated():
-return onMessagesUpdated(_that);case _EffectHandled():
-return effectHandled(_that);}
+return onMessagesUpdated(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -350,13 +99,13 @@ return effectHandled(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,TResult? Function( _EffectHandled value)?  effectHandled,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,}){
 final _that = this;
 switch (_that) {
-case _EventOnNextPageRequested() when onNextPageRequested != null:
+case _EventOnInitializationRequested() when onInitializationRequested != null:
+return onInitializationRequested(_that);case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested(_that);case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that);case _EffectHandled() when effectHandled != null:
-return effectHandled(_that);case _:
+return onMessagesUpdated(_that);case _:
   return null;
 
 }
@@ -373,12 +122,12 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onNextPageRequested,TResult Function( Iterable<Message> messages)?  onMessagesUpdated,TResult Function()?  effectHandled,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onNextPageRequested,TResult Function( Iterable<Message> messages)?  onMessagesUpdated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _EventOnNextPageRequested() when onNextPageRequested != null:
+case _EventOnInitializationRequested() when onInitializationRequested != null:
+return onInitializationRequested();case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested();case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that.messages);case _EffectHandled() when effectHandled != null:
-return effectHandled();case _:
+return onMessagesUpdated(_that.messages);case _:
   return orElse();
 
 }
@@ -396,12 +145,12 @@ return effectHandled();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onNextPageRequested,required TResult Function( Iterable<Message> messages)  onMessagesUpdated,required TResult Function()  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onNextPageRequested,required TResult Function( Iterable<Message> messages)  onMessagesUpdated,}) {final _that = this;
 switch (_that) {
-case _EventOnNextPageRequested():
+case _EventOnInitializationRequested():
+return onInitializationRequested();case _EventOnNextPageRequested():
 return onNextPageRequested();case _EventOnMessagesUpdated():
-return onMessagesUpdated(_that.messages);case _EffectHandled():
-return effectHandled();}
+return onMessagesUpdated(_that.messages);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -415,18 +164,50 @@ return effectHandled();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onNextPageRequested,TResult? Function( Iterable<Message> messages)?  onMessagesUpdated,TResult? Function()?  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onNextPageRequested,TResult? Function( Iterable<Message> messages)?  onMessagesUpdated,}) {final _that = this;
 switch (_that) {
-case _EventOnNextPageRequested() when onNextPageRequested != null:
+case _EventOnInitializationRequested() when onInitializationRequested != null:
+return onInitializationRequested();case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested();case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that.messages);case _EffectHandled() when effectHandled != null:
-return effectHandled();case _:
+return onMessagesUpdated(_that.messages);case _:
   return null;
 
 }
 }
 
 }
+
+/// @nodoc
+
+
+class _EventOnInitializationRequested implements ReadingViewEvent {
+  const _EventOnInitializationRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnInitializationRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ReadingViewEvent.onInitializationRequested()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 
@@ -527,41 +308,9 @@ as Iterable<Message>,
 }
 
 /// @nodoc
-
-
-class _EffectHandled implements ReadingViewEvent {
-  const _EffectHandled();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EffectHandled);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'ReadingViewEvent.effectHandled()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
 mixin _$ReadingViewState {
 
- Iterable<Message> get messages; bool get isPending; ReadingViewEffect? get effect;
+ String get interlocutorId; Iterable<Message> get messages; bool get isPending; bool get isNextLoading; bool get hasNext;
 /// Create a copy of ReadingViewState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -572,16 +321,16 @@ $ReadingViewStateCopyWith<ReadingViewState> get copyWith => _$ReadingViewStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReadingViewState&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.isPending, isPending) || other.isPending == isPending)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReadingViewState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.isPending, isPending) || other.isPending == isPending)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(messages),isPending,effect);
+int get hashCode => Object.hash(runtimeType,interlocutorId,const DeepCollectionEquality().hash(messages),isPending,isNextLoading,hasNext);
 
 @override
 String toString() {
-  return 'ReadingViewState(messages: $messages, isPending: $isPending, effect: $effect)';
+  return 'ReadingViewState(interlocutorId: $interlocutorId, messages: $messages, isPending: $isPending, isNextLoading: $isNextLoading, hasNext: $hasNext)';
 }
 
 
@@ -592,11 +341,11 @@ abstract mixin class $ReadingViewStateCopyWith<$Res>  {
   factory $ReadingViewStateCopyWith(ReadingViewState value, $Res Function(ReadingViewState) _then) = _$ReadingViewStateCopyWithImpl;
 @useResult
 $Res call({
- Iterable<Message> messages, bool isPending, ReadingViewEffect? effect
+ String interlocutorId, Iterable<Message> messages, bool isPending, bool isNextLoading, bool hasNext
 });
 
 
-$ReadingViewEffectCopyWith<$Res>? get effect;
+
 
 }
 /// @nodoc
@@ -609,27 +358,17 @@ class _$ReadingViewStateCopyWithImpl<$Res>
 
 /// Create a copy of ReadingViewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? messages = null,Object? isPending = null,Object? effect = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? interlocutorId = null,Object? messages = null,Object? isPending = null,Object? isNextLoading = null,Object? hasNext = null,}) {
   return _then(_self.copyWith(
-messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
+interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
+as String,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
 as Iterable<Message>,isPending: null == isPending ? _self.isPending : isPending // ignore: cast_nullable_to_non_nullable
-as bool,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
-as ReadingViewEffect?,
+as bool,isNextLoading: null == isNextLoading ? _self.isNextLoading : isNextLoading // ignore: cast_nullable_to_non_nullable
+as bool,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
-/// Create a copy of ReadingViewState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$ReadingViewEffectCopyWith<$Res>? get effect {
-    if (_self.effect == null) {
-    return null;
-  }
 
-  return $ReadingViewEffectCopyWith<$Res>(_self.effect!, (value) {
-    return _then(_self.copyWith(effect: value));
-  });
-}
 }
 
 
@@ -711,10 +450,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<Message> messages,  bool isPending,  ReadingViewEffect? effect)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String interlocutorId,  Iterable<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReadingViewState() when $default != null:
-return $default(_that.messages,_that.isPending,_that.effect);case _:
+return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNextLoading,_that.hasNext);case _:
   return orElse();
 
 }
@@ -732,10 +471,10 @@ return $default(_that.messages,_that.isPending,_that.effect);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<Message> messages,  bool isPending,  ReadingViewEffect? effect)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String interlocutorId,  Iterable<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)  $default,) {final _that = this;
 switch (_that) {
 case _ReadingViewState():
-return $default(_that.messages,_that.isPending,_that.effect);case _:
+return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNextLoading,_that.hasNext);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -752,10 +491,10 @@ return $default(_that.messages,_that.isPending,_that.effect);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<Message> messages,  bool isPending,  ReadingViewEffect? effect)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String interlocutorId,  Iterable<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)?  $default,) {final _that = this;
 switch (_that) {
 case _ReadingViewState() when $default != null:
-return $default(_that.messages,_that.isPending,_that.effect);case _:
+return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNextLoading,_that.hasNext);case _:
   return null;
 
 }
@@ -767,12 +506,14 @@ return $default(_that.messages,_that.isPending,_that.effect);case _:
 
 
 class _ReadingViewState implements ReadingViewState {
-  const _ReadingViewState({this.messages = const [], this.isPending = true, this.effect});
+  const _ReadingViewState({required this.interlocutorId, this.messages = const [], this.isPending = true, this.isNextLoading = false, this.hasNext = true});
   
 
+@override final  String interlocutorId;
 @override@JsonKey() final  Iterable<Message> messages;
 @override@JsonKey() final  bool isPending;
-@override final  ReadingViewEffect? effect;
+@override@JsonKey() final  bool isNextLoading;
+@override@JsonKey() final  bool hasNext;
 
 /// Create a copy of ReadingViewState
 /// with the given fields replaced by the non-null parameter values.
@@ -784,16 +525,16 @@ _$ReadingViewStateCopyWith<_ReadingViewState> get copyWith => __$ReadingViewStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReadingViewState&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.isPending, isPending) || other.isPending == isPending)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReadingViewState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.isPending, isPending) || other.isPending == isPending)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(messages),isPending,effect);
+int get hashCode => Object.hash(runtimeType,interlocutorId,const DeepCollectionEquality().hash(messages),isPending,isNextLoading,hasNext);
 
 @override
 String toString() {
-  return 'ReadingViewState(messages: $messages, isPending: $isPending, effect: $effect)';
+  return 'ReadingViewState(interlocutorId: $interlocutorId, messages: $messages, isPending: $isPending, isNextLoading: $isNextLoading, hasNext: $hasNext)';
 }
 
 
@@ -804,11 +545,11 @@ abstract mixin class _$ReadingViewStateCopyWith<$Res> implements $ReadingViewSta
   factory _$ReadingViewStateCopyWith(_ReadingViewState value, $Res Function(_ReadingViewState) _then) = __$ReadingViewStateCopyWithImpl;
 @override @useResult
 $Res call({
- Iterable<Message> messages, bool isPending, ReadingViewEffect? effect
+ String interlocutorId, Iterable<Message> messages, bool isPending, bool isNextLoading, bool hasNext
 });
 
 
-@override $ReadingViewEffectCopyWith<$Res>? get effect;
+
 
 }
 /// @nodoc
@@ -821,28 +562,18 @@ class __$ReadingViewStateCopyWithImpl<$Res>
 
 /// Create a copy of ReadingViewState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? messages = null,Object? isPending = null,Object? effect = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? interlocutorId = null,Object? messages = null,Object? isPending = null,Object? isNextLoading = null,Object? hasNext = null,}) {
   return _then(_ReadingViewState(
-messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
+interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
+as String,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
 as Iterable<Message>,isPending: null == isPending ? _self.isPending : isPending // ignore: cast_nullable_to_non_nullable
-as bool,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
-as ReadingViewEffect?,
+as bool,isNextLoading: null == isNextLoading ? _self.isNextLoading : isNextLoading // ignore: cast_nullable_to_non_nullable
+as bool,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
-/// Create a copy of ReadingViewState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$ReadingViewEffectCopyWith<$Res>? get effect {
-    if (_self.effect == null) {
-    return null;
-  }
 
-  return $ReadingViewEffectCopyWith<$Res>(_self.effect!, (value) {
-    return _then(_self.copyWith(effect: value));
-  });
-}
 }
 
 // dart format on

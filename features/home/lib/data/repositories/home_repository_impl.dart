@@ -15,13 +15,12 @@ final class HomeRepositoryImpl implements HomeRepository {
     required HomeRemoteDataSource remoteDataSource,
     required CurrentUserPort currentUserPort,
   }) : _remoteDataSource = remoteDataSource,
-       _currentUserPort = currentUserPort {
-    _interlocutorsStreamController = StreamController<Set<Interlocutor>>.broadcast();
-  }
+       _currentUserPort = currentUserPort;
 
   final HomeRemoteDataSource _remoteDataSource;
   final CurrentUserPort _currentUserPort;
-  late final StreamController<Set<Interlocutor>> _interlocutorsStreamController;
+  final StreamController<Set<Interlocutor>> _interlocutorsStreamController =
+      StreamController<Set<Interlocutor>>.broadcast();
 
   String get _currentUserId => _currentUserPort.currentUserId;
 

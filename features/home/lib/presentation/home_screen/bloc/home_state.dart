@@ -11,6 +11,5 @@ abstract class HomeState with _$HomeState {
     @Default(false) bool isSearchMode,
     @Default('') String searchText,
     @Default(0) int searchId,
-    HomeEffect? effect,
   }) = _HomeState;
 }

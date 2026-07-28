@@ -10,6 +10,7 @@ export 'presentation/login_screen/login_screen.dart';
 export 'presentation/registration_screen/registration_screen.dart';
 export 'src/di/configure_dependencies.module.dart';
 
+/// Codegen anchor for [LoginRoute] / [RegistrationRoute]. Not used at runtime.
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AuthRouter extends RootStackRouter {
   @override

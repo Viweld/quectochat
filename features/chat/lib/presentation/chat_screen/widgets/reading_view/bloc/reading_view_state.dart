@@ -3,8 +3,10 @@ part of 'reading_view_bloc.dart';
 @freezed
 abstract class ReadingViewState with _$ReadingViewState {
   const factory ReadingViewState({
+    required String interlocutorId,
     @Default([]) Iterable<Message> messages,
     @Default(true) bool isPending,
-    ReadingViewEffect? effect,
+    @Default(false) bool isNextLoading,
+    @Default(true) bool hasNext,
   }) = _ReadingViewState;
 }

@@ -73,10 +73,10 @@ class _SwipeClearWrapperState extends State<SwipeClearWrapper> with SingleTicker
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: CustomPaint(
                     painter: WavePainter(_waveController.value),
-                    child: const Text(
-                      'Очистить\nчат',
+                    child: Text(
+                      context.texts.homeClearChatLabel,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                 ),

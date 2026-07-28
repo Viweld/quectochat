@@ -47,6 +47,7 @@
   "homeSearchHint": "Поиск",
   "homeEmptyInterlocutorsMessage": "Не с кем переписываться",
   "homeChatTileYouLabel": "Вы: ",
+  "homeClearChatLabel": "Очистить\nчат",
 
   "@ timeAgo (приписки типа 'только что' '2 дня назад и т.п.')": {},
   "timeAgoJustNow": "Только что",

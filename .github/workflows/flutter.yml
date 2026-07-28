@@ -1,4 +1,4 @@
-name: Quectochat CI/CD
+name: QuectoChat CI
 
 on:
   push:
@@ -7,27 +7,75 @@ on:
   pull_request:
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.44.2'
+          channel: 'stable'
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
+      - name: Format check
+        run: dart format -l 100 --set-exit-if-changed .
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Workspace graph
+        run: dart run tool/check_workspace_graph.dart
+
+      - name: Test
+        run: >
+          flutter test --coverage
+          shared_core/test
+          features/auth/test
+          features/home/test
+          features/chat/test
+          navigation/test
+          test
+
+  build:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.2'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Write dart defines
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          cat > dart_defines.json <<EOF
+          {
+            "SUPABASE_URL": "${SUPABASE_URL}",
+            "SUPABASE_ANON_KEY": "${SUPABASE_ANON_KEY}"
+          }
+          EOF
 
       - name: Build Android APK
-        run: flutter build apk --release
+        run: flutter build apk --release --dart-define-from-file=dart_defines.json
 
       - name: Build iOS
-        if: github.event_name == 'push'
-        run: flutter build ios --release --no-codesign
+        run: flutter build ios --release --no-codesign --dart-define-from-file=dart_defines.json

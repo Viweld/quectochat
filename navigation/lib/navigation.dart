@@ -1,3 +1,6 @@
+/// Navigation package public API.
+library;
+
 import 'package:auto_route/auto_route.dart';
 import 'package:navigation/navigation.gr.dart';
 
@@ -9,7 +12,7 @@ export 'src/guards/auth_status_reevaluate_listenable.dart';
 export 'src/guards/guest_guard.dart';
 export 'src/presentation/splash_screen/splash_screen.dart';
 
-/// Generates SplashRoute for AppRouter.
+/// Codegen anchor for [SplashRoute]. Not used at runtime.
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class NavigationRoutes extends RootStackRouter {
   @override

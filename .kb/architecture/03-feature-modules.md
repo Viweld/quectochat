@@ -18,11 +18,11 @@ lib/  (Composition Root)
 | `features/auth` | login, registration — vertical slice |
 | `features/home` | список собеседников, поиск, logout — vertical slice |
 | `features/chat` | экран чата (reading/typing) — vertical slice |
-| `navigation` | splash, auth shell (`AuthNode` + `Workspace`), nested routes |
+| `navigation` | splash, `AppRouter`, Auth/Guest guards |
 | `navigation_api` | `AppNavigator`, auth ports |
 | `infrastructure` | Firebase bootstrap (без business API) |
 
-Cross-feature wiring — `lib/di/*_port_adapters.dart`. Splash/shell — в `navigation`, не отдельные feature-пакеты.
+Cross-feature wiring — `lib/di/*_port_adapters.dart`. Splash и routing — в `navigation`, не отдельные feature-пакеты.
 
 ## Принципы разбиения (ADR-12)
 
@@ -55,8 +55,8 @@ Cross-feature wiring — `lib/di/*_port_adapters.dart`. Splash/shell — в `nav
 
 ### `navigation`
 
-| Экран | Путь |
-|-------|------|
+| Экран / компонент | Путь |
+|-------------------|------|
 | Splash | `lib/src/presentation/splash_screen/` |
-| Auth shell | `lib/src/presentation/auth_node/` |
-| Workspace | `lib/src/presentation/workspace.dart` |
+| AppRouter | `lib/src/app_router/` |
+| Guards | `lib/src/guards/` |

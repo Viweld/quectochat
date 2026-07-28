@@ -6,6 +6,5 @@ abstract class TypingViewState with _$TypingViewState {
     required String interlocutorId,
     @Default('') String typedMessage,
     @Default(false) bool isSending,
-    TypingViewEffect? effect,
   }) = _TypingViewState;
 }

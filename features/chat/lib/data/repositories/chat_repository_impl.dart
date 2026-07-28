@@ -16,18 +16,16 @@ final class ChatRepositoryImpl implements ChatRepository {
     required ChatRemoteDataSource remoteDataSource,
     required CurrentUserPort currentUserPort,
   }) : _remoteDataSource = remoteDataSource,
-       _currentUserPort = currentUserPort {
-    _messagesStreamController = StreamController<Set<Message>>.broadcast();
-    _errorsStreamController = StreamController<ChatRepositoryError>.broadcast();
-  }
+       _currentUserPort = currentUserPort;
 
   StreamSubscription<Set<MessageDto>>? _chatStreamSubscription;
 
   final ChatRemoteDataSource _remoteDataSource;
   final CurrentUserPort _currentUserPort;
-
-  late final StreamController<Set<Message>> _messagesStreamController;
-  late final StreamController<ChatRepositoryError> _errorsStreamController;
+  final StreamController<Set<Message>> _messagesStreamController =
+      StreamController<Set<Message>>.broadcast();
+  final StreamController<ChatRepositoryError> _errorsStreamController =
+      StreamController<ChatRepositoryError>.broadcast();
 
   String get _currentUserId => _currentUserPort.currentUserId;
 

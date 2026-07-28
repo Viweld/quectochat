@@ -45,7 +45,7 @@ locator.registerLazySingleton<AuthSessionPort>(
 );
 ```
 
-`HomeBloc` инжектирует `AuthSessionPort`, вызывает `logOut()` по действию пользователя. UI-переключение на login — через `AuthNode` + `AuthenticationStatePort` stream, не через callback из home.
+`HomeBloc` инжектирует `AuthSessionPort`, вызывает `logOut()` по действию пользователя. UI-переключение на login — через `AuthGuard` + `AuthStatusReevaluateListenable` (stream `AuthenticationStatePort`), не через callback из home.
 
 ## Альтернативы (отклонены)
 

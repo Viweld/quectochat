@@ -1,8 +1,14 @@
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:infrastructure/infrastructure.dart';
 import 'package:navigation/navigation.dart';
+import 'package:navigation_api/navigation_api.dart';
 import 'package:quectochat/di/app_di.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
@@ -17,8 +23,30 @@ Future<void> main() async {
   await initializeSupabaseApp();
 
   await configureDependencies();
+  await _registerPushToken();
 
   runApp(const DynamicTheme(child: LocaleProvider(child: Application())));
+}
+
+Future<void> _registerPushToken() async {
+  if (!Platform.isAndroid && !Platform.isIOS) return;
+
+  try {
+    final FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission();
+    final String? token = await messaging.getToken();
+    if (token == null || token.isEmpty) return;
+
+    final PushNotificationPort pushPort = appLocator<PushNotificationPort>();
+    final String platform = Platform.isIOS ? 'ios' : 'android';
+
+    await pushPort.registerDeviceToken(token: token, platform: platform);
+    messaging.onTokenRefresh.listen((String refreshed) {
+      unawaited(pushPort.registerDeviceToken(token: refreshed, platform: platform));
+    });
+  } on Object catch (error, stackTrace) {
+    log('Failed to register FCM token', error: error, stackTrace: stackTrace);
+  }
 }
 
 class Application extends StatelessWidget {

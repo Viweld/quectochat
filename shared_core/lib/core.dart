@@ -20,6 +20,5 @@ export 'src/exceptions/request_context.dart';
 export 'src/extensions/iterable_extensions.dart';
 export 'src/l10n/app_localizations.dart';
 export 'src/locale_provider.dart';
-export 'src/utils/bloc_helper.dart';
 export 'src/utils/debouncer.dart';
 export 'src/utils/id_tools.dart';

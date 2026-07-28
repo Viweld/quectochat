@@ -29,15 +29,20 @@ class ChatPackageModule extends _i526.MicroPackageModule {
           remoteDataSource: gh<_i503.ChatRemoteDataSource>(),
           currentUserPort: gh<_i842.CurrentUserPort>(),
         ));
-    gh.factory<_i639.ReadingViewBloc>(() => _i639.ReadingViewBloc(
-          gh<_i250.ChatRepository>(),
-          gh<_i668.BlocErrorHandler>(),
-        ));
     gh.factoryParam<_i405.ChatBloc, String, dynamic>((
       interlocutorId,
       _,
     ) =>
         _i405.ChatBloc(
+          gh<_i250.ChatRepository>(),
+          gh<_i668.BlocErrorHandler>(),
+          interlocutorId: interlocutorId,
+        ));
+    gh.factoryParam<_i639.ReadingViewBloc, String, dynamic>((
+      interlocutorId,
+      _,
+    ) =>
+        _i639.ReadingViewBloc(
           gh<_i250.ChatRepository>(),
           gh<_i668.BlocErrorHandler>(),
           interlocutorId: interlocutorId,

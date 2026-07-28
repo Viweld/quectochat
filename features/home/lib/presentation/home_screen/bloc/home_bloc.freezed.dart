@@ -12,257 +12,6 @@ part of 'home_bloc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$HomeEffect {
-
- AppErrorKind get kind;
-/// Create a copy of HomeEffect
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$HomeEffectCopyWith<HomeEffect> get copyWith => _$HomeEffectCopyWithImpl<HomeEffect>(this as HomeEffect, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeEffect&&(identical(other.kind, kind) || other.kind == kind));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,kind);
-
-@override
-String toString() {
-  return 'HomeEffect(kind: $kind)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $HomeEffectCopyWith<$Res>  {
-  factory $HomeEffectCopyWith(HomeEffect value, $Res Function(HomeEffect) _then) = _$HomeEffectCopyWithImpl;
-@useResult
-$Res call({
- AppErrorKind kind
-});
-
-
-
-
-}
-/// @nodoc
-class _$HomeEffectCopyWithImpl<$Res>
-    implements $HomeEffectCopyWith<$Res> {
-  _$HomeEffectCopyWithImpl(this._self, this._then);
-
-  final HomeEffect _self;
-  final $Res Function(HomeEffect) _then;
-
-/// Create a copy of HomeEffect
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? kind = null,}) {
-  return _then(_self.copyWith(
-kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as AppErrorKind,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [HomeEffect].
-extension HomeEffectPatterns on HomeEffect {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ShowError value)?  showError,required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ShowError value)  showError,}){
-final _that = this;
-switch (_that) {
-case _ShowError():
-return showError(_that);}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ShowError value)?  showError,}){
-final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( AppErrorKind kind)?  showError,required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that.kind);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( AppErrorKind kind)  showError,}) {final _that = this;
-switch (_that) {
-case _ShowError():
-return showError(_that.kind);}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( AppErrorKind kind)?  showError,}) {final _that = this;
-switch (_that) {
-case _ShowError() when showError != null:
-return showError(_that.kind);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-
-
-class _ShowError implements HomeEffect {
-  const _ShowError(this.kind);
-  
-
-@override final  AppErrorKind kind;
-
-/// Create a copy of HomeEffect
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$ShowErrorCopyWith<_ShowError> get copyWith => __$ShowErrorCopyWithImpl<_ShowError>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShowError&&(identical(other.kind, kind) || other.kind == kind));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,kind);
-
-@override
-String toString() {
-  return 'HomeEffect.showError(kind: $kind)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$ShowErrorCopyWith<$Res> implements $HomeEffectCopyWith<$Res> {
-  factory _$ShowErrorCopyWith(_ShowError value, $Res Function(_ShowError) _then) = __$ShowErrorCopyWithImpl;
-@override @useResult
-$Res call({
- AppErrorKind kind
-});
-
-
-
-
-}
-/// @nodoc
-class __$ShowErrorCopyWithImpl<$Res>
-    implements _$ShowErrorCopyWith<$Res> {
-  __$ShowErrorCopyWithImpl(this._self, this._then);
-
-  final _ShowError _self;
-  final $Res Function(_ShowError) _then;
-
-/// Create a copy of HomeEffect
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? kind = null,}) {
-  return _then(_ShowError(
-null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as AppErrorKind,
-  ));
-}
-
-
-}
-
-/// @nodoc
 mixin _$HomeEvent {
 
 
@@ -306,7 +55,7 @@ extension HomeEventPatterns on HomeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnFetchRequested value)?  onFetchRequested,TResult Function( _EventOnSearchRequested value)?  onSearchRequested,TResult Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult Function( _EventOnClearChatRequested value)?  onClearChatRequested,TResult Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,TResult Function( _EffectHandled value)?  effectHandled,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnFetchRequested value)?  onFetchRequested,TResult Function( _EventOnSearchRequested value)?  onSearchRequested,TResult Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult Function( _EventOnClearChatRequested value)?  onClearChatRequested,TResult Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
@@ -318,8 +67,7 @@ return onNextPageRequested(_that);case _EventOnSearchTextChanged() when onSearch
 return onSearchTextChanged(_that);case _EventOnLogoutTapped() when onLogoutTapped != null:
 return onLogoutTapped(_that);case _EventOnClearChatRequested() when onClearChatRequested != null:
 return onClearChatRequested(_that);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
-return onInterlocutorsStreamUpdated(_that);case _EffectHandled() when effectHandled != null:
-return effectHandled(_that);case _:
+return onInterlocutorsStreamUpdated(_that);case _:
   return orElse();
 
 }
@@ -337,7 +85,7 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnFetchRequested value)  onFetchRequested,required TResult Function( _EventOnSearchRequested value)  onSearchRequested,required TResult Function( _EventOnSearchFieldClearTapped value)  onSearchFieldClearTapped,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnSearchTextChanged value)  onSearchTextChanged,required TResult Function( _EventOnLogoutTapped value)  onLogoutTapped,required TResult Function( _EventOnClearChatRequested value)  onClearChatRequested,required TResult Function( _EventOnInterlocutorsStreamUpdated value)  onInterlocutorsStreamUpdated,required TResult Function( _EffectHandled value)  effectHandled,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnFetchRequested value)  onFetchRequested,required TResult Function( _EventOnSearchRequested value)  onSearchRequested,required TResult Function( _EventOnSearchFieldClearTapped value)  onSearchFieldClearTapped,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnSearchTextChanged value)  onSearchTextChanged,required TResult Function( _EventOnLogoutTapped value)  onLogoutTapped,required TResult Function( _EventOnClearChatRequested value)  onClearChatRequested,required TResult Function( _EventOnInterlocutorsStreamUpdated value)  onInterlocutorsStreamUpdated,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
@@ -349,8 +97,7 @@ return onNextPageRequested(_that);case _EventOnSearchTextChanged():
 return onSearchTextChanged(_that);case _EventOnLogoutTapped():
 return onLogoutTapped(_that);case _EventOnClearChatRequested():
 return onClearChatRequested(_that);case _EventOnInterlocutorsStreamUpdated():
-return onInterlocutorsStreamUpdated(_that);case _EffectHandled():
-return effectHandled(_that);}
+return onInterlocutorsStreamUpdated(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -364,7 +111,7 @@ return effectHandled(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnFetchRequested value)?  onFetchRequested,TResult? Function( _EventOnSearchRequested value)?  onSearchRequested,TResult? Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult? Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult? Function( _EventOnClearChatRequested value)?  onClearChatRequested,TResult? Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,TResult? Function( _EffectHandled value)?  effectHandled,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnFetchRequested value)?  onFetchRequested,TResult? Function( _EventOnSearchRequested value)?  onSearchRequested,TResult? Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult? Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult? Function( _EventOnClearChatRequested value)?  onClearChatRequested,TResult? Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
@@ -376,8 +123,7 @@ return onNextPageRequested(_that);case _EventOnSearchTextChanged() when onSearch
 return onSearchTextChanged(_that);case _EventOnLogoutTapped() when onLogoutTapped != null:
 return onLogoutTapped(_that);case _EventOnClearChatRequested() when onClearChatRequested != null:
 return onClearChatRequested(_that);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
-return onInterlocutorsStreamUpdated(_that);case _EffectHandled() when effectHandled != null:
-return effectHandled(_that);case _:
+return onInterlocutorsStreamUpdated(_that);case _:
   return null;
 
 }
@@ -394,7 +140,7 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onFetchRequested,TResult Function()?  onSearchRequested,TResult Function()?  onSearchFieldClearTapped,TResult Function()?  onNextPageRequested,TResult Function( String val)?  onSearchTextChanged,TResult Function()?  onLogoutTapped,TResult Function( String interlocutorId)?  onClearChatRequested,TResult Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,TResult Function()?  effectHandled,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onFetchRequested,TResult Function()?  onSearchRequested,TResult Function()?  onSearchFieldClearTapped,TResult Function()?  onNextPageRequested,TResult Function( String val)?  onSearchTextChanged,TResult Function()?  onLogoutTapped,TResult Function( String interlocutorId)?  onClearChatRequested,TResult Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnFetchRequested() when onFetchRequested != null:
@@ -405,8 +151,7 @@ return onNextPageRequested();case _EventOnSearchTextChanged() when onSearchTextC
 return onSearchTextChanged(_that.val);case _EventOnLogoutTapped() when onLogoutTapped != null:
 return onLogoutTapped();case _EventOnClearChatRequested() when onClearChatRequested != null:
 return onClearChatRequested(_that.interlocutorId);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
-return onInterlocutorsStreamUpdated(_that.updated);case _EffectHandled() when effectHandled != null:
-return effectHandled();case _:
+return onInterlocutorsStreamUpdated(_that.updated);case _:
   return orElse();
 
 }
@@ -424,7 +169,7 @@ return effectHandled();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onFetchRequested,required TResult Function()  onSearchRequested,required TResult Function()  onSearchFieldClearTapped,required TResult Function()  onNextPageRequested,required TResult Function( String val)  onSearchTextChanged,required TResult Function()  onLogoutTapped,required TResult Function( String interlocutorId)  onClearChatRequested,required TResult Function( Set<Interlocutor> updated)  onInterlocutorsStreamUpdated,required TResult Function()  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onFetchRequested,required TResult Function()  onSearchRequested,required TResult Function()  onSearchFieldClearTapped,required TResult Function()  onNextPageRequested,required TResult Function( String val)  onSearchTextChanged,required TResult Function()  onLogoutTapped,required TResult Function( String interlocutorId)  onClearChatRequested,required TResult Function( Set<Interlocutor> updated)  onInterlocutorsStreamUpdated,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested();case _EventOnFetchRequested():
@@ -435,8 +180,7 @@ return onNextPageRequested();case _EventOnSearchTextChanged():
 return onSearchTextChanged(_that.val);case _EventOnLogoutTapped():
 return onLogoutTapped();case _EventOnClearChatRequested():
 return onClearChatRequested(_that.interlocutorId);case _EventOnInterlocutorsStreamUpdated():
-return onInterlocutorsStreamUpdated(_that.updated);case _EffectHandled():
-return effectHandled();}
+return onInterlocutorsStreamUpdated(_that.updated);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -450,7 +194,7 @@ return effectHandled();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onFetchRequested,TResult? Function()?  onSearchRequested,TResult? Function()?  onSearchFieldClearTapped,TResult? Function()?  onNextPageRequested,TResult? Function( String val)?  onSearchTextChanged,TResult? Function()?  onLogoutTapped,TResult? Function( String interlocutorId)?  onClearChatRequested,TResult? Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,TResult? Function()?  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onFetchRequested,TResult? Function()?  onSearchRequested,TResult? Function()?  onSearchFieldClearTapped,TResult? Function()?  onNextPageRequested,TResult? Function( String val)?  onSearchTextChanged,TResult? Function()?  onLogoutTapped,TResult? Function( String interlocutorId)?  onClearChatRequested,TResult? Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnFetchRequested() when onFetchRequested != null:
@@ -461,8 +205,7 @@ return onNextPageRequested();case _EventOnSearchTextChanged() when onSearchTextC
 return onSearchTextChanged(_that.val);case _EventOnLogoutTapped() when onLogoutTapped != null:
 return onLogoutTapped();case _EventOnClearChatRequested() when onClearChatRequested != null:
 return onClearChatRequested(_that.interlocutorId);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
-return onInterlocutorsStreamUpdated(_that.updated);case _EffectHandled() when effectHandled != null:
-return effectHandled();case _:
+return onInterlocutorsStreamUpdated(_that.updated);case _:
   return null;
 
 }
@@ -867,41 +610,9 @@ as Set<Interlocutor>,
 }
 
 /// @nodoc
-
-
-class _EffectHandled implements HomeEvent {
-  const _EffectHandled();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EffectHandled);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'HomeEvent.effectHandled()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
 mixin _$HomeState {
 
- Iterable<Interlocutor> get interlocutors; bool get hasNext; bool get isFirstLoading; bool get isNextLoading; bool get isLogoutLoading; bool get isSearchMode; String get searchText; int get searchId; HomeEffect? get effect;
+ Iterable<Interlocutor> get interlocutors; bool get hasNext; bool get isFirstLoading; bool get isNextLoading; bool get isLogoutLoading; bool get isSearchMode; String get searchText; int get searchId;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -912,16 +623,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId,effect);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId);
 
 @override
 String toString() {
-  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId, effect: $effect)';
+  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId)';
 }
 
 
@@ -932,11 +643,11 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId, HomeEffect? effect
+ Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId
 });
 
 
-$HomeEffectCopyWith<$Res>? get effect;
+
 
 }
 /// @nodoc
@@ -949,7 +660,7 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,Object? effect = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,}) {
   return _then(_self.copyWith(
 interlocutors: null == interlocutors ? _self.interlocutors : interlocutors // ignore: cast_nullable_to_non_nullable
 as Iterable<Interlocutor>,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
@@ -959,23 +670,10 @@ as bool,isLogoutLoading: null == isLogoutLoading ? _self.isLogoutLoading : isLog
 as bool,isSearchMode: null == isSearchMode ? _self.isSearchMode : isSearchMode // ignore: cast_nullable_to_non_nullable
 as bool,searchText: null == searchText ? _self.searchText : searchText // ignore: cast_nullable_to_non_nullable
 as String,searchId: null == searchId ? _self.searchId : searchId // ignore: cast_nullable_to_non_nullable
-as int,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
-as HomeEffect?,
+as int,
   ));
 }
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeEffectCopyWith<$Res>? get effect {
-    if (_self.effect == null) {
-    return null;
-  }
 
-  return $HomeEffectCopyWith<$Res>(_self.effect!, (value) {
-    return _then(_self.copyWith(effect: value));
-  });
-}
 }
 
 
@@ -1057,10 +755,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId,  HomeEffect? effect)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId,_that.effect);case _:
+return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId);case _:
   return orElse();
 
 }
@@ -1078,10 +776,10 @@ return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isN
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId,  HomeEffect? effect)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId,_that.effect);case _:
+return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1098,10 +796,10 @@ return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isN
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId,  HomeEffect? effect)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId,_that.effect);case _:
+return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId);case _:
   return null;
 
 }
@@ -1113,7 +811,7 @@ return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isN
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.interlocutors = const [], this.hasNext = true, this.isFirstLoading = true, this.isNextLoading = false, this.isLogoutLoading = false, this.isSearchMode = false, this.searchText = '', this.searchId = 0, this.effect});
+  const _HomeState({this.interlocutors = const [], this.hasNext = true, this.isFirstLoading = true, this.isNextLoading = false, this.isLogoutLoading = false, this.isSearchMode = false, this.searchText = '', this.searchId = 0});
   
 
 @override@JsonKey() final  Iterable<Interlocutor> interlocutors;
@@ -1124,7 +822,6 @@ class _HomeState implements HomeState {
 @override@JsonKey() final  bool isSearchMode;
 @override@JsonKey() final  String searchText;
 @override@JsonKey() final  int searchId;
-@override final  HomeEffect? effect;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -1136,16 +833,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId,effect);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId);
 
 @override
 String toString() {
-  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId, effect: $effect)';
+  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId)';
 }
 
 
@@ -1156,11 +853,11 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId, HomeEffect? effect
+ Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId
 });
 
 
-@override $HomeEffectCopyWith<$Res>? get effect;
+
 
 }
 /// @nodoc
@@ -1173,7 +870,7 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,Object? effect = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,}) {
   return _then(_HomeState(
 interlocutors: null == interlocutors ? _self.interlocutors : interlocutors // ignore: cast_nullable_to_non_nullable
 as Iterable<Interlocutor>,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
@@ -1183,24 +880,11 @@ as bool,isLogoutLoading: null == isLogoutLoading ? _self.isLogoutLoading : isLog
 as bool,isSearchMode: null == isSearchMode ? _self.isSearchMode : isSearchMode // ignore: cast_nullable_to_non_nullable
 as bool,searchText: null == searchText ? _self.searchText : searchText // ignore: cast_nullable_to_non_nullable
 as String,searchId: null == searchId ? _self.searchId : searchId // ignore: cast_nullable_to_non_nullable
-as int,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
-as HomeEffect?,
+as int,
   ));
 }
 
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeEffectCopyWith<$Res>? get effect {
-    if (_self.effect == null) {
-    return null;
-  }
 
-  return $HomeEffectCopyWith<$Res>(_self.effect!, (value) {
-    return _then(_self.copyWith(effect: value));
-  });
-}
 }
 
 // dart format on

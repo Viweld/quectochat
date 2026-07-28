@@ -11,14 +11,11 @@ import '../datasources/auth_remote_data_source.dart';
 @LazySingleton(as: AuthRepository)
 final class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required AuthRemoteDataSource remoteDataSource})
-    : _remoteDataSource = remoteDataSource {
-    _authStreamController = StreamController<AuthStatus>.broadcast();
-    _authStatus = _initialAuthStatus;
-  }
+    : _remoteDataSource = remoteDataSource,
+      _authStreamController = StreamController<AuthStatus>.broadcast(),
+      _authStatus = AuthStatus.notAuthorized;
 
-  static const AuthStatus _initialAuthStatus = AuthStatus.notAuthorized;
-
-  late AuthStatus _authStatus;
+  AuthStatus _authStatus;
 
   @override
   AuthStatus get authStatus => _authStatus;
@@ -30,18 +27,7 @@ final class AuthRepositoryImpl implements AuthRepository {
   Stream<AuthStatus> get authStatusStream => _authStreamController.stream;
 
   final AuthRemoteDataSource _remoteDataSource;
-
-  late final StreamController<AuthStatus> _authStreamController;
-
-  @override
-  AuthSubscription subscribe(void Function(AuthStatus) listener) {
-    return _authStreamController.stream.listen(listener);
-  }
-
-  @override
-  Future<void> close() async {
-    await _authStreamController.close();
-  }
+  final StreamController<AuthStatus> _authStreamController;
 
   @override
   Future<void> checkAuth() async {

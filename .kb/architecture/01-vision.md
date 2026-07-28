@@ -17,7 +17,7 @@
 3. **Feature = bounded context** — `domain/`, `data/`, `presentation/` внутри `features/<name>/`.
 4. **Repository pattern** — BLoC зависит от контрактов; маппинг Firestore → Domain в Repository.
 5. **Cross-feature** — ports в `navigation_api` + адаптеры в `lib/di/`, не import feature→feature.
-6. **Навигация** — через `AppNavigator` (ADR-013); `Navigator` только внутри `AppNavigatorImpl`.
+6. **Навигация** — через `AppNavigator` (ADR-016); реализация — `AppRouter implements AppNavigator`.
 7. **Ошибки** — `BlocErrorHandler` + `Outcome<S, F>`.
 8. **DAG** — `tool/check_workspace_graph.dart` (`strict: true`).
 
@@ -29,7 +29,7 @@ shared_ui/       Дизайн-система, темы, виджеты
 shared_domain/   Кросс-фичевые доменные типы
 infrastructure/  Firebase bootstrap, SDK-обёртки
 navigation_api/  AppNavigator, auth ports
-navigation/      Splash, AuthNode, Workspace, маршруты
+navigation/      AppRouter, Splash, guards, маршруты
 features/auth/   Login, Registration
 features/home/   Список собеседников
 features/chat/   Экран переписки
@@ -43,9 +43,9 @@ lib/             Entrypoints + Composition Root (app_di.dart)
 | `AuthRepository` | Firebase Auth: login, registration, logout, stream статуса |
 | `HomeRepository` | Список собеседников, поиск, очистка чата |
 | `ChatRepository` | Сообщения, отправка, пагинация, realtime-подписки |
-| `SplashBloc` | Проверка auth → `navigateAuthNode` |
-| `AuthNode` + `AuthBloc` | Shell: login или workspace по `AuthStatus` |
-| `AppNavigator` | Splash, auth node, login, registration, chat, back, popToRoot |
+| `SplashBloc` | Проверка auth → `navigateLogin` / `navigateHome` |
+| `AuthGuard` / `GuestGuard` | Охрана маршрутов + `AuthStatusReevaluateListenable` |
+| `AppNavigator` | Login, registration, home, chat, back (`AppRouter`) |
 | `AuthSessionPort` | Cross-feature logout из home (ADR-014) |
 | Firestore datasources | В `features/*/lib/data/datasources/` (ADR-015) |
 
@@ -53,7 +53,7 @@ lib/             Entrypoints + Composition Root (app_di.dart)
 
 | Фаза | Фокус |
 |------|-------|
-| **Текущая (MVP)** | Auth, home, chat на Firebase; manual Map routes |
+| **Текущая (MVP)** | Auth, home, chat на Firebase; `AppRouter` (auto_route) |
 | **Ближайшее** | Presence (online/offline), push-уведомления, вложения |
 | **Позже** | Settings feature, профиль пользователя, offline-кэш (если потребуется) |
 
@@ -63,7 +63,7 @@ lib/             Entrypoints + Composition Root (app_di.dart)
 
 - Email + password через Firebase Auth.
 - Регистрация с именем и фамилией; профиль пишется в Firestore.
-- Статус сессии — stream в `AuthRepository`; shell слушает через `AuthenticationStatePort`.
+- Статус сессии — stream в `AuthRepository`; guards слушают через `AuthenticationStatePort` + `AuthStatusReevaluateListenable`.
 
 ### Переписка
 
@@ -73,8 +73,8 @@ lib/             Entrypoints + Composition Root (app_di.dart)
 
 ### Навигация
 
-- Два уровня: root (splash, auth, login, registration) и nested (home, chat).
-- Features вызывают `appLocator<AppNavigator>()`; shell обрабатывает BLoC-эффекты через listener.
+- Плоский стек `AppRouter`: splash, login, registration, home, chat.
+- Features вызывают `appLocator<AppNavigator>()`; BLoC-эффекты обрабатывает screen listener.
 
 ## Антипаттерны (избегать)
 

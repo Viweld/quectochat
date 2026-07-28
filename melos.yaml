@@ -25,3 +25,16 @@ scripts:
   analyze:
     description: Analyze all packages.
     run: fvm flutter analyze
+  format:
+    description: Format Dart sources (line length 100).
+    run: fvm dart format -l 100 .
+  test:
+    description: Run all Flutter tests across packages.
+    run: >
+      fvm flutter test
+      shared_core/test
+      features/auth/test
+      features/home/test
+      features/chat/test
+      navigation/test
+      test

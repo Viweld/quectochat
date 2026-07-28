@@ -104,15 +104,15 @@ flowchart TB
 
 **Пакет:** `navigation`
 
-**Ответственность:** splash, auth shell, workspace, маршруты, `AppNavigator`.
+**Ответственность:** splash, `AppRouter`, guards, маршруты, `AppNavigator`.
 
 **Не bounded context** — application/infrastructure layer для routing.
 
 Компоненты:
 
 - `SplashScreen` + `SplashBloc` — cold start
-- `AuthNode` + `AuthBloc` — login vs workspace
-- `Workspace` + `NestedNavigator` — home ↔ chat
+- `AuthGuard` / `GuestGuard` + `AuthStatusReevaluateListenable` — login vs home
+- `AppRouter` — плоский стек: home ↔ chat
 
 ## Context map (взаимодействия)
 
@@ -121,7 +121,7 @@ flowchart TB
 | IAM | Contacts | Только авторизованный пользователь видит home |
 | IAM | Chat | userId для Firestore paths |
 | Contacts | Chat | `navigateChat(interlocutorId, …)` |
-| IAM | UI Shell | `AuthStatus` → AuthNode builder |
+| IAM | UI Shell | `AuthStatus` → guards reevaluate |
 | Home | IAM | Logout через `AuthSessionPort` |
 
 Cross-feature wiring — только `lib/di/auth_port_adapters.dart` и `AppNavigator`.
@@ -134,5 +134,5 @@ Cross-feature wiring — только `lib/di/auth_port_adapters.dart` и `AppNa
 | Interlocutor | Собеседник в списке чатов |
 | Message | Единица переписки |
 | Chat | Диалог между двумя пользователями (не feature-пакет, а предметная область) |
-| AuthNode | Shell-маршрут после splash |
-| Workspace | Авторизованная оболочка с nested-навигацией |
+| AuthGuard / GuestGuard | Охрана маршрутов по `AuthStatus` |
+| AppRouter | Плоский стек маршрутов (auto_route) |

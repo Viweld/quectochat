@@ -5,7 +5,6 @@ import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 
 part 'typing_view_bloc.freezed.dart';
-part 'typing_view_effect.dart';
 part 'typing_view_event.dart';
 part 'typing_view_state.dart';
 
@@ -22,7 +21,6 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
       event.map(
         onMessageChanged: (_EventOnMessageChanged event) => _onMessageChanged(event, emit),
         onSendTapped: (_) {},
-        effectHandled: (_) => _onEffectHandled(emit),
       );
     });
     on<_EventOnSendTapped>(_onSendTapped, transformer: droppable());
@@ -34,10 +32,6 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   static TypingViewState _initialState({required String interlocutorId}) =>
       TypingViewState(interlocutorId: interlocutorId);
 
-  void _onEffectHandled(Emitter<TypingViewState> emit) {
-    emit(state.copyWith(effect: null));
-  }
-
   void _onMessageChanged(_EventOnMessageChanged event, Emitter<TypingViewState> emit) {
     emit(state.copyWith(typedMessage: event.val));
   }
@@ -45,7 +39,7 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   Future<void> _onSendTapped(_EventOnSendTapped event, Emitter<TypingViewState> emit) async {
     if (state.typedMessage.trim().isEmpty || state.isSending) return;
 
-    emit(state.copyWith(isSending: true, effect: null));
+    emit(state.copyWith(isSending: true));
 
     try {
       await _chatRepository.sendMessage(

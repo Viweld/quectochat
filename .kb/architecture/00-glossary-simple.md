@@ -29,7 +29,7 @@
 | **Mapper (маппер)** | Переводчик transport → доменная модель. Пример: `_MessageMapper` в `features/chat/lib/data/`. |
 | **DI (get_it / injectable)** | «Автосборка» зависимостей: не создаём классы руками, просим их у контейнера (`appLocator`). |
 | **Port (StatePort / EventPort)** | Узкий cross-feature контракт: прочитать статус auth или сообщить о logout. См. ADR-010, ADR-014. |
-| **AppNavigator** | Порт навигации: features и shell не вызывают `Navigator` напрямую. Реализация — `AppNavigatorImpl` в `navigation/`. |
+| **AppNavigator** | Порт навигации: features и shell не вызывают router напрямую. Реализация — `AppRouter implements AppNavigator` в `navigation/`. |
 
 ## Обработка ошибок
 
@@ -55,10 +55,9 @@
 
 | Термин | Простыми словами |
 |--------|------------------|
-| **Root navigator** | Верхний стек: splash → auth node → login/registration. |
-| **Nested navigator** | Внутренний стек в `Workspace`: home → chat. |
-| **`AuthNode`** | Shell после splash: показывает login или workspace в зависимости от `AuthStatus`. |
-| **`Workspace`** | Оболочка авторизованного пользователя с nested-навигацией. |
+| **`AppRouter`** | Единый плоский стек auto_route: splash → login/registration → home → chat. |
+| **`AuthGuard` / `GuestGuard`** | Охраняют маршруты: неавторизованных — на login, авторизованных с guest-экранов — на home. |
+| **`AuthStatusReevaluateListenable`** | Слушает `authStatusStream` и заставляет guards пересчитать маршруты при login/logout. |
 
 ## Куда смотреть дальше
 

@@ -15,12 +15,6 @@ abstract interface class AuthRepository {
   /// Stream of auth status changes.
   Stream<AuthStatus> get authStatusStream;
 
-  /// Closes streams.
-  Future<void> close();
-
-  /// Subscribes to auth status changes.
-  AuthSubscription subscribe(void Function(AuthStatus) listener);
-
   /// Checks whether the user is logged in.
   Future<void> checkAuth();
 

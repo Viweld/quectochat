@@ -8,7 +8,6 @@ import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 
 part 'home_bloc.freezed.dart';
-part 'home_effect.dart';
 part 'home_event.dart';
 part 'home_state.dart';
 
@@ -31,7 +30,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             _onClearChatRequested(event, emit),
         onInterlocutorsStreamUpdated: (_EventOnInterlocutorsStreamUpdated event) =>
             _onInterlocutorsStreamUpdated(event, emit),
-        effectHandled: (_) => _onEffectHandled(emit),
       );
     });
     on<_EventOnLogoutTapped>(_onLogoutTapped, transformer: droppable());
@@ -53,10 +51,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> close() async {
     await _interlocutorsSubscription.cancel();
     return super.close();
-  }
-
-  void _onEffectHandled(Emitter<HomeState> emit) {
-    emit(state.copyWith(effect: null));
   }
 
   void _onDebouncerCalled(HomeState? viewState) {
@@ -141,7 +135,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onLogoutTapped(_EventOnLogoutTapped event, Emitter<HomeState> emit) async {
     if (state.isLogoutLoading) return;
 
-    emit(state.copyWith(isLogoutLoading: true, effect: null));
+    emit(state.copyWith(isLogoutLoading: true));
 
     try {
       await _authSessionPort.logOut();

@@ -340,6 +340,12 @@ abstract class AppLocalizations {
   /// **'Вы: '**
   String get homeChatTileYouLabel;
 
+  /// No description provided for @homeClearChatLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить\nчат'**
+  String get homeClearChatLabel;
+
   /// No description provided for @timeAgoJustNow.
   ///
   /// In ru, this message translates to:
