@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../extensions/context_extensions.dart';
-import '../../values/values.dart';
-import 'common_back_button.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/values/values.dart';
+import 'package:shared_ui/src/widgets/ui_kit/common_back_button.dart';
 
 class CommonFloatingBackButton extends StatelessWidget {
   const CommonFloatingBackButton({required this.onPressed, super.key});
@@ -18,7 +18,7 @@ class CommonFloatingBackButton extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
-              colors: [
+              colors: <Color>[
                 context.palette.white,
                 context.palette.white,
                 context.palette.white.withValues(alpha: 0),

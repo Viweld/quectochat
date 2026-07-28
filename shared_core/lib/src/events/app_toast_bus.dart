@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 
-import 'app_toast_events.dart';
+import 'package:shared_core/src/events/app_toast_events.dart';
 
 @lazySingleton
 final class AppToastBus {

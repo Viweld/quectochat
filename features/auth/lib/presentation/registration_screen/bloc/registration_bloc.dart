@@ -178,9 +178,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       );
 
       switch (outcome) {
-        case Success():
+        case Success<void, RegistrationFailure>():
           break;
-        case Failure(:final RegistrationFailure error):
+        case Failure<void, RegistrationFailure>(:final RegistrationFailure error):
           emit(
             state.copyWith(effect: RegistrationEffect.showError(_mapRegistrationFailure(error))),
           );

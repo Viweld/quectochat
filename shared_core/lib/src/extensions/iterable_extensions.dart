@@ -1,24 +1,24 @@
 extension IterableModifier<E> on Iterable<E> {
   E? firstWhereOrNull(bool Function(E) test) =>
-      cast<E?>().firstWhere((v) => v != null && test(v), orElse: () => null);
+      cast<E?>().firstWhere((E? value) => value != null && test(value), orElse: () => null);
 }
 
 extension IterableAddUnique<T> on List<T> {
-  // добавление новых уникальных записей
+  /// Adds items that are not already present in this list.
   Iterable<T> addUniqueIterable(Iterable<T> items) sync* {
-    final asSet = toSet();
+    final Set<T> asSet = toSet();
     yield* this;
-    for (final newItem in items) {
+    for (final T newItem in items) {
       if (!asSet.contains(newItem)) {
         yield newItem;
       }
     }
   }
 
-  // списки содержат хоть одну дублирующуюся запись
+  /// Whether any of [items] is already present in this list.
   bool containsAny(Iterable<T> items) {
-    final asSet = toSet();
-    for (final newItem in items) {
+    final Set<T> asSet = toSet();
+    for (final T newItem in items) {
       if (asSet.contains(newItem)) {
         return true;
       }

@@ -9,7 +9,7 @@ export 'presentation/chat_screen/chat_screen.dart';
 export 'src/di/configure_dependencies.module.dart';
 
 /// Codegen anchor for [ChatRoute]. Not used at runtime.
-@AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
+@AutoRouterConfig()
 class ChatRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => <AutoRoute>[AutoRoute(page: ChatRoute.page)];

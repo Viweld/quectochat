@@ -14,7 +14,7 @@ import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
 
 Future<void> main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await initializeFirebaseApp();

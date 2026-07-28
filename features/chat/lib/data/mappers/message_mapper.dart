@@ -1,7 +1,6 @@
+import 'package:chat/data/dto/message_dto.dart';
+import 'package:chat/domain/entities/message.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../../domain/entities/message.dart';
-import '../dto/message_dto.dart';
 
 Message mapMessageDtoToDomain({required MessageDto dto, required String currentUserId}) {
   return Message(

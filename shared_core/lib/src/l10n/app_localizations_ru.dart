@@ -60,8 +60,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginExceptionInvalidCredential => 'Неправильные логин или пароль';
 
   @override
-  String get loginExceptionUserNotFound =>
-      'Пользователь с таким email не зарегистрирован';
+  String get loginExceptionUserNotFound => 'Пользователь с таким email не зарегистрирован';
 
   @override
   String get loginExceptionWrongEmail => 'Неправильный формат e-mail';
@@ -97,8 +96,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registrationPasswordFieldHint => 'пароль';
 
   @override
-  String get registrationConfirmPasswordFieldTitle =>
-      'Повторите введенный пароль:';
+  String get registrationConfirmPasswordFieldTitle => 'Повторите введенный пароль:';
 
   @override
   String get registrationConfirmPasswordFieldHint => 'пароль';
@@ -107,19 +105,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registrationButtonLabel => 'Зарегистрироваться';
 
   @override
-  String get registrationExceptionWeakPassword =>
-      'Введен слабый пароль при регистрации';
+  String get registrationExceptionWeakPassword => 'Введен слабый пароль при регистрации';
 
   @override
   String get registrationExceptionWrongEmail => 'Неправильный формат e-mail';
 
   @override
-  String get registrationExceptionEmailAlreadyUsed =>
-      'Введенный при регистрации email уже занят';
+  String get registrationExceptionEmailAlreadyUsed => 'Введенный при регистрации email уже занят';
 
   @override
-  String get registrationExceptionNotEqualPasswords =>
-      'Введенные пороли не совпадают';
+  String get registrationExceptionNotEqualPasswords => 'Введенные пороли не совпадают';
 
   @override
   String get homeTitle => 'Чаты';

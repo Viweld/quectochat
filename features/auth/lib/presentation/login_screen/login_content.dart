@@ -1,9 +1,8 @@
+import 'package:auth/domain/utils/form_fields/form_fields.dart';
+import 'package:auth/presentation/login_screen/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import '../../../domain/utils/form_fields/form_fields.dart';
-import 'bloc/login_bloc.dart';
 
 class LoginContent extends StatelessWidget {
   const LoginContent({
@@ -25,8 +24,7 @@ class LoginContent extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 60, bottom: 20),
               child: Image.asset(Images.logo),

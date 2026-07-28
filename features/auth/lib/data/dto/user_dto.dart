@@ -9,6 +9,6 @@ final class UserDto {
   final String lastName;
 
   Map<String, Object?> toJson({required String userId}) {
-    return {'id': userId, 'first_name': firstName, 'last_name': lastName};
+    return <String, Object?>{'id': userId, 'first_name': firstName, 'last_name': lastName};
   }
 }

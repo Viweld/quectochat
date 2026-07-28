@@ -1,10 +1,9 @@
+import 'package:chat/data/datasources/chat_remote_data_source.dart';
+import 'package:chat/data/datasources/table_keys.dart';
+import 'package:chat/data/dto/message_dto.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../dto/message_dto.dart';
-import 'chat_remote_data_source.dart';
-import 'table_keys.dart';
 
 @LazySingleton(as: ChatRemoteDataSource)
 final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -12,7 +11,7 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
   final SupabaseClient _client;
 
-  static const _messagesPaginationLimit = 20;
+  static const int _messagesPaginationLimit = 20;
 
   String get _currentUserId => _client.auth.currentUser?.id ?? '';
 
@@ -21,10 +20,10 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     required String interlocutorId,
     String? lastMessageId,
   }) async {
-    const limit = _messagesPaginationLimit;
-    final String chatId = DeterministicId.fromParts([interlocutorId, _currentUserId]);
+    const int limit = _messagesPaginationLimit;
+    final String chatId = DeterministicId.fromParts(<String>[interlocutorId, _currentUserId]);
 
-    var query = _client
+    PostgrestTransformBuilder<PostgrestList> query = _client
         .from(TableKeys.messages)
         .select()
         .eq(TableKeys.messageChatId, chatId)
@@ -64,7 +63,7 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }) async {
     final MessageDto payload = MessageDto(
       id: '',
-      chatId: DeterministicId.fromParts([_currentUserId, interlocutorId]),
+      chatId: DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]),
       fromId: _currentUserId,
       toId: interlocutorId,
       content: content,
@@ -93,19 +92,19 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
   @override
   Stream<Set<MessageDto>> getAddedModifiedMessagesStream({required String interlocutorId}) {
-    final String chatId = DeterministicId.fromParts([interlocutorId, _currentUserId]);
+    final String chatId = DeterministicId.fromParts(<String>[interlocutorId, _currentUserId]);
 
     return _client
         .from(TableKeys.messages)
         .stream(primaryKey: <String>[TableKeys.messageId])
         .eq(TableKeys.messageChatId, chatId)
         .order(TableKeys.messageCreatedAt, ascending: true)
-        .map((rows) => rows.map(MessageDto.fromJson).toSet());
+        .map((SupabaseStreamEvent rows) => rows.map(MessageDto.fromJson).toSet());
   }
 
   @override
   Future<void> markAsViewed({required String interlocutorId}) async {
-    final String chatId = DeterministicId.fromParts([interlocutorId, _currentUserId]);
+    final String chatId = DeterministicId.fromParts(<String>[interlocutorId, _currentUserId]);
 
     await _client
         .from(TableKeys.messages)

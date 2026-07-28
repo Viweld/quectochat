@@ -1,11 +1,10 @@
+import 'package:chat/domain/entities/message.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/cluster_attribute.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/left_message.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/right_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'package:chat/domain/entities/message.dart';
-import 'cluster_attribute.dart';
-import 'left_message.dart';
-import 'right_message.dart';
 
 class MessageBubble extends StatelessWidget {
   const MessageBubble({required this.message, required this.clusterAttribute, super.key});

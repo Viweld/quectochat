@@ -1,12 +1,11 @@
 import 'dart:async';
 
+import 'package:auth/data/datasources/auth_remote_data_source.dart';
 import 'package:auth/domain/entities/login_failure.dart';
 import 'package:auth/domain/entities/registration_failure.dart';
 import 'package:auth/domain/repositories/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../datasources/auth_remote_data_source.dart';
 
 @LazySingleton(as: AuthRepository)
 final class AuthRepositoryImpl implements AuthRepository {
@@ -49,9 +48,9 @@ final class AuthRepositoryImpl implements AuthRepository {
       if (!_authStreamController.isClosed) {
         _authStreamController.add(_authStatus);
       }
-      return const Success(null);
+      return const Success<void, LoginFailure>(null);
     } on LoginFailure catch (failure) {
-      return Failure(failure);
+      return Failure<void, LoginFailure>(failure);
     }
   }
 
@@ -82,9 +81,9 @@ final class AuthRepositoryImpl implements AuthRepository {
       if (!_authStreamController.isClosed) {
         _authStreamController.add(_authStatus);
       }
-      return const Success(null);
+      return const Success<void, RegistrationFailure>(null);
     } on RegistrationFailure catch (failure) {
-      return Failure(failure);
+      return Failure<void, RegistrationFailure>(failure);
     }
   }
 }

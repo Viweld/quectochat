@@ -1,4 +1,4 @@
-import 'request_context.dart';
+import 'package:shared_core/src/exceptions/request_context.dart';
 
 /// Base sealed exception for infrastructure / transport errors.
 sealed class ApiException implements Exception {

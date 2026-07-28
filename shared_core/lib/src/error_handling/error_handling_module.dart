@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-import 'error_handling_policy.dart';
+import 'package:shared_core/src/error_handling/error_handling_policy.dart';
 
 @module
 abstract class ErrorHandlingModule {

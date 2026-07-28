@@ -30,7 +30,7 @@ class CommonPaginationListener extends StatelessWidget {
   /// Анализирует результат прокрутки списка [listenableChild] и вызывает коллбэк [onListEnded]
   /// при достижении участка срабатывания [actuationRange] в конце списка
   bool _onScrollNotification(ScrollMetricsNotification notification) {
-    final scrolledToBottom = notification.metrics.extentAfter < actuationRange;
+    final bool scrolledToBottom = notification.metrics.extentAfter < actuationRange;
     if (scrolledToBottom) onListEnded.call();
     return false;
   }

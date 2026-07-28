@@ -1,6 +1,5 @@
+import 'package:chat/data/dto/message_dto.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../dto/message_dto.dart';
 
 /// Remote chat / messages data access.
 abstract interface class ChatRemoteDataSource {

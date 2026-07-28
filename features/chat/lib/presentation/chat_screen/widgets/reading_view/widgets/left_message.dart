@@ -1,11 +1,10 @@
 import 'dart:math';
 
+import 'package:chat/domain/entities/message.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/cluster_attribute.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'package:chat/domain/entities/message.dart';
-import 'cluster_attribute.dart';
 
 class LeftMessage extends StatelessWidget {
   const LeftMessage({
@@ -94,10 +93,10 @@ class _MessageContent extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: 12, bottom: 12, left: withTail ? 24 : 14, right: 14),
         child: Stack(
-          children: [
+          children: <Widget>[
             RichText(
               text: TextSpan(
-                children: [
+                children: <InlineSpan>[
                   TextSpan(
                     text: message.content,
                     style: context.message!.copyWith(color: context.palette.greenDark),
@@ -112,7 +111,7 @@ class _MessageContent extends StatelessWidget {
               child: Text(
                 DateFormat('HH:mm').format(message.createdAt),
                 style: context.caption!.copyWith(
-                  fontFeatures: [const FontFeature.tabularFigures()],
+                  fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
                   color: context.palette.greenDark.withValues(alpha: 0.8),
                 ),
               ),

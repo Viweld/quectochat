@@ -15,9 +15,9 @@ class Debouncer<T> {
   T? get cachedObject => _cachedObject;
 
   void onEvent(T? newObject, {int? period}) {
-    final isCleared = T is! String
+    final bool isCleared = T is! String
         ? newObject == null && _cachedObject != null
-        : ((_cachedObject as String?)?.isNotEmpty ?? false) && (newObject as String).isEmpty;
+        : ((_cachedObject as String?)?.isNotEmpty ?? false) && (newObject! as String).isEmpty;
 
     _cachedObject = newObject;
     if (_debounceTimer != null) {

@@ -1,13 +1,12 @@
 import 'dart:async';
 
+import 'package:home/data/datasources/home_remote_data_source.dart';
+import 'package:home/data/dto/interlocutor_dto.dart';
+import 'package:home/data/mappers/interlocutor_mapper.dart';
+import 'package:home/domain/repositories/home_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../../domain/repositories/home_repository.dart';
-import '../datasources/home_remote_data_source.dart';
-import '../dto/interlocutor_dto.dart';
-import '../mappers/interlocutor_mapper.dart';
 
 @LazySingleton(as: HomeRepository)
 final class HomeRepositoryImpl implements HomeRepository {
@@ -48,7 +47,7 @@ final class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Paginated<Interlocutor>> getInterlocutors({String? lastInterlocutorId}) async {
-    final paginated = await _remoteDataSource.getInterlocutors(
+    final Paginated<InterlocutorDto> paginated = await _remoteDataSource.getInterlocutors(
       lastInterlocutorId: lastInterlocutorId,
     );
 
@@ -60,9 +59,13 @@ final class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Iterable<Interlocutor>> searchInterlocutors({required String searchText}) async {
-    final dtos = await _remoteDataSource.searchInterlocutors(searchText: searchText);
+    final Iterable<InterlocutorDto> dtos = await _remoteDataSource.searchInterlocutors(
+      searchText: searchText,
+    );
 
-    return dtos.map((dto) => mapInterlocutorDtoToDomain(dto: dto, currentUserId: _currentUserId));
+    return dtos.map(
+      (InterlocutorDto dto) => mapInterlocutorDtoToDomain(dto: dto, currentUserId: _currentUserId),
+    );
   }
 
   @override

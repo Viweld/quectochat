@@ -1,10 +1,9 @@
+import 'package:auth/domain/utils/form_fields/form_fields.dart';
+import 'package:auth/presentation/registration_screen/bloc/registration_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import '../../../domain/utils/form_fields/form_fields.dart';
-import 'bloc/registration_bloc.dart';
 
 class RegistrationContent extends StatelessWidget {
   const RegistrationContent({
@@ -36,8 +35,7 @@ class RegistrationContent extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 60, bottom: 20),
               child: Image.asset(Images.logo),

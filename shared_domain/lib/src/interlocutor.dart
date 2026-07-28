@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'message_content_type.dart';
+import 'package:shared_domain/src/message_content_type.dart';
 
 @immutable
 final class Interlocutor {

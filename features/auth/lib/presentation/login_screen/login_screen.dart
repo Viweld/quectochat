@@ -1,10 +1,9 @@
+import 'package:auth/presentation/login_screen/bloc/login_bloc.dart';
+import 'package:auth/presentation/login_screen/login_content.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'bloc/login_bloc.dart';
-import 'login_content.dart';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
@@ -14,8 +13,8 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppNavigator navigator = appLocator<AppNavigator>();
 
-    return BlocProvider(
-      create: (_) => appLocator<LoginBloc>(),
+    return BlocProvider<LoginBloc>(
+      create: (BuildContext context) => appLocator<LoginBloc>(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listenWhen: (LoginState previous, LoginState current) => previous.effect != current.effect,
         listener: (BuildContext context, LoginState state) {

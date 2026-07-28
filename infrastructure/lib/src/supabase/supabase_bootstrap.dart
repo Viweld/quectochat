@@ -2,7 +2,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Bootstrap Supabase with compile-time URL / anon key.
 Future<void> initializeSupabaseApp() async {
+  // Compile-time dart-defines are the intended config source for this app.
+  // ignore: do_not_use_environment
   const String url = String.fromEnvironment('SUPABASE_URL');
+  // ignore: do_not_use_environment
   const String anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
   if (url.isEmpty || anonKey.isEmpty) {

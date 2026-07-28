@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../error_handling/error_presentation.dart';
+import 'package:shared_core/src/error_handling/error_presentation.dart';
 
 @immutable
 sealed class AppToastEvent {

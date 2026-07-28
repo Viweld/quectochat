@@ -7,7 +7,7 @@ enum EmailFieldError { emptyField, wrongFormat }
 final class EmailField extends FormField<String, EmailFieldError> {
   const EmailField({super.value = '', super.isErrorVisible});
 
-  static final _emailRegExp = RegExp(
+  static final RegExp _emailRegExp = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
   );
 

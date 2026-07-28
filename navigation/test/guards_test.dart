@@ -1,5 +1,7 @@
+import 'package:auth/auth.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:home/home.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:navigation/src/guards/auth_guard.dart';
 import 'package:navigation/src/guards/guest_guard.dart';
@@ -12,15 +14,14 @@ class _MockNavigationResolver extends Mock implements NavigationResolver {}
 
 class _MockStackRouter extends Mock implements StackRouter {}
 
-class _FakePageRouteInfo extends Fake implements PageRouteInfo {}
-
 void main() {
   late _MockAuthenticationStatePort authPort;
   late _MockNavigationResolver resolver;
   late _MockStackRouter router;
 
   setUpAll(() {
-    registerFallbackValue(_FakePageRouteInfo());
+    registerFallbackValue(const LoginRoute());
+    registerFallbackValue(const HomeRoute());
   });
 
   setUp(() {
@@ -28,7 +29,7 @@ void main() {
     resolver = _MockNavigationResolver();
     router = _MockStackRouter();
     when(() => resolver.next()).thenReturn(null);
-    when(() => resolver.redirectUntil(any())).thenAnswer((_) async {});
+    when(() => resolver.redirectUntil(any())).thenAnswer((Invocation _) async {});
   });
 
   group('AuthGuard', () {

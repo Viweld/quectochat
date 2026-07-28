@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../extensions/context_extensions.dart';
-import '../../values/qicons.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/values/qicons.dart';
 
 /// Кнопка "назад"
 class CommonBackButton extends StatelessWidget {

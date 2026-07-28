@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../values/palette.dart';
-
-import '../theme_type.dart';
-import 'themes.dart';
+import 'package:shared_ui/src/theme/themes.dart';
+import 'package:shared_ui/src/theme_type.dart';
+import 'package:shared_ui/src/values/palette.dart';
 
 // ignore_for_file: library_private_types_in_public_api
 // ---------------------------------------------------------------------------

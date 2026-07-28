@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_core/src/error_handling/bloc_error_handler.dart';
 
 /// How infrastructure errors should be surfaced in UI.
 enum ErrorPresentationKind { toast, inline, silent, retry }

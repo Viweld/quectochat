@@ -1,6 +1,5 @@
+import 'package:home/data/dto/interlocutor_dto.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../dto/interlocutor_dto.dart';
 
 /// Remote home / interlocutors data access.
 abstract interface class HomeRemoteDataSource {

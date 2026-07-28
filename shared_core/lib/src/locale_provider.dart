@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'l10n/app_localizations.dart';
+import 'package:shared_core/src/l10n/app_localizations.dart';
 
 // ignore_for_file: library_private_types_in_public_api
 // ---------------------------------------------------------------------------

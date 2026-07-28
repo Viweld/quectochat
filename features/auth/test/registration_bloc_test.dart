@@ -32,7 +32,7 @@ void main() {
     'onLoginTapped with empty fields shows validation errors',
     build: buildBloc,
     act: (RegistrationBloc bloc) => bloc.add(const RegistrationEvent.onLoginTapped()),
-    expect: () => [
+    expect: () => <TypeMatcher<RegistrationState>>[
       isA<RegistrationState>()
           .having((RegistrationState s) => s.firstNameField.isErrorVisible, 'firstName', isTrue)
           .having((RegistrationState s) => s.lastNameField.isErrorVisible, 'lastName', isTrue),
@@ -50,7 +50,9 @@ void main() {
           email: any(named: 'email'),
           password: any(named: 'password'),
         ),
-      ).thenAnswer((_) async => const Failure(EmailAlreadyUsedFailure()));
+      ).thenAnswer(
+        (Invocation _) async => const Failure<void, RegistrationFailure>(EmailAlreadyUsedFailure()),
+      );
     },
     act: (RegistrationBloc bloc) {
       bloc
@@ -62,7 +64,7 @@ void main() {
         ..add(const RegistrationEvent.onLoginTapped());
     },
     skip: 5,
-    expect: () => [
+    expect: () => <TypeMatcher<RegistrationState>>[
       isA<RegistrationState>().having((RegistrationState s) => s.isLoading, 'loading', isTrue),
       isA<RegistrationState>().having(
         (RegistrationState s) => s.effect,

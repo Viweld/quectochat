@@ -27,7 +27,7 @@ class FlexibleHeader extends StatelessWidget {
       background: ColoredBox(
         color: context.palette.white,
         child: Column(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(
@@ -38,17 +38,17 @@ class FlexibleHeader extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Text(context.texts.homeTitle, style: context.mainTitle),
                     SizedBox.square(
                       dimension: titleHeight * titleSize,
-                      child: PopupMenuButton(
+                      child: PopupMenuButton<void>(
                         icon: const Icon(Icons.more_vert_rounded),
-                        itemBuilder: (BuildContext context) => [
-                          PopupMenuItem(
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<void>>[
+                          PopupMenuItem<void>(
                             onTap: onExitTapped,
                             child: Row(
-                              children: [
+                              children: <Widget>[
                                 const Icon(Icons.logout_rounded),
                                 Text(context.texts.homeLogoutLabel),
                               ],

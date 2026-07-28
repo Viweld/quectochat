@@ -13,7 +13,7 @@ export 'src/guards/guest_guard.dart';
 export 'src/presentation/splash_screen/splash_screen.dart';
 
 /// Codegen anchor for [SplashRoute]. Not used at runtime.
-@AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
+@AutoRouterConfig()
 class NavigationRoutes extends RootStackRouter {
   @override
   List<AutoRoute> get routes => <AutoRoute>[AutoRoute(page: SplashRoute.page)];

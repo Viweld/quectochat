@@ -39,7 +39,7 @@ final class MessageDto {
   }
 
   Map<String, Object?> toJson() {
-    return {
+    return <String, Object?>{
       'chat_id': chatId,
       'from_id': fromId,
       'to_id': toId,

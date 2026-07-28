@@ -1,10 +1,9 @@
+import 'package:chat/presentation/chat_screen/widgets/typing_view/bloc/typing_view_bloc.dart';
+import 'package:chat/presentation/chat_screen/widgets/typing_view/widgets/attach_file_button.dart';
+import 'package:chat/presentation/chat_screen/widgets/typing_view/widgets/send_message_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
-import 'widgets/attach_file_button.dart';
-
-import 'bloc/typing_view_bloc.dart';
-import 'widgets/send_message_button.dart';
 
 /// ОБЛАСТЬ ВВОДА СООБЩЕНИЙ
 class TypingView extends StatelessWidget {
@@ -14,8 +13,8 @@ class TypingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => appLocator<TypingViewBloc>(param1: interlocutorId),
+    return BlocProvider<TypingViewBloc>(
+      create: (BuildContext context) => appLocator<TypingViewBloc>(param1: interlocutorId),
       child: BlocBuilder<TypingViewBloc, TypingViewState>(
         builder: (BuildContext context, TypingViewState state) => DecoratedBox(
           decoration: BoxDecoration(
@@ -24,7 +23,7 @@ class TypingView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
             child: Row(
-              children: [
+              children: <Widget>[
                 AttachFileButton(onTapped: () => _onAttachTapped(context)),
                 const SizedBox(width: 8),
                 Expanded(

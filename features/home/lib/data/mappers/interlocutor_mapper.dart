@@ -1,20 +1,17 @@
+import 'package:home/data/dto/interlocutor_dto.dart';
+import 'package:home/data/dto/message_preview_dto.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../dto/interlocutor_dto.dart';
 
 Interlocutor mapInterlocutorDtoToDomain({
   required InterlocutorDto dto,
   required String currentUserId,
 }) {
-  final lastMessage = dto.lastMessage;
+  final MessagePreviewDto? lastMessage = dto.lastMessage;
   if (lastMessage == null) {
     return Interlocutor(
       userId: dto.user.userId,
       firstName: dto.user.firstName,
       lastName: dto.user.lastName,
-      lastSentContent: null,
-      lastSentContentType: null,
-      lastSentAt: null,
       isSentByYou: false,
     );
   }
@@ -43,7 +40,9 @@ Set<Interlocutor> mapInterlocutorDtosToDomain({
   required String currentUserId,
 }) {
   return dtos
-      .map((dto) => mapInterlocutorDtoToDomain(dto: dto, currentUserId: currentUserId))
+      .map(
+        (InterlocutorDto dto) => mapInterlocutorDtoToDomain(dto: dto, currentUserId: currentUserId),
+      )
       .toSet();
 }
 
@@ -54,7 +53,7 @@ Paginated<Interlocutor> mapInterlocutorDtosPaginatedToDomain({
   return Paginated<Interlocutor>(
     hasNext: paginated.hasNext,
     result: paginated.result.map(
-      (dto) => mapInterlocutorDtoToDomain(dto: dto, currentUserId: currentUserId),
+      (InterlocutorDto dto) => mapInterlocutorDtoToDomain(dto: dto, currentUserId: currentUserId),
     ),
   );
 }

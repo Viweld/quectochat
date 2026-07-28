@@ -32,7 +32,7 @@ void main() {
     'registrationRequested emits navigateRegistration effect',
     build: buildBloc,
     act: (LoginBloc bloc) => bloc.add(const LoginEvent.registrationRequested()),
-    expect: () => [
+    expect: () => <TypeMatcher<LoginState>>[
       isA<LoginState>().having(
         (LoginState s) => s.effect,
         'effect',
@@ -45,7 +45,7 @@ void main() {
     'submitRequested with invalid fields shows field errors',
     build: buildBloc,
     act: (LoginBloc bloc) => bloc.add(const LoginEvent.submitRequested()),
-    expect: () => [
+    expect: () => <TypeMatcher<LoginState>>[
       isA<LoginState>()
           .having((LoginState s) => s.emailField.isErrorVisible, 'email visible', isTrue)
           .having((LoginState s) => s.passwordField.isErrorVisible, 'password visible', isTrue),
@@ -61,7 +61,7 @@ void main() {
           email: any(named: 'email'),
           password: any(named: 'password'),
         ),
-      ).thenAnswer((_) async => const Success(null));
+      ).thenAnswer((Invocation _) async => const Success<void, LoginFailure>(null));
     },
     act: (LoginBloc bloc) {
       bloc
@@ -70,7 +70,7 @@ void main() {
         ..add(const LoginEvent.submitRequested());
     },
     skip: 2,
-    expect: () => [
+    expect: () => <TypeMatcher<LoginState>>[
       isA<LoginState>().having((LoginState s) => s.isLoading, 'loading', isTrue),
       isA<LoginState>().having((LoginState s) => s.isLoading, 'loading', isFalse),
     ],
@@ -85,7 +85,9 @@ void main() {
           email: any(named: 'email'),
           password: any(named: 'password'),
         ),
-      ).thenAnswer((_) async => const Failure(InvalidCredentialFailure()));
+      ).thenAnswer(
+        (Invocation _) async => const Failure<void, LoginFailure>(InvalidCredentialFailure()),
+      );
     },
     act: (LoginBloc bloc) {
       bloc
@@ -94,7 +96,7 @@ void main() {
         ..add(const LoginEvent.submitRequested());
     },
     skip: 2,
-    expect: () => [
+    expect: () => <TypeMatcher<LoginState>>[
       isA<LoginState>().having((LoginState s) => s.isLoading, 'loading', isTrue),
       isA<LoginState>().having(
         (LoginState s) => s.effect,

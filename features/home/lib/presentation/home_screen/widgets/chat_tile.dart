@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:home/presentation/home_screen/widgets/swipe_clear_wrapper.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'swipe_clear_wrapper.dart';
 
 class ChatTile extends StatefulWidget {
   const ChatTile({
@@ -99,11 +98,10 @@ class _ChatTileState extends State<ChatTile> {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       CommonUserAvatar(
                         key: UniqueKey(),
                         firstName: widget.interlocutor.firstName,
@@ -114,14 +112,14 @@ class _ChatTileState extends State<ChatTile> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             Text(
                               '${widget.interlocutor.firstName} ${widget.interlocutor.lastName}',
                               style: context.username,
                             ),
                             if (widget.interlocutor.lastSentContent != null)
                               Row(
-                                children: [
+                                children: <Widget>[
                                   if (widget.interlocutor.isSentByYou ?? false)
                                     Text(
                                       context.texts.homeChatTileYouLabel,

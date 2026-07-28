@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_ui/src/theme/themes.dart';
 
 /// Gilroy-based typography primitives for [ThemeBuilder].
 abstract final class AppFonts {
@@ -7,7 +8,7 @@ abstract final class AppFonts {
     height: 1.225,
     fontWeight: FontWeight.w500,
     fontFamily: 'Gilroy',
-    fontFamilyFallback: ['sans-serif'],
+    fontFamilyFallback: <String>['sans-serif'],
   );
 
   /// Заголовок на главном экране.

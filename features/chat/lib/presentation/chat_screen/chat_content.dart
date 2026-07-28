@@ -1,10 +1,9 @@
+import 'package:chat/presentation/chat_screen/widgets/chat_screen_app_bar.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/reading_view.dart';
+import 'package:chat/presentation/chat_screen/widgets/typing_view/typing_view.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
-
-import 'widgets/chat_screen_app_bar.dart';
-import 'widgets/reading_view/reading_view.dart';
-import 'widgets/typing_view/typing_view.dart';
 
 class ChatContent extends StatelessWidget {
   const ChatContent({
@@ -30,7 +29,7 @@ class ChatContent extends StatelessWidget {
         onBackPressed: navigator.navigateBack,
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Expanded(child: ReadingView(interlocutorId: interlocutorId)),
           TypingView(interlocutorId: interlocutorId),
         ],

@@ -7,7 +7,7 @@ import 'package:navigation/src/guards/guest_guard.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 
-@AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
+@AutoRouterConfig()
 class AppRouter extends RootStackRouter implements AppNavigator {
   AppRouter({required AuthGuard authGuard, required GuestGuard guestGuard})
     : _authGuard = authGuard,
@@ -20,7 +20,7 @@ class AppRouter extends RootStackRouter implements AppNavigator {
 
   @override
   List<AutoRoute> get routes => <AutoRoute>[
-    CustomRoute(
+    CustomRoute<void>(
       page: SplashRoute.page,
       initial: true,
       transitionsBuilder: TransitionsBuilders.noTransition,

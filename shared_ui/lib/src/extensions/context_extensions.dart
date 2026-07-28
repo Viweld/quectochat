@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 
-import '../theme/dynamic_theme.dart';
-import '../values/palette.dart';
+import 'package:shared_ui/src/theme/dynamic_theme.dart';
+import 'package:shared_ui/src/values/palette.dart';
 
 /// Сокращённый доступ к стилям текста, цветам и локализации.
 extension ContextExtension on BuildContext {

@@ -1,11 +1,10 @@
+import 'package:auth/data/datasources/auth_remote_data_source.dart';
+import 'package:auth/data/datasources/table_keys.dart';
+import 'package:auth/data/dto/user_dto.dart';
+import 'package:auth/domain/entities/login_failure.dart';
+import 'package:auth/domain/entities/registration_failure.dart';
 import 'package:shared_core/core.dart' hide AuthException;
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../domain/entities/login_failure.dart';
-import '../../domain/entities/registration_failure.dart';
-import '../dto/user_dto.dart';
-import 'auth_remote_data_source.dart';
-import 'table_keys.dart';
 
 @LazySingleton(as: AuthRemoteDataSource)
 final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {

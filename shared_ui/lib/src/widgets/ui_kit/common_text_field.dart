@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../extensions/context_extensions.dart';
-import '../../theme/dynamic_theme.dart';
-import '../../values/palette.dart';
-import '../../values/values.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/theme/dynamic_theme.dart';
+import 'package:shared_ui/src/values/palette.dart';
+import 'package:shared_ui/src/values/values.dart';
 
 class CommonEditField extends StatefulWidget {
   const CommonEditField({
@@ -78,7 +78,7 @@ class CommonEditField extends StatefulWidget {
   /// Текст ошибки, который будет отображаться, если введенное значение недопустимо.
   final String? validationErrorText;
 
-  /// Состояние ошибки валидации, если [true] - рамка и введенный текст выделяются красным. Текст ошибки отсутствует.
+  /// When true, border and typed text are highlighted in red. Error text is omitted.
   final bool validationError;
 
   /// Флаг, указывающий, включено ли поле ввода для взаимодействия.
@@ -114,17 +114,17 @@ class _CommonEditFieldState extends State<CommonEditField> {
 
   InputBorder get _regularBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-    borderSide: BorderSide(color: _palette.stroke, width: CommonEditField.borderThickness),
+    borderSide: BorderSide(color: _palette.stroke),
   );
 
   InputBorder get _focusedBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-    borderSide: BorderSide(color: _palette.stroke, width: CommonEditField.borderThickness),
+    borderSide: BorderSide(color: _palette.stroke),
   );
 
   InputBorder get _errorBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-    borderSide: BorderSide(color: _palette.red, width: CommonEditField.borderThickness),
+    borderSide: BorderSide(color: _palette.red),
   );
 
   @override
@@ -183,7 +183,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         /// Заголовок
         if (widget.title != null)
           Padding(
@@ -205,13 +205,10 @@ class _CommonEditFieldState extends State<CommonEditField> {
                 borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
                 child: TextField(
                   magnifierConfiguration: TextMagnifierConfiguration.disabled,
-                  onTapOutside: (event) {
+                  onTapOutside: (PointerDownEvent event) {
                     _focusNode.unfocus();
-                    if (widget.onTapOutside != null) {
-                      widget.onTapOutside!(event);
-                    }
+                    widget.onTapOutside?.call(event);
                   },
-                  expands: false,
                   focusNode: _focusNode,
                   maxLength: widget.maxLength,
                   textAlignVertical: TextAlignVertical.center,
@@ -222,7 +219,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
                   controller: _textController,
                   readOnly: widget.readOnly,
                   onTap: widget.onTap,
-                  onChanged: (t) {
+                  onChanged: (String t) {
                     widget.onChanged?.call(t);
                     setState(() => _error = false);
                   },
@@ -232,7 +229,6 @@ class _CommonEditFieldState extends State<CommonEditField> {
                       ? TextCapitalization.none
                       : (widget.textCapitalization ?? TextCapitalization.none),
                   minLines: 1,
-                  maxLines: 1,
                   style:
                       widget.customTextStyle ??
                       context.hint?.copyWith(
@@ -283,7 +279,6 @@ class _CommonEditFieldState extends State<CommonEditField> {
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Align(
-              alignment: Alignment.center,
               child: Text(
                 _errorText!,
                 maxLines: 10,

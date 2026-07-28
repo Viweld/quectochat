@@ -1,8 +1,7 @@
 import 'dart:async';
 
+import 'package:chat/domain/entities/message.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../entities/message.dart';
 
 /// Chat repository stream / operation failures without UI strings.
 sealed class ChatRepositoryError {

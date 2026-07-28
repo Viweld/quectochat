@@ -9,7 +9,7 @@ export 'presentation/home_screen/home_screen.dart';
 export 'src/di/configure_dependencies.module.dart';
 
 /// Codegen anchor for [HomeRoute]. Not used at runtime.
-@AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
+@AutoRouterConfig()
 class HomeRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => <AutoRoute>[AutoRoute(page: HomeRoute.page)];

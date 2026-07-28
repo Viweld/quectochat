@@ -1,14 +1,13 @@
 import 'dart:async';
 
+import 'package:home/data/datasources/home_remote_data_source.dart';
+import 'package:home/data/datasources/table_keys.dart';
+import 'package:home/data/dto/interlocutor_dto.dart';
+import 'package:home/data/dto/message_preview_dto.dart';
+import 'package:home/data/dto/user_dto.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../dto/interlocutor_dto.dart';
-import '../dto/message_preview_dto.dart';
-import '../dto/user_dto.dart';
-import 'home_remote_data_source.dart';
-import 'table_keys.dart';
 
 @LazySingleton(as: HomeRemoteDataSource)
 final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -16,13 +15,13 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   final SupabaseClient _client;
 
-  static const _interlocutorsPaginationLimit = 20;
+  static const int _interlocutorsPaginationLimit = 20;
 
   String get _currentUserId => _client.auth.currentUser?.id ?? '';
 
   @override
   Future<Paginated<InterlocutorDto>> getInterlocutors({String? lastInterlocutorId}) async {
-    const limit = _interlocutorsPaginationLimit;
+    const int limit = _interlocutorsPaginationLimit;
 
     final List<dynamic> conversationRows = await _client.rpc(
       TableKeys.getConversations,
@@ -31,15 +30,15 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
     final List<InterlocutorDto> withMessages = conversationRows
         .cast<Map<String, dynamic>>()
-        .where((row) => (row['partner_id'] as String) != _currentUserId)
+        .where((Map<String, dynamic> row) => (row['partner_id'] as String) != _currentUserId)
         .map(_mapConversationRow)
         .toList();
 
     final Set<String> interlocutorIdsWithMessages = withMessages
-        .map((dto) => dto.user.userId)
+        .map((InterlocutorDto dto) => dto.user.userId)
         .toSet();
 
-    var profilesQuery = _client
+    PostgrestTransformBuilder<PostgrestList> profilesQuery = _client
         .from(TableKeys.profiles)
         .select()
         .neq(TableKeys.profileId, _currentUserId)
@@ -66,8 +65,11 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
     final List<Map<String, dynamic>> profileRows = await profilesQuery;
     final List<InterlocutorDto> withoutMessages = profileRows
-        .where((row) => !interlocutorIdsWithMessages.contains(row[TableKeys.profileId]))
-        .map((row) => InterlocutorDto(user: UserDto.fromJson(row)))
+        .where(
+          (Map<String, dynamic> row) =>
+              !interlocutorIdsWithMessages.contains(row[TableKeys.profileId]),
+        )
+        .map((Map<String, dynamic> row) => InterlocutorDto(user: UserDto.fromJson(row)))
         .toList();
 
     final List<InterlocutorDto> sortedUsers = <InterlocutorDto>[
@@ -94,7 +96,7 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           '${TableKeys.profileLastName}.ilike.$pattern',
         );
 
-    return rows.map((row) => InterlocutorDto(user: UserDto.fromJson(row)));
+    return rows.map((Map<String, dynamic> row) => InterlocutorDto(user: UserDto.fromJson(row)));
   }
 
   @override
@@ -111,7 +113,7 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       );
       final Set<InterlocutorDto> interlocutors = rows
           .cast<Map<String, dynamic>>()
-          .where((row) => (row['partner_id'] as String) != _currentUserId)
+          .where((Map<String, dynamic> row) => (row['partner_id'] as String) != _currentUserId)
           .map(_mapConversationRow)
           .toSet();
       if (!controller.isClosed) {
@@ -143,7 +145,7 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<void> clearChat({required String interlocutorId}) async {
-    final String chatId = DeterministicId.fromParts([_currentUserId, interlocutorId]);
+    final String chatId = DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]);
     await _client.from(TableKeys.messages).delete().eq(TableKeys.messageChatId, chatId);
   }
 

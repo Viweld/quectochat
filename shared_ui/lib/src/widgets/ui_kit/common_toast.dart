@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/context_extensions.dart';
-import '../../values/values.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/values/values.dart';
 
 class CommonToast extends StatelessWidget {
   const CommonToast._({required this.text});
@@ -28,7 +28,7 @@ class CommonToast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
+      children: <Widget>[
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 14, top: 14, bottom: 14),

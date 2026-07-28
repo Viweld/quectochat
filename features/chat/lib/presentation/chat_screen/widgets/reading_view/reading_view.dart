@@ -1,14 +1,13 @@
+import 'package:chat/domain/entities/message.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/bloc/reading_view_bloc.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/between_days_divider.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/cluster_attribute.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/empty_messages_placeholder.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/message_bubble.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/vertical_message_spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
-import 'package:chat/domain/entities/message.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'widgets/between_days_divider.dart';
-import 'widgets/cluster_attribute.dart';
-import 'widgets/empty_messages_placeholder.dart';
-import 'widgets/message_bubble.dart';
-import 'bloc/reading_view_bloc.dart';
-import 'widgets/vertical_message_spacer.dart';
 
 class ReadingView extends StatelessWidget {
   const ReadingView({required this.interlocutorId, super.key});
@@ -17,8 +16,8 @@ class ReadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => appLocator<ReadingViewBloc>(param1: interlocutorId),
+    return BlocProvider<ReadingViewBloc>(
+      create: (BuildContext context) => appLocator<ReadingViewBloc>(param1: interlocutorId),
       child: BlocBuilder<ReadingViewBloc, ReadingViewState>(
         builder: (BuildContext context, ReadingViewState state) {
           if (state.isPending) {
@@ -32,13 +31,13 @@ class ReadingView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: CustomScrollView(
                 reverse: true,
-                slivers: [
+                slivers: <Widget>[
                   if (state.messages.isEmpty)
                     const SliverFillRemaining(
                       hasScrollBody: false,
                       child: EmptyMessagesPlaceholder(),
                     )
-                  else ...[
+                  else ...<Widget>[
                     const SliverToBoxAdapter(child: SizedBox(height: 20)),
                     SliverList.separated(
                       itemCount: state.messages.length,
@@ -64,12 +63,12 @@ class ReadingView extends StatelessWidget {
   }
 
   ClusterAttribute? _getClusterAttribute(Iterable<Message> messages, int builderIndex) {
-    final messageList = messages.toList();
-    final i = messages.length - 1 - builderIndex;
+    final List<Message> messageList = messages.toList();
+    final int i = messages.length - 1 - builderIndex;
 
-    final current = messageList[i];
-    final prev = i > 0 ? messageList[i - 1] : null;
-    final next = i < messageList.length - 1 ? messageList[i + 1] : null;
+    final Message current = messageList[i];
+    final Message? prev = i > 0 ? messageList[i - 1] : null;
+    final Message? next = i < messageList.length - 1 ? messageList[i + 1] : null;
 
     final bool hasPrevSameAuthor =
         prev != null && prev.fromId == current.fromId && _isSameDay(current, prev);
@@ -83,8 +82,8 @@ class ReadingView extends StatelessWidget {
   }
 
   bool _isInsideDay(Iterable<Message> messages, int builderIndex) {
-    final messageList = messages.toList();
-    final i = messages.length - 1 - builderIndex;
+    final List<Message> messageList = messages.toList();
+    final int i = messages.length - 1 - builderIndex;
     return _isSameDay(messageList[i], messageList[i - 1]);
   }
 

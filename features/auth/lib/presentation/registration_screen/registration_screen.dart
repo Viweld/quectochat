@@ -1,9 +1,8 @@
+import 'package:auth/presentation/registration_screen/bloc/registration_bloc.dart';
+import 'package:auth/presentation/registration_screen/registration_content.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'bloc/registration_bloc.dart';
-import 'registration_content.dart';
 
 @RoutePage()
 class RegistrationScreen extends StatelessWidget {
@@ -11,8 +10,8 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => appLocator<RegistrationBloc>(),
+    return BlocProvider<RegistrationBloc>(
+      create: (BuildContext context) => appLocator<RegistrationBloc>(),
       child: BlocConsumer<RegistrationBloc, RegistrationState>(
         listenWhen: (RegistrationState previous, RegistrationState current) =>
             previous.effect != current.effect,

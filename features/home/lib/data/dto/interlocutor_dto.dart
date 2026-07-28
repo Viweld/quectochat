@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import 'message_preview_dto.dart';
-import 'user_dto.dart';
+import 'package:home/data/dto/message_preview_dto.dart';
+import 'package:home/data/dto/user_dto.dart';
 
 /// Combined user document and optional last-message preview for home list.
 @immutable

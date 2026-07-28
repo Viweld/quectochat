@@ -2,7 +2,7 @@ import 'dart:developer' as developer;
 
 import 'package:injectable/injectable.dart';
 
-import 'error_reporter.dart';
+import 'package:shared_core/src/error_handling/error_reporter.dart';
 
 /// Default reporter: logs via [developer.log]. Replace with Crashlytics in production.
 @LazySingleton(as: ErrorReporter)

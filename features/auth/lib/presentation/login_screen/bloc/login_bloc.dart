@@ -71,9 +71,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
 
       switch (outcome) {
-        case Success():
+        case Success<void, LoginFailure>():
           break;
-        case Failure(:final LoginFailure error):
+        case Failure<void, LoginFailure>(:final LoginFailure error):
           emit(state.copyWith(effect: LoginEffect.showError(_mapLoginFailure(error))));
       }
     } on Object catch (error, stackTrace) {

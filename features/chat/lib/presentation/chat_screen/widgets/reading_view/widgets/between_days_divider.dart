@@ -1,8 +1,7 @@
+import 'package:chat/domain/entities/message.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'package:chat/domain/entities/message.dart';
 
 /// Разделитель между днями
 class BetweenDaysDivider extends StatelessWidget {
@@ -15,7 +14,7 @@ class BetweenDaysDivider extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
-        children: [
+        children: <Widget>[
           Expanded(child: Divider(indent: 6, endIndent: 10, color: context.palette.gray)),
           Text(
             isToday(message.createdAt)
@@ -30,9 +29,9 @@ class BetweenDaysDivider extends StatelessWidget {
   }
 
   // ---------------------------------------------------------------------------
-  /// Возвращает [true] - если дата сообщения совпадает с сегодняшней, иначе возвращает [false]
+  /// Returns true when [dateTime] is today, otherwise false.
   bool isToday(DateTime dateTime) {
-    final now = DateTime.now();
+    final DateTime now = DateTime.now();
     return dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day;
   }
 }

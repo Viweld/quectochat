@@ -1,11 +1,10 @@
 import 'package:injectable/injectable.dart';
-
-import '../events/app_toast_bus.dart';
-import '../events/app_toast_events.dart';
-import '../exceptions/api_exception.dart';
-import 'error_handling_policy.dart';
-import 'error_presentation.dart';
-import 'error_reporter.dart';
+import 'package:shared_core/src/error_handling/error_handling_policy.dart';
+import 'package:shared_core/src/error_handling/error_presentation.dart';
+import 'package:shared_core/src/error_handling/error_reporter.dart';
+import 'package:shared_core/src/events/app_toast_bus.dart';
+import 'package:shared_core/src/events/app_toast_events.dart';
+import 'package:shared_core/src/exceptions/api_exception.dart';
 
 /// Centralized handler for infrastructure errors in BLoCs.
 @lazySingleton

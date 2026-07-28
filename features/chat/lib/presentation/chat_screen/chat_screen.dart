@@ -1,9 +1,8 @@
+import 'package:chat/presentation/chat_screen/bloc/chat_bloc.dart';
+import 'package:chat/presentation/chat_screen/chat_content.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'bloc/chat_bloc.dart';
-import 'chat_content.dart';
 
 @RoutePage()
 class ChatScreen extends StatelessWidget {
@@ -20,8 +19,8 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => appLocator<ChatBloc>(param1: interlocutorId),
+    return BlocProvider<ChatBloc>(
+      create: (BuildContext context) => appLocator<ChatBloc>(param1: interlocutorId),
       child: BlocConsumer<ChatBloc, ChatState>(
         listenWhen: (ChatState previous, ChatState current) => previous.effect != current.effect,
         listener: (BuildContext context, ChatState state) {

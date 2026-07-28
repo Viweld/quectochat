@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/context_extensions.dart';
-import '../../values/values.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/values/values.dart';
 
 class CommonAccentButton extends StatelessWidget {
   const CommonAccentButton({
@@ -34,25 +34,25 @@ class CommonAccentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = context.palette.white;
-    final backgroundColor = context.palette.green;
-    final splashColor = context.palette.green;
+    final Color textColor = context.palette.white;
+    final Color backgroundColor = context.palette.green;
+    final Color splashColor = context.palette.green;
 
     return ElevatedButton(
       onPressed: isEnabled ? onTapped : null,
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(backgroundColor),
-        overlayColor: WidgetStatePropertyAll(splashColor),
-        elevation: const WidgetStatePropertyAll(0),
-        minimumSize: const WidgetStatePropertyAll(Size.fromHeight(Values.buttonHeight)),
-        shape: WidgetStatePropertyAll(
+        backgroundColor: WidgetStatePropertyAll<Color>(backgroundColor),
+        overlayColor: WidgetStatePropertyAll<Color>(splashColor),
+        elevation: const WidgetStatePropertyAll<double>(0),
+        minimumSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(Values.buttonHeight)),
+        shape: WidgetStatePropertyAll<OutlinedBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(Values.buttonBorderRadius)),
         ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (isPending) ...[
+        children: <Widget>[
+          if (isPending) ...<Widget>[
             SizedBox.square(dimension: 16, child: CircularProgressIndicator(color: textColor)),
             const SizedBox(width: 16),
           ],
@@ -60,7 +60,7 @@ class CommonAccentButton extends StatelessWidget {
             isUpperCaseTitle ? title.toUpperCase() : title,
             style: context.username?.copyWith(color: textColor),
           ),
-          if (iconData != null) ...[
+          if (iconData != null) ...<Widget>[
             const SizedBox(width: 4),
             Icon(iconData, color: textColor, size: 24),
           ],

@@ -27,11 +27,11 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Padding(
         padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
         child: Column(
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(14, 12, 20, 12),
               child: Row(
-                children: [
+                children: <Widget>[
                   /// Кнопка "Назад"
                   SizedBox.square(dimension: 48, child: CommonBackButton(onPressed: onBackPressed)),
 
@@ -42,7 +42,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         /// Полное имя собеседника
                         Text(
                           '$firstName $lastName',

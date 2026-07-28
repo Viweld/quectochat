@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 
-import '../../extensions/context_extensions.dart';
-import 'common_toast.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/widgets/ui_kit/common_toast.dart';
 
 /// Listens to [AppToastBus] and shows [CommonToast] for infrastructure errors.
 final class AppToastListener extends StatefulWidget {

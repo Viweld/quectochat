@@ -61,7 +61,7 @@ void main() {
     build: buildBloc,
     act: (ChatBloc bloc) =>
         bloc.add(const ChatEvent.onErrorReceived(error: ChatSendMessageFailure())),
-    expect: () => [
+    expect: () => <TypeMatcher<ChatState>>[
       isA<ChatState>().having(
         (ChatState s) => s.effect,
         'effect',

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../values/palette.dart';
-import 'app_fonts.dart';
-import '../theme_type.dart';
+import 'package:shared_ui/src/theme/app_fonts.dart';
+import 'package:shared_ui/src/theme_type.dart';
+import 'package:shared_ui/src/values/palette.dart';
 
 class ThemeBuilder {
   // ---------------------------------------------------------------------------
@@ -31,7 +30,6 @@ class ThemeBuilder {
       accentColor: palette.green,
       backgroundColor: palette.white,
       errorColor: palette.red,
-      brightness: Brightness.light,
     ).copyWith(surfaceContainerHighest: Colors.transparent),
     splashColor: palette.green.withValues(alpha: 0.06),
     highlightColor: palette.green.withValues(alpha: 0.06),

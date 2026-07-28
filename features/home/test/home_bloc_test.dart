@@ -57,7 +57,7 @@ void main() {
   blocTest<HomeBloc, HomeState>(
     'onInitializationRequested loads interlocutors',
     build: buildBloc,
-    expect: () => [
+    expect: () => <TypeMatcher<HomeState>>[
       isA<HomeState>()
           .having((HomeState s) => s.isFirstLoading, 'firstLoading', isFalse)
           .having((HomeState s) => s.interlocutors, 'list', isEmpty),

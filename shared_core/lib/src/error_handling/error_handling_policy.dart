@@ -1,5 +1,5 @@
-import '../exceptions/api_exception.dart';
-import 'error_presentation.dart';
+import 'package:shared_core/src/error_handling/error_presentation.dart';
+import 'package:shared_core/src/exceptions/api_exception.dart';
 
 /// Defines how infrastructure errors are surfaced and whether they rethrow.
 final class ErrorHandlingPolicy {

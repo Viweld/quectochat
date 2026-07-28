@@ -31,18 +31,18 @@ class _SwipeClearWrapperState extends State<SwipeClearWrapper> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final dismissThreshold = screenWidth * 0.4;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double dismissThreshold = screenWidth * 0.4;
 
     // Интерполируем цвет от серого к красному
-    final backgroundColor = Color.lerp(
+    final Color? backgroundColor = Color.lerp(
       context.palette.gray,
       context.palette.red,
       (_dragExtent / dismissThreshold).clamp(0, 1),
     );
 
     return GestureDetector(
-      onHorizontalDragUpdate: (details) {
+      onHorizontalDragUpdate: (DragUpdateDetails details) {
         setState(() {
           _dragExtent -= details.primaryDelta ?? 0;
           _dragExtent = _dragExtent.clamp(0, screenWidth);
@@ -53,7 +53,7 @@ class _SwipeClearWrapperState extends State<SwipeClearWrapper> with SingleTicker
           }
         });
       },
-      onHorizontalDragEnd: (details) {
+      onHorizontalDragEnd: (DragEndDetails details) {
         if (_dragExtent >= dismissThreshold) {
           widget.onClearChatRequested();
         }
@@ -63,7 +63,7 @@ class _SwipeClearWrapperState extends State<SwipeClearWrapper> with SingleTicker
         });
       },
       child: Stack(
-        children: [
+        children: <Widget>[
           Positioned.fill(
             child: ColoredBox(
               color: backgroundColor!,
@@ -105,8 +105,8 @@ class WavePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
 
-    final double maxRadius = 40;
-    final double minRadius = 20;
+    const double maxRadius = 40;
+    const double minRadius = 20;
 
     for (int i = 0; i < 3; i++) {
       final double radius = minRadius + (maxRadius - minRadius) * (progress - i * 0.3);

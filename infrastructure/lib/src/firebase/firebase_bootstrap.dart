@@ -5,7 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
-import 'firebase_options.dart';
+import 'package:infrastructure/src/firebase/firebase_options.dart';
 
 /// Initializes Firebase with platform options.
 Future<void> initializeFirebaseApp() async {
@@ -14,12 +14,12 @@ Future<void> initializeFirebaseApp() async {
 
 /// Registers Crashlytics handlers for Flutter and platform errors.
 void installCrashlyticsHandlers() {
-  FlutterError.onError = (details) {
+  FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
     FirebaseCrashlytics.instance.recordFlutterFatalError(details);
   };
 
-  PlatformDispatcher.instance.onError = (error, stack) {
+  PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };

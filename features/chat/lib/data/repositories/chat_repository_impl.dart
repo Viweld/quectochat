@@ -1,14 +1,13 @@
 import 'dart:async';
 
+import 'package:chat/data/datasources/chat_remote_data_source.dart';
+import 'package:chat/data/dto/message_dto.dart';
+import 'package:chat/data/mappers/message_mapper.dart';
+import 'package:chat/domain/entities/message.dart';
+import 'package:chat/domain/repositories/chat_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_domain/shared_domain.dart';
-
-import '../../domain/entities/message.dart';
-import '../../domain/repositories/chat_repository.dart';
-import '../datasources/chat_remote_data_source.dart';
-import '../dto/message_dto.dart';
-import '../mappers/message_mapper.dart';
 
 @LazySingleton(as: ChatRepository)
 final class ChatRepositoryImpl implements ChatRepository {
@@ -73,7 +72,7 @@ final class ChatRepositoryImpl implements ChatRepository {
     String? lastMessageId,
   }) async {
     try {
-      final paginated = await _remoteDataSource.getChatMessages(
+      final Paginated<MessageDto> paginated = await _remoteDataSource.getChatMessages(
         interlocutorId: interlocutorId,
         lastMessageId: lastMessageId,
       );
@@ -81,7 +80,7 @@ final class ChatRepositoryImpl implements ChatRepository {
       return Paginated<Message>(
         hasNext: paginated.hasNext,
         result: paginated.result.map(
-          (dto) => mapMessageDtoToDomain(dto: dto, currentUserId: _currentUserId),
+          (MessageDto dto) => mapMessageDtoToDomain(dto: dto, currentUserId: _currentUserId),
         ),
       );
     } on Object {
@@ -97,7 +96,7 @@ final class ChatRepositoryImpl implements ChatRepository {
     required MessageContentType type,
   }) async {
     try {
-      final messageDto = await _remoteDataSource.sendMessage(
+      final MessageDto messageDto = await _remoteDataSource.sendMessage(
         interlocutorId: interlocutorId,
         content: content,
         messageType: mapMessageContentTypeToTransport(type),
@@ -111,7 +110,7 @@ final class ChatRepositoryImpl implements ChatRepository {
 
   void _emitMessage(Message message) {
     if (_messagesStreamController.isClosed) return;
-    _messagesStreamController.add({message});
+    _messagesStreamController.add(<Message>{message});
   }
 
   void _emitError(ChatRepositoryError error) {
@@ -122,7 +121,9 @@ final class ChatRepositoryImpl implements ChatRepository {
   void _onChatStreamMessageReceived(Set<MessageDto> messages) {
     if (_messagesStreamController.isClosed) return;
     _messagesStreamController.add(
-      messages.map((dto) => mapMessageDtoToDomain(dto: dto, currentUserId: _currentUserId)).toSet(),
+      messages
+          .map((MessageDto dto) => mapMessageDtoToDomain(dto: dto, currentUserId: _currentUserId))
+          .toSet(),
     );
   }
 

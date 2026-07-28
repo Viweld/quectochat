@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:home/presentation/home_screen/bloc/home_bloc.dart';
+import 'package:home/presentation/home_screen/widgets/chat_tile.dart';
+import 'package:home/presentation/home_screen/widgets/flexible_header.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:shared_ui/core_ui.dart';
-
-import 'bloc/home_bloc.dart';
-import 'widgets/chat_tile.dart';
-import 'widgets/flexible_header.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key, required this.isFirstLoading, required this.interlocutors});
@@ -39,9 +38,9 @@ class HomeContent extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: CommonPaginationListener(
-          onListEnded: () => bloc.add(HomeEvent.onNextPageRequested()),
+          onListEnded: () => bloc.add(const HomeEvent.onNextPageRequested()),
           listenableChild: CustomScrollView(
-            slivers: [
+            slivers: <Widget>[
               SliverAppBar(
                 scrolledUnderElevation: 0,
                 forceMaterialTransparency: true,

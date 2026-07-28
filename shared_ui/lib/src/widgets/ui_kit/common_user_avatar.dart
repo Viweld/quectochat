@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../extensions/context_extensions.dart';
+import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:string_to_color/string_to_color.dart';
 
 class CommonUserAvatar extends StatefulWidget {
@@ -35,13 +35,13 @@ class _CommonUserAvatarState extends State<CommonUserAvatar> {
       dimension: widget.dimension,
       child: Stack(
         alignment: Alignment.center,
-        children: [
+        children: <Widget>[
           Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(widget.dimension * 0.5)),
                 gradient: LinearGradient(
-                  colors: [color.withValues(alpha: 0.8), color],
+                  colors: <Color>[color.withValues(alpha: 0.8), color],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
