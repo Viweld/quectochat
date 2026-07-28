@@ -308,6 +308,12 @@ abstract class AppLocalizations {
   /// **'Введенные пороли не совпадают'**
   String get registrationExceptionNotEqualPasswords;
 
+  /// No description provided for @registrationExceptionRateLimit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком много попыток. Подождите несколько минут'**
+  String get registrationExceptionRateLimit;
+
   /// No description provided for @homeTitle.
   ///
   /// In ru, this message translates to:

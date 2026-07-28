@@ -41,6 +41,7 @@ enum AppErrorKind {
   wrongPassword,
   weakPassword,
   emailAlreadyUsed,
+  emailRateLimit,
   validation,
   generic,
 }

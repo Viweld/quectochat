@@ -117,6 +117,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registrationExceptionNotEqualPasswords => 'Введенные пороли не совпадают';
 
   @override
+  String get registrationExceptionRateLimit => 'Слишком много попыток. Подождите несколько минут';
+
+  @override
   String get homeTitle => 'Чаты';
 
   @override

@@ -181,9 +181,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         case Success<void, RegistrationFailure>():
           break;
         case Failure<void, RegistrationFailure>(:final RegistrationFailure error):
-          emit(
-            state.copyWith(effect: RegistrationEffect.showError(_mapRegistrationFailure(error))),
-          );
+          emit(state.copyWith(effect: _mapRegistrationFailureToEffect(error)));
       }
     } on Object catch (error, stackTrace) {
       final ErrorPresentation presentation = _blocErrorHandler.handle(
@@ -196,8 +194,17 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     }
   }
 
-  AppErrorKind _mapRegistrationFailure(RegistrationFailure failure) => switch (failure) {
-    WeakPasswordFailure() => AppErrorKind.weakPassword,
-    EmailAlreadyUsedFailure() => AppErrorKind.emailAlreadyUsed,
-  };
+  RegistrationEffect _mapRegistrationFailureToEffect(RegistrationFailure failure) {
+    return switch (failure) {
+      WeakPasswordFailure() => const RegistrationEffect.showError(AppErrorKind.weakPassword),
+      EmailAlreadyUsedFailure() => const RegistrationEffect.showError(
+        AppErrorKind.emailAlreadyUsed,
+      ),
+      EmailRateLimitFailure() => const RegistrationEffect.showError(AppErrorKind.emailRateLimit),
+      RegistrationGenericFailure(:final String? message) => RegistrationEffect.showError(
+        AppErrorKind.generic,
+        detail: message,
+      ),
+    };
+  }
 }

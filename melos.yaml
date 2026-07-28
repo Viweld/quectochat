@@ -38,3 +38,4 @@ scripts:
       features/chat/test
       navigation/test
       test
+sdkPath: .fvm/flutter_sdk

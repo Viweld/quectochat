@@ -40,6 +40,7 @@
   "registrationExceptionWrongEmail": "Неправильный формат e-mail",
   "registrationExceptionEmailAlreadyUsed": "Введенный при регистрации email уже занят",
   "registrationExceptionNotEqualPasswords": "Введенные пороли не совпадают",
+  "registrationExceptionRateLimit": "Слишком много попыток. Подождите несколько минут",
 
   "@ home screen (домашний экран)": {},
   "homeTitle": "Чаты",

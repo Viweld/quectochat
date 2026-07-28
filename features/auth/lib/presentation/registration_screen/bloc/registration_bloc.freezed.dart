@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RegistrationEffect {
 
- AppErrorKind get kind;
+ AppErrorKind get kind; String? get detail;
 /// Create a copy of RegistrationEffect
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $RegistrationEffectCopyWith<RegistrationEffect> get copyWith => _$RegistrationEf
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationEffect&&(identical(other.kind, kind) || other.kind == kind));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationEffect&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.detail, detail) || other.detail == detail));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,kind);
+int get hashCode => Object.hash(runtimeType,kind,detail);
 
 @override
 String toString() {
-  return 'RegistrationEffect(kind: $kind)';
+  return 'RegistrationEffect(kind: $kind, detail: $detail)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $RegistrationEffectCopyWith<$Res>  {
   factory $RegistrationEffectCopyWith(RegistrationEffect value, $Res Function(RegistrationEffect) _then) = _$RegistrationEffectCopyWithImpl;
 @useResult
 $Res call({
- AppErrorKind kind
+ AppErrorKind kind, String? detail
 });
 
 
@@ -62,10 +62,11 @@ class _$RegistrationEffectCopyWithImpl<$Res>
 
 /// Create a copy of RegistrationEffect
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? kind = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? kind = null,Object? detail = freezed,}) {
   return _then(_self.copyWith(
 kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as AppErrorKind,
+as AppErrorKind,detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -147,10 +148,10 @@ return showError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( AppErrorKind kind)?  showError,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( AppErrorKind kind,  String? detail)?  showError,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ShowError() when showError != null:
-return showError(_that.kind);case _:
+return showError(_that.kind,_that.detail);case _:
   return orElse();
 
 }
@@ -168,10 +169,10 @@ return showError(_that.kind);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( AppErrorKind kind)  showError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( AppErrorKind kind,  String? detail)  showError,}) {final _that = this;
 switch (_that) {
 case _ShowError():
-return showError(_that.kind);}
+return showError(_that.kind,_that.detail);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -185,10 +186,10 @@ return showError(_that.kind);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( AppErrorKind kind)?  showError,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( AppErrorKind kind,  String? detail)?  showError,}) {final _that = this;
 switch (_that) {
 case _ShowError() when showError != null:
-return showError(_that.kind);case _:
+return showError(_that.kind,_that.detail);case _:
   return null;
 
 }
@@ -200,10 +201,11 @@ return showError(_that.kind);case _:
 
 
 class _ShowError implements RegistrationEffect {
-  const _ShowError(this.kind);
+  const _ShowError(this.kind, {this.detail});
   
 
 @override final  AppErrorKind kind;
+@override final  String? detail;
 
 /// Create a copy of RegistrationEffect
 /// with the given fields replaced by the non-null parameter values.
@@ -215,16 +217,16 @@ _$ShowErrorCopyWith<_ShowError> get copyWith => __$ShowErrorCopyWithImpl<_ShowEr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShowError&&(identical(other.kind, kind) || other.kind == kind));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShowError&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.detail, detail) || other.detail == detail));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,kind);
+int get hashCode => Object.hash(runtimeType,kind,detail);
 
 @override
 String toString() {
-  return 'RegistrationEffect.showError(kind: $kind)';
+  return 'RegistrationEffect.showError(kind: $kind, detail: $detail)';
 }
 
 
@@ -235,7 +237,7 @@ abstract mixin class _$ShowErrorCopyWith<$Res> implements $RegistrationEffectCop
   factory _$ShowErrorCopyWith(_ShowError value, $Res Function(_ShowError) _then) = __$ShowErrorCopyWithImpl;
 @override @useResult
 $Res call({
- AppErrorKind kind
+ AppErrorKind kind, String? detail
 });
 
 
@@ -252,10 +254,11 @@ class __$ShowErrorCopyWithImpl<$Res>
 
 /// Create a copy of RegistrationEffect
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? kind = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? kind = null,Object? detail = freezed,}) {
   return _then(_ShowError(
 null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as AppErrorKind,
+as AppErrorKind,detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

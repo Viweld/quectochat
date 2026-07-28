@@ -20,13 +20,14 @@ class RegistrationScreen extends StatelessWidget {
           if (effect == null) return;
 
           effect.when(
-            showError: (AppErrorKind kind) => CommonToast.showError(
+            showError: (AppErrorKind kind, String? detail) => CommonToast.showError(
               context,
               text: switch (kind) {
                 AppErrorKind.weakPassword => context.texts.registrationExceptionWeakPassword,
                 AppErrorKind.emailAlreadyUsed =>
                   context.texts.registrationExceptionEmailAlreadyUsed,
-                _ => context.texts.commonRequestError,
+                AppErrorKind.emailRateLimit => context.texts.registrationExceptionRateLimit,
+                _ => detail?.isNotEmpty == true ? detail! : context.texts.commonRequestError,
               },
             ),
           );

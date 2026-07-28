@@ -90,8 +90,12 @@ CI (`.github/workflows/flutter.yml`): на PR — format / analyze / graph / tes
 ### Supabase
 
 1. Создать проект в [Supabase](https://supabase.com/).
-2. Применить SQL из `supabase/migrations/` (SQL Editor или CLI).
-3. URL и anon key → `dart_defines.json`.
-4. Опционально: задеплоить `supabase/functions/send-push` для push по webhook.
+2. Применить SQL из `supabase/migrations/` по порядку (SQL Editor или CLI), включая `*_grant_api_roles.sql`.
+3. URL и anon/publishable key → `dart_defines.json`.
+4. **Auth без писем** (email только как логин):
+   - **Authentication → Providers → Email** → **Confirm email = OFF** → Save.
+   - После `signUp` сразу выдаётся session; вход — email + password.
+   - Если видите `over_email_send_rate_limit` — confirm ещё включён или лимит не сбросился; выключите confirm и подождите несколько минут.
+5. Опционально: задеплоить `supabase/functions/send-push` для push по webhook.
 
 Документация архитектуры: `.kb/architecture/`. Правила агента: `AGENTS.md`.

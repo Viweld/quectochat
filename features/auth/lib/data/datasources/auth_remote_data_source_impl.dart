@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth/data/datasources/auth_remote_data_source.dart';
 import 'package:auth/data/datasources/table_keys.dart';
 import 'package:auth/data/dto/user_dto.dart';
@@ -60,6 +62,12 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await _client.from(TableKeys.profiles).upsert(userDto.toJson(userId: userId));
     } on AuthException catch (error) {
       throw _mapRegistrationFailure(error);
+    } on PostgrestException catch (error) {
+      log(
+        'Registration PostgrestException code=${error.code} message=${error.message}',
+        name: 'AuthRemoteDataSource',
+      );
+      throw RegistrationGenericFailure(message: '${error.code}: ${error.message}');
     }
   }
 
@@ -88,15 +96,24 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final String code = error.code ?? '';
     final String message = error.message.toLowerCase();
 
-    if (code == 'weak_password' || message.contains('password')) {
+    log(
+      'Registration AuthException code=$code message=${error.message}',
+      name: 'AuthRemoteDataSource',
+    );
+
+    if (code == 'weak_password' || message.contains('weak') && message.contains('password')) {
       return const WeakPasswordFailure();
     }
     if (code == 'email_exists' ||
         code == 'user_already_exists' ||
-        message.contains('already') ||
-        message.contains('registered')) {
+        message.contains('already registered') ||
+        message.contains('already been registered') ||
+        message.contains('user already exists')) {
       return const EmailAlreadyUsedFailure();
     }
-    return const EmailAlreadyUsedFailure();
+    if (code == 'over_email_send_rate_limit' || message.contains('rate limit')) {
+      return const EmailRateLimitFailure();
+    }
+    return RegistrationGenericFailure(message: '${error.code}: ${error.message}');
   }
 }
