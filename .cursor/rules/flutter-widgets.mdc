@@ -1,0 +1,137 @@
+---
+description: Flutter-виджеты — только классы (не методы), composition, layout, performance, иммутабельность
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Виджеты во Flutter
+
+## Главное правило: виджеты — только классы
+
+**Запрещено:**
+- Любые функции/методы (кроме `build` у `StatelessWidget`/`State`), возвращающие `Widget`, `PreferredSizeWidget`, `List<Widget>`.
+- Helper-методы вида `_buildHeader()`, `_buildOverviewSections()`, `_buildBody()` — даже когда возвращают `List<Widget>`.
+
+**Разрешено:**
+- Только **классы-виджеты** (`const` где возможно).
+- `build` у `StatelessWidget` / `StatefulWidget`.
+- Колбэки фреймворка: `builder:`, `itemBuilder:`, `separatorBuilder:` в делегатах (`ListView.builder`, `SliverChildBuilderDelegate` и т.п.).
+
+```dart
+// ✅ Класс-виджет
+class _Header extends StatelessWidget {
+  final String title;
+
+  const _Header({required this.title});
+
+  @override
+  Widget build(BuildContext context) => Text(title);
+}
+
+// ❌ Метод, возвращающий виджет
+Widget _buildHeader(String title) => Text(title);
+```
+
+## Порядок членов класса
+
+См. **`dart-style.mdc` § «Порядок членов класса»** — единый жёсткий канон.
+
+Кратко для виджетов: **поля → конструктор → `static const` → публичные геттеры → публичные сеттеры → `@override` (`build`, `initState`, …) → прочие публичные → приватные геттеры/сеттеры → `@override` приватные → прочие приватные `_`-методы**.
+
+```dart
+// ✅
+class PeerCard extends StatelessWidget {
+  final String title;
+  final VoidCallback? onTap;
+
+  const PeerCard({super.key, required this.title, this.onTap});
+
+  static const double radius = 20;
+
+  bool get hasTapHandler => onTap != null;
+
+  @override
+  Widget build(BuildContext context) => /* ... */;
+}
+
+// ❌ конструктор перед полями
+class PeerCard extends StatelessWidget {
+  const PeerCard({super.key, required this.title});
+  final String title;
+}
+
+// ❌ приватный геттер перед @override build
+class PeerCard extends StatelessWidget {
+  final String title;
+
+  const PeerCard({super.key, required this.title});
+
+  bool get _isEmpty => title.isEmpty;
+
+  @override
+  Widget build(BuildContext context) => /* ... */;
+}
+```
+
+**Не включать** `sort_constructors_first: true` в `analysis_options.yaml` — см. `dart-style.mdc` § «Линтер».
+
+## Куда выносить сложный UI
+
+| Ситуация                       | Решение                                                  |
+|--------------------------------|----------------------------------------------------------|
+| Повторяющийся блок UI          | Отдельный `StatelessWidget` (публичный или private `_X`) |
+| Крупная секция экрана          | Виджет-секция (`FeatureOverviewSection`)                 |
+| Условная обёртка / layout      | Виджет-враппер (`FeatureLoadingBody`)                    |
+| Динамический список по данным | `ListView.builder` + отдельный item-виджет               |
+| Ветвление по enum/state        | Отдельные виджеты на ветку или `switch` в `build`        |
+
+**Предпочтительно:** один основной виджет на файл; имя файла — `snake_case` имени класса. Private-виджеты (`_Section`) допустимы в том же файле, если используются только там.
+
+## Куда класть файлы виджетов
+
+| Область использования | Путь | Правило |
+|-----------------------|------|---------|
+| Один экран feature | `features/.../<screen>/widgets/` | `flutter-feature-widgets-structure.mdc` |
+| Подвиджеты сложного W | `.../widgets/<w>/widgets/` | Персональная папка W |
+| W с собственным BLoC | `.../widgets/<w>/bloc/` | BLoC виджета, не экрана |
+| 2+ экрана, UI-примитив | `shared_ui/.../ui_kit/` | `core-ui-widgets-structure.mdc` |
+| 2+ экрана, доменная секция | `shared_ui/.../entity_details/` или тематическая группа | `core-ui-widgets-structure.mdc` |
+
+Перенос в `core_ui` — при появлении второго потребителя, не заранее.
+
+## Композиция
+
+- Композиция > наследование. Не наследоваться от стоковых виджетов.
+- Большие `build()` — раскладывать на виджет-классы (секции, врапперы, item-виджеты).
+
+## Performance
+
+- `const`-конструкторы для виджетов и для дочерних узлов в `build()` — везде, где возможно.
+- Никаких дорогих операций (сеть, тяжёлые вычисления) в `build()`.
+- Длинные/динамические списки — `ListView.builder` или `SliverList.builder`, **никогда** `ListView(children: ...)`.
+- Тяжёлые задачи (например, парсинг JSON) — через `compute()`.
+
+## Layout primitives
+
+- **`Expanded`** — заполнить остаток главной оси в `Row`/`Column`.
+- **`Flexible`** — позволить сжаться, но не обязательно расширяться.
+- **`Wrap`** — когда элементы могут не поместиться и переносятся.
+- **`SingleChildScrollView`** — для fixed-size контента, который может overflow.
+- **`FittedBox`** — вписать одного ребёнка в ограничения родителя.
+- **`LayoutBuilder`** — решения по layout от доступных constraints.
+
+## Responsive
+
+- `LayoutBuilder`/`MediaQuery` для адаптивных layout'ов.
+- Текстовые стили — только из `AppFonts` (`shared_ui/lib/src/theme/app_fonts.dart`). Хардкод размера/цвета/семейства шрифта запрещён.
+
+## Overlays
+
+- `OverlayPortal` (+ `OverlayPortalController`) — для дропдаунов и тултипов, которые должны рисоваться поверх всего.
+- `Positioned` — якорь к краям внутри `Stack`.
+- `Align` — выравнивание внутри `Stack` через значение alignment.
+
+## Иммутабельность
+
+- `StatelessWidget` полностью immutable — все поля `final`.
+- Менять UI нужно через rebuild, не через мутацию полей виджета.

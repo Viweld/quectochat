@@ -1,0 +1,64 @@
+---
+description: Базовые принципы Flutter/Dart, стэк проекта, обязательные команды (FVM, форматирование)
+alwaysApply: true
+---
+
+# Flutter/Dart — базовые правила
+
+## Стэк
+
+- **State:** `flutter_bloc` + `bloc_concurrency`.
+- **DI:** `injectable` + `get_it` (точка доступа — `appLocator`).
+- **Routing:** `auto_route`.
+- **Модели:** `freezed` (domain API-сущности) + `final class` (чистый domain, напр. BLE peer) + `json_serializable` (DTO).
+- **Сеть:** `dio` + `retrofit`.
+- **Кодоген:** `build_runner`.
+
+## Структура воркспейса
+
+```
+shared_core/      BLoC helpers, localization, contracts, appLocator
+shared_ui/        Дизайн-система, темы, виджеты
+shared_domain/    Кросс-фичевые доменные типы (ADR-9)
+infrastructure/   HTTP, storage, SDK (технические примитивы)
+navigation_api/   AppNavigator, bootstrap-порты
+navigation/       AppRouter, splash, tab shell
+features/*/       Vertical slice: domain/, data/, presentation/
+lib/              entrypoints + lib/di/app_di.dart (Composition Root)
+```
+
+## Команды (FVM обязателен)
+
+Все вызовы `dart`/`flutter` — через FVM из корня проекта:
+
+```shell
+fvm flutter pub get
+fvm flutter analyze
+fvm flutter test
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart format -l 100 <paths>
+```
+
+**После любых правок `.dart`** — запускать `fvm dart format -l 100` на изменённых путях. Длина строки — **100**.
+
+## Управление зависимостями
+
+```shell
+fvm flutter pub add <package>
+fvm flutter pub add dev:<package>
+fvm dart pub remove <package>
+```
+
+## Ключевые принципы
+
+- **SOLID.** Композиция > наследование. Иммутабельные структуры; `StatelessWidget` по умолчанию.
+- **Разделение ответственности.** UI отдельно от бизнес-логики (`BLoC`).
+- **Простота.** Без «умных» решений. Маленькие функции — целевая длина < 20 строк.
+
+## Качество кода
+
+- **Имена:** `PascalCase` для классов, `camelCase` для членов/функций, `snake_case` для файлов. Без сокращений.
+- **Длина строки:** 100 символов.
+- **Ошибки:** не глотать; для `Object`/`dynamic`/нетипизированных `catch` — `rethrow` (см. `flutter-bloc.mdc`).
+- **Логи:** только `dart:developer` `log()`. Никаких `print()` (см. `flutter-debugging.mdc`).
+- **Комментарии:** объясняют *почему*, а не *что*. Без trailing-комментариев (см. `dart-style.mdc`).

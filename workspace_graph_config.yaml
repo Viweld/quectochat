@@ -1,0 +1,39 @@
+# Target DAG rules for quectochat workspace graph checker.
+# See .kb/architecture/README.md and ADR-011.
+
+strict: true
+
+forbidden_edges:
+  - from: features/*
+    to: features/*
+    message: Features must not depend on other features (DAG).
+  - from: features/*
+    to: infrastructure
+    message: Features must not depend on infrastructure directly (use shared_core/contracts).
+  - from: features/*
+    to: data
+    message: Features must not depend on global data package (vertical slice data/ in feature).
+  - from: shared_*
+    to: features/*
+    message: Shared packages must not depend on features.
+  - from: infrastructure
+    to: features/*
+    message: Infrastructure must not depend on features (ADR-11).
+
+warnings:
+  - id: legacy_domain_import
+    from: features/*
+    import_prefix: package:domain/
+    message: Features must not import global domain/ (use feature-local domain or shared_domain).
+  - id: legacy_data_import
+    from: features/*
+    import_prefix: package:data/
+    message: Features must not import global data/ (vertical slice only).
+  - id: shared_domain_feature_entity
+    from: shared_domain
+    path_glob: lib/src/entities/**
+    forbidden_name_patterns:
+      - auth_
+      - chat_
+      - home_
+    message: Suspected feature-specific entity in shared_domain (ADR-9).

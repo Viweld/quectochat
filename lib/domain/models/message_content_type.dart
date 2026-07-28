@@ -1,4 +1,0 @@
-enum MessageContentType {
-  text,
-  image,
-}

@@ -1,0 +1,42 @@
+---
+description: Git-коммиты агентом — без Co-authored-by/Made-with, формат сообщения, связь с настройками Cursor Attribution
+alwaysApply: false
+---
+
+# Git-коммиты (агент)
+
+Правило для любых `git commit`, amend и создания PR агентом в этом репозитории. Язык сообщений — см. `.cursorrules`.
+
+## Запрещено (по умолчанию)
+
+- Добавлять в тело коммита или PR строки `Co-authored-by:`, `Made-with:` и любые другие трейлеры, указывающие на Cursor, AI или агента.
+- Передавать в `git commit` флаги вроде `--trailer`, если они добавляют такую атрибуцию.
+- Дописывать attribution в конец HEREDOC-сообщения «на всякий случай».
+
+Исключение: пользователь **явно** попросил указать соавтора или attribution.
+
+## Пример
+
+```text
+# ✅ Правильно
+Add main feature with splash and home screens
+
+# ❌ Неправильно
+Add main feature with splash and home screens
+
+Co-authored-by: Cursor <cursoragent@cursor.com>
+
+# ❌ Неправильно
+Add main feature with splash and home screens
+
+Made-with: Cursor
+```
+
+## Cursor может добавить attribution сам
+
+IDE/CLI иногда вставляют трейлеры **поверх** правил агента. Отключить:
+
+1. **Cursor Settings → Agents → Attribution** — выключить Commit Attribution и PR Attribution.
+2. **CLI** (если используете): в `~/.cursor/cli-config.json` — `"attributeCommitsToAgent": false`, `"attributePRsToAgent": false`.
+
+Правило в репозитории не отменяет принудительную team-политику Enterprise и server-side hooks облачных агентов — там нужны настройки организации или git-hook как последний рубеж.

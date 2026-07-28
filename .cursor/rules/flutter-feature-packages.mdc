@@ -1,0 +1,203 @@
+---
+description: Как создавать feature-пакеты в features/, подключать их в workspace, navigation, AppRouter и DI (injectable micro-packages)
+alwaysApply: false
+---
+
+# Feature-пакеты (features/*)
+
+## Цель
+
+- Каждая фича — **отдельный pub-пакет** в `features/<feature_name>/`, независимый от корневого приложения (`app` в workspace).
+- Пакет должен сразу быть **работоспособным**: собираться, иметь DI-модуль и подключаться в навигацию.
+- Любое расширение фичи (новые экраны/BLoC/виджеты) делается **внутри** пакета без правок в других фичах.
+
+## Граница фичи
+
+- Фича = **вертикальный срез** (группа связанных экранов с общим flow/state/репозиториями), **не один экран**.
+- Критерий отдельного пакета: фичу можно удалить целиком; у неё есть свой entrypoint-роут.
+- Масштабирование внутри пакета — папками `*_screen/`, `widgets/`, вложенными BLoC, **без** новых pub-пакетов.
+
+```dart
+// ✅ Один пакет auth: login + code + choice
+// features/auth/lib/presentation/login_screen/, totp_verification_screen/, accept_invite_screen/
+
+// ❌ Отдельный пакет на каждый экран
+// features/auth_login/, features/auth_code/, features/auth_choice/
+```
+
+## 1) Структура пакета (минимум)
+
+```
+features/<feature_name>/
+  pubspec.yaml
+  lib/
+    <feature_name>.dart
+    <feature_name>_module.dart
+    <feature_name>.gr.dart                # auto_route (generated)
+    domain/
+    data/
+    presentation/
+      routes/
+      <screen_name>_screen/
+        <screen_name>_screen.dart       # @RoutePage()
+        <screen_name>_content.dart
+        bloc/
+        widgets/
+    src/di/
+      configure_dependencies.dart
+      configure_dependencies.module.dart
+      register_module.dart
+```
+
+Структура `widgets/`, вложенные подвиджеты, виджет с BLoC — `flutter-feature-widgets-structure.mdc`.
+
+## 2) `pubspec.yaml` фичи
+
+- **Обязательно**: `publish_to: none`, `resolution: workspace`.
+- **environment**: держать в диапазоне, принятом в фичах (см. другие пакеты в `features/`).
+- **dependencies**: только то, что реально нужно фиче.
+  - UI: `shared_core`, `shared_ui`, `shared_domain`, `navigation_api`.
+  - **Запрещено** в pubspec feature: `infrastructure`, другие `features/*`, глобальные `data`/`domain`.
+- **dev_dependencies** (если есть роуты/DI): `auto_route_generator`, `build_runner`, `injectable_generator`.
+
+## 3) Barrel-файл `lib/<feature_name>.dart`
+
+### Обязательные элементы
+
+- Реэкспорт `*.gr.dart` (роуты) и `src/di/configure_dependencies.module.dart` (DI модуль).
+- Экспорт публичных экранов (и/или главных entrypoint-виджетов).
+- Свой `<Feature>Router extends RootStackRouter` с `@AutoRouterConfig`.
+
+Пример:
+
+```dart
+import 'package:navigation_api/navigation_api.dart';
+
+export '<feature_name>.gr.dart';
+export '<feature_name>_module.dart';
+export 'presentation/routes/<feature_name>_routes.dart';
+export 'src/di/configure_dependencies.module.dart';
+
+@AutoRouterConfig(replaceInRouteName: 'Page|Screen|Popup|BottomSheet|Dialog|Drawer,Route')
+class FeatureRouter extends RootStackRouter {
+  @override
+  List<AutoRoute> get routes => <AutoRoute>[
+    AutoRoute(page: SomeRoute.page),
+  ];
+}
+```
+
+## 4) DI внутри фичи (injectable micro-package)
+
+### Обязательные файлы
+
+`lib/src/di/configure_dependencies.dart`:
+
+```dart
+import 'package:injectable/injectable.dart';
+
+@microPackageInit
+void initConfigurationMicroPackage() {}
+```
+
+`lib/src/di/register_module.dart` (для ручных регистраций при необходимости):
+
+```dart
+import 'package:injectable/injectable.dart';
+
+@module
+abstract class RegisterModule {}
+```
+
+### Регистрация BLoC
+
+- Каждый BLoC экрана помечать `@injectable`.
+- Если экрану нужны аргументы — использовать `@factoryParam` и `gh.factoryParam<Bloc, Arg, dynamic>(...)` будет сгенерировано автоматически.
+
+✅ Правильно:
+
+```dart
+@injectable
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  HomeBloc(
+    this._transportRepository, {
+    @factoryParam required String sessionId,
+  }) : super(HomeState(sessionId: sessionId));
+}
+```
+
+❌ Неправильно:
+
+```dart
+// Зависимость от appLocator в конструкторе BLoC / хранение аргумента в поле вне State — запрещено.
+```
+
+## 5) Подключение фичи в проект (обязательный чек-лист)
+
+### 5.1. Workspace + dependencies (корень)
+
+В `pubspec.yaml` корня:
+- добавить `features/<feature_name>` в `workspace:`
+- добавить зависимость:
+
+```yaml
+<feature_name>:
+  path: ./features/<feature_name>
+```
+
+### 5.2. Navigation package
+
+В `navigation/pubspec.yaml`:
+
+```yaml
+<feature_name>:
+  path: ../features/<feature_name>
+```
+
+В `navigation/lib/navigation.dart` добавить export:
+
+```dart
+export 'package:<feature_name>/<feature_name>.dart';
+```
+
+### 5.3. Центральный `AppRouter`
+
+В `navigation/lib/src/app_router/app_router.dart`:
+- добавить `AutoRoute(page: <NewRoute>.page)` в `routes`.
+- при необходимости добавить метод навигации (тонкий wrapper вокруг `push(...)`).
+
+✅ Правильно:
+
+```dart
+Future<void> navigateFeatureThing(Arg arg) => push(FeatureThingRoute(arg: arg));
+```
+
+❌ Неправильно:
+
+```dart
+// Навигация должна идти через сгенерированные Route-классы, а не через строки/имена.
+```
+
+### 5.4. Корневой DI
+
+В `lib/di/app_di.dart` добавить `ExternalModule(<Feature>PackageModule)` в `externalPackageModulesAfter` (маркер `// fz:external-modules`).
+
+Пример:
+
+```dart
+ExternalModule(FeaturePackageModule),
+```
+
+## 6) Кодогенерация и проверка
+
+После добавления пакета/роутов/DI:
+
+```shell
+fvm flutter pub get
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart format -l 100 .
+fvm flutter analyze
+```
+
+Если остались ссылки на удалённые экраны/роуты — сначала **исправить импорты/вызовы**, затем повторить build_runner.
+

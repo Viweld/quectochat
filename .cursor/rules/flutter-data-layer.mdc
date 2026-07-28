@@ -1,0 +1,146 @@
+---
+description: Data layer — freezed-модели, json_serializable DTO, datasources, retrofit-клиенты, build_runner, логирование
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Data layer
+
+> Пути ниже — внутри **vertical slice** `features/<name>/lib/data/` и `features/<name>/lib/domain/`, если не указано `shared_domain/`.
+
+## Доменные модели
+
+### `freezed` (по умолчанию для API-сущностей)
+
+- Модели с JSON/API-маппингом и union-состояниями — через `@freezed`.
+- Модели иммутабельны; для изменений — `copyWith`.
+- Для сущностей с несколькими состояниями — `@freezed` с sealed-union.
+
+### `final class` (чистый domain без кодогена)
+
+- Допустимо для value objects и BLE peer-моделей (`domain/lib/src/models/peer/`).
+- Без зависимостей от плагинов и `ble_peer_session`.
+- Маппинг в/из транспорта — в `data/lib/src/peer/mappers/`.
+
+```dart
+// ✅ domain
+final class PeerDevice {
+  const PeerDevice({required this.id, required this.name, required this.isOurApp});
+  final String id;
+  final String name;
+  final bool isOurApp;
+}
+
+// ✅ data — единственное место для ble_peer_session
+import 'package:ble_peer_session/ble_peer_session.dart';
+```
+
+```dart
+@freezed
+class Trip with _$Trip {
+  const factory Trip({
+    required String id,
+    required String destination,
+  }) = _Trip;
+}
+```
+
+## Доменные enum и транспортные строки
+
+- Enum в `feature/domain/` описывает **бизнес-смысл**, без JSON/API-строк (`'gates_count'`, snake_case ключей, `@JsonValue` и т.п.).
+- Enum выносить в **отдельный файл** (`<name>_key.dart` или `<name>_kind.dart`), если он используется в нескольких доменных моделях или маппится из DTO.
+- Соответствие «строка API/DTO → enum» — только в `feature/data/mappers/` (функция `parse…` или `part`-маппер рядом с DTO-маппером сущности).
+- В `feature/domain/` запрещены `tryParse`/`fromJson` по transport-строкам и поля вроде `jsonKey` у enum.
+
+```dart
+// ✅ domain/lib/src/models/airports/airport_render_data_key.dart
+enum AirportRenderDataKey { gatesCount, address, distanceToCityCenter, publicTransport }
+
+// ✅ data/lib/src/mappers/airports/airport_render_data_key_mapper.dart
+AirportRenderDataKey parseAirportRenderDataKey(String? value) => switch (value) {
+  'gates_count' => AirportRenderDataKey.gatesCount,
+  _ => throw InvalidAirportRenderDataKeyException(value),
+};
+
+// ❌ domain — transport-строка в enum
+enum AirportRenderDataKey {
+  gatesCount('gates_count');
+  const AirportRenderDataKey(this.jsonKey);
+  final String jsonKey;
+}
+```
+
+## DTO (`json_serializable`)
+
+- DTO живут в `feature/data/dto/` и используются только для сериализации API.
+- `@JsonSerializable(fieldRename: FieldRename.snake)` — для маппинга snake_case JSON в camelCase Dart.
+- Всегда `fromJson`-фабрика и `toJson`-метод.
+- **DTO не утекают в `domain/` и `presentation/`** — маппинг в доменную модель идёт в репозитории.
+
+```dart
+@JsonSerializable(fieldRename: FieldRename.snake)
+class TripDto {
+  const TripDto({required this.id, required this.destinationName});
+  final String id;
+  final String destinationName;
+
+  factory TripDto.fromJson(Map<String, dynamic> json) => _$TripDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$TripDtoToJson(this);
+}
+```
+
+## DataSource (контракт + реализация)
+
+- Удалённый/локальный доступ к внешним данным — через **DataSource**: контракт и реализация в `feature/data/datasources/`.
+- Именование: `<context>_remote_data_source.dart` — **абстрактный контракт** (что можно получить/сохранить); `<context>_remote_data_source_impl.dart` — **реализация** (как именно это делается).
+- DataSource возвращает **DTO** (или примитивы транспорта), не доменные модели. Маппинг DTO → Domain — только в Repository.
+- Реализация может быть любой: REST, WebSocket, BLE, `SharedPreferences`, in-memory mock — контракт и impl не привязаны к конкретной технологии.
+
+```dart
+// ✅ data/datasources/auth_remote_data_source.dart — контракт
+abstract interface class AuthRemoteDataSource {
+  Future<void> sendCodeToEmail(Map<String, dynamic> body);
+  Future<AuthTokenDto> verifyCode(Map<String, dynamic> body);
+}
+
+// ✅ data/datasources/auth_remote_data_source_impl.dart — одна из реализаций
+final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  AuthRemoteDataSourceImpl(this._api);
+  final AuthApi _api; // внутри — retrofit, raw dio или другой транспорт
+}
+```
+
+## REST API через `retrofit` + `dio` (предпочтительно для HTTP)
+
+- **Не путать** с DataSource: `@RestApi`-интерфейс и сгенерированный `*.g.dart` — **один из способов** реализовать `*RemoteDataSourceImpl` для REST, а не сами файлы `*_remote_data_source.dart` / `*_remote_data_source_impl.dart`.
+- Предпочтительная схема: `@RestApi abstract class AuthApi` (или legacy-имя `AuthApiProvider`) + `AuthApi.g.dart` — **внутри** impl DataSource или как зависимость impl; публичный контракт feature остаётся `AuthRemoteDataSource`.
+- Аннотации: `@GET`, `@POST`, `@PUT`, `@DELETE`, `@Path`, `@Query`, `@Body`.
+- Конфигурация Dio (interceptors, base URL, headers) — в DI-модуле (`@module`) или через `DioClient` из `infrastructure`.
+
+## Кодоген (`build_runner`)
+
+После изменения файлов с аннотациями `freezed`, `json_serializable`, `injectable`, `auto_route`:
+
+```shell
+fvm dart run build_runner build --delete-conflicting-outputs
+```
+
+- Сгенерированные файлы (`.freezed.dart`, `.g.dart`, `.gr.dart`, `injectable.config.dart`) **редактировать вручную нельзя**.
+- Сгенерированные файлы коммитятся в git.
+
+## Логирование
+
+Использовать `dart:developer` `log()`. `print()` запрещён (см. `flutter-debugging.mdc`).
+
+```dart
+import 'dart:developer' as developer;
+
+developer.log('Fetching trips', name: 'data.trips');
+
+try {
+  // ...
+} on Object catch (e, s) {
+  developer.log('Failed to fetch trips', name: 'data.trips', error: e, stackTrace: s);
+  rethrow;
+}
+```

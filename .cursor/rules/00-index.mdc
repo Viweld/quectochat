@@ -1,0 +1,42 @@
+---
+description: Карта правил проекта и маршрут «когда какое правило читать»
+alwaysApply: true
+---
+
+# Карта правил
+
+Always-pool минимален: только этот индекс, `flutter-core.mdc` и `mcp-tools.mdc`. Остальные правила приходят по `globs` или подгружаются вручную по этой карте.
+
+## Когда какое правило подключать
+
+| Действие/контекст                                                        | Правило                                                |
+|--------------------------------------------------------------------------|--------------------------------------------------------|
+| Любой Dart-код (стиль, null-safety, async, комментарии, doc-comments)    | `dart-style.mdc` (auto: `**/*.dart`)                   |
+| Именование контрактов (без `I`) и реализаций (`Impl`)                    | `dart-interface-naming.mdc` (auto: `**/*.dart`)        |
+| Виджеты, layout, performance, запрет helper-методов, возвращающих Widget | `flutter-widgets.mdc` (auto: `**/*.dart`)              |
+| Структура экрана feature: `widgets/`, вложенность, виджет с BLoC          | `flutter-feature-widgets-structure.mdc` (manual)       |
+| Структура `shared_ui/lib/src/widgets`, `ui_kit/`, legacy-группы skeleton     | `core-ui-widgets-structure.mdc` (manual)               |
+| BLoC, события, состояния, эффекты, Screen + Content, **обработка ошибок** | `flutter-bloc.mdc` (auto: `**/*.dart`)                 |
+| DTO, retrofit, freezed-модели, build_runner, логирование                 | `flutter-data-layer.mdc` (auto: `**/*.dart`)           |
+| Темы, ColorScheme, ThemeExtension, типографика, A11Y                     | `flutter-theming.mdc` (manual)                         |
+| Архитектурные слои, DI, repository-pattern, структура features           | `flutter-architecture.mdc` (manual)                    |
+| Создание новых feature-пакетов в `features/` и интеграция в проект        | `flutter-feature-packages.mdc` (manual)                |
+| Дебаг (`log`, `debugPrint`, запреты)                                     | `flutter-debugging.mdc` (manual)                       |
+| Юнит/виджет/интеграционные тесты                                         | `flutter-testing.mdc` (auto: `**/*_test.dart`)         |
+| Git commit / push / PR агентом (без Co-authored-by, формат сообщения)     | `git-commits.mdc` (manual; кратко — `.cursorrules`)    |
+| Изменение/добавление правил в `.cursor/rules/`                           | `meta-rules.mdc` (manual)                              |
+| Flutterozavr kit: fz, mason, модули, lock                                | `flutterozavr-kit.mdc` (manual)                        |
+| Skeleton: entrypoints, env, состав workspace                             | `flutterozavr-skeleton.mdc` (manual)                   |
+
+## Жёсткие красные линии (всегда)
+
+- Команды `dart`/`flutter` — только через **FVM** (`fvm dart ...`, `fvm flutter ...`). После правок `.dart` — `fvm dart format -l 100 <paths>`.
+- Виджеты — **только классы**. Никаких методов, возвращающих `Widget`/`List<Widget>` (см. `flutter-widgets.mdc`).
+- BLoC — без `BuildContext`/`Navigator`/UI-импортов; навигация и диалоги — через `Effect` (см. `flutter-bloc.mdc`).
+- BLoC с репозиторными вызовами — обязателен `BlocErrorHandler` + канон §11 (`flutter-bloc.mdc`).
+- Документация (`.md`) и общение — на русском. Git-коммиты и PR — на английском (см. `.cursorrules`, `git-commits.mdc`). **Без** `Co-authored-by` / `Made-with` от агента.
+
+## Источники правды
+
+- `.cursor/rules/*.mdc` — единственный канон. `.rules/` — исторический backup; правила оттуда не подгружаются автоматически.
+- Дополнения и новые правила — по процедуре из `meta-rules.mdc`.

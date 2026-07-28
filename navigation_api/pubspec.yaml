@@ -1,0 +1,16 @@
+name: navigation_api
+publish_to: none
+description: Navigation ports and shared routing types for features.
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.38.0 <4.0.0'
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_domain:
+    path: ../shared_domain

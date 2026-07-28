@@ -1,0 +1,1 @@
+ /Users/vadimziborov/Developer/projects/my/quectochat/shared_core/lib/src/l10n/app_localizations_ru.dart /Users/vadimziborov/Developer/projects/my/quectochat/shared_core/lib/src/l10n/app_localizations.dart:  /Users/vadimziborov/Developer/projects/my/quectochat/shared_core/l10n.yaml /Users/vadimziborov/Developer/projects/my/quectochat/shared_core/localization/arb/app_ru.arb

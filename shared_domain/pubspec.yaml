@@ -1,0 +1,17 @@
+name: shared_domain
+publish_to: none
+description: Cross-feature domain primitives shared by 2+ independent features (ADR-9).
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.38.0 <4.0.0'
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

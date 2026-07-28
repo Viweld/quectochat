@@ -1,0 +1,166 @@
+---
+description: Архитектура воркспейса — micro-modular Feature-First, DI, repository-pattern, vertical slices
+alwaysApply: false
+---
+
+# Архитектура приложения
+
+> Канон: ADR в `.kb/architecture/adr/` (локально). Runtime-проверка: `workspace_graph_config.yaml` (`strict: true`).
+
+## Workspace-пакеты
+
+| Пакет | Ответственность |
+|-------|-----------------|
+| `shared_core/` | BLoC helpers, localization, `appLocator`, `shared_core/contracts/` (технические контракты) |
+| `shared_ui/` | Дизайн-система, темы, переиспользуемые виджеты (`package:shared_ui/core_ui.dart`) |
+| `shared_domain/` | Только кросс-фичевые типы 2+ feature (`Outcome`, `StaffRole`, `AppTab`, …) — ADR-9 |
+| `infrastructure/` | HTTP-примитивы (Dio factory, interceptors), storage, SDK — **без business API** (ADR-11) |
+| `navigation_api/` | `AppNavigator`, bootstrap-порты (`SplashAuthenticationPort`, …) |
+| `navigation/` | `AppRouter`, splash, tab shell, guards |
+| `features/*` | Vertical slice: `domain/`, `data/`, `presentation/` |
+| `lib/` | Entrypoints + Composition Root (`lib/di/app_di.dart`, port adapters) |
+
+Глобальных `domain/`, `data/`, `core/`, `core_ui/`, `features/common/` **нет**.
+
+## DAG (инварианты)
+
+- `features/* ↛ features/*` — фичи не импортируют друг друга.
+- `features/* ↛ infrastructure` — только через `shared_core/contracts` и wiring в `app_di.dart`.
+- `shared_* ↛ features/*`, `infrastructure ↛ features/*`.
+- `shared_ui ↛ navigation_api`, `shared_ui ↛ shared_domain` (кроме допустимых UI-типов).
+- Cross-feature связь — **ports** в `navigation_api` или `feature/domain/ports/` + адаптеры в `lib/di/*_port_adapters.dart`.
+
+## Слои внутри feature
+
+```
+features/<name>/lib/
+├── <name>_module.dart
+├── domain/
+│   ├── entities/
+│   ├── repositories/
+│   └── ports/              # StatePort / EventPort — cross-feature (ADR-10)
+├── data/
+│   ├── dto/
+│   ├── mappers/
+│   ├── datasources/        # interface + impl, retrofit — здесь
+│   └── repositories/       # DTO/transport → Domain — единственное место
+└── presentation/
+    ├── routes/
+    └── <screen>_screen/
+        ├── <screen>_screen.dart
+        ├── <screen>_content.dart
+        ├── bloc/
+        ├── widgets/
+        └── models/           # ViewModel — редко (ADR-7)
+```
+
+**BLoC = Application Layer** (ADR-1): orchestration, несколько Repository/Port — норма. UseCases **нет**. BLoC не кэширует домен (`_cached*` запрещён).
+
+**Presentation** импортирует Domain Model напрямую. DTO не покидают `data/`.
+
+## DI (`injectable` + `get_it`)
+
+- Composition Root — **только** [`lib/di/app_di.dart`](lib/di/app_di.dart).
+- `registerXModule(GetIt locator)` регистрирует **только** зависимости своей feature (ADR-4).
+- Cross-feature wiring ports → repos — в `lib/di/*_port_adapters.dart`, не в feature modules.
+- Внутри BLoC/виджетов — не `GetIt.instance` (кроме `appLocator` в UI по `flutter-bloc.mdc`).
+
+```dart
+// lib/di/onboarding_port_adapters.dart
+void registerOnboardingPorts(GetIt locator) {
+  locator.registerLazySingleton<OnboardingStatePort>(() => locator<OnboardingRepository>());
+}
+```
+
+## Виды контрактов (ADR-10)
+
+Три вида **без** общих базовых классов и обязательного наследования. Подробности: `.kb/architecture/adr/adr-010-repository-vs-port.md`.
+
+| Вид | Назначение | Где |
+|-----|------------|-----|
+| **Repository** | полный доступ к данным **своей** feature; SSOT; DTO→Domain только здесь | `feature/domain/repositories/` |
+| **StatePort** | узкое **состояние** другой feature (Interface Segregation) | `feature/domain/ports/`, `navigation_api/` |
+| **EventPort** | **событие / инвалидация** без Domain Model и без вызова чужого Repository | `feature/domain/ports/`, `navigation_api/` |
+
+```
+Repository  →  данные (своя feature)
+StatePort   →  ограниченное состояние (чужая feature)
+EventPort   →  событие (между feature; не EventBus)
+```
+
+### Типовые примеры (иллюстрация)
+
+**Repository** — полный API своей feature:
+
+```dart
+abstract interface class ProfileRepository {
+  UserProfile? get profileData;
+  Stream<UserProfile?> get profileStream;
+  Future<void> fetchProfileData();
+}
+```
+
+**StatePort** — subset для guards / splash / post-auth:
+
+```dart
+abstract interface class AuthenticationStatePort {
+  AuthenticationState get authState;
+  Stream<AuthenticationState> get authStateStream;
+}
+
+abstract interface class OnboardingStatePort {
+  Future<bool> isOnboardingRequired();
+}
+```
+
+Wiring в Composition Root (adapter на Repository):
+
+```dart
+locator.registerLazySingleton<OnboardingStatePort>(() => locator<OnboardingRepository>());
+```
+
+**EventPort** — инвалидация без передачи данных (иллюстрация для будущих feature):
+
+```dart
+abstract interface class OrdersInvalidationPort {
+  Stream<void> get stream;
+  void invalidate();
+}
+```
+
+`CreateOrder` вызывает `invalidate()`; `Orders` сам решает вызвать `OrdersRepository.refresh()`.
+
+### Правила
+
+- Repository **не** используется для общения между feature.
+- StatePort — только если нужен **subset**, не полный Repository.
+- EventPort — только между двумя feature; не глобальная шина; не передавать `Order`, DTO, примитивы как «данные события».
+- Антипаттерн: `UserRepositoryPort` дублирует `UserRepository`.
+
+## Shared kernel
+
+- `shared_domain` — не god-package: только типы 2+ независимых feature.
+- `shared_core/contracts/` — `ApiCallWrapper`, storage ports и др. технические интерфейсы.
+- Не путать `domain/ports/` (бизнес) и `shared_core/contracts/` (техника).
+
+## Navigation (ADR-5)
+
+- `navigation` агрегирует маршруты feature (`presentation/routes/` + `@AutoRouterConfig`).
+- `navigation` **не** импортирует `bloc/`, `domain/`, `data/` feature (компромисс `auto_route`: path-dep на feature-пакет допустим).
+- Splash и tab shell — в `navigation/lib/src/presentation/`.
+
+## Эталоны
+
+| Что | Где |
+|-----|-----|
+| Vertical slice | `features/auth/` |
+| Структура экрана | `navigation/.../splash_screen/`, `features/auth/lib/presentation/login_screen/` |
+| Port adapters | `lib/di/auth_port_adapters.dart` |
+
+## Общие виджеты
+
+2+ экрана (разных feature) → `shared_ui/lib/src/widgets/` (`core-ui-widgets-structure.mdc`).
+
+## Directory on Demand (ADR-8)
+
+Не создавать пустые `services/`, `value_objects/`, `providers/` «на вырост». Новая папка в `domain/` — с ADR update.

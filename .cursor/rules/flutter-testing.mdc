@@ -1,0 +1,66 @@
+---
+description: Тесты — unit, widget, integration; паттерн Arrange-Act-Assert; fakes vs mocks; bloc_test
+globs: "**/*_test.dart"
+alwaysApply: false
+---
+
+# Тестирование
+
+Запуск: `fvm flutter test`
+
+## Виды тестов
+
+| Тип         | Пакет                      | Что тестировать                                                |
+|-------------|----------------------------|----------------------------------------------------------------|
+| Unit        | `package:test`             | Domain-модели, логику BLoC, репозитории, мапперы               |
+| Widget      | `package:flutter_test`     | UI-компоненты, рендеринг экрана, взаимодействия с виджетами    |
+| Integration | `package:integration_test` | End-to-end флоу всего приложения                               |
+
+## Паттерн: Arrange-Act-Assert
+
+```dart
+test('emits success state when login succeeds', () async {
+  // Arrange
+  when(() => authRepo.login(any())).thenAnswer((_) async => user);
+  final bloc = AuthBloc(authRepository: authRepo);
+
+  // Act
+  bloc.add(const AuthLoginRequested(email: 'a@b.com', password: '123'));
+
+  // Assert
+  await expectLater(
+    bloc.stream,
+    emitsInOrder([AuthState.loading(), AuthState.success(user)]),
+  );
+});
+```
+
+## Fakes/stubs предпочтительнее mocks
+
+- Сначала — ручные fakes/stubs.
+- Если mocks нужны (сложные интерфейсы с множеством методов) — `mocktail`.
+- `mockito` с кодогеном избегать (лишняя сложность build_runner).
+
+## BLoC
+
+- Тестировать через `bloc_test`.
+- Каждый обработчик события — изолированно.
+- Общая инициализация — в `setUp`.
+
+## Widget-тесты
+
+- `flutter_test` + `WidgetTester`.
+- Pump'ить только тестируемый виджет с напрямую инжектируемыми зависимостями.
+- Ассерты — `find.byType`, `find.byKey`, `find.text`.
+- Взаимодействия — `tester.tap` + `tester.pump` / `pumpAndSettle`.
+
+## Integration-тесты
+
+- Папка `integration_test/`.
+- `integration_test` в dev-зависимостях с `sdk: flutter`.
+- Покрывать ключевые user journeys (login, бронирование, оплата) end-to-end.
+
+## Покрытие
+
+- Высокое покрытие — для domain-логики, BLoC states/events, реализаций репозиториев.
+- Widget-тесты — на ключевые взаимодействия и важные UI-edge-cases.

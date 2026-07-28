@@ -1,0 +1,198 @@
+---
+description: Стиль Dart-кода — null-safety, async, обработка ошибок, language features, порядок членов класса, комментарии и doc-comments
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Dart: стиль и комментарии
+
+Следовать [Effective Dart](https://dart.dev/effective-dart). Этот файл — выжимка с конкретикой проекта.
+
+## Null safety
+
+- Писать строго null-safe код.
+- `!` (null-assertion) — только когда не-null гарантирован логикой, которую компилятор не выводит.
+- Предпочитать `??`, `?.`, ранние `return` вместо `!`.
+
+```dart
+// ✅
+final String name = user?.name ?? 'Anonymous';
+if (token == null) return;
+return repo.fetch(token);
+
+// ❌
+final String name = user!.name;
+return repo.fetch(token!);
+```
+
+## Async
+
+- Только `async`/`await`; никаких `.then()`-цепочек.
+- `Future` — один результат, `Stream` — поток событий.
+- Любая ошибка в async обрабатывается. Висячий `Future` запрещён.
+
+## Обработка ошибок
+
+- `try`/`catch` — со специфичным типом исключения.
+- Для доменных ошибок — собственные классы исключений.
+- `catch` без типа / `Object` / `dynamic` — обязателен `rethrow` или явное логирование (в BLoC — см. `flutter-bloc.mdc` §11).
+
+## Возможности языка
+
+- **Pattern matching:** `switch`-выражения и шаблоны вместо цепочек `if`/`else`.
+- **Exhaustive switch:** для `enum`/`sealed` — обязателен.
+- **Records:** для возврата нескольких значений без отдельного класса.
+- **Стрелочные функции:** `=>` для одно-выражений.
+
+```dart
+final String label = switch (status) {
+  OrderStatus.pending => 'Pending',
+  OrderStatus.confirmed => 'Confirmed',
+  OrderStatus.cancelled => 'Cancelled',
+};
+```
+
+## Организация классов и библиотек
+
+- Связанные классы — в одной библиотеке.
+- Для крупных библиотек — экспорт мелких приватных модулей из одного top-level файла.
+- `part`/`part of` — **только** для генерированного кода (`.freezed.dart`, `.g.dart`) и для собственных файлов одного BLoC (см. `flutter-bloc.mdc` §4).
+
+### Порядок членов класса
+
+**Жёсткий канон** для **любого** класса: виджеты, BLoC, сервисы, репозитории, модели и т.д.  
+Отступление — **только** с явным обоснованием в code review.
+
+1. **Поля** — instance (`final`, `late final`, mutable у `State`); `static` non-const поля — здесь же.
+2. **Конструктор(ы)** — включая `factory`.
+3. **Константы** — `static const` / `static final`.
+4. **Геттеры** — публичные, **без** `@override`.
+5. **Сеттеры** — публичные, **без** `@override`.
+6. **Публичные методы с `@override`** — `build`, `initState`, `dispose`, `close`, `createState`, …
+7. **Публичные методы без `@override`**.
+8. **Приватные геттеры** — `_`-префикс.
+9. **Приватные сеттеры** — `_`-префикс.
+10. **Приватные методы с `@override`** — редко (`State`, custom render objects).
+11. **Приватные методы без `@override`** — `_on<Event>`; `_build*`-методы **запрещены** (см. `flutter-widgets.mdc`).
+
+**Статические методы** — после п. 7, перед п. 8 (если есть).
+
+Внутри каждой группы — логическая связность важнее алфавита.  
+Параметры конструктора `this.field` **не заменяют** объявление поля: поле объявляется в п. 1, конструктор — в п. 2.
+
+```dart
+// ✅
+class HomeDrawerBloc extends Bloc<HomeDrawerEvent, HomeDrawerState> {
+  final ProfileRepository _profileRepository;
+  StreamSubscription<UserProfile?>? _subscription;
+
+  HomeDrawerBloc(this._profileRepository) : super(const HomeDrawerState()) {
+    on<HomeDrawerEvent>(/* ... */);
+  }
+
+  @override
+  Future<void> close() async {
+    await _subscription?.cancel();
+    return super.close();
+  }
+
+  Future<void> _onInit(Emitter<HomeDrawerState> emit) async { /* ... */ }
+}
+
+// ✅ виджет — геттеры до @override build
+class PeerCard extends StatelessWidget {
+  final String title;
+  final VoidCallback? onTap;
+
+  const PeerCard({super.key, required this.title, this.onTap});
+
+  static const double radius = 20;
+
+  bool get hasTapHandler => onTap != null;
+
+  @override
+  Widget build(BuildContext context) => /* ... */;
+}
+
+// ❌ конструктор перед полями
+class PeerCard extends StatelessWidget {
+  const PeerCard({super.key, required this.title});
+  final String title;
+}
+
+// ❌ приватный геттер перед @override build
+class PeerCard extends StatelessWidget {
+  final String title;
+
+  const PeerCard({super.key, required this.title});
+
+  bool get _isEmpty => title.isEmpty;
+
+  @override
+  Widget build(BuildContext context) => /* ... */;
+}
+
+// ❌ @override close после приватных методов
+class HomeDrawerBloc extends Bloc<HomeDrawerEvent, HomeDrawerState> {
+  Future<void> _onInit(Emitter<HomeDrawerState> emit) async { /* ... */ }
+
+  @override
+  Future<void> close() async => super.close();
+}
+```
+
+#### Линтер
+
+Встроенного правила analyzer/linter под этот порядок **нет**. В `analysis_options.yaml` **`sort_constructors_first` должен оставаться `false`** — при `true` конструкторы оказываются выше полей, что противоречит канону.
+
+Community-линты (`dart_code_linter` / DCM `member-ordering`, `prefer_member_ordering`) могут частично проверять порядок, но часто требуют `static` **до** instance-полей (шаг 3 vs шаг 1) и/или подтягивают сотни посторонних проверок. Подключать их только после явной оценки расхождений с каноном проекта; **по умолчанию — ручной контроль и code review**.
+
+## Стиль кода
+
+- Локальные переменные — `final`. Где возможно — `const`.
+- Имена — без сокращений; ясность важнее краткости.
+- Переменная для `AppLocalization` из `context.localization` — **только** `localization`. Имя `l10n` запрещено (см. `flutter-bloc.mdc` §2).
+- Функции — короткие, single-purpose; целевая длина < 20 строк.
+- Длина строки — **100 символов**. Форматирование — `fvm dart format -l 100` (см. `flutter-core.mdc`).
+
+## Комментарии
+
+### Когда комментировать
+
+- Объяснять **почему**, а не **что**. Если код читаем — комментарий не нужен.
+- Комментировать нетривиальные компромиссы, ограничения, намерения.
+
+### Doc-comments (`///`)
+
+- Использовать `///` для публичного API.
+- Первое предложение — короткое, заканчивается точкой. Затем — пустая строка и развёрнутое описание.
+- Документировать приватные API, если назначение неочевидно.
+- Doc-comments — **до** аннотаций (`@override`, `@JsonKey` и т.п.).
+
+```dart
+/// Возвращает список доступных аэропортов, отфильтрованный по [query].
+///
+/// Возвращает пустой список, если [query] пуст. Бросает [ApiException]
+/// при ошибке сети.
+Future<List<Airport>> searchAirports(String query);
+```
+
+### Что документировать
+
+- Публичные классы, методы, свойства с неочевидным поведением.
+- Параметры, возвращаемые значения, исключения — в теле doc-comment'а.
+- Edge-cases и важные ограничения.
+- Примеры кода — когда добавляют ясности.
+
+### Что **не** документировать
+
+- Очевидные геттеры/сеттеры.
+- Геттер и сеттер одновременно — документировать только один.
+- Код, повторяющий имя метода словами.
+
+### Стиль
+
+- Запрещены trailing-комментарии (`// в конце строки`).
+- Кратко, без жаргона и сокращений.
+- Ссылки на код — в backtick’ах: `ClassName`, `methodName`.
+- HTML в doc-comments избегать; Markdown — умеренно.

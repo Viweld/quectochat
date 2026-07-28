@@ -1,0 +1,27 @@
+name: quectochat
+
+packages:
+  - .
+  - shared_core
+  - shared_ui
+  - shared_domain
+  - infrastructure
+  - navigation_api
+  - navigation
+  - features/*
+
+command:
+  version:
+    linkToCommits: false
+    workspaceChangelog: false
+
+scripts:
+  get:
+    description: Run pub get for the Dart workspace (FVM).
+    run: fvm flutter pub get
+  graph:
+    description: Validate workspace package DAG.
+    run: fvm dart run tool/check_workspace_graph.dart
+  analyze:
+    description: Analyze all packages.
+    run: fvm flutter analyze

@@ -1,0 +1,57 @@
+---
+description: Skeleton Flutterozavr — что можно менять, entrypoints, env, минимальный workspace
+alwaysApply: false
+---
+
+# Skeleton (Flutterozavr)
+
+## Состав workspace (vipitalia-app)
+
+Пакеты: `shared_core`, `shared_ui`, `shared_domain`, `infrastructure`, `navigation_api`, `navigation`, `features/*`, корневой `lib/`.
+
+Эталон vertical slice: **`features/auth`**. Эталон экрана: `navigation/.../splash_screen/`, `features/auth/lib/presentation/login_screen/`.
+
+> Исторический skeleton kit использовал `core`, `core_ui`, `domain`, `data`, `features/example` — в этом проекте заменены микромодульной архитектурой.
+
+Паттерн экрана: Screen + Content + BLoC + Effect (см. `flutter-bloc.mdc` §14, `flutter-feature-widgets-structure.mdc`).
+
+## Entrypoints
+
+- `lib/main_dev.dart` — dev
+- `lib/main_prod.dart` — prod
+- `lib/main.dart` → dev по умолчанию
+- `fvm flutter run -t lib/main_dev.dart` — локальный запуск dev
+
+## Env
+
+- `.env.dev` / `.env.prod` — placeholders (`BASE_URL`, `API_KEY`)
+- Шаблоны: `.env.example.dev`, `.env.example.prod`
+
+## Mason
+
+Конфиг в skeleton: `mason.yaml` (пути на bricks kit).
+
+После `mason make screen_bloc` папку экрана именовать `<screen>_screen/` (например `list_screen/`), файлы — `list_screen.dart`, `list_content.dart`, `bloc/list_bloc.dart` (см. `flutter-feature-widgets-structure.mdc` §1).
+
+## Kit monorepo
+
+Файл `.flutterozavr-kit.yaml` — указатель на `../modules`, `../bricks` (не копируется в целевой app).
+
+## Что можно менять при старте проекта
+
+- `name` в корневом `pubspec.yaml` (после `fz init` — имя приложения)
+- `.env.*` — реальные URL и ключи
+- Брендинг в `shared_ui` (тема, иконки)
+- Удалять неиспользуемые виджеты из `shared_ui` (см. `core-ui-widgets-structure.mdc`)
+
+## Что не ломать без необходимости
+
+- Слои и DAG между пакетами (`flutter-architecture.mdc`, `workspace_graph_config.yaml`)
+- Маркеры `# fz:…` / `// fz:…` для CLI
+- Эталон feature: `features/auth` (vertical slice)
+- Фичи не импортируют `infrastructure` и другие фичи напрямую
+
+## Bootstrap
+
+`main_common.dart` — минимальный: dotenv → DI (`lib/di/app_di.dart`) → `MaterialApp.router` + `GlobalToastHost`.
+Без Firebase/push/analytics (подключаются модулями kit).

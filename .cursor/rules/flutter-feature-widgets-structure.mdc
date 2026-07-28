@@ -1,0 +1,172 @@
+---
+description: Структура экрана feature — screen/content, папка widgets, вложенные подвиджеты, виджет с BLoC
+alwaysApply: false
+---
+
+# Структура виджетов экрана (`features/*`)
+
+Правила размещения UI-компонентов **внутри feature-пакета**. Общие виджеты — `core-ui-widgets-structure.mdc`. Screen + Content + BLoC экрана — `flutter-bloc.mdc` §14.
+
+## 1. Экран со стейт-менеджментом
+
+Экран с BLoC **обязан** состоять из двух файлов:
+
+```
+features/<feature>/lib/presentation/<screen>_screen/
+  <screen>_screen.dart      # BlocProvider, BlocConsumer/Builder, обработка Effect
+  <screen>_content.dart     # AppScaffold, дерево виджетов, диспатч событий
+  bloc/
+    <screen>_bloc.dart
+    <screen>_event.dart
+    <screen>_state.dart
+    <screen>_effect.dart    # если есть Effect
+```
+
+- Папка экрана — `<screen>_screen` (например `home_screen/`, `games_list_screen/`); файлы — `snake_case` без дублирования суффикса в имени BLoC (`home_bloc.dart`, не `home_screen_bloc.dart`).
+- `@RoutePage()` — на `*_screen.dart`.
+- Кастомные виджеты экрана — **не** в корне папки экрана, а в `widgets/` (см. §2).
+
+## 2. Папка `widgets/` экрана
+
+Кастомные виджеты, используемые **только на этом экране** (или в его подсекциях), лежат рядом с `*_screen.dart` и `*_content.dart`:
+
+```
+<screen>_screen/
+  <screen>_screen.dart
+  <screen>_content.dart
+  bloc/
+  widgets/
+    simple_tile.dart                    # простой виджет — один файл
+    profile_header/
+      profile_header.dart               # сложный виджет W
+      widgets/
+        profile_bonuses_section.dart      # дочерние подвиджеты W
+```
+
+### 2.1. Простой виджет
+
+Один класс, без отдельных файлов для подвиджетов — **плоский файл** в `widgets/`:
+
+```
+widgets/
+  loyalty_program_banner.dart    → LoyaltyProgramBanner
+```
+
+### 2.2. Сложный виджет с подвиджетами
+
+Если виджет **W** имеет нетривиальную структуру и выносит дочерние виджеты в отдельные файлы — **персональная папка** `snake_case` имени W:
+
+```
+widgets/
+  search_private_jet_section/
+    search_private_jet_section.dart     # главный виджет W
+    widgets/
+      private_jet_arrival_airport_field.dart
+      private_jet_passengers_field.dart
+```
+
+- Имя папки = `snake_case` главного виджета (без префикса feature, если он избыточен).
+- В `widgets/` внутри папки W — **только** подвиджеты W; не экспортировать их наружу без необходимости.
+- Private-виджеты (`_Tile`) допустимы в том же файле, что и W, если не используются в других файлах (см. `flutter-widgets.mdc`).
+
+### 2.3. Виджет с собственным BLoC
+
+Если W **достаточно крупный** и имеет **собственный** стейт-менеджмент (BLoC/Cubit), структура как в §2.2 **плюс** `bloc/`:
+
+```
+widgets/
+  terminal_selector/
+    terminal_selector.dart
+    bloc/
+      terminal_selector_bloc.dart
+      terminal_selector_event.dart
+      terminal_selector_state.dart
+      terminal_selector_effect.dart
+    widgets/                            # опционально, если есть подвиджеты
+      airport_field_clear_action.dart
+```
+
+- BLoC виджета следует **всем** правилам из `flutter-bloc.mdc` (изоляция, Effect, Freezed, `@injectable`, одна библиотека на BLoC).
+- `BlocProvider` для BLoC виджета создаётся **внутри** файла W (корневой виджет папки), не в `*_content.dart` и не в `*_screen.dart` экрана.
+- BLoC виджета регистрируется в DI фичи (`@injectable`); аргументы — через `@factoryParam`.
+- Виджеты из `widgets/` **не** обращаются к BLoC экрана (см. `flutter-bloc.mdc` §14.3). BLoC экрана доступен только в `*_content.dart`.
+
+## 3. Когда переносить в `shared_ui`
+
+| Ситуация | Куда |
+|----------|------|
+| Виджет используется на **одном** экране | `features/.../<screen>_screen/widgets/` |
+| Виджет используется на **2+** экранах (в т.ч. разных feature) | `shared_ui/lib/src/widgets/` |
+| Элементарный UI без доменного смысла (кнопка, поле, чекбокс, divider, alert) | `shared_ui/.../ui_kit/` |
+| Переиспользуемая секция деталей сущности/услуги | `shared_ui/.../entity_details/` |
+| Переиспользуемая карточка, layout, header с бизнес-смыслом | `shared_ui/.../<группа>/` (см. `core-ui-widgets-structure.mdc`) |
+
+Перенос в `core_ui` — при появлении **второго** потребителя, не заранее.
+
+## 4. Запреты
+
+- **Запрещено** класть кастомные виджеты экрана в корень папки `<screen>_screen/` (рядом с `bloc/`). Исключение — `models/` для ViewModel.
+- **Запрещено** именовать папку `widget/` (единственное число). Канон — `widgets/`. Исторические `widget/` не копировать в новом коде.
+- **Запрещено** дублировать один и тот же виджет в двух feature вместо выноса в `core_ui`.
+- **Запрещено** импортировать виджеты одного экрана из другого экрана той же фичи — общее выносить в `widgets/` общего предка или в `core_ui`.
+
+## 5. Подсекции контента (не отдельный route)
+
+Крупные блоки внутри экрана (табы, вкладки main screen) могут иметь собственные `*_content.dart`, `bloc/` и `widgets/` по тем же правилам:
+
+```
+main_screen/
+  main_screen.dart
+  main_content_private_jet/
+    main_content_private_jet.dart
+    bloc/
+    widgets/
+      search_private_jet_section/
+        ...
+```
+
+Имена файлов подсекции — по смыслу блока, не обязательно `*_screen.dart`.
+
+## Пример
+
+```dart
+// ✅ select_conditions_content.dart — диспатч в BLoC экрана
+class SelectConditionsContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final SelectConditionsScreenBloc bloc = context.read<SelectConditionsScreenBloc>();
+
+    return AppScaffold(
+      body: TerminalSelector(
+        initialEndpoint: endpoint,
+        onEndpointChanged: (Endpoint e) =>
+            bloc.add(SelectConditionsScreenEvent.endpointChanged(e)),
+      ),
+    );
+  }
+}
+
+// ✅ terminal_selector.dart — свой BlocProvider
+class TerminalSelector extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<TerminalSelectorBloc>(
+      create: (_) => appLocator<TerminalSelectorBloc>(param1: initialEndpoint),
+      child: /* ... */,
+    );
+  }
+}
+
+// ❌ кастомный виджет в корне экрана
+// features/foo/order_screen/order_summary_card.dart
+
+// ❌ BLoC виджета в bloc/ экрана
+// order_screen/bloc/terminal_selector_bloc.dart
+```
+
+## Связанные правила
+
+- Классы-виджеты, запрет helper-методов — `flutter-widgets.mdc`.
+- BLoC экрана и Content — `flutter-bloc.mdc` §14.
+- Общие виджеты и `ui_kit/` — `core-ui-widgets-structure.mdc`.
+- Структура feature-пакета — `flutter-architecture.mdc`, `flutter-feature-packages.mdc`.

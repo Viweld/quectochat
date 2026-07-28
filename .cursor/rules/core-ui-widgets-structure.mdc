@@ -1,0 +1,109 @@
+---
+description: Структура shared_ui/lib/src/widgets — ui_kit, entity_details, вложенность, виджет с BLoC, перенос из feature
+alwaysApply: false
+---
+
+# Структура `shared_ui/lib/src/widgets`
+
+Каталог **общих** виджетов приложения (используются на 2+ экранах). Виджеты одного экрана — в `features/.../widgets/` (см. `flutter-feature-widgets-structure.mdc`).
+
+Корень: `shared_ui/lib/src/widgets/`. Публичный API — через `package:shared_ui/core_ui.dart`.
+
+## Слои
+
+| Слой | Путь | Содержимое |
+|------|------|------------|
+| UI Kit | `ui_kit/` | Элементарные дизайнерские примитивы: кнопки, чекбоксы, поля ввода, разделители, alert/bottom sheet, индикаторы, app bar-оболочки **без** доменного смысла |
+| Entity details | `entity_details/` | Секции экранов деталей сущностей/услуг: аэропорт, джет, трансфер — переиспользуемые блоки с бизнес-смыслом, но без привязки к конкретной feature |
+| Прочие группы | `cards/`, `headers/`, `layout/`, `receipts/`, … | Тематические компоненты приложения; новые доменные секции деталек — в `entity_details/` |
+
+**`ui_kit/`** — только атомарные и почти атомарные UI-элементы дизайн-системы. Составные блоки с доменным смыслом — **не** в `ui_kit/`.
+
+## Правила размещения в `entity_details/`
+
+1. **Плоский уровень** — самостоятельный виджет без приватных helper-виджетов в отдельных файлах:
+   ```
+   entity_details/
+     numbered_steps_section.dart      → NumberedStepsSection
+     guide_list_section.dart          → GuideListSection
+   ```
+
+2. **Персональная папка** — если у компонента есть вспомогательные подвиджеты (отдельные классы) или собственный BLoC:
+   ```
+   entity_details/
+     overview_stats/
+       overview_stats_grid.dart       → главный виджет W
+       overview_stat_item.dart        → модель данных (если нужна)
+       overview_stats.dart            → barrel export
+       widgets/
+         overview_stat_tile.dart      → подвиджет W
+   ```
+   - Имя папки = `snake_case` главного виджета.
+   - В `widgets/` — только подвиджеты W; **не** экспортировать их из public barrel без необходимости.
+
+3. **Виджет с BLoC** — та же персональная папка **плюс** `bloc/` (правила BLoC — `flutter-bloc.mdc`):
+   ```
+   ui_kit/app_bars/main_app_bar/
+     main_app_bar.dart
+     bloc/
+       main_app_bar_bloc.dart
+       main_app_bar_event.dart
+       main_app_bar_state.dart
+     widgets/
+       app_back_button.dart
+   ```
+   - `BlocProvider` — в корневом файле виджета (`main_app_bar.dart`), не в feature.
+   - BLoC регистрируется в DI `shared_ui` (`@injectable` в пакете `shared_ui`).
+
+4. **Barrel** — групповые `*.dart` (например, `entity_details.dart`, `buttons.dart`) реэкспортируют публичный API; подключение в feature — через `package:shared_ui/core_ui.dart`.
+
+## Перенос из feature
+
+1. Виджет появился на втором экране → перенести в `shared_ui/lib/src/widgets/<группа>/`.
+2. Убрать feature-локализацию и импорты из `features/` (см. § «Требования» ниже).
+3. Тексты и данные — параметры конструктора; локализация остаётся в feature.
+4. Вложенность папок при переносе сохранять (персональная папка + `widgets/` + опционально `bloc/`).
+
+## Требования к виджетам в `core_ui`
+
+Общие для всех слоёв:
+
+- **Без** импортов из `features/`.
+- **Без** хардкода текстов из локализации feature: `title`, `items`, `steps` — параметры конструктора; локализация остаётся в `features/*/`.
+- Стили — только из темы (`context.colors`, `AppFonts`, `AppIcons`).
+
+Дополнительно для `entity_details/`:
+
+- **Без** domain-моделей и ViewModel feature-слоя.
+- **Без** BLoC — секции получают данные и коллбэки через конструктор.
+
+Для `ui_kit/` с BLoC (например, `MainAppBar`):
+
+- BLoC допустим, если виджет самодостаточен и переиспользуется на нескольких экранах.
+- Правила BLoC — `flutter-bloc.mdc`; структура папки — §3 выше.
+
+## Пример
+
+```dart
+// ✅ feature передаёт тексты и данные
+GuideListSection(
+  title: localization.airport_detail_what_included_title,
+  items: detail.includedItems,
+  iconData: Icons.check_rounded,
+  iconColor: colors.text.success,
+)
+
+// ❌ секция в core_ui тянет AppLocalization и ServiceGuide
+class GuideListSection extends StatelessWidget {
+  Widget build(BuildContext context) {
+    final l10n = context.localization;
+    return Text(l10n.airport_detail_what_included_title);
+  }
+}
+```
+
+## Связанные правила
+
+- Виджеты экрана в feature — `flutter-feature-widgets-structure.mdc`.
+- Классы-виджеты, запрет helper-методов — `flutter-widgets.mdc`.
+- Screen + Content, BLoC, локализация в UI — `flutter-bloc.mdc`.

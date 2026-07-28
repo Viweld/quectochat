@@ -1,0 +1,61 @@
+---
+description: Flutterozavr kit — fz CLI, модули, components, mason vs fz, lock-файл
+alwaysApply: false
+---
+
+# Flutterozavr kit
+
+## Когда что использовать
+
+| Задача | Инструмент |
+|--------|------------|
+| Новый проект из шаблона | `fz init` |
+| JWT, Dio-модуль, push и т.п. | `fz add <module>` |
+| UI-виджет из банка (scaffold, pagination, sections) | `fz add component:<name>` |
+| Новый feature-пакет | `mason make feature_package --feature_name <name>` |
+| Экран + BLoC + Effect | `mason make screen_bloc --feature_name <name> --screen_name <screen>` |
+| Domain model / repository | `mason make domain_model` / `repository` |
+
+### Именование экрана после Mason
+
+Brick создаёт папку по `--screen_name`. Канон — **`<screen>_screen/`**:
+
+```shell
+mason make screen_bloc --feature_name auth --screen_name list
+# → разместить в features/auth/lib/presentation/list_screen/
+#    list_screen.dart, list_content.dart, bloc/list_bloc.dart
+```
+
+Имя BLoC — без суффикса `_screen` (`list_bloc.dart`, не `list_screen_bloc.dart`).
+
+Модальные флоу (диалоги) с собственным BLoC — в `<screen>_screen/widgets/<dialog>/` (см. `flutter-feature-widgets-structure.mdc` §2.3).
+
+## Маркеры стыковки (не удалять)
+
+| Файл | Маркер |
+|------|--------|
+| `lib/di/app_di.dart` | `// fz:external-modules`, `// fz:kit-imports`, `// fz:network-module`, `// fz:auth-module` |
+| `pubspec.yaml` | `# fz:workspace-features`, `# fz:feature-deps` |
+| `navigation/pubspec.yaml` | `# fz:navigation-features` |
+| `navigation/lib/navigation.dart` | `// fz:exports` |
+| `navigation/.../app_router.dart` | `// fz:routes`, `// fz:navigate-methods` |
+| `features/*/lib/*.dart` | `// fz:feature-routes` |
+| `shared_ui/.../layout/layout.dart` | `// fz:component-layout-exports` |
+| `shared_ui/.../ui_kit/ui_kit.dart` | `// fz:component-ui-kit-exports` |
+| `shared_ui/.../widgets/widgets.dart` | `// fz:component-widget-exports` |
+
+## Lock-файл
+
+После `fz add` в целевом проекте: `.fz/lock.yaml` — список установленных частей kit.
+
+## Эталон
+
+- Feature vertical slice: `features/auth`
+- Screen + Content + BLoC: `features/auth/lib/presentation/login_screen/`, `flutter-bloc.mdc` §14
+- Подключение фичи: `flutter-feature-packages.mdc`
+
+## Не делать
+
+- Не восстанавливать архитектуру с нуля — расширять workspace по ADR
+- Не импортировать `infrastructure` и другие `features/*` из feature pubspec
+- Не коммитить `.g.dart`, `.freezed.dart`, `.gr.dart`

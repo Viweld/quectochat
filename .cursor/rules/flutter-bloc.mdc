@@ -1,0 +1,608 @@
+---
+description: BLoC effect-based: изоляция логики, локализация, структура файлов, Screen+Content, контракты UI
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# BLoC (Effect-Based)
+
+Стейт-менеджмент проекта — `flutter_bloc` + `bloc_concurrency`. Единый источник правды — этот файл.
+
+## 1. Изоляция бизнес-логики
+
+**Запрещено в BLoC:**
+- `BuildContext`, `Navigator`, `AppRouter`/`AutoRouter`.
+- `ScaffoldMessenger`, `showDialog`, `showModalBottomSheet`.
+- Импорты UI-библиотек (исключения — только при технической необходимости).
+- `await` ожиданий действий UI (закрытие диалога, ответ пользователя и т.п.).
+- `AppToastBus.fire()` / `appLocator<AppToastBus>()` — тосты инфраструктурных ошибок только через `BlocErrorHandler` (см. §11).
+- `appLocator<AppLocalization>()` и любые готовые UI-строки ошибок в `State` (см. §2, §11).
+
+**Требуется:**
+- UI-эффекты (навигация, тосты, диалоги) — объекты `Effect` в `State`.
+- Эффект эмитится только когда инициатива идёт от BLoC (после валидации, сохранения и т.п.). Чисто UI-действия (например, «назад без сохранения») в BLoC не попадают.
+
+## 2. Тексты и локализация
+
+BLoC не отвечает за тексты UI: тексты локализуются, локализация требует `BuildContext`, `BuildContext` запрещён в BLoC.
+
+**Запрещено в BLoC:**
+- Хардкодить пользовательские строки (`'IATA'`, `'Price on request'`).
+- Конструировать строки из шаблонов (`'From $amount $currency'`, `parts.join(', ')` для UI).
+- Форматировать локалезависимые значения (даты, числа, валюты, проценты, относительное время).
+- Класть готовый текст в поля `ViewModel`/`State` (`label: 'Gates'`, `priceFromText: '...'`, `formattedDate: '...'`).
+
+**Требуется:**
+- В UI передаются структурированные данные: `enum`/sealed-идентификаторы, сырые `DateTime`/`num`/`Money`, флаги/признаки.
+- UI преобразует идентификаторы в локализованный текст и форматирует значения через `BuildContext`.
+- Локальная переменная для `context.localization` — **только** `localization`. Имя `l10n` запрещено.
+- Локализованные строки **не** передавать через конструкторы виджетов — каждый виджет читает `context.localization` в своём `build()`.
+
+```dart
+// ❌
+final AppLocalization l10n = context.localization;
+HomeGamesGrid(emptyLabel: localization.peer_games_list_stub);
+
+// ✅
+final AppLocalization localization = context.localization;
+// в HomeGamesGrid.build():
+Text(localization.peer_games_list_stub);
+```
+
+**Паттерн замены:**
+
+```dart
+// ❌ В BLoC
+AirportInfoRowViewModel(label: 'IATA', value: detail.iataCode);
+
+// ✅ В BLoC
+AirportInfoRowViewModel(kind: AirportInfoRowKind.iata, value: detail.iataCode);
+
+// ✅ В UI
+Text(switch (row.kind) {
+  AirportInfoRowKind.iata => localization.airportInfoIata,
+  AirportInfoRowKind.city => localization.airportInfoCity,
+});
+```
+
+**Исключение (transit):** тексты от backend, отображаемые «как есть» (описания, HTML, имена, отзывы), допустимо проводить через BLoC без изменений.
+
+## 3. Cubit vs BLoC
+
+- **Cubit** — простое состояние без событий (прямые методы).
+- **BLoC** — переходы зависят от событий, особенно когда нужны трансформеры `bloc_concurrency`.
+
+## 4. Структура файлов
+
+- `<feature>_bloc.dart` — логика.
+- `<feature>_event.dart` — события (Freezed union, `part of`).
+- `<feature>_state.dart` — состояние (Freezed, `part of`).
+- `<feature>_effect.dart` — эффекты (Freezed sealed, `part of`).
+
+**Расположение:** папка экрана `<screen>_screen/`, BLoC в подпапке `bloc/`:
+
+```
+features/<feature>/lib/presentation/<screen>_screen/
+  <screen>_screen.dart
+  <screen>_content.dart
+  bloc/
+    <screen>_bloc.dart
+    <screen>_event.dart
+    <screen>_state.dart
+    <screen>_effect.dart
+```
+
+Имя файла BLoC — без дублирования `_screen` (`home_bloc.dart`, не `home_screen_bloc.dart`).
+
+**Одна библиотека на BLoC.** События/состояние/эффекты одного BLoC — одна библиотека через `part`/`part of`. На один BLoC — ровно один `<feature>_bloc.freezed.dart`.
+
+## 5. Соглашения по именам
+
+- События: `<Feature><Verb>Requested` / `<Feature><Verb>Event` (например, `AuthLoginRequested`).
+- BLoC: `<Feature>Bloc` / `<Feature>Cubit`.
+- Эффекты: `<Feature>Effect` (`@freezed sealed class`).
+- Состояние: `<Feature>State` (`@freezed`).
+
+## 6. Состояние
+
+- Иммутабельное (freezed).
+- Содержит `<Feature>Effect? effect`.
+- Эмитим **только значимые изменения**; одно и то же состояние два раза подряд — нет.
+
+## 7. События
+
+Обязательное событие `effectHandled` для сброса эффекта:
+
+```dart
+const factory FeatureEvent.effectHandled() = _EffectHandled;
+```
+
+## 8. Эффекты
+
+- Файл `<feature>_effect.dart`.
+- `@freezed sealed class <Feature>Effect`.
+- В UI обрабатываются через `.when()`/`.map()` Freezed — обычный `switch` запрещён.
+
+## 9. Логика BLoC
+
+- **Эмиссия:** `emit(state.copyWith(effect: FeatureEffect.someEffect()));`
+- **Сброс:**
+
+  ```dart
+  on<_EffectHandled>((e, emit) => emit(state.copyWith(effect: null)));
+  ```
+
+- **`init`-событие:** диспатчится **внутри** конструктора BLoC сразу после `on<...>`-регистраций. Из UI диспатчить `init` запрещено.
+
+## 10. Трансформеры событий (`bloc_concurrency`)
+
+- `droppable()` — игнорировать новые события, пока обрабатывается текущее (нажатия кнопки).
+- `restartable()` — отменить предыдущий обработчик при новом событии (поисковый ввод).
+- `sequential()` — обрабатывать по очереди.
+
+```dart
+on<SearchQueryChanged>(_onSearchQueryChanged, transformer: restartable());
+```
+
+## 11. Обработка ошибок в BLoC
+
+Единый канон для **всех** BLoC с сетевыми/репозиторными вызовами. Два непересекающихся пути — не смешивать.
+
+| Тип ошибки | Механизм | Примеры |
+|------------|----------|---------|
+| **Инфраструктурная** — сеть, 5xx, 429, неожиданный 4xx | `ApiException` → `BlocErrorHandler` | `NetworkException`, `ServerException`, `UnexpectedApiException` |
+| **Бизнес-исход** — ожидаемый отказ, UI обязан ветвиться | `Outcome<S, F>` из репозитория | неверный код, email не запрошен |
+
+### 11.1. Обязательные требования
+
+- **Требуется** инжектировать `BlocErrorHandler` в каждый BLoC с вызовами репозитория (позиционный `this._blocErrorHandler`, см. §13.2).
+- **Запрещено** вызывать `AppToastBus.fire()` / `appLocator<AppToastBus>()` из BLoC — тосты для инфраструктурных ошибок показывает только `BlocErrorHandler`.
+- **Запрещено** вызывать `appLocator<AppLocalization>()` в BLoC для текстов ошибок (см. §2).
+- **Запрещено** класть в `State` готовые локализованные строки ошибок (`errorMessage: 'Invalid code'`).
+- **Требуется** для инлайн-ошибок класть в `State` только `AppErrorViewModel { kind, transitMessage? }`; UI локализует по `AppErrorKind`.
+- **Требуется** в `on Object catch` передавать `stackTrace` в `_blocErrorHandler.handle(error, stackTrace: stackTrace)`.
+- **Требуется** `rethrow`, если `presentation.shouldRethrow == true` (см. канон ниже).
+- **Запрещено** ловить `ApiException` по подтипам в BLoC для показа тоста — это зона `BlocErrorHandler`.
+
+### 11.2. Канон: инфраструктурные ошибки
+
+Любой `_on<Event>` с `await` к репозиторию **обязан** следовать этому шаблону:
+
+```dart
+Future<void> _onSubmit(Emitter<CodeState> emit) async {
+  if (state.submitButton.isPending) return;
+
+  emit(state.copyWith(
+    submitButton: state.submitButton.copyWith(isPending: true),
+    inlineError: null,
+  ));
+
+  try {
+    await _profileRepository.fetchProfileData();
+    emit(state.copyWith(effect: const CodeEffect.navigateNext()));
+  } on Object catch (error, stackTrace) {
+    final ErrorPresentation presentation = _blocErrorHandler.handle(
+      error,
+      stackTrace: stackTrace,
+    );
+    if (presentation.shouldRethrow) rethrow;
+  } finally {
+    emit(state.copyWith(submitButton: state.submitButton.copyWith(isPending: false)));
+  }
+}
+```
+
+Правила шаблона:
+
+1. `try` — только happy path.
+2. `on Object catch (error, stackTrace)` — **без** типизации `stackTrace` в заголовке `catch`.
+3. `_blocErrorHandler.handle(...)` — единственная точка обработки инфраструктуры; тосты handler показывает сам (`presentation.kind == ErrorPresentationKind.toast`).
+4. `if (presentation.shouldRethrow) rethrow` — **обязательно**; не глотать неожиданные ошибки.
+5. `finally` — сброс `isPending` / `isLoading` всегда, даже при ошибке.
+6. `isSilent: true` в `handle` — только если экран намеренно подавляет тост (редкий случай).
+
+`BlocErrorHandler` репортит `ApiException` как non-fatal через `ErrorReporter`. BLoC **не** вызывает `ErrorReporter` напрямую.
+
+### 11.3. Канон: бизнес-исходы (`Outcome<S, F>`)
+
+Если репозиторий возвращает `Outcome` — **исключения для ожидаемых отказов не используются**. Обработка — exhaustive `switch`:
+
+```dart
+Future<void> _onSubmit(Emitter<CodeState> emit) async {
+  if (state.submitButton.isPending) return;
+
+  emit(state.copyWith(
+    submitButton: state.submitButton.copyWith(isPending: true),
+    inlineError: null,
+  ));
+
+  try {
+    final Outcome<AuthenticationState, CodeVerificationFailure> outcome =
+        await _authRepository.checkCode(code: state.code);
+
+    switch (outcome) {
+      case Success(:final AuthenticationState value):
+        if (value is Authenticated) {
+          await _fetchProtectedData();
+        }
+        emit(state.copyWith(effect: const CodeEffect.backToRoot()));
+      case Failure(:final CodeVerificationFailure error):
+        emit(state.copyWith(inlineError: _mapCodeVerificationFailure(error)));
+    }
+  } on Object catch (error, stackTrace) {
+    final ErrorPresentation presentation = _blocErrorHandler.handle(
+      error,
+      stackTrace: stackTrace,
+    );
+    if (presentation.shouldRethrow) rethrow;
+  } finally {
+    emit(state.copyWith(submitButton: state.submitButton.copyWith(isPending: false)));
+  }
+}
+```
+
+Маппинг failure → `AppErrorViewModel` — **приватный метод BLoC**, без локализации:
+
+```dart
+AppErrorViewModel _mapCodeVerificationFailure(CodeVerificationFailure failure) =>
+    switch (failure) {
+      InvalidCodeFailure(:final String? transitMessage) => AppErrorViewModel(
+        kind: AppErrorKind.invalidCode,
+        transitMessage: transitMessage,
+      ),
+      EmailNotRequestedFailure() => const AppErrorViewModel(
+        kind: AppErrorKind.emailNotRequested,
+      ),
+    };
+```
+
+В UI (`Content` / виджет поля) — локализация по `kind`:
+
+```dart
+String _resolveInlineError(AppLocalization localization, AppErrorViewModel? error) {
+  if (error == null) return '';
+  return switch (error.kind) {
+    AppErrorKind.invalidCode => error.transitMessage ?? localization.auth_invalid_code,
+    AppErrorKind.emailNotRequested => localization.something_went_wrong,
+    _ => localization.something_went_wrong,
+  };
+}
+```
+
+### 11.4. Комбинированный вызов (Outcome + инфраструктура)
+
+Когда метод репозитория возвращает `Outcome`, а побочные вызовы (например, `fetchProfileData`) бросают `ApiException`:
+
+- `switch (outcome)` — только для `Success` / `Failure`;
+- `on Object catch` — только для инфраструктуры (`ApiException` и прочее);
+- **Запрещено** оборачивать ожидаемый `Failure` в `try/catch`.
+
+### 11.5. Антипаттерны
+
+```dart
+// ❌ локализация в BLoC
+emit(state.copyWith(
+  errorMessage: appLocator<AppLocalization>().auth_invalid_code,
+));
+
+// ❌ тост из BLoC
+appLocator<AppToastBus>().fire(const AppToastEvent.error());
+
+// ❌ строка ошибки вместо AppErrorViewModel
+emit(state.copyWith(errorMessage: e.toString()));
+
+// ❌ catch без stackTrace и без rethrow
+} on Object catch (error) {
+  _blocErrorHandler.handle(error);
+}
+
+// ❌ ловить InvalidCodeException — бизнес-исход должен быть Outcome
+} on InvalidCodeException catch (e) { ... }
+
+// ❌ глотать ошибку
+} on Object catch (error, stackTrace) {
+  _blocErrorHandler.handle(error, stackTrace: stackTrace);
+  // нет rethrow при shouldRethrow
+}
+```
+
+### 11.6. Справочник типов (`core`)
+
+| Тип | Назначение |
+|-----|------------|
+| `ApiException` | Sealed-база инфраструктурных ошибок (`NetworkException`, `ServerException`, …) |
+| `BlocErrorHandler` | Обработка инфраструктуры → `ErrorPresentation` + тост + non-fatal-репорт |
+| `ErrorPresentation` | Директива: `toast` / `inline` / `silent` / `retry` + `shouldRethrow` |
+| `AppErrorViewModel` | Инлайн-ошибка в `State` для UI |
+| `AppErrorKind` | Идентификатор для локализации в UI |
+| `Outcome<S, F>` / `Success` / `Failure` | Бизнес-исход из репозитория (domain) |
+
+
+## 12. Изоляция данных
+
+- **Запрещено** хранить бизнес-данные (id, email, флаги флоу, аргументы экрана) в полях BLoC.
+- **Требуется** хранить такие данные в `State`. Аргументы экрана прокидываются в `super(_initialState(...))` и читаются через `state.<field>`.
+
+## 13. Паттерны реализации
+
+### 13.1. Порядок членов класса
+
+См. **`dart-style.mdc` § «Порядок членов класса»**. Для BLoC: поля (`final`/`late final`, подписки) → конструктор с `on<...>` → `@override close()` → приватные `_on<Event>`.
+
+### 13.2. Инъекция зависимостей
+
+**Предпочтительно (вариант 1)** — позиционный `this._field`:
+
+```dart
+@injectable
+class MyBloc extends Bloc<MyEvent, MyState> {
+  final MyRepository _myRepository;
+  final BlocErrorHandler _blocErrorHandler;
+
+  MyBloc(
+    this._myRepository,
+    this._blocErrorHandler, {
+    @factoryParam required MyArgument argument,
+  }) : super(_initialState(argument: argument)) {
+    on<MyEvent>(
+      (e, emit) => e.map(
+        init: (_) => _onInit(emit),
+        submit: (_) => _onSubmit(emit),
+        effectHandled: (_) => _onEffectHandled(emit),
+      ),
+    );
+    add(const MyEvent.init());
+  }
+
+  static MyState _initialState({required MyArgument argument}) =>
+      MyState(argument: argument);
+}
+```
+
+**Допустимо (вариант 2)** — присваивание в initializer list. Только если:
+- имя параметра не совпадает с именем поля (`repository` → `_repository`);
+- значение требует преобразования;
+- параметр уходит только в `State` (`@factoryParam`);
+- именованный параметр с приватным полем.
+
+```dart
+MyBloc({required BlocErrorHandler blocErrorHandler})
+    : _blocErrorHandler = blocErrorHandler,
+      super(...);
+```
+
+Без технической необходимости — всегда вариант 1.
+
+### 13.3. Обработчики событий
+
+- На каждое событие — отдельный приватный метод `_on<Event>`.
+- Текущее состояние читается через `state` (включая аргументы экрана: `state.argument`).
+- Регистрация через `event.map(...)` в теле конструктора.
+- Событие **с полями** — в `event.map` передавать в хэндлер **целиком**; поля читать **внутри** `_on<...>`. Деструктурировать в регистрации (`_onFoo(event.bar, emit)`) **запрещено**.
+- Событие **без полей** — хэндлер только с `emit`: `_onInit(emit)`.
+
+```dart
+// ✅
+on<HomeEvent>(
+  (HomeEvent event, Emitter<HomeState> emit) => event.map(
+    init: (_) => _onInit(emit),
+    frameReceived: (HomeFrameReceived event) => _onFrameReceived(event, emit),
+    deviceHighlightChanged: (HomeDeviceHighlightChanged event) =>
+        _onDeviceHighlightChanged(event, emit),
+  ),
+);
+
+Future<void> _onFrameReceived(HomeFrameReceived event, Emitter<HomeState> emit) async {
+  final AppConnectionFrame frame = event.frame;
+  // ...
+}
+
+// ❌ поля события «разобраны» в event.map
+frameReceived: (HomeFrameReceived event) => _onFrameReceived(event.frame, emit),
+deviceHighlightChanged: (HomeDeviceHighlightChanged event) =>
+    _onDeviceHighlightChanged(event.deviceId, emit),
+```
+
+## 14. UI: Screen + Content
+
+Экран с BLoC разделяется на два файла.
+
+### 14.1. `<screen>_screen.dart` — оркестрация
+
+`StatelessWidget`, который:
+
+- Создаёт `BlocProvider` через `appLocator<<Name>Bloc>()`.
+- Сразу под провайдером — `BlocConsumer` / `BlocBuilder` / `BlocListener` (см. §14.4); UI — в `builder`/`child`.
+- Обрабатывает эффекты BLoC **inline** в `listener` / `BlocConsumer` (см. §14.5). Сложные ветки `effect.when` — приватные методы **ниже** `build`.
+- Собирает `<Name>Content` и **передаёт ему поля `State` по отдельности**. Передавать сам `State` целиком запрещено.
+
+### 14.2. `<screen>_content.dart` — UI
+
+`StatelessWidget`, который:
+
+- Содержит `AppScaffold` и весь UI экрана.
+- Принимает **только индивидуальные поля состояния**. Все параметры конструктора — `required`. Опциональность — через nullable-тип (`final String? error`) или гарантированно пустой контейнер (`final List<Foo> items`), но **не** `Foo? foo` без обязательности.
+- **Не** получает BLoC или агрегаты `State` через конструктор.
+- В `build` извлекает BLoC один раз: `final FeatureBloc bloc = context.read<FeatureBloc>();` — события идут через эту переменную.
+- В `build` допустимо `final AppRouter router = appLocator<AppRouter>();` для прямой навигации без бизнес-логики; навигация по инициативе BLoC — через `Effect`.
+- Действия пользователя диспатчатся в BLoC **прямо в Content** (`bloc.add(FeatureEvent.someTapped(...))`), а не пробрасываются коллбэками из `<screen>_screen.dart`.
+- **Запрещены** методы, возвращающие `Widget`/`List<Widget>` (`_buildSections()`). Сложный UI — отдельные виджет-классы (см. `flutter-widgets.mdc`).
+
+### 14.3. Кастомные виджеты с контролами
+
+Дочерние переиспользуемые виджеты (кнопки, поля ввода, селекторы, чипы) внутри `<Name>Content`:
+
+- **Не** обращаются к BLoC и `State`: `context.read<Bloc>()`, `context.watch<Bloc>()`, `BlocBuilder`/`BlocSelector`/`BlocConsumer` внутри них запрещены.
+- **Не** принимают `State` (или агрегаты, принадлежащие BLoC) параметром — только примитивы/`ViewModel`/`enum`/коллекции.
+- Действия пользователя пробрасывают через коллбэки (`VoidCallback`, `ValueChanged<T>`, `ValueSetter<T>`).
+- Диспатч `bloc.add(...)` живёт в `<Name>Content`, который подсоединяет коллбэки к BLoC.
+
+### 14.4. Выбор виджета Bloc и размещение в дереве
+
+**Размещение по умолчанию:** `BlocConsumer` / `BlocBuilder` / `BlocListener` — **непосредственный** `child` `BlocProvider`. UI (`Scaffold`, `Drawer`, `AppScaffold`, …) — **внутри** `builder`/`child` listener'а, не выше.
+
+Разделение на несколько `BlocBuilder`/`BlocSelector` или перенос consumer/builder глубже в дерево — **только после профилирования**, если rebuild/listener реально мешает производительности.
+
+```dart
+// ✅ по умолчанию
+return BlocProvider<FeatureBloc>(
+  create: (_) => appLocator<FeatureBloc>(),
+  child: BlocConsumer<FeatureBloc, FeatureState>(
+    listenWhen: (FeatureState p, FeatureState c) => p.effect != c.effect,
+    listener: (BuildContext context, FeatureState state) { /* inline, §14.5 */ },
+    builder: (BuildContext context, FeatureState state) => AppScaffold(/* ... */),
+  ),
+);
+
+// ❌ consumer/builder внутри Drawer/Scaffold без профилирования
+return BlocProvider<FeatureBloc>(
+  create: (_) => appLocator<FeatureBloc>(),
+  child: Drawer(
+    child: BlocConsumer<FeatureBloc, FeatureState>(/* ... */),
+  ),
+);
+```
+
+**Выбор виджета:**
+- `State` содержит `effect` → **`BlocConsumer`** с `listenWhen: (p, c) => p.effect != c.effect`.
+- `State` без `effect`:
+  - **`BlocBuilder`** — если UI зависит от данных состояния.
+  - **`BlocListener`** — если на состояние нужно только реагировать, без перерисовки.
+
+Инстанцировать BLoC внутри виджета запрещено — только `context.read<T>()` / `context.watch<T>()`.
+
+### 14.5. Listener / BlocConsumer
+
+Каркас обработки эффекта — **только inline** в `listener` (или `listener` у `BlocConsumer`). Отдельный метод-обёртка (`_handleEffect`, `_onEffect`) **запрещён**.
+
+**Обязательная последовательность в `listener`:**
+1. `final <parameter Effect? effect = state.effect;`
+2. `if (effect == null) return;`
+3. `effect.when(...)` — ветки делегируют в приватные методы, если UI нетривиален (диалог, навигация с аргументами)
+4. `context.read<FeatureBloc>().add(const FeatureEvent.effectHandled());`
+
+При `await` в ветках — `listener` объявляют `async`.
+
+```dart
+// ✅
+listener: (BuildContext context, FeatureState state) async {
+  final FeatureEffect? effect = state.effect;
+  if (effect == null) return;
+
+  final FeatureBloc bloc = context.read<FeatureBloc>();
+
+  await effect.when(
+    navigateNext: router.navigateNext,
+    showConfirmDialog: () => _showConfirmDialog(context),
+    showToast: (PeerToastKind kind) => _showToast(context, kind),
+  );
+
+  bloc.add(const FeatureEvent.effectHandled());
+},
+
+// приватные методы — только реализация веток when, ниже build
+Future<void> _showConfirmDialog(BuildContext context) async { /* ... */ }
+
+// ❌ отдельная обёртка вместо inline listener
+listener: _handleEffect,
+
+Future<void> _handleEffect(BuildContext context, FeatureState state) async {
+  final FeatureEffect? effect = state.effect;
+  if (effect == null) return;
+  await effect.when(/* ... */);
+  context.read<FeatureBloc>().add(const FeatureEvent.effectHandled());
+}
+```
+
+## 15. Размещение BLoC
+
+- На каждый экран — свой BLoC в `<screen>_screen/bloc/`, регистрируется на уровне роута экрана.
+- BLoC **виджета** (диалог, селектор) — в `<screen>_screen/widgets/<widget>/bloc/`, не в `bloc/` экрана. `BlocProvider` — в корневом файле виджета.
+- Общие BLoC (например, auth) — на уровне приложения/роутера.
+- BLoC в `shared_ui` (например, `MainAppBar`) — в папке виджета: `shared_ui/.../<widget>/bloc/`.
+- BLoC зависит от **Repository** своей feature, **StatePort** / **EventPort** для cross-feature — не от чужих Repository и не от `infrastructure` (ADR-10).
+- BLoC с сетевыми вызовами **обязан** зависеть от `BlocErrorHandler` (см. §11).
+
+Структура папок экрана и виджетов — `flutter-feature-widgets-structure.mdc`. Общие виджеты с BLoC — `core-ui-widgets-structure.mdc`.
+
+## 16. Сквозной пример
+
+```dart
+@RoutePage()
+class FeatureScreen extends StatelessWidget {
+  const FeatureScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final AppRouter router = appLocator<AppRouter>();
+
+    return BlocProvider<FeatureBloc>(
+      create: (_) => appLocator<FeatureBloc>(),
+      child: BlocConsumer<FeatureBloc, FeatureState>(
+        listenWhen: (FeatureState p, FeatureState c) => p.effect != c.effect,
+        listener: (BuildContext context, FeatureState state) {
+          final FeatureEffect? effect = state.effect;
+          if (effect == null) return;
+
+          effect.when(navigateNext: router.navigateNext);
+
+          context.read<FeatureBloc>().add(const FeatureEvent.effectHandled());
+        },
+        builder: (BuildContext context, FeatureState state) => FeatureContent(
+          isLoading: state.isLoading,
+          error: state.error,
+          title: state.title,
+          items: state.items,
+        ),
+      ),
+    );
+  }
+}
+
+class FeatureContent extends StatelessWidget {
+  final bool isLoading;
+  final String? error;
+  final String title;
+  final List<ItemViewModel> items;
+
+  const FeatureContent({
+    super.key,
+    required this.isLoading,
+    required this.error,
+    required this.title,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final FeatureBloc bloc = context.read<FeatureBloc>();
+
+    return AppScaffold(
+      isLoading: isLoading,
+      errorText: error,
+      onRefresh: () => bloc.add(const FeatureEvent.refreshRequested()),
+      body: FeatureList(
+        title: title,
+        items: items,
+        onItemTap: (int index) => bloc.add(FeatureEvent.itemTapped(index)),
+      ),
+    );
+  }
+}
+
+class FeatureList extends StatelessWidget {
+  final String title;
+  final List<ItemViewModel> items;
+  final ValueChanged<int> onItemTap;
+
+  const FeatureList({
+    super.key,
+    required this.title,
+    required this.items,
+    required this.onItemTap,
+  });
+
+  @override
+  Widget build(BuildContext context) => Column(/* без context.read<FeatureBloc>() */);
+}
+```

@@ -1,0 +1,34 @@
+---
+description: Dart — именование контрактов (без I) и реализаций (Impl)
+alwaysApply: false
+globs: "**/*.dart"
+---
+
+# Именование интерфейсов и Impl
+
+## Правило
+
+| Слой | Именование | Пример |
+|------|------------|--------|
+| Domain contract | **Чистое** имя, без префикса `I`, без постфикса `Impl` | `ProfileRepository`, `AuthRepository` |
+| Data implementation | То же имя + **`Impl`** | `ProfileRepositoryImpl`, `AuthRepositoryImpl` |
+| DI | `as: Контракт` | `@LazySingleton(as: ProfileRepository)` |
+| BLoC / features | Тип контракта | `final ProfileRepository _profileRepository` |
+
+```dart
+// ✅
+abstract interface class ProfileRepository { ... }
+final class ProfileRepositoryImpl implements ProfileRepository { ... }
+
+// ❌
+abstract interface class IProfileRepository { ... }
+final class ProfileRepository implements ProfileRepository { ... }
+```
+
+## Файлы domain
+
+Каждый контракт репозитория — **отдельный файл** в `domain/lib/src/repositories/` (`profile_repository.dart`, `orders_repository.dart`, …). Barrel — через `domain.dart`.
+
+## Суффиксы роли
+
+`Service` / `Repository` в имени контракта допустимы как семантическая роль (`AuthService`), чтобы не пересекаться с моделями (`UserProfile`).

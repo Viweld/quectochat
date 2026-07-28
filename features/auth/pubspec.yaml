@@ -1,0 +1,38 @@
+name: auth
+publish_to: none
+description: Auth feature — login, registration, session.
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.38.0 <4.0.0'
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_core:
+    path: ../../shared_core
+  shared_ui:
+    path: ../../shared_ui
+  shared_domain:
+    path: ../../shared_domain
+  navigation_api:
+    path: ../../navigation_api
+
+  flutter_bloc: ^9.1.1
+  bloc_concurrency: ^0.3.0
+  freezed_annotation: ^3.1.0
+  injectable: ^3.0.0
+  get_it: ^9.2.1
+  auto_route: ^11.1.0
+  supabase_flutter: ^2.16.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.15.1
+  injectable_generator: ^3.0.2
+  freezed: ^3.2.5
+  auto_route_generator: ^10.5.0

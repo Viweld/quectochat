@@ -1,0 +1,58 @@
+---
+description: Темы Flutter — ThemeData, Material 3, ColorScheme, ThemeExtension, типографика, accessibility
+alwaysApply: false
+---
+
+# Темы и визуальный дизайн
+
+## ThemeData и Material 3
+
+- Централизованный `ThemeData` — в `shared_ui/`.
+- Цветовая палитра — `ColorScheme` (или `ColorScheme.fromSeed()`).
+- Кастомизация компонентов — через `appBarTheme`, `elevatedButtonTheme`, `cardTheme` и т.п. **Не переопределять стили inline в виджетах.**
+- Текстовые стили — только из `AppFonts` (`shared_ui/lib/src/theme/app_fonts.dart`). Хардкод размера/цвета/семейства шрифта запрещён. Цвет переопределять через `AppFonts.<style>.copyWith(color: context.colors.text.*)`.
+
+## Дизайн-токены (`ThemeExtension`)
+
+Для стилей, не покрытых стандартным `ThemeData`:
+
+- Класс `extends ThemeExtension<T>` с кастомными токенами.
+- Обязательны `copyWith` и `lerp` (требование Flutter для анимации тем).
+- Регистрация — в списке `extensions` у `ThemeData`.
+- Доступ в виджетах — `Theme.of(context).extension<MyColors>()!`.
+
+## Состояния компонентов (`WidgetStateProperty`)
+
+- `WidgetStateProperty.resolveWith` — для значений, зависящих от состояния (pressed, disabled, hovered).
+- `WidgetStateProperty.all` — когда значение одно на все состояния.
+- Стили кнопок и интерактивных элементов — в `ThemeData`, не inline.
+
+## Типография
+
+- Единственный источник стилей — `AppFonts` в `shared_ui/lib/src/theme/app_fonts.dart`.
+- Шкала: `h1`–`h6` (заголовки), `b1`–`b4` (body), `button`, `caption`, `label`, `link`.
+- `ThemeData.textTheme` строится из `AppFonts.textTheme` — для Material-компонентов без явного `style`.
+- Переопределение цвета: `AppFonts.b2.copyWith(color: context.colors.text.main)`.
+- Line-height для body-текста — **1.4–1.6×** (заложено в `b1`/`b2`).
+- Иерархия — через вес шрифта. Все-капс для длинных текстов запрещён.
+
+## Цветовая иерархия
+
+- Правило **60-30-10**: 60% основной/нейтральный, 30% вторичный, 10% акцент.
+- Primary/Secondary/Accent описывать явно в `ColorScheme`.
+- Дополнительные (комплементарные) цвета — только для акцентов, не для пар «текст/фон».
+
+## Доступность (A11Y)
+
+- Контраст для обычного текста ≥ **4.5:1** (WCAG 2.1 AA).
+- Крупный текст (≥18pt или 14pt bold) — ≥ **3:1**.
+- Проверять UI с системным масштабированием шрифта.
+- Тестировать с TalkBack (Android) и VoiceOver (iOS); где нужно — `Semantics`.
+- Минимальный touch-target — **48×48 dp**.
+
+## Изображения и ассеты
+
+- Пути к ассетам — в `pubspec.yaml` → `flutter.assets`.
+- Network-изображения — всегда с `loadingBuilder` и `errorBuilder`.
+- Кэширование — через `cached_network_image`.
+- SVG — через `flutter_svg`.
