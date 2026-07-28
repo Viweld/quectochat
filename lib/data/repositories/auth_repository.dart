@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
 import 'package:quectochat/domain/interfaces/i_auth_repository.dart';
 
 import '../../domain/interfaces/i_api_facade.dart';
 
+@Singleton(as: IAuthRepository)
 final class AuthRepository implements IAuthRepository {
   AuthRepository({
     required INetworkFacade networkFacade,

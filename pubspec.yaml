@@ -16,7 +16,8 @@ dependencies:
   bloc_concurrency: 0.3.0
 
   # автоматическое добавление зависимостей
-  dep_gen: 1.1.8
+  injectable: 2.7.1+4
+  get_it: 8.3.0
 
   # хранение локальных данных
   path_provider: 2.1.2
@@ -52,9 +53,10 @@ dev_dependencies:
   flutter_lints: 5.0.0
 
   # кодогенерация
-  build_runner: 2.4.15
-  json_serializable: 6.8.0
-  freezed: 2.5.7
+  build_runner: 2.5.4
+  injectable_generator: 2.7.0
+  json_serializable: 6.9.5
+  freezed: 2.5.8
 
 flutter:
   uses-material-design: true

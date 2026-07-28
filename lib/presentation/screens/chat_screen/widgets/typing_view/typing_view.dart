@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/common/common_text_field.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/typing_view/widgets/attach_file_button.dart';
@@ -20,9 +20,7 @@ class TypingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildTypingViewBloc(
-            interlocutorId: interlocutorId,
-          ),
+      create: (context) => context.dep<TypingViewBloc>(param1: interlocutorId),
       child: BlocBuilder<TypingViewBloc, TypingViewState>(
         buildWhen: (_, state) => state.maybeMap(
           view: (_) => true,

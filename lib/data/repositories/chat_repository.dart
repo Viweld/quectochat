@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
+
 import '../../domain/interfaces/i_api_facade.dart';
 import '../../domain/interfaces/i_chat_repository.dart';
 import '../../domain/models/message.dart';
 import '../../domain/models/message_content_type.dart';
 import '../../domain/models/paginated.dart';
 
+@Singleton(as: IChatRepository)
 final class ChatRepository implements IChatRepository {
   ChatRepository({
     required INetworkFacade networkFacade,

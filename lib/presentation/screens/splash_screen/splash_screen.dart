@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 
 import '../../navigation/root_navigation/root_routes.dart';
 import '../../values/images.dart';
@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildSplashBloc(),
+      create: (context) => context.dep<SplashBloc>(),
       child: BlocListener<SplashBloc, SplashState>(
         listenWhen: (_, state) => state.maybeMap(
           initializationCompleted: (_) => true,

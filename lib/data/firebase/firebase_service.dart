@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
 import 'package:quectochat/domain/interfaces/i_api_facade.dart';
 import 'package:quectochat/domain/models/user_details.dart';
 
@@ -16,6 +17,7 @@ part 'keys.dart';
 
 part 'mapper.dart';
 
+@Singleton(as: INetworkFacade)
 final class FirebaseService implements INetworkFacade {
   FirebaseService() {
     _firebaseAuth = FirebaseAuth.instance;

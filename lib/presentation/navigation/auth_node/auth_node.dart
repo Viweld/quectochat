@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/presentation/screens/workspace.dart';
 
 import '../../screens/login_screen/login_screen.dart';
@@ -12,7 +12,7 @@ class AuthNode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => context.depGen().buildAuthBloc(),
+      create: (context) => context.dep<AuthBloc>(),
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, _) => _authStatusChanged(context),
         builder: (context, state) => state.map(

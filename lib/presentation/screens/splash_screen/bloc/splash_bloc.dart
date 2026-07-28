@@ -1,6 +1,6 @@
-import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../domain/interfaces/i_auth_repository.dart';
 
@@ -10,10 +10,11 @@ part 'events.dart';
 
 part 'states.dart';
 
-@DepGen()
+@injectable
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
+  @factoryMethod
   SplashBloc({
-    @DepArg() required IAuthRepository authRepository,
+    required IAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const SplashState.notInitialized()) {
     on<SplashEvent>(

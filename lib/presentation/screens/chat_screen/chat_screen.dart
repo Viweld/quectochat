@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quectochat/domain/environment/builders.dep_gen.dart';
+import 'package:quectochat/dep_provider.dart';
 import 'package:quectochat/domain/extensions/context_extensions.dart';
 import 'package:quectochat/presentation/screens/chat_screen/chat_screen_arguments.dart';
 import 'package:quectochat/presentation/screens/chat_screen/widgets/chat_screen_app_bar.dart';
@@ -35,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _interlocutorId = arguments.id;
     _firstName = arguments.firstName;
     _lastName = arguments.lastName;
-    _bloc ??= context.depGen().buildChatBloc(interlocutorId: arguments.id);
+    _bloc ??= context.dep<ChatBloc>(param1: arguments.id);
   }
 
   @override

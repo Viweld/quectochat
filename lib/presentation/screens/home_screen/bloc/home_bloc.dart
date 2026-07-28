@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dep_gen/dep_gen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:quectochat/domain/interfaces/i_home_repository.dart';
 
 import '../../../../domain/interfaces/i_auth_repository.dart';
@@ -15,11 +15,12 @@ part 'events.dart';
 
 part 'states.dart';
 
-@DepGen()
+@injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  @factoryMethod
   HomeBloc({
-    @DepArg() required IAuthRepository authRepository,
-    @DepArg() required IHomeRepository homeRepository,
+    required IAuthRepository authRepository,
+    required IHomeRepository homeRepository,
   })  : _authRepository = authRepository,
         _homeRepository = homeRepository,
         super(const HomeState.pending()) {

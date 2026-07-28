@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
+
 import '../../domain/interfaces/i_api_facade.dart';
 import '../../domain/interfaces/i_home_repository.dart';
 import '../../domain/models/interlocutor.dart';
 import '../../domain/models/paginated.dart';
 
+@Singleton(as: IHomeRepository)
 class HomeRepository implements IHomeRepository {
   HomeRepository({required INetworkFacade networkFacade})
       : _networkFacade = networkFacade {
