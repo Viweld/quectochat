@@ -11,7 +11,8 @@ final class MessageDto {
     required this.content,
     required this.type,
     required this.createdAt,
-    required this.isViewed,
+    required this.deliveredAt,
+    required this.readAt,
   });
 
   final String id;
@@ -23,7 +24,8 @@ final class MessageDto {
   /// Transport value: `text` or `image`.
   final String type;
   final DateTime createdAt;
-  final bool isViewed;
+  final DateTime? deliveredAt;
+  final DateTime? readAt;
 
   factory MessageDto.fromJson(Map<String, dynamic> json) {
     return MessageDto(
@@ -34,7 +36,8 @@ final class MessageDto {
       content: json['content'] as String,
       type: json['type'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
-      isViewed: json['is_viewed'] as bool,
+      deliveredAt: _parseOptionalDateTime(json['delivered_at']),
+      readAt: _parseOptionalDateTime(json['read_at']),
     );
   }
 
@@ -45,7 +48,11 @@ final class MessageDto {
       'to_id': toId,
       'content': content,
       'type': type,
-      'is_viewed': isViewed,
     };
+  }
+
+  static DateTime? _parseOptionalDateTime(Object? value) {
+    if (value is! String) return null;
+    return DateTime.parse(value);
   }
 }

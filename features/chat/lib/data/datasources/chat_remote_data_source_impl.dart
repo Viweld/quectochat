@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:chat/data/datasources/chat_remote_data_source.dart';
 import 'package:chat/data/datasources/table_keys.dart';
 import 'package:chat/data/dto/message_dto.dart';
@@ -12,6 +15,8 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   final SupabaseClient _client;
 
   static const int _messagesPaginationLimit = 20;
+
+  RealtimeChannel? _incomingChannel;
 
   String get _currentUserId => _client.auth.currentUser?.id ?? '';
 
@@ -69,7 +74,8 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       content: content,
       type: messageType,
       createdAt: DateTime.now().toUtc(),
-      isViewed: false,
+      deliveredAt: null,
+      readAt: null,
     );
 
     try {
@@ -103,14 +109,77 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<void> markAsViewed({required String interlocutorId}) async {
+  Future<void> markAsRead({required String interlocutorId}) async {
     final String chatId = DeterministicId.fromParts(<String>[interlocutorId, _currentUserId]);
+    final String now = DateTime.now().toUtc().toIso8601String();
 
     await _client
         .from(TableKeys.messages)
-        .update(<String, Object?>{TableKeys.messageIsViewed: true})
+        .update(<String, Object?>{TableKeys.messageDeliveredAt: now})
         .eq(TableKeys.messageChatId, chatId)
         .eq(TableKeys.messageFromId, interlocutorId)
-        .eq(TableKeys.messageIsViewed, false);
+        .isFilter(TableKeys.messageDeliveredAt, null);
+
+    await _client
+        .from(TableKeys.messages)
+        .update(<String, Object?>{TableKeys.messageReadAt: now})
+        .eq(TableKeys.messageChatId, chatId)
+        .eq(TableKeys.messageFromId, interlocutorId)
+        .isFilter(TableKeys.messageReadAt, null);
+  }
+
+  @override
+  Future<void> markIncomingMessagesDelivered() async {
+    if (_currentUserId.isEmpty) return;
+
+    final String now = DateTime.now().toUtc().toIso8601String();
+    await _client
+        .from(TableKeys.messages)
+        .update(<String, Object?>{TableKeys.messageDeliveredAt: now})
+        .eq(TableKeys.messageToId, _currentUserId)
+        .isFilter(TableKeys.messageDeliveredAt, null);
+  }
+
+  @override
+  Future<void> startIncomingMessagesWatcher() async {
+    if (_incomingChannel != null || _currentUserId.isEmpty) return;
+
+    await markIncomingMessagesDelivered();
+
+    _incomingChannel = _client
+        .channel('incoming-messages-$_currentUserId')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.insert,
+          schema: 'public',
+          table: TableKeys.messages,
+          filter: PostgresChangeFilter(
+            type: PostgresChangeFilterType.eq,
+            column: TableKeys.messageToId,
+            value: _currentUserId,
+          ),
+          callback: (_) {
+            unawaited(_markIncomingDeliveredSafely());
+          },
+        )
+        .subscribe();
+  }
+
+  @override
+  Future<void> stopIncomingMessagesWatcher() async {
+    await _incomingChannel?.unsubscribe();
+    _incomingChannel = null;
+  }
+
+  Future<void> _markIncomingDeliveredSafely() async {
+    try {
+      await markIncomingMessagesDelivered();
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to mark incoming messages delivered',
+        name: 'ChatRemoteDataSource',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 }

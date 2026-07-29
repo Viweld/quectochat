@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:chat/data/datasources/chat_remote_data_source.dart';
 import 'package:chat/data/dto/message_dto.dart';
@@ -26,6 +27,8 @@ final class ChatRepositoryImpl implements ChatRepository {
   final StreamController<ChatRepositoryError> _errorsStreamController =
       StreamController<ChatRepositoryError>.broadcast();
 
+  String? _activeInterlocutorId;
+
   String get _currentUserId => _currentUserPort.currentUserId;
 
   @override
@@ -46,6 +49,7 @@ final class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<void> initialize({required String interlocutorId}) async {
+    _activeInterlocutorId = interlocutorId;
     _chatStreamSubscription = _remoteDataSource
         .getAddedModifiedMessagesStream(interlocutorId: interlocutorId)
         .listen(_onChatStreamMessageReceived, onError: _onChatStreamErrorReceived);
@@ -53,16 +57,45 @@ final class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<void> cleanup() async {
+    _activeInterlocutorId = null;
     await _chatStreamSubscription?.cancel();
   }
 
   @override
-  Future<void> markAsViewed({required String interlocutorId}) async {
+  Future<void> markAsRead({required String interlocutorId}) async {
     try {
-      await _remoteDataSource.markAsViewed(interlocutorId: interlocutorId);
+      await _remoteDataSource.markAsRead(interlocutorId: interlocutorId);
     } on Object {
-      _emitError(const ChatMarkAsViewedFailure());
+      _emitError(const ChatMarkAsReadFailure());
       rethrow;
+    }
+  }
+
+  @override
+  Future<void> startDeliveryTracking() async {
+    try {
+      await _remoteDataSource.startIncomingMessagesWatcher();
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to start delivery tracking',
+        name: 'ChatRepository',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  @override
+  Future<void> stopDeliveryTracking() async {
+    try {
+      await _remoteDataSource.stopIncomingMessagesWatcher();
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to stop delivery tracking',
+        name: 'ChatRepository',
+        error: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -125,6 +158,30 @@ final class ChatRepositoryImpl implements ChatRepository {
           .map((MessageDto dto) => mapMessageDtoToDomain(dto: dto, currentUserId: _currentUserId))
           .toSet(),
     );
+
+    final String? interlocutorId = _activeInterlocutorId;
+    if (interlocutorId == null) return;
+
+    final bool hasUnreadIncoming = messages.any(
+      (MessageDto dto) =>
+          dto.fromId == interlocutorId && dto.toId == _currentUserId && dto.readAt == null,
+    );
+    if (hasUnreadIncoming) {
+      unawaited(_markAsReadSilently(interlocutorId: interlocutorId));
+    }
+  }
+
+  Future<void> _markAsReadSilently({required String interlocutorId}) async {
+    try {
+      await _remoteDataSource.markAsRead(interlocutorId: interlocutorId);
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to mark messages as read while chat is open',
+        name: 'ChatRepository',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   void _onChatStreamErrorReceived(Object error, StackTrace stackTrace) {

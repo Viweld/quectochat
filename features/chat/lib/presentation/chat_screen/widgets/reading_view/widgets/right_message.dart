@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:chat/domain/entities/message.dart';
+import 'package:chat/domain/entities/message_status.dart';
 import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/cluster_attribute.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -73,7 +74,7 @@ class RightMessage extends StatelessWidget {
             bottom: 10,
             right: 20,
             child: Icon(
-              message.isViewed ? Qicons.checkTwin : Qicons.check,
+              message.status == MessageStatus.read ? Qicons.checkTwin : Qicons.check,
               size: 12,
               color: context.palette.greenDark,
             ),

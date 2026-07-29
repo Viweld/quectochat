@@ -7,6 +7,7 @@ abstract final class TableKeys {
   static const String messageToId = 'to_id';
   static const String messageContent = 'content';
   static const String messageType = 'type';
-  static const String messageIsViewed = 'is_viewed';
+  static const String messageDeliveredAt = 'delivered_at';
+  static const String messageReadAt = 'read_at';
   static const String messageCreatedAt = 'created_at';
 }

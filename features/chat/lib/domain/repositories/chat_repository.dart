@@ -18,9 +18,9 @@ final class ChatSendMessageFailure extends ChatRepositoryError {
   const ChatSendMessageFailure();
 }
 
-/// Failure while marking messages as viewed.
-final class ChatMarkAsViewedFailure extends ChatRepositoryError {
-  const ChatMarkAsViewedFailure();
+/// Failure while marking messages as read.
+final class ChatMarkAsReadFailure extends ChatRepositoryError {
+  const ChatMarkAsReadFailure();
 }
 
 /// Generic chat repository failure (e.g. stream subscription).
@@ -44,7 +44,11 @@ abstract interface class ChatRepository {
 
   Future<void> initialize({required String interlocutorId});
 
-  Future<void> markAsViewed({required String interlocutorId});
+  Future<void> markAsRead({required String interlocutorId});
+
+  Future<void> startDeliveryTracking();
+
+  Future<void> stopDeliveryTracking();
 
   Future<void> cleanup();
 

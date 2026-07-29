@@ -1,3 +1,4 @@
+import 'package:chat/domain/entities/message_status.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_domain/shared_domain.dart';
 
@@ -11,7 +12,8 @@ final class Message {
     required this.createdAt,
     required this.content,
     required this.type,
-    required this.isViewed,
+    required this.deliveredAt,
+    required this.readAt,
     required this.isOwn,
   });
 
@@ -23,17 +25,28 @@ final class Message {
   final DateTime createdAt;
   final String content;
   final MessageContentType type;
-  final bool isViewed;
+  final DateTime? deliveredAt;
+  final DateTime? readAt;
   final bool isOwn;
+
+  // ---------------------------------------------------------------------------
+  MessageStatus get status {
+    if (readAt != null) return MessageStatus.read;
+    if (deliveredAt != null) return MessageStatus.delivered;
+    return MessageStatus.sent;
+  }
 
   // ---------------------------------------------------------------------------
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is Message && other.id == id;
+    return other is Message &&
+        other.id == id &&
+        other.deliveredAt == deliveredAt &&
+        other.readAt == readAt;
   }
 
   @override
-  int get hashCode => Object.hash(id, chatId);
+  int get hashCode => Object.hash(id, chatId, deliveredAt, readAt);
 }

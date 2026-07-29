@@ -6,6 +6,7 @@ import 'package:navigation/navigation.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:quectochat/di/app_di.config.dart';
 import 'package:quectochat/di/auth_port_adapters.dart';
+import 'package:quectochat/di/chat_port_adapters.dart';
 import 'package:quectochat/di/push_port_adapters.dart';
 import 'package:shared_core/core.dart';
 
@@ -24,6 +25,7 @@ Future<void> configureDependencies() async {
   await appLocator.reset();
   await appLocator.init();
   registerAuthPorts(appLocator);
+  registerChatPorts(appLocator);
   registerPushPorts(appLocator);
 
   if (!appLocator.isRegistered<AppNavigator>()) {

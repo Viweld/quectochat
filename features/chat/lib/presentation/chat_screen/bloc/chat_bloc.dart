@@ -56,7 +56,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<void> _onInitializationRequested(Emitter<ChatState> emit) async {
     try {
       await _chatRepository.initialize(interlocutorId: state.interlocutorId);
-      unawaited(_chatRepository.markAsViewed(interlocutorId: state.interlocutorId));
+      unawaited(_chatRepository.markAsRead(interlocutorId: state.interlocutorId));
     } on Object catch (error, stackTrace) {
       final ErrorPresentation presentation = _blocErrorHandler.handle(
         error,
@@ -73,7 +73,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   AppErrorKind _mapChatRepositoryError(ChatRepositoryError error) => switch (error) {
     ChatLoadMessagesFailure() => AppErrorKind.generic,
     ChatSendMessageFailure() => AppErrorKind.generic,
-    ChatMarkAsViewedFailure() => AppErrorKind.generic,
+    ChatMarkAsReadFailure() => AppErrorKind.generic,
     ChatRepositoryGenericFailure() => AppErrorKind.generic,
   };
 }

@@ -34,7 +34,7 @@ void main() {
       () => chatRepository.initialize(interlocutorId: any(named: 'interlocutorId')),
     ).thenAnswer((_) async {});
     when(
-      () => chatRepository.markAsViewed(interlocutorId: any(named: 'interlocutorId')),
+      () => chatRepository.markAsRead(interlocutorId: any(named: 'interlocutorId')),
     ).thenAnswer((_) async {});
     when(() => chatRepository.cleanup()).thenAnswer((_) async {});
   });
@@ -47,12 +47,12 @@ void main() {
   ChatBloc buildBloc() => ChatBloc(chatRepository, errorHandler, interlocutorId: 'peer-1');
 
   blocTest<ChatBloc, ChatState>(
-    'onInitializationRequested initializes repository and marks viewed',
+    'onInitializationRequested initializes repository and marks read',
     build: buildBloc,
     expect: () => <Matcher>[],
     verify: (_) {
       verify(() => chatRepository.initialize(interlocutorId: 'peer-1')).called(1);
-      verify(() => chatRepository.markAsViewed(interlocutorId: 'peer-1')).called(1);
+      verify(() => chatRepository.markAsRead(interlocutorId: 'peer-1')).called(1);
     },
   );
 

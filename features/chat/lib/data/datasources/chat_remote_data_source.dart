@@ -16,5 +16,11 @@ abstract interface class ChatRemoteDataSource {
 
   Stream<Set<MessageDto>> getAddedModifiedMessagesStream({required String interlocutorId});
 
-  Future<void> markAsViewed({required String interlocutorId});
+  Future<void> markAsRead({required String interlocutorId});
+
+  Future<void> markIncomingMessagesDelivered();
+
+  Future<void> startIncomingMessagesWatcher();
+
+  Future<void> stopIncomingMessagesWatcher();
 }
