@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -47,3 +49,12 @@ app.*.map.json
 .fvm/versions
 .fvm/release
 dart_defines.json
+
+# Melos
+.melos_tool/
+pubspec_overrides.yaml
+
+# Mason / Flutterozavr kit (fz)
+.mason/
+mason-lock.yaml
+.fz/

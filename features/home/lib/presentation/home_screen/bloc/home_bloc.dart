@@ -16,20 +16,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @factoryMethod
   HomeBloc(this._authSessionPort, this._homeRepository, this._blocErrorHandler)
     : super(const HomeState()) {
-    on<HomeEvent>((HomeEvent event, Emitter<HomeState> emit) {
+    on<HomeEvent>((HomeEvent event, Emitter<HomeState> emit) async {
       if (event is _EventOnLogoutTapped || event is _EventOnSearchTextChanged) return;
-      event.map(
+      await event.map(
         onInitializationRequested: (_) => _onInitializationRequested(emit),
         onFetchRequested: (_) => _onFetchRequested(emit),
         onSearchRequested: (_) => _onSearchRequested(emit),
         onSearchFieldClearTapped: (_) => _onSearchFieldClearTapped(emit),
         onNextPageRequested: (_EventOnNextPageRequested event) => _onNextPageRequested(event, emit),
-        onSearchTextChanged: (_) {},
-        onLogoutTapped: (_) {},
+        onSearchTextChanged: (_) async {},
+        onLogoutTapped: (_) async {},
         onClearChatRequested: (_EventOnClearChatRequested event) =>
             _onClearChatRequested(event, emit),
-        onInterlocutorsStreamUpdated: (_EventOnInterlocutorsStreamUpdated event) =>
-            _onInterlocutorsStreamUpdated(event, emit),
+        onInterlocutorsStreamUpdated: (_EventOnInterlocutorsStreamUpdated event) async {
+          _onInterlocutorsStreamUpdated(event, emit);
+        },
       );
     });
     on<_EventOnLogoutTapped>(_onLogoutTapped, transformer: droppable());
@@ -186,7 +187,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       );
       if (presentation.shouldRethrow) rethrow;
     } finally {
-      emit(state.copyWith(isFirstLoading: false, isNextLoading: false));
+      if (!emit.isDone) {
+        emit(state.copyWith(isFirstLoading: false, isNextLoading: false));
+      }
     }
   }
 
