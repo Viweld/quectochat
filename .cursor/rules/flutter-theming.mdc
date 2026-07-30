@@ -19,7 +19,14 @@ alwaysApply: false
 - Класс `extends ThemeExtension<T>` с кастомными токенами.
 - Обязательны `copyWith` и `lerp` (требование Flutter для анимации тем).
 - Регистрация — в списке `extensions` у `ThemeData`.
-- Доступ в виджетах — `Theme.of(context).extension<MyColors>()!`.
+- Доступ в виджетах — `context.colors` ([`AppColorsTheme`](shared_ui/lib/src/theme/colors/app_colors_theme.dart)).
+
+### Цвета QuectoChat
+
+- Сырые семантические константы — [`AppColors`](shared_ui/lib/src/theme/colors/app_colors.dart) (`accent`, `background`, `text`, …).
+- Роли для UI — `AppColorsTheme` / `LightColorTheme` в `ThemeData.extensions`.
+- В виджетах: **только** `context.colors.<group>.<role>` (например `context.colors.text.main`, `context.colors.chat.bubbleOwn`).
+- **Запрещено** в widgets/features: прямые `AppColors.*`, имена красок (`green`, `stroke`), старый `Palette` / `context.palette`.
 
 ## Состояния компонентов (`WidgetStateProperty`)
 
@@ -52,7 +59,14 @@ alwaysApply: false
 
 ## Изображения и ассеты
 
-- Пути к ассетам — в `pubspec.yaml` → `flutter.assets`.
+- Пути к ассетам — в `shared_ui/pubspec.yaml` → `flutter.assets` (`resources/icons/`, `resources/images/`).
+  Шрифты — `shared_ui/resources/fonts/`, регистрация в `shared_ui/pubspec.yaml`.
+  Runtime-загрузка картинок из пакета: `Image.asset(path, package: kPackageName)`.
+  Splash / launcher icons (корневой `pubspec.yaml`) — пути вида `shared_ui/resources/images/...`.
 - Network-изображения — всегда с `loadingBuilder` и `errorBuilder`.
 - Кэширование — через `cached_network_image`.
 - SVG — через `flutter_svg`.
+- Кастомные иконки — только объявленные в `AppIcons` (`shared_ui/resources/icons/`).
+  Использование: `AppIcons.send(color: context.colors.icon.main)`.
+  Недостающие (close, chevron_left и т.п.) — стандартные `Icons.*` Material.
+  Новую кастомную: положить SVG → объявить в `AppIcons` → вызывать через `AppIcon.call`.

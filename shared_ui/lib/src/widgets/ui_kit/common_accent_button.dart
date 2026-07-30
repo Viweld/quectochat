@@ -2,18 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:shared_ui/src/values/values.dart';
+import 'package:shared_ui/src/widgets/ui_kit/app_icon.dart';
 
 class CommonAccentButton extends StatelessWidget {
-  const CommonAccentButton({
-    required this.title,
-    required this.onTapped,
-    this.isEnabled = true,
-    this.isPending = false,
-    this.iconData,
-    this.isUpperCaseTitle = false,
-    super.key,
-  });
-
   /// Надпись на кнопке
   final String title;
 
@@ -21,7 +12,7 @@ class CommonAccentButton extends StatelessWidget {
   final VoidCallback onTapped;
 
   /// (Опционально) Иконка на кнопке
-  final IconData? iconData;
+  final AppIcon? icon;
 
   /// Активна ли кнопка (активна если isEnabled = true)
   final bool isEnabled;
@@ -32,11 +23,22 @@ class CommonAccentButton extends StatelessWidget {
   /// Надпись на кнопке в верхнем регистре
   final bool isUpperCaseTitle;
 
+  const CommonAccentButton({
+    required this.title,
+    required this.onTapped,
+    this.isEnabled = true,
+    this.isPending = false,
+    this.icon,
+    this.isUpperCaseTitle = false,
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-    final Color textColor = context.palette.white;
-    final Color backgroundColor = context.palette.green;
-    final Color splashColor = context.palette.green;
+    final Color textColor = context.colors.text.inverse;
+    final Color backgroundColor = context.colors.accent.main;
+    final Color splashColor = context.colors.accent.splash;
+    final AppIcon? icon = this.icon;
 
     return ElevatedButton(
       onPressed: isEnabled ? onTapped : null,
@@ -60,10 +62,7 @@ class CommonAccentButton extends StatelessWidget {
             isUpperCaseTitle ? title.toUpperCase() : title,
             style: context.username?.copyWith(color: textColor),
           ),
-          if (iconData != null) ...<Widget>[
-            const SizedBox(width: 4),
-            Icon(iconData, color: textColor, size: 24),
-          ],
+          if (icon != null) ...<Widget>[const SizedBox(width: 4), icon(color: textColor)],
         ],
       ),
     );

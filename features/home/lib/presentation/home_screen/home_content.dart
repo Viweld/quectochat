@@ -77,7 +77,7 @@ class HomeContent extends StatelessWidget {
                   itemCount: interlocutors.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(
                     height: Values.dividerThickness,
-                    color: context.palette.gray,
+                    color: context.colors.text.tertiary,
                     indent: Values.horizontalPadding,
                     endIndent: Values.horizontalPadding,
                   ),

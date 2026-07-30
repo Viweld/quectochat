@@ -14,7 +14,7 @@ class CommonToast extends StatelessWidget {
         SnackBar(
           content: CommonToast._(text: text),
           elevation: 10,
-          backgroundColor: context.palette.red,
+          backgroundColor: context.colors.feedback.error,
           padding: const EdgeInsets.only(bottom: 20),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 5),
@@ -32,17 +32,12 @@ class CommonToast extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 14, top: 14, bottom: 14),
-            child: Text(text, style: context.message?.copyWith(color: context.palette.blackDark)),
+            child: Text(text, style: context.message?.copyWith(color: context.colors.text.strong)),
           ),
         ),
         const SizedBox(width: 14),
         IconButton(
-          icon: Icon(
-            Icons.close,
-            color: context.palette.grayDark,
-            //size: 18,
-          ),
-          //iconSize: 18,
+          icon: Icon(Icons.close_rounded, color: context.colors.text.secondary, size: 18),
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
         ),
         const SizedBox(width: 4),

@@ -29,7 +29,9 @@ class MessageBubbleContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final TextStyle textStyle = context.message!.copyWith(color: context.palette.greenDark);
+        final TextStyle textStyle = context.message!.copyWith(
+          color: context.colors.chat.bubbleOwnText,
+        );
         final double maxBubbleWidth = constraints.maxWidth;
         final double maxTextWidth = max(0, maxBubbleWidth - padding.horizontal);
         final double textBlockWidth = _LongestLineWidth.measure(
@@ -64,7 +66,7 @@ class MessageBubbleContent extends StatelessWidget {
                       DateFormat('HH:mm').format(message.createdAt),
                       style: context.caption!.copyWith(
                         fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
-                        color: context.palette.greenDark.withValues(alpha: 0.8),
+                        color: context.colors.chat.bubbleOwnText.withValues(alpha: 0.8),
                       ),
                     ),
                   ),

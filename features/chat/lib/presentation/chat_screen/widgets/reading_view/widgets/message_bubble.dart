@@ -18,12 +18,12 @@ class MessageBubble extends StatelessWidget {
         ? RightMessage(
             message: message,
             clusterAttribute: clusterAttribute,
-            backgroundColor: context.palette.green,
+            backgroundColor: context.colors.chat.bubbleOwn,
           )
         : LeftMessage(
             message: message,
             clusterAttribute: clusterAttribute,
-            backgroundColor: context.palette.gray,
+            backgroundColor: context.colors.chat.bubblePeer,
           );
   }
 }

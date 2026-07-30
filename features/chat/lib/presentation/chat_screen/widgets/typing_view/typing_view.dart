@@ -78,10 +78,10 @@ class _TypingViewState extends State<TypingView> {
         },
         builder: (BuildContext context, TypingViewState state) => DecoratedBox(
           decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: context.palette.stroke)),
+            border: Border(top: BorderSide(color: context.colors.border.main)),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12,8,12,20),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[

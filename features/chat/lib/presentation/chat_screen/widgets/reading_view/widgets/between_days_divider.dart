@@ -15,14 +15,14 @@ class BetweenDaysDivider extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         children: <Widget>[
-          Expanded(child: Divider(indent: 6, endIndent: 10, color: context.palette.gray)),
+          Expanded(child: Divider(indent: 6, endIndent: 10, color: context.colors.text.tertiary)),
           Text(
             isToday(message.createdAt)
                 ? context.texts.chatTodayDividerLabel
                 : DateFormat('dd.MM.yy').format(message.createdAt),
             style: context.dividerLabel,
           ),
-          Expanded(child: Divider(indent: 10, endIndent: 6, color: context.palette.gray)),
+          Expanded(child: Divider(indent: 10, endIndent: 6, color: context.colors.text.tertiary)),
         ],
       ),
     );

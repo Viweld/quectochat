@@ -12,4 +12,6 @@ class Values {
   static const double toastBorderRadius = 12;
 
   static const double dividerThickness = 1;
+
+  static const double defaultIconSize = 24;
 }

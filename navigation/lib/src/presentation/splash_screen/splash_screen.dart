@@ -41,7 +41,7 @@ class SplashScreen extends StatelessWidget {
   Future<void> _navigateAfterInit(BuildContext context, Future<void> Function() navigate) async {
     final List<String> precacheImages = <String>[Images.logo];
     for (final String image in precacheImages) {
-      await precacheImage(Image.asset(image).image, context);
+      await precacheImage(Image.asset(image, package: kPackageName).image, context);
     }
 
     FlutterNativeSplash.remove();

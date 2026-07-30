@@ -19,9 +19,9 @@ class CommonFloatingBackButton extends StatelessWidget {
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: <Color>[
-                context.palette.white,
-                context.palette.white,
-                context.palette.white.withValues(alpha: 0),
+                context.colors.background.main,
+                context.colors.background.main,
+                context.colors.background.main.withValues(alpha: 0),
               ],
             ),
           ),

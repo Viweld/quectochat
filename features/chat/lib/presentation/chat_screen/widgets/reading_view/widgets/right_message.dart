@@ -85,10 +85,9 @@ class RightMessage extends StatelessWidget {
             Positioned(
               bottom: 10,
               right: 20,
-              child: Icon(
-                message.status == MessageStatus.read ? Qicons.checkTwin : Qicons.check,
+              child: (message.status == MessageStatus.read ? AppIcons.checkTwin : AppIcons.check)(
                 size: 12,
-                color: context.palette.greenDark,
+                color: context.colors.chat.bubbleOwnText,
               ),
             ),
           ],

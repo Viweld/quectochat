@@ -66,39 +66,22 @@ flutter:
   uses-material-design: true
   generate: false
 
-  assets:
-    - assets/fonts/
-    - assets/images/
-
-  fonts:
-    - family: qicons
-      fonts:
-        - asset: assets/fonts/qicons.ttf
-    - family: Gilroy
-      fonts:
-        - asset: assets/fonts/gilroy-bold.ttf
-          weight: 700
-        - asset: assets/fonts/gilroy-semibold.ttf
-          weight: 600
-        - asset: assets/fonts/gilroy-medium.ttf
-          weight: 500
-
 flutter_native_splash:
   android: true
   ios: true
   web: false
   color: "#FFFFFF"
   color_dark: "#2B333E"
-  image: "assets/images/splash_logo.png"
-  image_dark: "assets/images/splash_logo_dark.png"
+  image: "shared_ui/resources/images/splash_logo.png"
+  image_dark: "shared_ui/resources/images/splash_logo_dark.png"
   android_12:
     color: "#FFFFFF"
     color_dark: "#2B333E"
-    image: "assets/images/splash_logo.png"
-    image_dark: "assets/images/splash_logo_dark.png"
+    image: "shared_ui/resources/images/splash_logo.png"
+    image_dark: "shared_ui/resources/images/splash_logo_dark.png"
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "shared_ui/resources/images/icon.png"
   remove_alpha_ios: true

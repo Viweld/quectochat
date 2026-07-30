@@ -25,7 +25,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.palette.white,
+      color: context.colors.background.main,
       child: Padding(
         padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
         child: Column(
@@ -69,7 +69,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
             ),
-            Divider(height: 1, thickness: 1, color: context.palette.stroke),
+            Divider(height: 1, thickness: 1, color: context.colors.border.main),
           ],
         ),
       ),

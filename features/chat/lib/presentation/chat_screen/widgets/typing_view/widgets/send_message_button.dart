@@ -18,7 +18,7 @@ class SendMessageButton extends StatelessWidget {
         minimumSize: WidgetStateProperty.all(Size(size, size)),
         fixedSize: WidgetStateProperty.all(Size(size, size)),
         padding: WidgetStateProperty.all(EdgeInsets.zero),
-        backgroundColor: WidgetStateProperty.all(context.palette.stroke),
+        backgroundColor: WidgetStateProperty.all(context.colors.background.secondary),
         alignment: Alignment.center,
         visualDensity: const VisualDensity(
           horizontal: VisualDensity.minimumDensity,
@@ -30,7 +30,7 @@ class SendMessageButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Icon(Icons.send, size: 24, color: context.palette.black),
+      child: AppIcons.send(color: context.colors.icon.main),
     );
   }
 }

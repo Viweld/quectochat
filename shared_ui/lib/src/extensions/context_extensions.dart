@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 
+import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
 import 'package:shared_ui/src/theme/dynamic_theme.dart';
-import 'package:shared_ui/src/values/palette.dart';
 
 /// Сокращённый доступ к стилям текста, цветам и локализации.
 extension ContextExtension on BuildContext {
@@ -20,7 +20,8 @@ extension ContextExtension on BuildContext {
 
   TextStyle? get caption => DynamicTheme.themeOf(this)?.textTheme.labelSmall;
 
-  Palette get palette => DynamicTheme.paletteOf(this);
+  /// Semantic role colors from [ThemeData.extensions].
+  AppColorsTheme get colors => Theme.of(this).extension<AppColorsTheme>()!;
 
   AppLocalizations get texts => AppLocalizations.of(this)!;
 }

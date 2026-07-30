@@ -79,9 +79,9 @@ class Application extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
-            statusBarColor: context.palette.white,
-            statusBarIconBrightness: context.palette.statusBarIconBrightness,
-            statusBarBrightness: context.palette.statusBarBrightness,
+            statusBarColor: context.colors.background.main,
+            statusBarIconBrightness: context.colors.statusBarIconBrightness,
+            statusBarBrightness: context.colors.statusBarBrightness,
           ),
           child: AppToastListener(child: child ?? const SizedBox.shrink()),
         );

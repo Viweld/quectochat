@@ -18,7 +18,7 @@ class AttachFileButton extends StatelessWidget {
         minimumSize: WidgetStateProperty.all(Size(size, size)),
         fixedSize: WidgetStateProperty.all(Size(size, size)),
         padding: WidgetStateProperty.all(EdgeInsets.zero),
-        backgroundColor: WidgetStateProperty.all(context.palette.stroke),
+        backgroundColor: WidgetStateProperty.all(context.colors.background.secondary),
         alignment: Alignment.center,
         visualDensity: const VisualDensity(
           horizontal: VisualDensity.minimumDensity,
@@ -30,7 +30,7 @@ class AttachFileButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Icon(Qicons.attach, size: 24, color: context.palette.black),
+      child: AppIcons.paperclip(color: context.colors.icon.main),
     );
   }
 }

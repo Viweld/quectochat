@@ -36,8 +36,8 @@ class _SwipeClearWrapperState extends State<SwipeClearWrapper> with SingleTicker
 
     // Интерполируем цвет от серого к красному
     final Color? backgroundColor = Color.lerp(
-      context.palette.gray,
-      context.palette.red,
+      context.colors.text.tertiary,
+      context.colors.feedback.error,
       (_dragExtent / dismissThreshold).clamp(0, 1),
     );
 

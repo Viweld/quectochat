@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+
 import 'package:shared_ui/src/extensions/context_extensions.dart';
-import 'package:shared_ui/src/values/qicons.dart';
 
 /// Кнопка "назад"
 class CommonBackButton extends StatelessWidget {
-  const CommonBackButton({required this.onPressed, super.key});
-
   final VoidCallback onPressed;
+
+  const CommonBackButton({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       padding: const EdgeInsets.all(6),
       onPressed: onPressed,
-      icon: Icon(Qicons.back, color: context.palette.black, size: 24),
+      icon: Icon(Icons.chevron_left, color: context.colors.icon.main, size: 24),
     );
   }
 }

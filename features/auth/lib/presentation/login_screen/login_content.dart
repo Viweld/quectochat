@@ -27,7 +27,7 @@ class LoginContent extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 60, bottom: 20),
-              child: Image.asset(Images.logo),
+              child: Image.asset(Images.logo, package: kPackageName),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),

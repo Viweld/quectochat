@@ -31,7 +31,7 @@ class ChatContent extends StatelessWidget {
         lastName: lastName,
         status: _resolveStatusText(context, interlocutorStatus),
         statusColor: interlocutorStatus == InterlocutorStatus.typing
-            ? context.palette.greenDark
+            ? context.colors.text.onAccent
             : null,
         onBackPressed: navigator.navigateBack,
       ),

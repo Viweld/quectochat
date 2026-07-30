@@ -89,7 +89,7 @@ class _ChatTileState extends State<ChatTile> {
       onClearChatRequested: widget.onClearChatRequested,
       child: Material(
         child: InkWell(
-          overlayColor: WidgetStateProperty.all(context.palette.green),
+          overlayColor: WidgetStateProperty.all(context.colors.accent.main),
           onTap: widget.onTapped,
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -124,7 +124,7 @@ class _ChatTileState extends State<ChatTile> {
                                     Text(
                                       context.texts.homeChatTileYouLabel,
                                       style: context.caption?.copyWith(
-                                        color: context.palette.black,
+                                        color: context.colors.text.main,
                                       ),
                                     ),
                                   Expanded(

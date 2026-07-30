@@ -25,7 +25,7 @@ class FlexibleHeader extends StatelessWidget {
 
     return FlexibleSpaceBar(
       background: ColoredBox(
-        color: context.palette.white,
+        color: context.colors.background.main,
         child: Column(
           children: <Widget>[
             Expanded(
@@ -43,13 +43,13 @@ class FlexibleHeader extends StatelessWidget {
                     SizedBox.square(
                       dimension: titleHeight * titleSize,
                       child: PopupMenuButton<void>(
-                        icon: const Icon(Icons.more_vert_rounded),
+                        icon: AppIcons.setting(color: context.colors.icon.main),
                         itemBuilder: (BuildContext context) => <PopupMenuEntry<void>>[
                           PopupMenuItem<void>(
                             onTap: onExitTapped,
                             child: Row(
                               children: <Widget>[
-                                const Icon(Icons.logout_rounded),
+                                AppIcons.logout(color: context.colors.icon.main),
                                 Text(context.texts.homeLogoutLabel),
                               ],
                             ),
@@ -70,11 +70,11 @@ class FlexibleHeader extends StatelessWidget {
               child: CommonEditField(
                 onChanged: onSearchTextChanged,
                 onClearTapped: onSearchFieldClearTapped,
-                prefix: Icon(Qicons.search, color: context.palette.gray),
+                prefix: AppIcons.userSearch(color: context.colors.icon.secondary),
                 hintText: context.texts.homeSearchHint,
               ),
             ),
-            Divider(height: Values.dividerThickness, color: context.palette.gray),
+            Divider(height: Values.dividerThickness, color: context.colors.border.main),
           ],
         ),
       ),

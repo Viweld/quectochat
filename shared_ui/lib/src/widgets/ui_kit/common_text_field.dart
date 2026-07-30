@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:shared_ui/src/extensions/context_extensions.dart';
-import 'package:shared_ui/src/theme/dynamic_theme.dart';
-import 'package:shared_ui/src/values/palette.dart';
+import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
 import 'package:shared_ui/src/values/values.dart';
 
 class CommonEditField extends StatefulWidget {
@@ -119,21 +118,21 @@ class _CommonEditFieldState extends State<CommonEditField> {
   late FocusNode _focusNode;
   late String? _errorText;
   late bool _error;
-  late Palette _palette;
+  late AppColorsTheme _colors;
 
   InputBorder get _regularBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-    borderSide: BorderSide(color: _palette.stroke),
+    borderSide: BorderSide(color: _colors.border.main),
   );
 
   InputBorder get _focusedBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-    borderSide: BorderSide(color: _palette.stroke),
+    borderSide: BorderSide(color: _colors.border.main),
   );
 
   InputBorder get _errorBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-    borderSide: BorderSide(color: _palette.red),
+    borderSide: BorderSide(color: _colors.feedback.error),
   );
 
   @override
@@ -158,13 +157,13 @@ class _CommonEditFieldState extends State<CommonEditField> {
 
   @override
   void didChangeDependencies() {
-    _palette = DynamicTheme.paletteOf(context);
+    _colors = context.colors;
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(CommonEditField oldWidget) {
-    _palette = DynamicTheme.paletteOf(context);
+    _colors = context.colors;
 
     setState(() {
       _errorText = widget.validationErrorText;
@@ -224,12 +223,12 @@ class _CommonEditFieldState extends State<CommonEditField> {
       style:
           widget.customTextStyle ??
           context.hint?.copyWith(
-            decorationColor: _palette.white,
+            decorationColor: _colors.text.inverse,
             color: _error
-                ? _palette.red
+                ? _colors.feedback.error
                 : widget.readOnly
-                ? _palette.gray
-                : _palette.black,
+                ? _colors.text.tertiary
+                : _colors.text.main,
           ),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -237,7 +236,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
         counterText: '',
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        fillColor: context.palette.stroke,
+        fillColor: context.colors.background.secondary,
         alignLabelWithHint: true,
         labelText: widget.hintText,
         labelStyle: context.hint,
@@ -246,7 +245,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
             ? null
             : IconButton(
                 onPressed: _onClearTapped,
-                icon: Icon(Icons.close_rounded, color: context.palette.black),
+                icon: Icon(Icons.close_rounded, color: context.colors.icon.main),
               ),
         border: _error ? _errorBorder : _regularBorder,
         disabledBorder: _error ? _errorBorder : _regularBorder,
@@ -293,7 +292,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
                 _errorText!,
                 maxLines: 10,
                 style: context.caption?.copyWith(
-                  color: _palette.red,
+                  color: _colors.feedback.error,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
