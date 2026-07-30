@@ -7,12 +7,14 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.lastName,
     required this.status,
     required this.onBackPressed,
+    this.statusColor,
     super.key,
   });
 
   final String firstName;
   final String lastName;
   final String status;
+  final Color? statusColor;
   final VoidCallback onBackPressed;
 
   static const double _horizontalInterval = 12;
@@ -52,12 +54,15 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
 
                         /// Статус нахождения в сети
-                        Text(
-                          status,
-                          style: context.caption,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
+                        if (status.isNotEmpty)
+                          Text(
+                            status,
+                            style: statusColor == null
+                                ? context.caption
+                                : context.caption?.copyWith(color: statusColor),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                       ],
                     ),
                   ),

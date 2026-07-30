@@ -379,6 +379,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Сегодня'**
   String get chatTodayDividerLabel;
+
+  /// No description provided for @chatStatusOnline.
+  ///
+  /// In ru, this message translates to:
+  /// **'онлайн'**
+  String get chatStatusOnline;
+
+  /// No description provided for @chatStatusTyping.
+  ///
+  /// In ru, this message translates to:
+  /// **'печатает...'**
+  String get chatStatusTyping;
+
+  /// No description provided for @chatStatusRecentlyOffline.
+  ///
+  /// In ru, this message translates to:
+  /// **'недавно был онлайн'**
+  String get chatStatusRecentlyOffline;
+
+  /// No description provided for @chatStatusLongOffline.
+  ///
+  /// In ru, this message translates to:
+  /// **'давно был онлайн'**
+  String get chatStatusLongOffline;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

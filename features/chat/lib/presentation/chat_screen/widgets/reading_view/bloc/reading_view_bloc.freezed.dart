@@ -122,7 +122,7 @@ return onMessagesUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onNextPageRequested,TResult Function( Iterable<Message> messages)?  onMessagesUpdated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onNextPageRequested,TResult Function( List<Message> messages)?  onMessagesUpdated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnNextPageRequested() when onNextPageRequested != null:
@@ -145,7 +145,7 @@ return onMessagesUpdated(_that.messages);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onNextPageRequested,required TResult Function( Iterable<Message> messages)  onMessagesUpdated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onNextPageRequested,required TResult Function( List<Message> messages)  onMessagesUpdated,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested();case _EventOnNextPageRequested():
@@ -164,7 +164,7 @@ return onMessagesUpdated(_that.messages);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onNextPageRequested,TResult? Function( Iterable<Message> messages)?  onMessagesUpdated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onNextPageRequested,TResult? Function( List<Message> messages)?  onMessagesUpdated,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnNextPageRequested() when onNextPageRequested != null:
@@ -245,10 +245,16 @@ String toString() {
 
 
 class _EventOnMessagesUpdated implements ReadingViewEvent {
-  const _EventOnMessagesUpdated({required this.messages});
+  const _EventOnMessagesUpdated({required final  List<Message> messages}): _messages = messages;
   
 
- final  Iterable<Message> messages;
+ final  List<Message> _messages;
+ List<Message> get messages {
+  if (_messages is EqualUnmodifiableListView) return _messages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_messages);
+}
+
 
 /// Create a copy of ReadingViewEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -260,12 +266,12 @@ _$EventOnMessagesUpdatedCopyWith<_EventOnMessagesUpdated> get copyWith => __$Eve
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnMessagesUpdated&&const DeepCollectionEquality().equals(other.messages, messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnMessagesUpdated&&const DeepCollectionEquality().equals(other._messages, _messages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(messages));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_messages));
 
 @override
 String toString() {
@@ -280,7 +286,7 @@ abstract mixin class _$EventOnMessagesUpdatedCopyWith<$Res> implements $ReadingV
   factory _$EventOnMessagesUpdatedCopyWith(_EventOnMessagesUpdated value, $Res Function(_EventOnMessagesUpdated) _then) = __$EventOnMessagesUpdatedCopyWithImpl;
 @useResult
 $Res call({
- Iterable<Message> messages
+ List<Message> messages
 });
 
 
@@ -299,8 +305,8 @@ class __$EventOnMessagesUpdatedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? messages = null,}) {
   return _then(_EventOnMessagesUpdated(
-messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
-as Iterable<Message>,
+messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
+as List<Message>,
   ));
 }
 
@@ -310,7 +316,7 @@ as Iterable<Message>,
 /// @nodoc
 mixin _$ReadingViewState {
 
- String get interlocutorId; Iterable<Message> get messages; bool get isPending; bool get isNextLoading; bool get hasNext;
+ String get interlocutorId; List<Message> get messages; bool get isPending; bool get isNextLoading; bool get hasNext;
 /// Create a copy of ReadingViewState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -341,7 +347,7 @@ abstract mixin class $ReadingViewStateCopyWith<$Res>  {
   factory $ReadingViewStateCopyWith(ReadingViewState value, $Res Function(ReadingViewState) _then) = _$ReadingViewStateCopyWithImpl;
 @useResult
 $Res call({
- String interlocutorId, Iterable<Message> messages, bool isPending, bool isNextLoading, bool hasNext
+ String interlocutorId, List<Message> messages, bool isPending, bool isNextLoading, bool hasNext
 });
 
 
@@ -362,7 +368,7 @@ class _$ReadingViewStateCopyWithImpl<$Res>
   return _then(_self.copyWith(
 interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
 as String,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
-as Iterable<Message>,isPending: null == isPending ? _self.isPending : isPending // ignore: cast_nullable_to_non_nullable
+as List<Message>,isPending: null == isPending ? _self.isPending : isPending // ignore: cast_nullable_to_non_nullable
 as bool,isNextLoading: null == isNextLoading ? _self.isNextLoading : isNextLoading // ignore: cast_nullable_to_non_nullable
 as bool,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -450,7 +456,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String interlocutorId,  Iterable<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String interlocutorId,  List<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReadingViewState() when $default != null:
 return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNextLoading,_that.hasNext);case _:
@@ -471,7 +477,7 @@ return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNext
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String interlocutorId,  Iterable<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String interlocutorId,  List<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)  $default,) {final _that = this;
 switch (_that) {
 case _ReadingViewState():
 return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNextLoading,_that.hasNext);case _:
@@ -491,7 +497,7 @@ return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNext
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String interlocutorId,  Iterable<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String interlocutorId,  List<Message> messages,  bool isPending,  bool isNextLoading,  bool hasNext)?  $default,) {final _that = this;
 switch (_that) {
 case _ReadingViewState() when $default != null:
 return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNextLoading,_that.hasNext);case _:
@@ -506,11 +512,17 @@ return $default(_that.interlocutorId,_that.messages,_that.isPending,_that.isNext
 
 
 class _ReadingViewState implements ReadingViewState {
-  const _ReadingViewState({required this.interlocutorId, this.messages = const [], this.isPending = true, this.isNextLoading = false, this.hasNext = true});
+  const _ReadingViewState({required this.interlocutorId, final  List<Message> messages = const <Message>[], this.isPending = true, this.isNextLoading = false, this.hasNext = true}): _messages = messages;
   
 
 @override final  String interlocutorId;
-@override@JsonKey() final  Iterable<Message> messages;
+ final  List<Message> _messages;
+@override@JsonKey() List<Message> get messages {
+  if (_messages is EqualUnmodifiableListView) return _messages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_messages);
+}
+
 @override@JsonKey() final  bool isPending;
 @override@JsonKey() final  bool isNextLoading;
 @override@JsonKey() final  bool hasNext;
@@ -525,12 +537,12 @@ _$ReadingViewStateCopyWith<_ReadingViewState> get copyWith => __$ReadingViewStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReadingViewState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.isPending, isPending) || other.isPending == isPending)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReadingViewState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.isPending, isPending) || other.isPending == isPending)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,interlocutorId,const DeepCollectionEquality().hash(messages),isPending,isNextLoading,hasNext);
+int get hashCode => Object.hash(runtimeType,interlocutorId,const DeepCollectionEquality().hash(_messages),isPending,isNextLoading,hasNext);
 
 @override
 String toString() {
@@ -545,7 +557,7 @@ abstract mixin class _$ReadingViewStateCopyWith<$Res> implements $ReadingViewSta
   factory _$ReadingViewStateCopyWith(_ReadingViewState value, $Res Function(_ReadingViewState) _then) = __$ReadingViewStateCopyWithImpl;
 @override @useResult
 $Res call({
- String interlocutorId, Iterable<Message> messages, bool isPending, bool isNextLoading, bool hasNext
+ String interlocutorId, List<Message> messages, bool isPending, bool isNextLoading, bool hasNext
 });
 
 
@@ -565,8 +577,8 @@ class __$ReadingViewStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? interlocutorId = null,Object? messages = null,Object? isPending = null,Object? isNextLoading = null,Object? hasNext = null,}) {
   return _then(_ReadingViewState(
 interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
-as String,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
-as Iterable<Message>,isPending: null == isPending ? _self.isPending : isPending // ignore: cast_nullable_to_non_nullable
+as String,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
+as List<Message>,isPending: null == isPending ? _self.isPending : isPending // ignore: cast_nullable_to_non_nullable
 as bool,isNextLoading: null == isNextLoading ? _self.isNextLoading : isNextLoading // ignore: cast_nullable_to_non_nullable
 as bool,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
 as bool,

@@ -36,8 +36,12 @@ class ChatScreen extends StatelessWidget {
 
           context.read<ChatBloc>().add(const ChatEvent.effectHandled());
         },
-        builder: (BuildContext context, ChatState state) =>
-            ChatContent(interlocutorId: interlocutorId, firstName: firstName, lastName: lastName),
+        builder: (BuildContext context, ChatState state) => ChatContent(
+          interlocutorId: interlocutorId,
+          firstName: firstName,
+          lastName: lastName,
+          interlocutorStatus: state.interlocutorStatus,
+        ),
       ),
     );
   }

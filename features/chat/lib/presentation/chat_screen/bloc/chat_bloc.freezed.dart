@@ -309,12 +309,13 @@ extension ChatEventPatterns on ChatEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnErrorReceived value)?  onErrorReceived,TResult Function( _EffectHandled value)?  effectHandled,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnErrorReceived value)?  onErrorReceived,TResult Function( _EventOnStatusRecomputeRequested value)?  onStatusRecomputeRequested,TResult Function( _EffectHandled value)?  effectHandled,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested(_that);case _EventOnErrorReceived() when onErrorReceived != null:
-return onErrorReceived(_that);case _EffectHandled() when effectHandled != null:
+return onErrorReceived(_that);case _EventOnStatusRecomputeRequested() when onStatusRecomputeRequested != null:
+return onStatusRecomputeRequested(_that);case _EffectHandled() when effectHandled != null:
 return effectHandled(_that);case _:
   return orElse();
 
@@ -333,12 +334,13 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnErrorReceived value)  onErrorReceived,required TResult Function( _EffectHandled value)  effectHandled,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnErrorReceived value)  onErrorReceived,required TResult Function( _EventOnStatusRecomputeRequested value)  onStatusRecomputeRequested,required TResult Function( _EffectHandled value)  effectHandled,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested(_that);case _EventOnErrorReceived():
-return onErrorReceived(_that);case _EffectHandled():
+return onErrorReceived(_that);case _EventOnStatusRecomputeRequested():
+return onStatusRecomputeRequested(_that);case _EffectHandled():
 return effectHandled(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -353,12 +355,13 @@ return effectHandled(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnErrorReceived value)?  onErrorReceived,TResult? Function( _EffectHandled value)?  effectHandled,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnErrorReceived value)?  onErrorReceived,TResult? Function( _EventOnStatusRecomputeRequested value)?  onStatusRecomputeRequested,TResult? Function( _EffectHandled value)?  effectHandled,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested(_that);case _EventOnErrorReceived() when onErrorReceived != null:
-return onErrorReceived(_that);case _EffectHandled() when effectHandled != null:
+return onErrorReceived(_that);case _EventOnStatusRecomputeRequested() when onStatusRecomputeRequested != null:
+return onStatusRecomputeRequested(_that);case _EffectHandled() when effectHandled != null:
 return effectHandled(_that);case _:
   return null;
 
@@ -376,11 +379,12 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function( ChatRepositoryError error)?  onErrorReceived,TResult Function()?  effectHandled,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function( ChatRepositoryError error)?  onErrorReceived,TResult Function()?  onStatusRecomputeRequested,TResult Function()?  effectHandled,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnErrorReceived() when onErrorReceived != null:
-return onErrorReceived(_that.error);case _EffectHandled() when effectHandled != null:
+return onErrorReceived(_that.error);case _EventOnStatusRecomputeRequested() when onStatusRecomputeRequested != null:
+return onStatusRecomputeRequested();case _EffectHandled() when effectHandled != null:
 return effectHandled();case _:
   return orElse();
 
@@ -399,11 +403,12 @@ return effectHandled();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function( ChatRepositoryError error)  onErrorReceived,required TResult Function()  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function( ChatRepositoryError error)  onErrorReceived,required TResult Function()  onStatusRecomputeRequested,required TResult Function()  effectHandled,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested();case _EventOnErrorReceived():
-return onErrorReceived(_that.error);case _EffectHandled():
+return onErrorReceived(_that.error);case _EventOnStatusRecomputeRequested():
+return onStatusRecomputeRequested();case _EffectHandled():
 return effectHandled();}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -418,11 +423,12 @@ return effectHandled();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function( ChatRepositoryError error)?  onErrorReceived,TResult? Function()?  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function( ChatRepositoryError error)?  onErrorReceived,TResult? Function()?  onStatusRecomputeRequested,TResult? Function()?  effectHandled,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnErrorReceived() when onErrorReceived != null:
-return onErrorReceived(_that.error);case _EffectHandled() when effectHandled != null:
+return onErrorReceived(_that.error);case _EventOnStatusRecomputeRequested() when onStatusRecomputeRequested != null:
+return onStatusRecomputeRequested();case _EffectHandled() when effectHandled != null:
 return effectHandled();case _:
   return null;
 
@@ -532,6 +538,38 @@ as ChatRepositoryError,
 /// @nodoc
 
 
+class _EventOnStatusRecomputeRequested implements ChatEvent {
+  const _EventOnStatusRecomputeRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnStatusRecomputeRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ChatEvent.onStatusRecomputeRequested()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
 class _EffectHandled implements ChatEvent {
   const _EffectHandled();
   
@@ -564,7 +602,7 @@ String toString() {
 /// @nodoc
 mixin _$ChatState {
 
- String get interlocutorId; ChatEffect? get effect;
+ String get interlocutorId; InterlocutorStatus? get interlocutorStatus; ChatEffect? get effect;
 /// Create a copy of ChatState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -575,16 +613,16 @@ $ChatStateCopyWith<ChatState> get copyWith => _$ChatStateCopyWithImpl<ChatState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&(identical(other.interlocutorStatus, interlocutorStatus) || other.interlocutorStatus == interlocutorStatus)&&(identical(other.effect, effect) || other.effect == effect));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,interlocutorId,effect);
+int get hashCode => Object.hash(runtimeType,interlocutorId,interlocutorStatus,effect);
 
 @override
 String toString() {
-  return 'ChatState(interlocutorId: $interlocutorId, effect: $effect)';
+  return 'ChatState(interlocutorId: $interlocutorId, interlocutorStatus: $interlocutorStatus, effect: $effect)';
 }
 
 
@@ -595,7 +633,7 @@ abstract mixin class $ChatStateCopyWith<$Res>  {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) _then) = _$ChatStateCopyWithImpl;
 @useResult
 $Res call({
- String interlocutorId, ChatEffect? effect
+ String interlocutorId, InterlocutorStatus? interlocutorStatus, ChatEffect? effect
 });
 
 
@@ -612,10 +650,11 @@ class _$ChatStateCopyWithImpl<$Res>
 
 /// Create a copy of ChatState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? interlocutorId = null,Object? effect = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? interlocutorId = null,Object? interlocutorStatus = freezed,Object? effect = freezed,}) {
   return _then(_self.copyWith(
 interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
-as String,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
+as String,interlocutorStatus: freezed == interlocutorStatus ? _self.interlocutorStatus : interlocutorStatus // ignore: cast_nullable_to_non_nullable
+as InterlocutorStatus?,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
 as ChatEffect?,
   ));
 }
@@ -713,10 +752,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String interlocutorId,  ChatEffect? effect)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String interlocutorId,  InterlocutorStatus? interlocutorStatus,  ChatEffect? effect)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatState() when $default != null:
-return $default(_that.interlocutorId,_that.effect);case _:
+return $default(_that.interlocutorId,_that.interlocutorStatus,_that.effect);case _:
   return orElse();
 
 }
@@ -734,10 +773,10 @@ return $default(_that.interlocutorId,_that.effect);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String interlocutorId,  ChatEffect? effect)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String interlocutorId,  InterlocutorStatus? interlocutorStatus,  ChatEffect? effect)  $default,) {final _that = this;
 switch (_that) {
 case _ChatState():
-return $default(_that.interlocutorId,_that.effect);case _:
+return $default(_that.interlocutorId,_that.interlocutorStatus,_that.effect);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -754,10 +793,10 @@ return $default(_that.interlocutorId,_that.effect);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String interlocutorId,  ChatEffect? effect)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String interlocutorId,  InterlocutorStatus? interlocutorStatus,  ChatEffect? effect)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatState() when $default != null:
-return $default(_that.interlocutorId,_that.effect);case _:
+return $default(_that.interlocutorId,_that.interlocutorStatus,_that.effect);case _:
   return null;
 
 }
@@ -769,10 +808,11 @@ return $default(_that.interlocutorId,_that.effect);case _:
 
 
 class _ChatState implements ChatState {
-  const _ChatState({required this.interlocutorId, this.effect});
+  const _ChatState({required this.interlocutorId, this.interlocutorStatus, this.effect});
   
 
 @override final  String interlocutorId;
+@override final  InterlocutorStatus? interlocutorStatus;
 @override final  ChatEffect? effect;
 
 /// Create a copy of ChatState
@@ -785,16 +825,16 @@ _$ChatStateCopyWith<_ChatState> get copyWith => __$ChatStateCopyWithImpl<_ChatSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatState&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId)&&(identical(other.interlocutorStatus, interlocutorStatus) || other.interlocutorStatus == interlocutorStatus)&&(identical(other.effect, effect) || other.effect == effect));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,interlocutorId,effect);
+int get hashCode => Object.hash(runtimeType,interlocutorId,interlocutorStatus,effect);
 
 @override
 String toString() {
-  return 'ChatState(interlocutorId: $interlocutorId, effect: $effect)';
+  return 'ChatState(interlocutorId: $interlocutorId, interlocutorStatus: $interlocutorStatus, effect: $effect)';
 }
 
 
@@ -805,7 +845,7 @@ abstract mixin class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Re
   factory _$ChatStateCopyWith(_ChatState value, $Res Function(_ChatState) _then) = __$ChatStateCopyWithImpl;
 @override @useResult
 $Res call({
- String interlocutorId, ChatEffect? effect
+ String interlocutorId, InterlocutorStatus? interlocutorStatus, ChatEffect? effect
 });
 
 
@@ -822,10 +862,11 @@ class __$ChatStateCopyWithImpl<$Res>
 
 /// Create a copy of ChatState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? interlocutorId = null,Object? effect = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? interlocutorId = null,Object? interlocutorStatus = freezed,Object? effect = freezed,}) {
   return _then(_ChatState(
 interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
-as String,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
+as String,interlocutorStatus: freezed == interlocutorStatus ? _self.interlocutorStatus : interlocutorStatus // ignore: cast_nullable_to_non_nullable
+as InterlocutorStatus?,effect: freezed == effect ? _self.effect : effect // ignore: cast_nullable_to_non_nullable
 as ChatEffect?,
   ));
 }

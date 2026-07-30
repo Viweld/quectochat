@@ -161,4 +161,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get chatTodayDividerLabel => 'Сегодня';
+
+  @override
+  String get chatStatusOnline => 'онлайн';
+
+  @override
+  String get chatStatusTyping => 'печатает...';
+
+  @override
+  String get chatStatusRecentlyOffline => 'недавно был онлайн';
+
+  @override
+  String get chatStatusLongOffline => 'давно был онлайн';
 }

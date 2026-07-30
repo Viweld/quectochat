@@ -17,6 +17,9 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   static const int _messagesPaginationLimit = 20;
 
   RealtimeChannel? _incomingChannel;
+  RealtimeChannel? _typingChannel;
+
+  final StreamController<bool> _typingStatusController = StreamController<bool>.broadcast();
 
   String get _currentUserId => _client.auth.currentUser?.id ?? '';
 
@@ -168,6 +171,77 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<void> stopIncomingMessagesWatcher() async {
     await _incomingChannel?.unsubscribe();
     _incomingChannel = null;
+  }
+
+  @override
+  Stream<bool> get typingStatusStream => _typingStatusController.stream;
+
+  @override
+  Future<void> startTypingChannel({required String interlocutorId}) async {
+    if (_currentUserId.isEmpty) return;
+    await stopTypingChannel();
+
+    final String chatId = DeterministicId.fromParts(<String>[interlocutorId, _currentUserId]);
+
+    _typingChannel = _client
+        .channel('typing-$chatId')
+        .onBroadcast(
+          event: 'typing',
+          callback: (Map<String, dynamic> payload) {
+            final Object? nested = payload['payload'];
+            final Map<String, dynamic> data = nested is Map<String, dynamic> ? nested : payload;
+            final String? fromId = data['fromId'] as String?;
+            if (fromId != interlocutorId) return;
+            final bool isTyping = data['isTyping'] == true;
+            if (!_typingStatusController.isClosed) {
+              _typingStatusController.add(isTyping);
+            }
+          },
+        )
+        .subscribe();
+  }
+
+  @override
+  Future<void> stopTypingChannel() async {
+    final RealtimeChannel? channel = _typingChannel;
+    _typingChannel = null;
+    if (channel == null) return;
+
+    try {
+      await channel.unsubscribe();
+      await _client.removeChannel(channel);
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to stop typing channel',
+        name: 'ChatRemoteDataSource',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    if (!_typingStatusController.isClosed) {
+      _typingStatusController.add(false);
+    }
+  }
+
+  @override
+  Future<void> sendTypingStatus({required bool isTyping}) async {
+    final RealtimeChannel? channel = _typingChannel;
+    if (channel == null || _currentUserId.isEmpty) return;
+
+    try {
+      await channel.sendBroadcastMessage(
+        event: 'typing',
+        payload: <String, Object?>{'fromId': _currentUserId, 'isTyping': isTyping},
+      );
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to send typing status',
+        name: 'ChatRemoteDataSource',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   Future<void> _markIncomingDeliveredSafely() async {

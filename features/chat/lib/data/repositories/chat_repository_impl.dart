@@ -42,6 +42,11 @@ final class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  ChatTypingSubscription subscribeInterlocutorTyping(void Function(bool isTyping) listener) {
+    return _remoteDataSource.typingStatusStream.listen(listener);
+  }
+
+  @override
   Future<void> close() async {
     await _messagesStreamController.close();
     await _errorsStreamController.close();
@@ -53,11 +58,13 @@ final class ChatRepositoryImpl implements ChatRepository {
     _chatStreamSubscription = _remoteDataSource
         .getAddedModifiedMessagesStream(interlocutorId: interlocutorId)
         .listen(_onChatStreamMessageReceived, onError: _onChatStreamErrorReceived);
+    await _remoteDataSource.startTypingChannel(interlocutorId: interlocutorId);
   }
 
   @override
   Future<void> cleanup() async {
     _activeInterlocutorId = null;
+    await _remoteDataSource.stopTypingChannel();
     await _chatStreamSubscription?.cancel();
   }
 
@@ -68,6 +75,20 @@ final class ChatRepositoryImpl implements ChatRepository {
     } on Object {
       _emitError(const ChatMarkAsReadFailure());
       rethrow;
+    }
+  }
+
+  @override
+  Future<void> setTypingStatus({required bool isTyping}) async {
+    try {
+      await _remoteDataSource.sendTypingStatus(isTyping: isTyping);
+    } on Object catch (error, stackTrace) {
+      log(
+        'Failed to set typing status',
+        name: 'ChatRepository',
+        error: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 

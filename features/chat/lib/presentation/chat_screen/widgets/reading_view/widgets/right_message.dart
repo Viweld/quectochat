@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:chat/domain/entities/message.dart';
 import 'package:chat/domain/entities/message_status.dart';
 import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/cluster_attribute.dart';
+import 'package:chat/presentation/chat_screen/widgets/reading_view/widgets/message_bubble_content.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_ui/core_ui.dart';
 
 class RightMessage extends StatelessWidget {
@@ -26,108 +26,69 @@ class RightMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-      child: Stack(
-        children: <Widget>[
-          switch (clusterAttribute) {
-            ClusterAttribute.first => Padding(
-              padding: const EdgeInsets.only(right: _RightStartBubbleClip.tailWidth),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(radius),
-                  topRight: Radius.circular(radius),
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radiusMini),
-                ),
-                child: _MessageContent(message: message, backgroundColor: backgroundColor),
-              ),
-            ),
-            ClusterAttribute.middle => Padding(
-              padding: const EdgeInsets.only(right: _RightStartBubbleClip.tailWidth),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(radius),
-                  topRight: Radius.circular(radiusMini),
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radiusMini),
-                ),
-                child: _MessageContent(message: message, backgroundColor: backgroundColor),
-              ),
-            ),
-            ClusterAttribute.last => ClipPath(
-              clipper: const _RightStartBubbleClip.lastInCluster(),
-              child: _MessageContent(
-                message: message,
-                backgroundColor: backgroundColor,
-                withTail: true,
-              ),
-            ),
-            _ => ClipPath(
-              clipper: const _RightStartBubbleClip.single(),
-              child: _MessageContent(
-                message: message,
-                backgroundColor: backgroundColor,
-                withTail: true,
-              ),
-            ),
-          },
-          Positioned(
-            bottom: 10,
-            right: 20,
-            child: Icon(
-              message.status == MessageStatus.read ? Qicons.checkTwin : Qicons.check,
-              size: 12,
-              color: context.palette.greenDark,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-/// Контент сообщения
-class _MessageContent extends StatelessWidget {
-  const _MessageContent({
-    required this.message,
-    required this.backgroundColor,
-    this.withTail = false,
-  });
-
-  final Message message;
-  final Color backgroundColor;
-  final bool withTail;
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: backgroundColor,
-      child: Padding(
-        padding: EdgeInsets.only(top: 12, bottom: 12, left: 14, right: withTail ? 34 : 24),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.sizeOf(context).width * MessageBubbleContent.defaultMaxWidthFactor,
+        ),
         child: Stack(
           children: <Widget>[
-            RichText(
-              text: TextSpan(
-                children: <InlineSpan>[
-                  TextSpan(
-                    text: message.content,
-                    style: context.message!.copyWith(color: context.palette.greenDark),
+            switch (clusterAttribute) {
+              ClusterAttribute.first => Padding(
+                padding: const EdgeInsets.only(right: _RightStartBubbleClip.tailWidth),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(radius),
+                    topRight: Radius.circular(radius),
+                    bottomLeft: Radius.circular(radius),
+                    bottomRight: Radius.circular(radiusMini),
                   ),
-                  const WidgetSpan(child: SizedBox(width: 40)),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: -2,
-              right: 0,
-              child: Text(
-                DateFormat('HH:mm').format(message.createdAt),
-                style: context.caption!.copyWith(
-                  fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
-                  color: context.palette.greenDark.withValues(alpha: 0.8),
+                  child: MessageBubbleContent(
+                    message: message,
+                    backgroundColor: backgroundColor,
+                    padding: const EdgeInsets.fromLTRB(14, 12, 24, 12),
+                  ),
                 ),
+              ),
+              ClusterAttribute.middle => Padding(
+                padding: const EdgeInsets.only(right: _RightStartBubbleClip.tailWidth),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(radius),
+                    topRight: Radius.circular(radiusMini),
+                    bottomLeft: Radius.circular(radius),
+                    bottomRight: Radius.circular(radiusMini),
+                  ),
+                  child: MessageBubbleContent(
+                    message: message,
+                    backgroundColor: backgroundColor,
+                    padding: const EdgeInsets.fromLTRB(14, 12, 24, 12),
+                  ),
+                ),
+              ),
+              ClusterAttribute.last => ClipPath(
+                clipper: const _RightStartBubbleClip.lastInCluster(),
+                child: MessageBubbleContent(
+                  message: message,
+                  backgroundColor: backgroundColor,
+                  padding: const EdgeInsets.fromLTRB(14, 12, 34, 12),
+                ),
+              ),
+              _ => ClipPath(
+                clipper: const _RightStartBubbleClip.single(),
+                child: MessageBubbleContent(
+                  message: message,
+                  backgroundColor: backgroundColor,
+                  padding: const EdgeInsets.fromLTRB(14, 12, 34, 12),
+                ),
+              ),
+            },
+            Positioned(
+              bottom: 10,
+              right: 20,
+              child: Icon(
+                message.status == MessageStatus.read ? Qicons.checkTwin : Qicons.check,
+                size: 12,
+                color: context.palette.greenDark,
               ),
             ),
           ],
@@ -137,9 +98,6 @@ class _MessageContent extends StatelessWidget {
   }
 }
 
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
 /// Фигурная обрезка пузырька сообщения
 class _RightStartBubbleClip extends CustomClipper<Path> {
   const _RightStartBubbleClip.single() : _topRightRadius = regularRadius;
@@ -148,9 +106,9 @@ class _RightStartBubbleClip extends CustomClipper<Path> {
 
   final double _topRightRadius;
 
-  static const double regularRadius = 20; // Радиус скругления углов
-  static const double tailWidth = 10; // Ширина хвостика
-  static const double tailHeight = 20; // Высота хвостика
+  static const double regularRadius = 20;
+  static const double tailWidth = 10;
+  static const double tailHeight = 20;
 
   @override
   Path getClip(Size size) {
@@ -163,8 +121,8 @@ class _RightStartBubbleClip extends CustomClipper<Path> {
   }
 
   Path _getPath(Size size) {
-    final double width = size.width; // Ширина контейнера
-    final double height = size.height; // Высота контейнера
+    final double width = size.width;
+    final double height = size.height;
 
     return Path()
       ..arcTo(

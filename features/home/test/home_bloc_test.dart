@@ -69,6 +69,40 @@ void main() {
   );
 
   blocTest<HomeBloc, HomeState>(
+    'onNextPageRequested with empty list does not request next page',
+    build: buildBloc,
+    // Wait for init fetch to finish with empty list (hasNext becomes false via finally).
+    wait: const Duration(milliseconds: 10),
+    act: (HomeBloc bloc) => bloc.add(const HomeEvent.onNextPageRequested()),
+    verify: (HomeBloc bloc) {
+      expect(bloc.state.hasNext, isFalse);
+      expect(bloc.state.interlocutors, isEmpty);
+      // Only the initial non-paginated fetch; no cursor-based page request.
+      verify(() => homeRepository.getInterlocutors()).called(1);
+    },
+  );
+
+  blocTest<HomeBloc, HomeState>(
+    'failed first fetch sets hasNext to false so pagination cannot crash on empty list',
+    build: buildBloc,
+    setUp: () {
+      when(() => homeRepository.getInterlocutors()).thenThrow(
+        AuthException(
+          context: const RequestContext(operation: 'getInterlocutors'),
+          code: 'PGRST303',
+          userMessage: 'JWT issued at future',
+        ),
+      );
+    },
+    expect: () => <TypeMatcher<HomeState>>[
+      isA<HomeState>()
+          .having((HomeState s) => s.isFirstLoading, 'firstLoading', isFalse)
+          .having((HomeState s) => s.hasNext, 'hasNext', isFalse)
+          .having((HomeState s) => s.interlocutors, 'list', isEmpty),
+    ],
+  );
+
+  blocTest<HomeBloc, HomeState>(
     'onLogoutTapped calls AuthSessionPort.logOut',
     build: buildBloc,
     setUp: () {

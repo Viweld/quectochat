@@ -77,6 +77,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     if (!state.hasNext) return;
     if (state.isNextLoading) return;
+    // Cursor for the next page is the last loaded item — without it pagination is impossible.
+    if (state.interlocutors.isEmpty) {
+      emit(state.copyWith(hasNext: false));
+      return;
+    }
     emit(state.copyWith(searchId: state.searchId + 1, isNextLoading: true));
     await _getInterlocutors(emit, searchId: state.searchId, isNextPageRequired: true);
   }
@@ -158,6 +163,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }) async {
     try {
       if (isNextPageRequired) {
+        if (state.interlocutors.isEmpty) {
+          emit(state.copyWith(hasNext: false, isNextLoading: false));
+          return;
+        }
         final Paginated<Interlocutor> interlocutors = await _homeRepository.getInterlocutors(
           lastInterlocutorId: state.interlocutors.last.userId,
         );
@@ -188,7 +197,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (presentation.shouldRethrow) rethrow;
     } finally {
       if (!emit.isDone) {
-        emit(state.copyWith(isFirstLoading: false, isNextLoading: false));
+        // Failed first load leaves an empty list with default hasNext=true; stop pagination.
+        emit(
+          state.copyWith(
+            isFirstLoading: false,
+            isNextLoading: false,
+            hasNext: state.interlocutors.isEmpty ? false : state.hasNext,
+          ),
+        );
       }
     }
   }

@@ -30,6 +30,8 @@ class CommonEditField extends StatefulWidget {
     this.title,
     this.isPassword = false,
     this.customTextStyle,
+    this.minLines = 1,
+    this.maxLines = 1,
     super.key,
   });
 
@@ -98,6 +100,13 @@ class CommonEditField extends StatefulWidget {
 
   /// Принудительное указание стиля текста
   final TextStyle? customTextStyle;
+
+  /// Minimum number of visible text lines. Use with [maxLines] for growing fields.
+  final int minLines;
+
+  /// Maximum number of visible text lines. Excess content scrolls inside the field.
+  /// Keep `1` for the fixed-height single-line design used across auth/home.
+  final int? maxLines;
 
   static const double borderThickness = 1;
 
@@ -181,100 +190,101 @@ class _CommonEditFieldState extends State<CommonEditField> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMultiline = widget.minLines > 1 || (widget.maxLines ?? 1) != 1;
+    final TextField textField = TextField(
+      magnifierConfiguration: TextMagnifierConfiguration.disabled,
+      onTapOutside: (PointerDownEvent event) {
+        _focusNode.unfocus();
+        widget.onTapOutside?.call(event);
+      },
+      focusNode: _focusNode,
+      maxLength: widget.maxLength,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      textAlignVertical: isMultiline ? TextAlignVertical.top : TextAlignVertical.center,
+      textAlign: widget.align,
+      // в используемом шрифте символ \u2022 постоянно прыгает при вводе
+      obscuringCharacter: '\u2055',
+      obscureText: widget.isPassword,
+      controller: _textController,
+      readOnly: widget.readOnly,
+      onTap: widget.onTap,
+      onChanged: (String t) {
+        widget.onChanged?.call(t);
+        setState(() => _error = false);
+      },
+      enabled: widget.isEnabled,
+      keyboardType: widget.isPassword
+          ? TextInputType.text
+          : (widget.keyboardType ?? (isMultiline ? TextInputType.multiline : null)),
+      textInputAction: isMultiline ? TextInputAction.newline : TextInputAction.done,
+      textCapitalization: widget.isPassword
+          ? TextCapitalization.none
+          : (widget.textCapitalization ?? TextCapitalization.none),
+      style:
+          widget.customTextStyle ??
+          context.hint?.copyWith(
+            decorationColor: _palette.white,
+            color: _error
+                ? _palette.red
+                : widget.readOnly
+                ? _palette.gray
+                : _palette.black,
+          ),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+        isDense: false,
+        counterText: '',
+        filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        fillColor: context.palette.stroke,
+        alignLabelWithHint: true,
+        labelText: widget.hintText,
+        labelStyle: context.hint,
+        prefixIcon: widget.prefix,
+        suffixIcon: widget.onClearTapped == null || _textController.text.isEmpty
+            ? null
+            : IconButton(
+                onPressed: _onClearTapped,
+                icon: Icon(Icons.close_rounded, color: context.palette.black),
+              ),
+        border: _error ? _errorBorder : _regularBorder,
+        disabledBorder: _error ? _errorBorder : _regularBorder,
+        focusedBorder: _error ? _errorBorder : _focusedBorder,
+        errorBorder: _errorBorder,
+        focusedErrorBorder: _errorBorder,
+        enabledBorder: _error
+            ? _errorBorder
+            : _textController.text.isEmpty
+            ? _regularBorder
+            : _focusedBorder,
+      ),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        /// Заголовок
         if (widget.title != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(widget.title!, style: context.username),
           ),
-
-        /// Поле ввода
         Focus(
           onFocusChange: (_) => setState(() {}),
-          child: SizedBox(
-            height: Values.textFieldHeight,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
-                child: TextField(
-                  magnifierConfiguration: TextMagnifierConfiguration.disabled,
-                  onTapOutside: (PointerDownEvent event) {
-                    _focusNode.unfocus();
-                    widget.onTapOutside?.call(event);
-                  },
-                  focusNode: _focusNode,
-                  maxLength: widget.maxLength,
-                  textAlignVertical: TextAlignVertical.center,
-                  textAlign: widget.align,
-                  // в используемом шрифте символ \u2022 постоянно прыгает при вводе
-                  obscuringCharacter: '\u2055',
-                  obscureText: widget.isPassword,
-                  controller: _textController,
-                  readOnly: widget.readOnly,
-                  onTap: widget.onTap,
-                  onChanged: (String t) {
-                    widget.onChanged?.call(t);
-                    setState(() => _error = false);
-                  },
-                  enabled: widget.isEnabled,
-                  keyboardType: widget.isPassword ? TextInputType.text : widget.keyboardType,
-                  textCapitalization: widget.isPassword
-                      ? TextCapitalization.none
-                      : (widget.textCapitalization ?? TextCapitalization.none),
-                  minLines: 1,
-                  style:
-                      widget.customTextStyle ??
-                      context.hint?.copyWith(
-                        decorationColor: _palette.white,
-                        color: _error
-                            ? _palette.red
-                            : widget.readOnly
-                            ? _palette.gray
-                            : _palette.black,
-                      ),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                    isDense: false,
-                    counterText: '',
-                    filled: true,
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    fillColor: context.palette.stroke,
-                    alignLabelWithHint: true,
-                    labelText: widget.hintText,
-                    labelStyle: context.hint,
-                    prefixIcon: widget.prefix,
-                    suffixIcon: widget.onClearTapped == null || _textController.text.isEmpty
-                        ? null
-                        : IconButton(
-                            onPressed: _onClearTapped,
-                            icon: Icon(Icons.close_rounded, color: context.palette.black),
-                          ),
-
-                    // Границы
-                    border: _error ? _errorBorder : _regularBorder,
-                    disabledBorder: _error ? _errorBorder : _regularBorder,
-                    focusedBorder: _error ? _errorBorder : _focusedBorder,
-                    errorBorder: _errorBorder,
-                    focusedErrorBorder: _errorBorder,
-                    enabledBorder: _error
-                        ? _errorBorder
-                        : _textController.text.isEmpty
-                        ? _regularBorder
-                        : _focusedBorder,
-                  ),
-                ),
-              ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
+              // Single-line: fixed design height. Multiline: intrinsic grow up to maxLines.
+              child: isMultiline
+                  ? textField
+                  : SizedBox(height: Values.textFieldHeight, child: textField),
             ),
           ),
         ),
-
         if (_error && (_errorText ?? '').isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 4),
@@ -293,9 +303,6 @@ class _CommonEditFieldState extends State<CommonEditField> {
     );
   }
 
-  // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ:
-  // ---------------------------------------------------------------------------
-  /// Очищает инстанс контроллера и вызывает внешний коллбэк onClearTapped
   void _onClearTapped() {
     if (_focusNode.hasFocus) _focusNode.unfocus();
     widget.onClearTapped?.call();

@@ -9,8 +9,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:infrastructure/infrastructure.dart';
 import 'package:navigation/navigation.dart';
 import 'package:navigation_api/navigation_api.dart';
-import 'package:quectochat/delivery_ack_coordinator.dart';
 import 'package:quectochat/di/app_di.dart';
+import 'package:quectochat/foreground_tracking_coordinator.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
 
@@ -26,9 +26,10 @@ Future<void> main() async {
   await configureDependencies();
   await _registerPushToken();
 
-  DeliveryAckCoordinator(
+  ForegroundTrackingCoordinator(
     authenticationStatePort: appLocator<AuthenticationStatePort>(),
     chatDeliveryAckPort: appLocator<ChatDeliveryAckPort>(),
+    presencePort: appLocator<PresencePort>(),
   ).start();
 
   runApp(const DynamicTheme(child: LocaleProvider(child: Application())));

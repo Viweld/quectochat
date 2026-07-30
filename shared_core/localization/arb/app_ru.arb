@@ -62,5 +62,9 @@
 
   "@ chat screen (экран переписки)": {},
   "chatEmptyMessagesPlaceholder": "Вы еще не начали переписку...",
-  "chatTodayDividerLabel": "Сегодня"
+  "chatTodayDividerLabel": "Сегодня",
+  "chatStatusOnline": "онлайн",
+  "chatStatusTyping": "печатает...",
+  "chatStatusRecentlyOffline": "недавно был онлайн",
+  "chatStatusLongOffline": "давно был онлайн"
 }

@@ -44,7 +44,7 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
     add(ReadingViewEvent.onMessagesUpdated(messages: _mergeMessages(state.messages, messages)));
   }
 
-  Iterable<Message> _mergeMessages(Iterable<Message> oldMessages, Iterable<Message> newMessages) {
+  List<Message> _mergeMessages(List<Message> oldMessages, Iterable<Message> newMessages) {
     final List<Message> updatedMessages = <Message>[];
     final Iterator<Message> oldIter = oldMessages.iterator;
     final Iterator<Message> newIter = newMessages.iterator;
@@ -85,7 +85,7 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
       final Paginated<Message> page = await _chatRepository.getChatMessages(
         interlocutorId: state.interlocutorId,
       );
-      emit(state.copyWith(messages: page.result, hasNext: page.hasNext, isPending: false));
+      emit(state.copyWith(messages: page.result.toList(), hasNext: page.hasNext, isPending: false));
     } on Object catch (error, stackTrace) {
       final ErrorPresentation presentation = _blocErrorHandler.handle(
         error,
@@ -107,7 +107,7 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
       );
       emit(
         state.copyWith(
-          messages: state.messages.followedBy(page.result),
+          messages: state.messages.followedBy(page.result).toList(),
           hasNext: page.hasNext,
           isNextLoading: false,
         ),

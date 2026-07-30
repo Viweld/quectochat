@@ -4,7 +4,7 @@ part of 'reading_view_bloc.dart';
 abstract class ReadingViewState with _$ReadingViewState {
   const factory ReadingViewState({
     required String interlocutorId,
-    @Default(<dynamic>[]) Iterable<Message> messages,
+    @Default(<Message>[]) List<Message> messages,
     @Default(true) bool isPending,
     @Default(false) bool isNextLoading,
     @Default(true) bool hasNext,

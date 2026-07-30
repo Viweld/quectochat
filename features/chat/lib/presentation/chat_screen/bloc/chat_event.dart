@@ -9,6 +9,9 @@ sealed class ChatEvent with _$ChatEvent {
   const factory ChatEvent.onErrorReceived({required ChatRepositoryError error}) =
       _EventOnErrorReceived;
 
+  /// ВНУТРЕННЕЕ событие пересчёта статуса собеседника
+  const factory ChatEvent.onStatusRecomputeRequested() = _EventOnStatusRecomputeRequested;
+
   /// Сброс обработанного UI-эффекта
   const factory ChatEvent.effectHandled() = _EffectHandled;
 }

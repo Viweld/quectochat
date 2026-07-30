@@ -34,6 +34,9 @@ typedef ChatMessagesSubscription = StreamSubscription<Iterable<Message>>;
 /// Subscription to errors stream.
 typedef ChatErrorsSubscription = StreamSubscription<ChatRepositoryError>;
 
+/// Subscription to interlocutor typing status.
+typedef ChatTypingSubscription = StreamSubscription<bool>;
+
 /// Chat repository.
 abstract interface class ChatRepository {
   Future<void> close();
@@ -42,9 +45,13 @@ abstract interface class ChatRepository {
 
   ChatErrorsSubscription subscribeErrors(void Function(ChatRepositoryError) listener);
 
+  ChatTypingSubscription subscribeInterlocutorTyping(void Function(bool isTyping) listener);
+
   Future<void> initialize({required String interlocutorId});
 
   Future<void> markAsRead({required String interlocutorId});
+
+  Future<void> setTypingStatus({required bool isTyping});
 
   Future<void> startDeliveryTracking();
 

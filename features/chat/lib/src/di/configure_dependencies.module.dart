@@ -29,13 +29,6 @@ class ChatPackageModule extends _i526.MicroPackageModule {
         currentUserPort: gh<_i842.CurrentUserPort>(),
       ),
     );
-    gh.factoryParam<_i405.ChatBloc, String, dynamic>(
-      (interlocutorId, _) => _i405.ChatBloc(
-        gh<_i250.ChatRepository>(),
-        gh<_i668.BlocErrorHandler>(),
-        interlocutorId: interlocutorId,
-      ),
-    );
     gh.factoryParam<_i639.ReadingViewBloc, String, dynamic>(
       (interlocutorId, _) => _i639.ReadingViewBloc(
         gh<_i250.ChatRepository>(),
@@ -46,6 +39,14 @@ class ChatPackageModule extends _i526.MicroPackageModule {
     gh.factoryParam<_i392.TypingViewBloc, String, dynamic>(
       (interlocutorId, _) => _i392.TypingViewBloc(
         gh<_i250.ChatRepository>(),
+        gh<_i668.BlocErrorHandler>(),
+        interlocutorId: interlocutorId,
+      ),
+    );
+    gh.factoryParam<_i405.ChatBloc, String, dynamic>(
+      (interlocutorId, _) => _i405.ChatBloc(
+        gh<_i250.ChatRepository>(),
+        gh<_i842.PresencePort>(),
         gh<_i668.BlocErrorHandler>(),
         interlocutorId: interlocutorId,
       ),

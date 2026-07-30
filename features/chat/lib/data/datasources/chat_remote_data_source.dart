@@ -23,4 +23,12 @@ abstract interface class ChatRemoteDataSource {
   Future<void> startIncomingMessagesWatcher();
 
   Future<void> stopIncomingMessagesWatcher();
+
+  Future<void> startTypingChannel({required String interlocutorId});
+
+  Future<void> stopTypingChannel();
+
+  Future<void> sendTypingStatus({required bool isTyping});
+
+  Stream<bool> get typingStatusStream;
 }

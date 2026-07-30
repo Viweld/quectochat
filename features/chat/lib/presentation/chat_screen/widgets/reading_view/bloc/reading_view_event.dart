@@ -6,6 +6,6 @@ sealed class ReadingViewEvent with _$ReadingViewEvent {
 
   const factory ReadingViewEvent.onNextPageRequested() = _EventOnNextPageRequested;
 
-  const factory ReadingViewEvent.onMessagesUpdated({required Iterable<Message> messages}) =
+  const factory ReadingViewEvent.onMessagesUpdated({required List<Message> messages}) =
       _EventOnMessagesUpdated;
 }

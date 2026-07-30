@@ -1,0 +1,1 @@
+Snapshot: CommonEditField with forced initial height = Values.textFieldHeight (42), TextPainter line counting, expands:true grow-to-maxLines. Saved before rollback to intrinsic multiline (pre-42 constraint). Restore by copying over shared_ui/lib/src/widgets/ui_kit/common_text_field.dart. Related: TypingView already uses maxLines:5 + own TextEditingController — keep that.

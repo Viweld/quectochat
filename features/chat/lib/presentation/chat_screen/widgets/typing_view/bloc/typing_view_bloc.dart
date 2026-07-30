@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:chat/domain/repositories/chat_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -29,11 +31,45 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   final ChatRepository _chatRepository;
   final BlocErrorHandler _blocErrorHandler;
 
+  static const Duration _typingIdleTimeout = Duration(seconds: 3);
+
+  Timer? _typingIdleTimer;
+  bool _isTypingActive = false;
+
   static TypingViewState _initialState({required String interlocutorId}) =>
       TypingViewState(interlocutorId: interlocutorId);
 
+  @override
+  Future<void> close() async {
+    _typingIdleTimer?.cancel();
+    if (_isTypingActive) {
+      _isTypingActive = false;
+      unawaited(_chatRepository.setTypingStatus(isTyping: false));
+    }
+    return super.close();
+  }
+
   void _onMessageChanged(_EventOnMessageChanged event, Emitter<TypingViewState> emit) {
     emit(state.copyWith(typedMessage: event.val));
+    _restartTypingIdleTimer();
+  }
+
+  /// Resets the 3s idle window on every keystroke; sends "typing" only once
+  /// per active burst, and "not typing" once the burst goes quiet.
+  void _restartTypingIdleTimer() {
+    _typingIdleTimer?.cancel();
+
+    if (!_isTypingActive) {
+      _isTypingActive = true;
+      unawaited(_chatRepository.setTypingStatus(isTyping: true));
+    }
+
+    _typingIdleTimer = Timer(_typingIdleTimeout, _onTypingIdleTimeout);
+  }
+
+  void _onTypingIdleTimeout() {
+    _isTypingActive = false;
+    unawaited(_chatRepository.setTypingStatus(isTyping: false));
   }
 
   Future<void> _onSendTapped(_EventOnSendTapped event, Emitter<TypingViewState> emit) async {
