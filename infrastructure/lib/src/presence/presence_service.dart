@@ -15,6 +15,8 @@ final class PresenceService {
   RealtimeChannel? _presenceChannel;
   Set<String> _latestOnlineUserIds = <String>{};
   bool _hasSynced = false;
+  bool _didLogSubscribeOffline = false;
+  bool _isStarting = false;
 
   String get _currentUserId => _client.auth.currentUser?.id ?? '';
 
@@ -32,79 +34,31 @@ final class PresenceService {
       log('Skip presence start: no signed-in user', name: 'PresenceService');
       return;
     }
-    if (_presenceChannel != null) return;
+    if (_presenceChannel != null || _isStarting) return;
 
-    final RealtimeChannel channel = _client.channel(
-      'online-users',
-      opts: RealtimeChannelConfig(key: userId, enabled: true),
-    );
-
-    channel
-      ..onPresenceSync((_) {
-        _emitOnlineUserIds(channel);
-      })
-      ..onPresenceJoin((_) {
-        _emitOnlineUserIds(channel);
-      })
-      ..onPresenceLeave((_) {
-        _emitOnlineUserIds(channel);
-      });
-
-    channel.subscribe((RealtimeSubscribeStatus status, Object? error) async {
-      if (status == RealtimeSubscribeStatus.subscribed) {
-        try {
-          await channel.track(<String, Object?>{
-            'user_id': userId,
-            'online_at': DateTime.now().toUtc().toIso8601String(),
-          });
-          _emitOnlineUserIds(channel);
-        } on Object catch (trackError, stackTrace) {
-          log(
-            'Failed to track presence',
-            name: 'PresenceService',
-            error: trackError,
-            stackTrace: stackTrace,
-          );
-        }
-      } else if (error != null) {
-        log('Presence channel subscribe failed', name: 'PresenceService', error: error);
-        // Allow a later startTracking retry.
-        if (identical(_presenceChannel, channel)) {
-          _presenceChannel = null;
-        }
-      }
-    });
-
-    _presenceChannel = channel;
+    _isStarting = true;
+    try {
+      await _subscribePresence(userId: userId);
+    } finally {
+      _isStarting = false;
+    }
   }
 
   Future<void> stopTracking() async {
     final RealtimeChannel? channel = _presenceChannel;
     _presenceChannel = null;
-    if (channel == null) return;
+    if (channel == null) {
+      await _persistLastSeenAt();
+      return;
+    }
 
     try {
       await channel.untrack();
     } on Object catch (error, stackTrace) {
-      log(
-        'Failed to untrack presence',
-        name: 'PresenceService',
-        error: error,
-        stackTrace: stackTrace,
-      );
+      _logNonTransportFailure('Failed to untrack presence', error: error, stackTrace: stackTrace);
     }
 
-    try {
-      await _client.removeChannel(channel);
-    } on Object catch (error, stackTrace) {
-      log(
-        'Failed to remove presence channel',
-        name: 'PresenceService',
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
+    await _removeChannelSafely(channel);
     await _persistLastSeenAt();
   }
 
@@ -124,26 +78,98 @@ final class PresenceService {
     await _onlineUserIdsController.close();
   }
 
+  Future<void> _subscribePresence({required String userId}) async {
+    final RealtimeChannel channel = _client.channel(
+      'online-users',
+      opts: RealtimeChannelConfig(key: userId, enabled: true),
+    );
+
+    channel
+      ..onPresenceSync((_) {
+        _emitOnlineUserIds(channel);
+      })
+      ..onPresenceJoin((_) {
+        _emitOnlineUserIds(channel);
+      })
+      ..onPresenceLeave((_) {
+        _emitOnlineUserIds(channel);
+      });
+
+    _presenceChannel = channel;
+
+    channel.subscribe((RealtimeSubscribeStatus status, Object? error) async {
+      if (status == RealtimeSubscribeStatus.subscribed) {
+        _didLogSubscribeOffline = false;
+        try {
+          await channel.track(<String, dynamic>{
+            'user_id': userId,
+            'online_at': DateTime.now().toUtc().toIso8601String(),
+          });
+          _emitOnlineUserIds(channel);
+        } on Object catch (trackError, stackTrace) {
+          _logNonTransportFailure(
+            'Failed to track presence',
+            error: trackError,
+            stackTrace: stackTrace,
+          );
+        }
+        return;
+      }
+
+      // Drop the broken channel completely — leaving a zombie causes corrupt presence
+      // sync (null phx_ref) after reconnect from offline.
+      if (identical(_presenceChannel, channel)) {
+        _presenceChannel = null;
+      }
+      if (error != null) {
+        _logSubscribeFailure(error);
+      }
+      await _removeChannelSafely(channel);
+    });
+  }
+
   void _emitOnlineUserIds(RealtimeChannel channel) {
     if (_onlineUserIdsController.isClosed) return;
+    if (!identical(_presenceChannel, channel)) return;
 
     final Set<String> ids = <String>{};
-    for (final SinglePresenceState state in channel.presenceState()) {
-      if (state.key.isNotEmpty) {
-        ids.add(state.key);
-      }
-      for (final Presence presence in state.presences) {
-        final Object? payloadUserId = presence.payload['user_id'];
-        if (payloadUserId is String && payloadUserId.isNotEmpty) {
-          ids.add(payloadUserId);
+    try {
+      for (final SinglePresenceState state in channel.presenceState()) {
+        if (state.key.isNotEmpty) {
+          ids.add(state.key);
+        }
+        for (final Presence presence in state.presences) {
+          final Object? payloadUserId = presence.payload['user_id'];
+          if (payloadUserId is String && payloadUserId.isNotEmpty) {
+            ids.add(payloadUserId);
+          }
         }
       }
+    } on Object catch (error, stackTrace) {
+      _logNonTransportFailure(
+        'Failed to read presence state',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      return;
     }
 
     _hasSynced = true;
     _latestOnlineUserIds = ids;
     log('Presence roster updated: ${ids.length} online', name: 'PresenceService');
     _onlineUserIdsController.add(ids);
+  }
+
+  Future<void> _removeChannelSafely(RealtimeChannel channel) async {
+    try {
+      await _client.removeChannel(channel);
+    } on Object catch (error, stackTrace) {
+      _logNonTransportFailure(
+        'Failed to remove presence channel',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   Future<void> _persistLastSeenAt() async {
@@ -156,6 +182,10 @@ final class PresenceService {
           .update(<String, Object?>{'last_seen_at': DateTime.now().toUtc().toIso8601String()})
           .eq('id', userId);
     } on Object catch (error, stackTrace) {
+      if (_isLikelyOffline(error)) {
+        log('Skip last_seen_at persist (backend unreachable)', name: 'PresenceService');
+        return;
+      }
       log(
         'Failed to persist last_seen_at',
         name: 'PresenceService',
@@ -163,5 +193,33 @@ final class PresenceService {
         stackTrace: stackTrace,
       );
     }
+  }
+
+  void _logSubscribeFailure(Object error) {
+    if (_isLikelyOffline(error)) {
+      if (_didLogSubscribeOffline) return;
+      _didLogSubscribeOffline = true;
+      log('Presence channel subscribe failed (backend unreachable)', name: 'PresenceService');
+      return;
+    }
+    _didLogSubscribeOffline = false;
+    log('Presence channel subscribe failed', name: 'PresenceService', error: error);
+  }
+
+  void _logNonTransportFailure(String message, {required Object error, StackTrace? stackTrace}) {
+    if (_isLikelyOffline(error)) {
+      log('$message (backend unreachable)', name: 'PresenceService');
+      return;
+    }
+    log(message, name: 'PresenceService', error: error, stackTrace: stackTrace);
+  }
+
+  bool _isLikelyOffline(Object error) {
+    final String text = error.toString().toLowerCase();
+    return text.contains('socketexception') ||
+        text.contains('failed host lookup') ||
+        text.contains('no address associated with hostname') ||
+        text.contains('connection refused') ||
+        text.contains('clientexception with socketexception');
   }
 }

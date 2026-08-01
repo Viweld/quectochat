@@ -43,5 +43,7 @@ enum AppErrorKind {
   emailAlreadyUsed,
   emailRateLimit,
   validation,
+  network,
+  server,
   generic,
 }

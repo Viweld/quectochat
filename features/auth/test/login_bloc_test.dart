@@ -106,4 +106,35 @@ void main() {
       isA<LoginState>().having((LoginState s) => s.isLoading, 'loading', isFalse),
     ],
   );
+
+  blocTest<LoginBloc, LoginState>(
+    'submitRequested with network failure emits network showError',
+    build: buildBloc,
+    setUp: () {
+      when(
+        () => authRepository.logIn(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (Invocation _) async => const Failure<void, LoginFailure>(LoginNetworkFailure()),
+      );
+    },
+    act: (LoginBloc bloc) {
+      bloc
+        ..add(const LoginEvent.emailChanged('a@b.com'))
+        ..add(const LoginEvent.passwordChanged('password1'))
+        ..add(const LoginEvent.submitRequested());
+    },
+    skip: 2,
+    expect: () => <TypeMatcher<LoginState>>[
+      isA<LoginState>().having((LoginState s) => s.isLoading, 'loading', isTrue),
+      isA<LoginState>().having(
+        (LoginState s) => s.effect,
+        'effect',
+        const LoginEffect.showError(AppErrorKind.network),
+      ),
+      isA<LoginState>().having((LoginState s) => s.isLoading, 'loading', isFalse),
+    ],
+  );
 }

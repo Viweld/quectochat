@@ -59,6 +59,10 @@ abstract interface class ChatRepository {
 
   Future<void> cleanup();
 
+  /// Loads a page of messages for [interlocutorId], newest first.
+  ///
+  /// Pass [lastMessageId] of the oldest already-loaded message to fetch the next
+  /// older page. Results are chronological (oldest → newest within the page).
   Future<Paginated<Message>> getChatMessages({
     required String interlocutorId,
     String? lastMessageId,

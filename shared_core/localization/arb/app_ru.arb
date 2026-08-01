@@ -4,6 +4,7 @@
   "commonCancel": "Отмена",
   "commonEmptyFieldError": "Поле не может быть пустым",
   "commonRequestError": "Ошибка при выполнении запроса",
+  "commonRetry": "Повторить",
   "toastNetworkError": "Нет соединения с сетью",
   "toastServerError": "Ошибка сервера. Попробуйте позже",
   "toastAuthError": "Ошибка авторизации",
@@ -47,6 +48,7 @@
   "homeLogoutLabel": "Выйти",
   "homeSearchHint": "Поиск",
   "homeEmptyInterlocutorsMessage": "Не с кем переписываться",
+  "homeLoadErrorMessage": "Не удалось загрузить список чатов",
   "homeChatTileYouLabel": "Вы: ",
   "homeClearChatLabel": "Очистить\nчат",
 

@@ -16,6 +16,16 @@ final class EmailRateLimitFailure extends RegistrationFailure {
   const EmailRateLimitFailure();
 }
 
+/// No usable network path to the auth backend.
+final class RegistrationNetworkFailure extends RegistrationFailure {
+  const RegistrationNetworkFailure();
+}
+
+/// Auth backend unreachable or not responding.
+final class RegistrationBackendFailure extends RegistrationFailure {
+  const RegistrationBackendFailure();
+}
+
 /// Unexpected auth/API failure; [message] is for logs only.
 final class RegistrationGenericFailure extends RegistrationFailure {
   const RegistrationGenericFailure({this.message});

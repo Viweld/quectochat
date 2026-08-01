@@ -116,6 +116,12 @@ abstract class AppLocalizations {
   /// **'Ошибка при выполнении запроса'**
   String get commonRequestError;
 
+  /// No description provided for @commonRetry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get commonRetry;
+
   /// No description provided for @toastNetworkError.
   ///
   /// In ru, this message translates to:
@@ -337,6 +343,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Не с кем переписываться'**
   String get homeEmptyInterlocutorsMessage;
+
+  /// No description provided for @homeLoadErrorMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить список чатов'**
+  String get homeLoadErrorMessage;
 
   /// No description provided for @homeChatTileYouLabel.
   ///

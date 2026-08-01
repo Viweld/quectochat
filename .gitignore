@@ -58,3 +58,7 @@ pubspec_overrides.yaml
 .mason/
 mason-lock.yaml
 .fz/
+
+
+quectochat-fcm-service-account.json
+supabase/.temp/

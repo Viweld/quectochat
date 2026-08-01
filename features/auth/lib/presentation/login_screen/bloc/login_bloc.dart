@@ -99,5 +99,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     InvalidCredentialFailure() => AppErrorKind.invalidCredential,
     UserNotFoundFailure() => AppErrorKind.userNotFound,
     WrongPasswordFailure() => AppErrorKind.wrongPassword,
+    LoginNetworkFailure() => AppErrorKind.network,
+    LoginBackendFailure() => AppErrorKind.server,
   };
 }

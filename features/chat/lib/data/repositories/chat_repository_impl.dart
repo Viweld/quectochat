@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:chat/data/datasources/chat_remote_data_source.dart';
 import 'package:chat/data/dto/message_dto.dart';
@@ -8,6 +7,7 @@ import 'package:chat/domain/entities/message.dart';
 import 'package:chat/domain/repositories/chat_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:navigation_api/navigation_api.dart';
+import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 
 @LazySingleton(as: ChatRepository)
@@ -19,6 +19,7 @@ final class ChatRepositoryImpl implements ChatRepository {
        _currentUserPort = currentUserPort;
 
   StreamSubscription<Set<MessageDto>>? _chatStreamSubscription;
+  Timer? _activeChatHeartbeatTimer;
 
   final ChatRemoteDataSource _remoteDataSource;
   final CurrentUserPort _currentUserPort;
@@ -28,6 +29,8 @@ final class ChatRepositoryImpl implements ChatRepository {
       StreamController<ChatRepositoryError>.broadcast();
 
   String? _activeInterlocutorId;
+
+  static const Duration _activeChatHeartbeatInterval = Duration(seconds: 10);
 
   String get _currentUserId => _currentUserPort.currentUserId;
 
@@ -59,11 +62,13 @@ final class ChatRepositoryImpl implements ChatRepository {
         .getAddedModifiedMessagesStream(interlocutorId: interlocutorId)
         .listen(_onChatStreamMessageReceived, onError: _onChatStreamErrorReceived);
     await _remoteDataSource.startTypingChannel(interlocutorId: interlocutorId);
+    await _startActiveChatHeartbeat(interlocutorId: interlocutorId);
   }
 
   @override
   Future<void> cleanup() async {
     _activeInterlocutorId = null;
+    await _stopActiveChatHeartbeat();
     await _remoteDataSource.stopTypingChannel();
     await _chatStreamSubscription?.cancel();
   }
@@ -83,7 +88,7 @@ final class ChatRepositoryImpl implements ChatRepository {
     try {
       await _remoteDataSource.sendTypingStatus(isTyping: isTyping);
     } on Object catch (error, stackTrace) {
-      log(
+      logInfrastructureFailure(
         'Failed to set typing status',
         name: 'ChatRepository',
         error: error,
@@ -97,7 +102,7 @@ final class ChatRepositoryImpl implements ChatRepository {
     try {
       await _remoteDataSource.startIncomingMessagesWatcher();
     } on Object catch (error, stackTrace) {
-      log(
+      logInfrastructureFailure(
         'Failed to start delivery tracking',
         name: 'ChatRepository',
         error: error,
@@ -111,7 +116,7 @@ final class ChatRepositoryImpl implements ChatRepository {
     try {
       await _remoteDataSource.stopIncomingMessagesWatcher();
     } on Object catch (error, stackTrace) {
-      log(
+      logInfrastructureFailure(
         'Failed to stop delivery tracking',
         name: 'ChatRepository',
         error: error,
@@ -196,7 +201,7 @@ final class ChatRepositoryImpl implements ChatRepository {
     try {
       await _remoteDataSource.markAsRead(interlocutorId: interlocutorId);
     } on Object catch (error, stackTrace) {
-      log(
+      logInfrastructureFailure(
         'Failed to mark messages as read while chat is open',
         name: 'ChatRepository',
         error: error,
@@ -208,5 +213,42 @@ final class ChatRepositoryImpl implements ChatRepository {
   void _onChatStreamErrorReceived(Object error, StackTrace stackTrace) {
     _emitError(const ChatRepositoryGenericFailure());
     Error.throwWithStackTrace(error, stackTrace);
+  }
+
+  Future<void> _startActiveChatHeartbeat({required String interlocutorId}) async {
+    await _stopActiveChatHeartbeat(clearRemote: false);
+    await _markChatActiveSafely(interlocutorId: interlocutorId);
+    _activeChatHeartbeatTimer = Timer.periodic(_activeChatHeartbeatInterval, (_) {
+      unawaited(_markChatActiveSafely(interlocutorId: interlocutorId));
+    });
+  }
+
+  Future<void> _stopActiveChatHeartbeat({bool clearRemote = true}) async {
+    _activeChatHeartbeatTimer?.cancel();
+    _activeChatHeartbeatTimer = null;
+    if (!clearRemote) return;
+    try {
+      await _remoteDataSource.clearActiveChat();
+    } on Object catch (error, stackTrace) {
+      logInfrastructureFailure(
+        'Failed to clear active chat',
+        name: 'ChatRepository',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  Future<void> _markChatActiveSafely({required String interlocutorId}) async {
+    try {
+      await _remoteDataSource.markChatActive(interlocutorId: interlocutorId);
+    } on Object catch (error, stackTrace) {
+      logInfrastructureFailure(
+        'Failed to mark chat active',
+        name: 'ChatRepository',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 }

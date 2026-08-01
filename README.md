@@ -96,6 +96,33 @@ CI (`.github/workflows/flutter.yml`): на PR — format / analyze / graph / tes
    - **Authentication → Providers → Email** → **Confirm email = OFF** → Save.
    - После `signUp` сразу выдаётся session; вход — email + password.
    - Если видите `over_email_send_rate_limit` — confirm ещё включён или лимит не сбросился; выключите confirm и подождите несколько минут.
-5. Опционально: задеплоить `supabase/functions/send-push` для push по webhook.
+5. **Push-уведомления (FCM + Edge Function):**
+
+   **Firebase / Apple (разово)**
+   1. Firebase Console → Project Settings → Service Accounts → Generate new private key → сохранить JSON.
+   2. Apple Developer → Keys → APNs Auth Key (.p8) → загрузить в Firebase Console → Cloud Messaging → Apple app configuration (Key ID + Team ID).
+   3. Скачать `GoogleService-Info.plist` для iOS-приложения и добавить в `ios/Runner/` через Xcode (target membership = Runner).
+   4. В Xcode: Signing & Capabilities → Push Notifications (entitlements уже в репо) + Background Modes → Remote notifications (`Info.plist` уже содержит `UIBackgroundModes`).
+   5. Для App Store / TestFlight: в `Runner.entitlements` сменить `aps-environment` с `development` на `production`.
+
+   **Supabase**
+   1. Сгенерировать секрет: `openssl rand -hex 32`.
+   2. Применить миграции (`*_active_chats.sql`, `*_push_trigger.sql`).
+   3. В SQL Editor:
+      ```sql
+      select vault.create_secret('<SECRET>', 'push_webhook_secret');
+      select vault.create_secret(
+        'https://<PROJECT_REF>.supabase.co/functions/v1/send-push',
+        'send_push_url'
+      );
+      ```
+   4. Задать секреты функции и задеплоить:
+      ```bash
+      supabase secrets set \
+        FCM_SERVICE_ACCOUNT_JSON="$(cat service-account.json)" \
+        PUSH_WEBHOOK_SECRET="<SECRET>"
+      supabase functions deploy send-push --no-verify-jwt
+      ```
+   5. Проверка: `supabase functions logs send-push`. Тест только на реальных устройствах (iOS Simulator не получает push).
 
 Документация архитектуры: `.kb/architecture/`. Правила агента: `AGENTS.md`.

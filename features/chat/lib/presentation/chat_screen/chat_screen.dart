@@ -30,7 +30,7 @@ class ChatScreen extends StatelessWidget {
           effect.when(
             showError: (AppErrorKind kind, String? transitMessage) => CommonToast.showError(
               context,
-              text: transitMessage ?? context.texts.commonRequestError,
+              text: transitMessage ?? _resolveErrorText(context, kind),
             ),
           );
 
@@ -44,5 +44,13 @@ class ChatScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _resolveErrorText(BuildContext context, AppErrorKind kind) {
+    return switch (kind) {
+      AppErrorKind.network => context.texts.toastNetworkError,
+      AppErrorKind.server => context.texts.toastServerError,
+      _ => context.texts.commonRequestError,
+    };
   }
 }

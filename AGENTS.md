@@ -81,5 +81,6 @@ lib/  (app: entrypoints + Composition Root)
 | `AuthSessionPort` | `logOut` для home и др. |
 | `CurrentUserPort` | `currentUserId` для mappers |
 | `PushNotificationPort` | регистрация FCM token |
+| `BadgeSyncPort` | sync badge непрочитанных |
 
-Wiring — в `lib/di/auth_port_adapters.dart` и `lib/di/push_port_adapters.dart`.
+Wiring — в `lib/di/auth_port_adapters.dart`, `lib/di/push_port_adapters.dart`, `lib/di/badge_port_adapters.dart`.

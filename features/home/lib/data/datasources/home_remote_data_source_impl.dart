@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:home/data/datasources/home_remote_data_source.dart';
 import 'package:home/data/datasources/table_keys.dart';
@@ -37,17 +36,24 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<Iterable<InterlocutorDto>> searchInterlocutors({required String searchText}) async {
-    final String pattern = '%$searchText%';
-    final List<Map<String, dynamic>> rows = await _client
-        .from(TableKeys.profiles)
-        .select()
-        .neq(TableKeys.profileId, _currentUserId)
-        .or(
-          '${TableKeys.profileFirstName}.ilike.$pattern,'
-          '${TableKeys.profileLastName}.ilike.$pattern',
-        );
+    try {
+      final String pattern = '%$searchText%';
+      final List<Map<String, dynamic>> rows = await _client
+          .from(TableKeys.profiles)
+          .select()
+          .neq(TableKeys.profileId, _currentUserId)
+          .or(
+            '${TableKeys.profileFirstName}.ilike.$pattern,'
+            '${TableKeys.profileLastName}.ilike.$pattern',
+          );
 
-    return rows.map((Map<String, dynamic> row) => InterlocutorDto(user: UserDto.fromJson(row)));
+      return rows.map((Map<String, dynamic> row) => InterlocutorDto(user: UserDto.fromJson(row)));
+    } on Object catch (cause, stackTrace) {
+      Error.throwWithStackTrace(
+        _mapTransportException(cause, operation: 'home.searchInterlocutors'),
+        stackTrace,
+      );
+    }
   }
 
   @override
@@ -66,7 +72,7 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           controller.add(directory.toSet());
         }
       } on Object catch (error, stackTrace) {
-        log(
+        logInfrastructureFailure(
           'Failed to refresh home directory',
           name: 'HomeRemoteDataSource',
           error: error,
@@ -107,12 +113,33 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<void> clearChat({required String interlocutorId}) async {
-    final String chatId = DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]);
-    await _client.from(TableKeys.messages).delete().eq(TableKeys.messageChatId, chatId);
+    try {
+      final String chatId = DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]);
+      await _client.from(TableKeys.messages).delete().eq(TableKeys.messageChatId, chatId);
+    } on Object catch (cause, stackTrace) {
+      Error.throwWithStackTrace(
+        _mapTransportException(cause, operation: 'home.clearChat'),
+        stackTrace,
+      );
+    }
   }
 
   /// Conversations with last message first, then remaining profiles (no chat yet).
   Future<List<InterlocutorDto>> _loadDirectory({
+    required int limit,
+    String? lastInterlocutorId,
+  }) async {
+    try {
+      return await _loadDirectoryUnsafe(limit: limit, lastInterlocutorId: lastInterlocutorId);
+    } on Object catch (cause, stackTrace) {
+      Error.throwWithStackTrace(
+        _mapTransportException(cause, operation: 'home.loadDirectory'),
+        stackTrace,
+      );
+    }
+  }
+
+  Future<List<InterlocutorDto>> _loadDirectoryUnsafe({
     required int limit,
     String? lastInterlocutorId,
   }) async {
@@ -177,5 +204,18 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       ),
       lastMessage: MessagePreviewDto.fromJson(row),
     );
+  }
+
+  ApiException _mapTransportException(Object cause, {required String operation}) {
+    final RequestContext context = RequestContext(operation: operation);
+    return switch (classifyTransportError(cause)) {
+      TransportErrorKind.network => NetworkException(
+        kind: NetworkExceptionKind.offline,
+        context: context,
+        cause: cause,
+      ),
+      TransportErrorKind.server => ServerException(context: context, cause: cause),
+      TransportErrorKind.other => ServerException(context: context, cause: cause),
+    };
   }
 }

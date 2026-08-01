@@ -27,7 +27,9 @@ class RegistrationScreen extends StatelessWidget {
                 AppErrorKind.emailAlreadyUsed =>
                   context.texts.registrationExceptionEmailAlreadyUsed,
                 AppErrorKind.emailRateLimit => context.texts.registrationExceptionRateLimit,
-                _ => detail?.isNotEmpty == true ? detail! : context.texts.commonRequestError,
+                AppErrorKind.network => context.texts.toastNetworkError,
+                AppErrorKind.server => context.texts.toastServerError,
+                _ => context.texts.commonRequestError,
               },
             ),
           );

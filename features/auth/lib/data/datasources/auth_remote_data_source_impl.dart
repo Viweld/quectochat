@@ -40,6 +40,8 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await _client.auth.signInWithPassword(email: email, password: password);
     } on AuthException catch (error) {
       throw _mapLoginFailure(error);
+    } on Object catch (error, stackTrace) {
+      throw _mapOrRethrowLoginTransportFailure(error, stackTrace);
     }
   }
 
@@ -60,6 +62,8 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final UserDto userDto = UserDto(firstName: firstName, lastName: lastName);
       await _client.from(TableKeys.profiles).upsert(userDto.toJson(userId: userId));
+    } on RegistrationFailure {
+      rethrow;
     } on AuthException catch (error) {
       throw _mapRegistrationFailure(error);
     } on PostgrestException catch (error) {
@@ -67,7 +71,9 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'Registration PostgrestException code=${error.code} message=${error.message}',
         name: 'AuthRemoteDataSource',
       );
-      throw RegistrationGenericFailure(message: '${error.code}: ${error.message}');
+      throw _mapRegistrationPostgrestFailure(error);
+    } on Object catch (error, stackTrace) {
+      throw _mapOrRethrowRegistrationTransportFailure(error, stackTrace);
     }
   }
 
@@ -77,6 +83,14 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   LoginFailure _mapLoginFailure(AuthException error) {
+    final TransportErrorKind transportKind = classifyTransportFailureText(error.message);
+    if (transportKind == TransportErrorKind.network) {
+      return const LoginNetworkFailure();
+    }
+    if (transportKind == TransportErrorKind.server) {
+      return const LoginBackendFailure();
+    }
+
     final String code = error.code ?? '';
     final String message = error.message.toLowerCase();
 
@@ -92,6 +106,17 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return const InvalidCredentialFailure();
   }
 
+  Never _mapOrRethrowLoginTransportFailure(Object error, StackTrace stackTrace) {
+    switch (classifyTransportError(error)) {
+      case TransportErrorKind.network:
+        throw const LoginNetworkFailure();
+      case TransportErrorKind.server:
+        throw const LoginBackendFailure();
+      case TransportErrorKind.other:
+        Error.throwWithStackTrace(error, stackTrace);
+    }
+  }
+
   RegistrationFailure _mapRegistrationFailure(AuthException error) {
     final String code = error.code ?? '';
     final String message = error.message.toLowerCase();
@@ -100,6 +125,14 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'Registration AuthException code=$code message=${error.message}',
       name: 'AuthRemoteDataSource',
     );
+
+    final TransportErrorKind transportKind = classifyTransportFailureText(error.message);
+    if (transportKind == TransportErrorKind.network) {
+      return const RegistrationNetworkFailure();
+    }
+    if (transportKind == TransportErrorKind.server) {
+      return const RegistrationBackendFailure();
+    }
 
     if (code == 'weak_password' || message.contains('weak') && message.contains('password')) {
       return const WeakPasswordFailure();
@@ -115,5 +148,29 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return const EmailRateLimitFailure();
     }
     return RegistrationGenericFailure(message: '${error.code}: ${error.message}');
+  }
+
+  RegistrationFailure _mapRegistrationPostgrestFailure(PostgrestException error) {
+    final TransportErrorKind transportKind = classifyTransportFailureText(
+      '${error.code} ${error.message} ${error.details}',
+    );
+    return switch (transportKind) {
+      TransportErrorKind.network => const RegistrationNetworkFailure(),
+      TransportErrorKind.server => const RegistrationBackendFailure(),
+      TransportErrorKind.other => RegistrationGenericFailure(
+        message: '${error.code}: ${error.message}',
+      ),
+    };
+  }
+
+  Never _mapOrRethrowRegistrationTransportFailure(Object error, StackTrace stackTrace) {
+    switch (classifyTransportError(error)) {
+      case TransportErrorKind.network:
+        throw const RegistrationNetworkFailure();
+      case TransportErrorKind.server:
+        throw const RegistrationBackendFailure();
+      case TransportErrorKind.other:
+        Error.throwWithStackTrace(error, stackTrace);
+    }
   }
 }

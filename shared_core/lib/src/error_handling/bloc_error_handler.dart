@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_core/src/error_handling/error_handling_policy.dart';
 import 'package:shared_core/src/error_handling/error_presentation.dart';
 import 'package:shared_core/src/error_handling/error_reporter.dart';
+import 'package:shared_core/src/error_handling/transport_error_classifier.dart';
 import 'package:shared_core/src/events/app_toast_bus.dart';
 import 'package:shared_core/src/events/app_toast_events.dart';
 import 'package:shared_core/src/exceptions/api_exception.dart';
@@ -23,7 +24,7 @@ final class BlocErrorHandler {
     bool? forceRethrow,
     Map<String, Object?>? reportContext,
   }) {
-    if (error is ApiException) {
+    if (_shouldReport(error)) {
       _reporter.recordNonFatal(error, stackTrace ?? StackTrace.current, context: reportContext);
     }
 
@@ -40,9 +41,21 @@ final class BlocErrorHandler {
     return presentation;
   }
 
+  bool _shouldReport(Object error) {
+    if (error is! ApiException) return false;
+    // Expected offline / timeout noise must not fill crash dashboards.
+    if (error is NetworkException) return false;
+    if (classifyTransportError(error) != TransportErrorKind.other) return false;
+    return true;
+  }
+
   ErrorPresentation _resolvePresentation(Object error, {required bool shouldRethrow}) {
     if (error is! ApiException) {
-      return ErrorPresentation(kind: ErrorPresentationKind.toast, shouldRethrow: shouldRethrow);
+      return ErrorPresentation(
+        kind: ErrorPresentationKind.toast,
+        toastKind: _toastKindForUnknown(error),
+        shouldRethrow: shouldRethrow,
+      );
     }
 
     final ErrorPresentationKind kind = _policy.presentationKind(error);
@@ -59,6 +72,14 @@ final class BlocErrorHandler {
       transitMessage: transitMessage,
       shouldRethrow: shouldRethrow,
     );
+  }
+
+  AppToastErrorKind _toastKindForUnknown(Object error) {
+    return switch (classifyTransportError(error)) {
+      TransportErrorKind.network => AppToastErrorKind.network,
+      TransportErrorKind.server => AppToastErrorKind.server,
+      TransportErrorKind.other => AppToastErrorKind.generic,
+    };
   }
 
   void _fireToast(Object error, ErrorPresentation presentation) {

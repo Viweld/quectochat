@@ -21,6 +21,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get commonRequestError => 'Ошибка при выполнении запроса';
 
   @override
+  String get commonRetry => 'Повторить';
+
+  @override
   String get toastNetworkError => 'Нет соединения с сетью';
 
   @override
@@ -130,6 +133,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get homeEmptyInterlocutorsMessage => 'Не с кем переписываться';
+
+  @override
+  String get homeLoadErrorMessage => 'Не удалось загрузить список чатов';
 
   @override
   String get homeChatTileYouLabel => 'Вы: ';

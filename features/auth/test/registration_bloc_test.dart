@@ -74,4 +74,41 @@ void main() {
       isA<RegistrationState>().having((RegistrationState s) => s.isLoading, 'loading', isFalse),
     ],
   );
+
+  blocTest<RegistrationBloc, RegistrationState>(
+    'onLoginTapped with network failure emits network showError',
+    build: buildBloc,
+    setUp: () {
+      when(
+        () => authRepository.registration(
+          firstName: any(named: 'firstName'),
+          lastName: any(named: 'lastName'),
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (Invocation _) async =>
+            const Failure<void, RegistrationFailure>(RegistrationNetworkFailure()),
+      );
+    },
+    act: (RegistrationBloc bloc) {
+      bloc
+        ..add(const RegistrationEvent.onFirstNameChanged('Ivan'))
+        ..add(const RegistrationEvent.onLastNameChanged('Petrov'))
+        ..add(const RegistrationEvent.onEmailChanged('a@b.com'))
+        ..add(const RegistrationEvent.onPasswordChanged('password1'))
+        ..add(const RegistrationEvent.onConfirmPasswordChanged('password1'))
+        ..add(const RegistrationEvent.onLoginTapped());
+    },
+    skip: 5,
+    expect: () => <TypeMatcher<RegistrationState>>[
+      isA<RegistrationState>().having((RegistrationState s) => s.isLoading, 'loading', isTrue),
+      isA<RegistrationState>().having(
+        (RegistrationState s) => s.effect,
+        'effect',
+        const RegistrationEffect.showError(AppErrorKind.network),
+      ),
+      isA<RegistrationState>().having((RegistrationState s) => s.isLoading, 'loading', isFalse),
+    ],
+  );
 }

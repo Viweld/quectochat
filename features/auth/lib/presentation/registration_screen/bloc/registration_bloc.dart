@@ -201,10 +201,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         AppErrorKind.emailAlreadyUsed,
       ),
       EmailRateLimitFailure() => const RegistrationEffect.showError(AppErrorKind.emailRateLimit),
-      RegistrationGenericFailure(:final String? message) => RegistrationEffect.showError(
-        AppErrorKind.generic,
-        detail: message,
-      ),
+      RegistrationNetworkFailure() => const RegistrationEffect.showError(AppErrorKind.network),
+      RegistrationBackendFailure() => const RegistrationEffect.showError(AppErrorKind.server),
+      RegistrationGenericFailure() => const RegistrationEffect.showError(AppErrorKind.generic),
     };
   }
 }

@@ -612,7 +612,7 @@ as Set<Interlocutor>,
 /// @nodoc
 mixin _$HomeState {
 
- Iterable<Interlocutor> get interlocutors; bool get hasNext; bool get isFirstLoading; bool get isNextLoading; bool get isLogoutLoading; bool get isSearchMode; String get searchText; int get searchId;
+ Iterable<Interlocutor> get interlocutors; bool get hasNext; bool get isFirstLoading; bool get isNextLoading; bool get isLogoutLoading; bool get isSearchMode; String get searchText; int get searchId; AppErrorViewModel? get loadError;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -623,16 +623,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId)&&(identical(other.loadError, loadError) || other.loadError == loadError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId,loadError);
 
 @override
 String toString() {
-  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId)';
+  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId, loadError: $loadError)';
 }
 
 
@@ -643,7 +643,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId
+ Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId, AppErrorViewModel? loadError
 });
 
 
@@ -660,7 +660,7 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,Object? loadError = freezed,}) {
   return _then(_self.copyWith(
 interlocutors: null == interlocutors ? _self.interlocutors : interlocutors // ignore: cast_nullable_to_non_nullable
 as Iterable<Interlocutor>,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
@@ -670,7 +670,8 @@ as bool,isLogoutLoading: null == isLogoutLoading ? _self.isLogoutLoading : isLog
 as bool,isSearchMode: null == isSearchMode ? _self.isSearchMode : isSearchMode // ignore: cast_nullable_to_non_nullable
 as bool,searchText: null == searchText ? _self.searchText : searchText // ignore: cast_nullable_to_non_nullable
 as String,searchId: null == searchId ? _self.searchId : searchId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,loadError: freezed == loadError ? _self.loadError : loadError // ignore: cast_nullable_to_non_nullable
+as AppErrorViewModel?,
   ));
 }
 
@@ -755,10 +756,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId,  AppErrorViewModel? loadError)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId);case _:
+return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId,_that.loadError);case _:
   return orElse();
 
 }
@@ -776,10 +777,10 @@ return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isN
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId,  AppErrorViewModel? loadError)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId);case _:
+return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId,_that.loadError);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -796,10 +797,10 @@ return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isN
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<Interlocutor> interlocutors,  bool hasNext,  bool isFirstLoading,  bool isNextLoading,  bool isLogoutLoading,  bool isSearchMode,  String searchText,  int searchId,  AppErrorViewModel? loadError)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId);case _:
+return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isNextLoading,_that.isLogoutLoading,_that.isSearchMode,_that.searchText,_that.searchId,_that.loadError);case _:
   return null;
 
 }
@@ -811,7 +812,7 @@ return $default(_that.interlocutors,_that.hasNext,_that.isFirstLoading,_that.isN
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.interlocutors = const [], this.hasNext = true, this.isFirstLoading = true, this.isNextLoading = false, this.isLogoutLoading = false, this.isSearchMode = false, this.searchText = '', this.searchId = 0});
+  const _HomeState({this.interlocutors = const <Interlocutor>[], this.hasNext = true, this.isFirstLoading = true, this.isNextLoading = false, this.isLogoutLoading = false, this.isSearchMode = false, this.searchText = '', this.searchId = 0, this.loadError});
   
 
 @override@JsonKey() final  Iterable<Interlocutor> interlocutors;
@@ -822,6 +823,7 @@ class _HomeState implements HomeState {
 @override@JsonKey() final  bool isSearchMode;
 @override@JsonKey() final  String searchText;
 @override@JsonKey() final  int searchId;
+@override final  AppErrorViewModel? loadError;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -833,16 +835,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other.interlocutors, interlocutors)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFirstLoading, isFirstLoading) || other.isFirstLoading == isFirstLoading)&&(identical(other.isNextLoading, isNextLoading) || other.isNextLoading == isNextLoading)&&(identical(other.isLogoutLoading, isLogoutLoading) || other.isLogoutLoading == isLogoutLoading)&&(identical(other.isSearchMode, isSearchMode) || other.isSearchMode == isSearchMode)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.searchId, searchId) || other.searchId == searchId)&&(identical(other.loadError, loadError) || other.loadError == loadError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interlocutors),hasNext,isFirstLoading,isNextLoading,isLogoutLoading,isSearchMode,searchText,searchId,loadError);
 
 @override
 String toString() {
-  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId)';
+  return 'HomeState(interlocutors: $interlocutors, hasNext: $hasNext, isFirstLoading: $isFirstLoading, isNextLoading: $isNextLoading, isLogoutLoading: $isLogoutLoading, isSearchMode: $isSearchMode, searchText: $searchText, searchId: $searchId, loadError: $loadError)';
 }
 
 
@@ -853,7 +855,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId
+ Iterable<Interlocutor> interlocutors, bool hasNext, bool isFirstLoading, bool isNextLoading, bool isLogoutLoading, bool isSearchMode, String searchText, int searchId, AppErrorViewModel? loadError
 });
 
 
@@ -870,7 +872,7 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? interlocutors = null,Object? hasNext = null,Object? isFirstLoading = null,Object? isNextLoading = null,Object? isLogoutLoading = null,Object? isSearchMode = null,Object? searchText = null,Object? searchId = null,Object? loadError = freezed,}) {
   return _then(_HomeState(
 interlocutors: null == interlocutors ? _self.interlocutors : interlocutors // ignore: cast_nullable_to_non_nullable
 as Iterable<Interlocutor>,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
@@ -880,7 +882,8 @@ as bool,isLogoutLoading: null == isLogoutLoading ? _self.isLogoutLoading : isLog
 as bool,isSearchMode: null == isSearchMode ? _self.isSearchMode : isSearchMode // ignore: cast_nullable_to_non_nullable
 as bool,searchText: null == searchText ? _self.searchText : searchText // ignore: cast_nullable_to_non_nullable
 as String,searchId: null == searchId ? _self.searchId : searchId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,loadError: freezed == loadError ? _self.loadError : loadError // ignore: cast_nullable_to_non_nullable
+as AppErrorViewModel?,
   ));
 }
 

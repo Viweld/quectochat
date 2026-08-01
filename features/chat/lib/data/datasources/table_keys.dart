@@ -10,4 +10,9 @@ abstract final class TableKeys {
   static const String messageDeliveredAt = 'delivered_at';
   static const String messageReadAt = 'read_at';
   static const String messageCreatedAt = 'created_at';
+
+  static const String activeChats = 'active_chats';
+  static const String activeChatUserId = 'user_id';
+  static const String activeChatInterlocutorId = 'interlocutor_id';
+  static const String activeChatUpdatedAt = 'updated_at';
 }

@@ -43,6 +43,8 @@ class LoginScreen extends StatelessWidget {
       AppErrorKind.invalidCredential => context.texts.loginExceptionInvalidCredential,
       AppErrorKind.userNotFound => context.texts.loginExceptionUserNotFound,
       AppErrorKind.wrongPassword => context.texts.loginExceptionWrongPassword,
+      AppErrorKind.network => context.texts.toastNetworkError,
+      AppErrorKind.server => context.texts.toastServerError,
       _ => context.texts.commonRequestError,
     };
   }

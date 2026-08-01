@@ -70,4 +70,16 @@ void main() {
     expect(presentation.kind, ErrorPresentationKind.silent);
     expect(fired, isEmpty);
   });
+
+  test('raw Socket-like error shows network toast', () async {
+    final ErrorPresentation presentation = handler.handle(
+      Exception('SocketException: Failed host lookup: example.supabase.co'),
+      stackTrace: StackTrace.current,
+    );
+
+    expect(presentation.toastKind, AppToastErrorKind.network);
+    expect(presentation.shouldRethrow, isFalse);
+    await Future<void>.delayed(Duration.zero);
+    expect(fired, hasLength(1));
+  });
 }

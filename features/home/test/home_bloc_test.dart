@@ -60,7 +60,8 @@ void main() {
     expect: () => <TypeMatcher<HomeState>>[
       isA<HomeState>()
           .having((HomeState s) => s.isFirstLoading, 'firstLoading', isFalse)
-          .having((HomeState s) => s.interlocutors, 'list', isEmpty),
+          .having((HomeState s) => s.interlocutors, 'list', isEmpty)
+          .having((HomeState s) => s.loadError, 'loadError', isNull),
     ],
     verify: (_) {
       verify(() => homeRepository.initialize()).called(1);
@@ -83,14 +84,13 @@ void main() {
   );
 
   blocTest<HomeBloc, HomeState>(
-    'failed first fetch sets hasNext to false so pagination cannot crash on empty list',
+    'failed first fetch sets loadError and hasNext to false',
     build: buildBloc,
     setUp: () {
       when(() => homeRepository.getInterlocutors()).thenThrow(
-        AuthException(
+        NetworkException(
+          kind: NetworkExceptionKind.offline,
           context: const RequestContext(operation: 'getInterlocutors'),
-          code: 'PGRST303',
-          userMessage: 'JWT issued at future',
         ),
       );
     },
@@ -98,8 +98,37 @@ void main() {
       isA<HomeState>()
           .having((HomeState s) => s.isFirstLoading, 'firstLoading', isFalse)
           .having((HomeState s) => s.hasNext, 'hasNext', isFalse)
-          .having((HomeState s) => s.interlocutors, 'list', isEmpty),
+          .having((HomeState s) => s.interlocutors, 'list', isEmpty)
+          .having((HomeState s) => s.loadError?.kind, 'loadError', AppErrorKind.network),
     ],
+  );
+
+  blocTest<HomeBloc, HomeState>(
+    'retry after load error clears loadError and reloads',
+    build: buildBloc,
+    setUp: () {
+      var callCount = 0;
+      when(() => homeRepository.getInterlocutors()).thenAnswer((_) async {
+        callCount += 1;
+        if (callCount == 1) {
+          throw NetworkException(
+            kind: NetworkExceptionKind.offline,
+            context: const RequestContext(operation: 'getInterlocutors'),
+          );
+        }
+        return const Paginated<Interlocutor>(
+          hasNext: false,
+          result: <Interlocutor>[Interlocutor(userId: '1', firstName: 'A', lastName: 'B')],
+        );
+      });
+    },
+    wait: const Duration(milliseconds: 10),
+    act: (HomeBloc bloc) => bloc.add(const HomeEvent.onFetchRequested()),
+    verify: (HomeBloc bloc) {
+      expect(bloc.state.loadError, isNull);
+      expect(bloc.state.interlocutors, hasLength(1));
+      verify(() => homeRepository.getInterlocutors()).called(2);
+    },
   );
 
   blocTest<HomeBloc, HomeState>(

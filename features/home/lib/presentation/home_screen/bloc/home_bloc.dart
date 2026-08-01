@@ -68,6 +68,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onFetchRequested(Emitter<HomeState> emit) async {
+    final bool showFullLoading = state.interlocutors.isEmpty;
+    final bool shouldShowLoadingUi =
+        state.loadError != null || (showFullLoading && !state.isFirstLoading);
+    if (shouldShowLoadingUi) {
+      emit(state.copyWith(isFirstLoading: showFullLoading, loadError: null));
+    }
     await _getInterlocutors(emit, searchId: state.searchId, isNextPageRequired: false);
   }
 
@@ -109,7 +115,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onSearchFieldClearTapped(Emitter<HomeState> emit) async {
     if (state.searchText.isEmpty) return;
-    emit(state.copyWith(searchText: '', isSearchMode: false));
+    emit(state.copyWith(searchText: '', isSearchMode: false, loadError: null));
     add(const HomeEvent.onFetchRequested());
   }
 
@@ -128,7 +134,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         searchText: state.searchText,
       );
       if (searchId != state.searchId) return;
-      emit(state.copyWith(interlocutors: foundInterlocutors, hasNext: false));
+      emit(state.copyWith(interlocutors: foundInterlocutors, hasNext: false, loadError: null));
     } on Object catch (error, stackTrace) {
       final ErrorPresentation presentation = _blocErrorHandler.handle(
         error,
@@ -176,6 +182,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             interlocutors: state.interlocutors.followedBy(interlocutors.result),
             hasNext: interlocutors.hasNext,
             isNextLoading: false,
+            loadError: null,
           ),
         );
       } else {
@@ -186,14 +193,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             interlocutors: interlocutors.result,
             hasNext: interlocutors.hasNext,
             isFirstLoading: false,
+            loadError: null,
           ),
         );
       }
     } on Object catch (error, stackTrace) {
+      final bool showInlineLoadError = !isNextPageRequired && state.interlocutors.isEmpty;
       final ErrorPresentation presentation = _blocErrorHandler.handle(
         error,
         stackTrace: stackTrace,
+        isSilent: showInlineLoadError,
       );
+      if (showInlineLoadError) {
+        emit(
+          state.copyWith(
+            loadError: AppErrorViewModel(kind: _mapLoadErrorKind(error, presentation)),
+            isFirstLoading: false,
+            isNextLoading: false,
+            hasNext: false,
+          ),
+        );
+      }
       if (presentation.shouldRethrow) rethrow;
     } finally {
       if (!emit.isDone) {
@@ -230,12 +250,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     interlocutors.sort(_compareInterlocutors);
 
-    emit(state.copyWith(interlocutors: interlocutors, searchId: state.searchId + 1));
+    emit(
+      state.copyWith(interlocutors: interlocutors, searchId: state.searchId + 1, loadError: null),
+    );
   }
 
   void _interlocutorsStreamListener(Set<Interlocutor> updatedInterlocutors) {
     if (isClosed) return;
     add(HomeEvent.onInterlocutorsStreamUpdated(updated: updatedInterlocutors));
+  }
+
+  AppErrorKind _mapLoadErrorKind(Object error, ErrorPresentation presentation) {
+    return switch (presentation.toastKind) {
+      AppToastErrorKind.network => AppErrorKind.network,
+      AppToastErrorKind.server => AppErrorKind.server,
+      _ => switch (classifyTransportError(error)) {
+        TransportErrorKind.network => AppErrorKind.network,
+        TransportErrorKind.server => AppErrorKind.server,
+        TransportErrorKind.other => AppErrorKind.generic,
+      },
+    };
   }
 
   int _compareInterlocutors(Interlocutor a, Interlocutor b) {

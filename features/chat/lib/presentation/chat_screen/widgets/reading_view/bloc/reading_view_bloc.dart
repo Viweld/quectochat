@@ -103,11 +103,11 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
     try {
       final Paginated<Message> page = await _chatRepository.getChatMessages(
         interlocutorId: state.interlocutorId,
-        lastMessageId: state.messages.last.id,
+        lastMessageId: state.messages.first.id,
       );
       emit(
         state.copyWith(
-          messages: state.messages.followedBy(page.result).toList(),
+          messages: page.result.followedBy(state.messages).toList(),
           hasNext: page.hasNext,
           isNextLoading: false,
         ),

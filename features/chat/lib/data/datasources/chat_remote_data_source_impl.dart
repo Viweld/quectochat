@@ -31,11 +31,12 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     const int limit = _messagesPaginationLimit;
     final String chatId = DeterministicId.fromParts(<String>[interlocutorId, _currentUserId]);
 
+    // Newest-first page; [lastMessageId] is the oldest already loaded message (load older).
     PostgrestTransformBuilder<PostgrestList> query = _client
         .from(TableKeys.messages)
         .select()
         .eq(TableKeys.messageChatId, chatId)
-        .order(TableKeys.messageCreatedAt, ascending: true)
+        .order(TableKeys.messageCreatedAt, ascending: false)
         .limit(limit + 1);
 
     if (lastMessageId != null) {
@@ -50,15 +51,17 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
             .from(TableKeys.messages)
             .select()
             .eq(TableKeys.messageChatId, chatId)
-            .gt(TableKeys.messageCreatedAt, cursorCreatedAt)
-            .order(TableKeys.messageCreatedAt, ascending: true)
+            .lt(TableKeys.messageCreatedAt, cursorCreatedAt)
+            .order(TableKeys.messageCreatedAt, ascending: false)
             .limit(limit + 1);
       }
     }
 
     final List<Map<String, dynamic>> rows = await query;
     final bool hasNext = rows.length > limit;
-    final List<Map<String, dynamic>> page = hasNext ? rows.sublist(0, limit) : rows;
+    final List<Map<String, dynamic>> pageNewestFirst = hasNext ? rows.sublist(0, limit) : rows;
+    // UI / merge keep chronological ascending (oldest → newest).
+    final List<Map<String, dynamic>> page = pageNewestFirst.reversed.toList();
 
     return Paginated<MessageDto>(hasNext: hasNext, result: page.map(MessageDto.fromJson));
   }
@@ -242,6 +245,27 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         stackTrace: stackTrace,
       );
     }
+  }
+
+  @override
+  Future<void> markChatActive({required String interlocutorId}) async {
+    if (_currentUserId.isEmpty || interlocutorId.isEmpty) return;
+
+    await _client.from(TableKeys.activeChats).upsert(<String, Object?>{
+      TableKeys.activeChatUserId: _currentUserId,
+      TableKeys.activeChatInterlocutorId: interlocutorId,
+      TableKeys.activeChatUpdatedAt: DateTime.now().toUtc().toIso8601String(),
+    }, onConflict: '${TableKeys.activeChatUserId},${TableKeys.activeChatInterlocutorId}');
+  }
+
+  @override
+  Future<void> clearActiveChat() async {
+    if (_currentUserId.isEmpty) return;
+
+    await _client
+        .from(TableKeys.activeChats)
+        .delete()
+        .eq(TableKeys.activeChatUserId, _currentUserId);
   }
 
   Future<void> _markIncomingDeliveredSafely() async {

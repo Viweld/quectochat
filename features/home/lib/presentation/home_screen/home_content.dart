@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:home/presentation/home_screen/bloc/home_bloc.dart';
 import 'package:home/presentation/home_screen/widgets/chat_tile.dart';
 import 'package:home/presentation/home_screen/widgets/flexible_header.dart';
+import 'package:home/presentation/home_screen/widgets/home_load_error_view.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:shared_ui/core_ui.dart';
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({super.key, required this.isFirstLoading, required this.interlocutors});
+  const HomeContent({
+    super.key,
+    required this.isFirstLoading,
+    required this.interlocutors,
+    required this.loadError,
+  });
 
   final bool isFirstLoading;
   final Iterable<Interlocutor> interlocutors;
+  final AppErrorViewModel? loadError;
 
   @override
   Widget build(BuildContext context) {
@@ -61,16 +68,13 @@ class HomeContent extends StatelessWidget {
               if (interlocutors.isEmpty)
                 SliverFillRemaining(
                   hasScrollBody: false,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
-                      child: Text(
-                        context.texts.homeEmptyInterlocutorsMessage,
-                        textAlign: TextAlign.center,
-                        style: context.caption,
-                      ),
+                  child: switch (loadError) {
+                    final AppErrorViewModel error => HomeLoadErrorView(
+                      error: error,
+                      onRetryTapped: () => bloc.add(const HomeEvent.onFetchRequested()),
                     ),
-                  ),
+                    null => const _HomeEmptyInterlocutorsMessage(),
+                  },
                 )
               else
                 SliverList.separated(
@@ -98,6 +102,24 @@ class HomeContent extends StatelessWidget {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+final class _HomeEmptyInterlocutorsMessage extends StatelessWidget {
+  const _HomeEmptyInterlocutorsMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
+        child: Text(
+          context.texts.homeEmptyInterlocutorsMessage,
+          textAlign: TextAlign.center,
+          style: context.caption,
         ),
       ),
     );
