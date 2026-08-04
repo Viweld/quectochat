@@ -6,6 +6,7 @@ import 'package:navigation/navigation.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:quectochat/di/app_di.dart';
 import 'package:quectochat/foreground_tracking_coordinator.dart';
+import 'package:quectochat/push_notification_tap_coordinator.dart';
 import 'package:quectochat/push_token_coordinator.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
@@ -14,6 +15,8 @@ Future<void> main() async {
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp]);
+
   await initializeFirebaseApp();
   installFirebaseMessagingBackgroundHandler();
   await configureFirebaseMessagingPresentation();
@@ -21,6 +24,11 @@ Future<void> main() async {
   await initializeSupabaseApp();
 
   await configureDependencies();
+
+  PushNotificationTapCoordinator(
+    authenticationStatePort: appLocator<AuthenticationStatePort>(),
+    appNavigator: appLocator<AppNavigator>(),
+  ).start();
 
   PushTokenCoordinator(
     authenticationStatePort: appLocator<AuthenticationStatePort>(),

@@ -20,6 +20,7 @@ final class PushTokenCoordinator {
   StreamSubscription<AuthStatus>? _authSubscription;
   StreamSubscription<String>? _tokenRefreshSubscription;
   bool _isRegistering = false;
+  bool _registerAgainWhenIdle = false;
 
   void start() {
     _authSubscription = _authenticationStatePort.authStatusStream.listen((_) {
@@ -48,7 +49,10 @@ final class PushTokenCoordinator {
   }
 
   Future<void> _registerCurrentToken() async {
-    if (_isRegistering) return;
+    if (_isRegistering) {
+      _registerAgainWhenIdle = true;
+      return;
+    }
     _isRegistering = true;
 
     try {
@@ -73,6 +77,12 @@ final class PushTokenCoordinator {
       );
     } finally {
       _isRegistering = false;
+      if (_registerAgainWhenIdle && _authenticationStatePort.authStatus == AuthStatus.authorized) {
+        _registerAgainWhenIdle = false;
+        unawaited(_registerCurrentToken());
+      } else {
+        _registerAgainWhenIdle = false;
+      }
     }
   }
 

@@ -29,10 +29,10 @@ class VerticalMessageSpacer extends StatelessWidget {
   }
 
   // ---------------------------------------------------------------------------
-  /// Returns true when both messages share the same calendar day.
+  /// Returns true when both messages share the same local calendar day.
   bool _isSameDay(Message a, Message b) {
-    return a.createdAt.year == b.createdAt.year &&
-        a.createdAt.month == b.createdAt.month &&
-        a.createdAt.day == b.createdAt.day;
+    final DateTime aLocal = a.createdAt.toLocal();
+    final DateTime bLocal = b.createdAt.toLocal();
+    return aLocal.year == bLocal.year && aLocal.month == bLocal.month && aLocal.day == bLocal.day;
   }
 }

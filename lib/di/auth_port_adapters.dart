@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:auth/domain/repositories/auth_repository.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
@@ -25,9 +24,9 @@ void registerAuthPorts(GetIt locator) {
 }
 
 final class _AuthenticationStatePortAdapter implements AuthenticationStatePort {
-  _AuthenticationStatePortAdapter(this._authRepository);
-
   final AuthRepository _authRepository;
+
+  _AuthenticationStatePortAdapter(this._authRepository);
 
   @override
   AuthStatus get authStatus => _authRepository.authStatus;
@@ -37,9 +36,9 @@ final class _AuthenticationStatePortAdapter implements AuthenticationStatePort {
 }
 
 final class _SplashAuthenticationPortAdapter implements SplashAuthenticationPort {
-  _SplashAuthenticationPortAdapter(this._authRepository);
-
   final AuthRepository _authRepository;
+
+  _SplashAuthenticationPortAdapter(this._authRepository);
 
   @override
   AuthStatus get authStatus => _authRepository.authStatus;
@@ -49,10 +48,12 @@ final class _SplashAuthenticationPortAdapter implements SplashAuthenticationPort
 }
 
 final class _AuthSessionPortAdapter implements AuthSessionPort {
-  _AuthSessionPortAdapter(this._authRepository, this._pushNotificationPort);
-
   final AuthRepository _authRepository;
   final PushNotificationPort _pushNotificationPort;
+
+  _AuthSessionPortAdapter(this._authRepository, this._pushNotificationPort);
+
+  static const Duration _pushUnregisterTimeout = Duration(milliseconds: 400);
 
   @override
   Future<void> logOut() async {
@@ -64,8 +65,9 @@ final class _AuthSessionPortAdapter implements AuthSessionPort {
     if (!Platform.isAndroid && !Platform.isIOS) return;
 
     try {
-      final String? token = await FirebaseMessaging.instance.getToken();
-      await _pushNotificationPort.unregisterCurrentDevice(fallbackToken: token);
+      // Avoid FirebaseMessaging.getToken() here — it can stall logout for seconds.
+      // Local prefs token (or delete-all fallback) is enough for RLS cleanup.
+      await _pushNotificationPort.unregisterCurrentDevice().timeout(_pushUnregisterTimeout);
     } on Object catch (error, stackTrace) {
       log(
         'Failed to unregister FCM token before logout',
@@ -78,9 +80,9 @@ final class _AuthSessionPortAdapter implements AuthSessionPort {
 }
 
 final class _CurrentUserPortAdapter implements CurrentUserPort {
-  _CurrentUserPortAdapter(this._authRepository);
-
   final AuthRepository _authRepository;
+
+  _CurrentUserPortAdapter(this._authRepository);
 
   @override
   String get currentUserId => _authRepository.currentUserId;

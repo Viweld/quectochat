@@ -9,12 +9,17 @@ import 'package:shared_domain/shared_domain.dart';
 
 @LazySingleton(as: AuthRepository)
 final class AuthRepositoryImpl implements AuthRepository {
+  final AuthRemoteDataSource _remoteDataSource;
+  final StreamController<AuthStatus> _authStreamController;
+  AuthStatus _authStatus;
+
   AuthRepositoryImpl({required AuthRemoteDataSource remoteDataSource})
     : _remoteDataSource = remoteDataSource,
       _authStreamController = StreamController<AuthStatus>.broadcast(),
-      _authStatus = AuthStatus.notAuthorized;
-
-  AuthStatus _authStatus;
+      // Session may already be restored by Supabase.initialize before DI runs.
+      _authStatus = remoteDataSource.currentUserId.isNotEmpty
+          ? AuthStatus.authorized
+          : AuthStatus.notAuthorized;
 
   @override
   AuthStatus get authStatus => _authStatus;
@@ -24,9 +29,6 @@ final class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<AuthStatus> get authStatusStream => _authStreamController.stream;
-
-  final AuthRemoteDataSource _remoteDataSource;
-  final StreamController<AuthStatus> _authStreamController;
 
   @override
   Future<void> checkAuth() async {

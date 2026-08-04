@@ -87,6 +87,8 @@ Deno.serve(async (req) => {
     const title = sender
       ? `${sender.first_name ?? ''} ${sender.last_name ?? ''}`.trim() || 'QuectoChat'
       : 'QuectoChat';
+    const fromFirstName = sender?.first_name ?? 'Quecto';
+    const fromLastName = sender?.last_name ?? 'Chat';
     const body = messageType === 'image' ? '📷 Photo' : content.slice(0, 180);
 
     const { count: unreadCount } = await supabase
@@ -113,6 +115,8 @@ Deno.serve(async (req) => {
         data: {
           chatId,
           fromId,
+          fromFirstName,
+          fromLastName,
           type: messageType,
           unreadCount: String(badge),
         },

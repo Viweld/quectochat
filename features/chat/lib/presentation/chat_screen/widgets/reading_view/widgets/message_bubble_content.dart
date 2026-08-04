@@ -63,7 +63,7 @@ class MessageBubbleContent extends StatelessWidget {
                     bottom: -2,
                     right: 0,
                     child: Text(
-                      DateFormat('HH:mm').format(message.createdAt),
+                      DateFormat('HH:mm').format(message.createdAt.toLocal()),
                       style: context.caption!.copyWith(
                         fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
                         color: context.colors.chat.bubbleOwnText.withValues(alpha: 0.8),

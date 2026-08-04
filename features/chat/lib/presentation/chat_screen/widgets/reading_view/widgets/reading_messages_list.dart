@@ -143,8 +143,8 @@ class _ReadingMessagesListState extends State<ReadingMessagesList> {
   }
 
   bool _isSameDay(Message a, Message b) {
-    return a.createdAt.year == b.createdAt.year &&
-        a.createdAt.month == b.createdAt.month &&
-        a.createdAt.day == b.createdAt.day;
+    final DateTime aLocal = a.createdAt.toLocal();
+    final DateTime bLocal = b.createdAt.toLocal();
+    return aLocal.year == bLocal.year && aLocal.month == bLocal.month && aLocal.day == bLocal.day;
   }
 }

@@ -19,8 +19,7 @@ final class DeviceTokenStore {
     final String? userId = _client.auth.currentUser?.id;
     if (userId == null || userId.isEmpty) return;
 
-    await _deleteOtherTokens(userId: userId, keepToken: token);
-
+    // Upsert first so a failed cleanup never leaves the user without a token.
     await _client.from('device_tokens').upsert(<String, Object?>{
       'user_id': userId,
       'token': token,
@@ -29,6 +28,7 @@ final class DeviceTokenStore {
     }, onConflict: 'user_id,token');
 
     await _writeLocalToken(token);
+    await _deleteOtherTokens(userId: userId, keepToken: token);
   }
 
   Future<void> delete({required String token}) async {

@@ -19,7 +19,7 @@ class BetweenDaysDivider extends StatelessWidget {
           Text(
             isToday(message.createdAt)
                 ? context.texts.chatTodayDividerLabel
-                : DateFormat('dd.MM.yy').format(message.createdAt),
+                : DateFormat('dd.MM.yy').format(message.createdAt.toLocal()),
             style: context.dividerLabel,
           ),
           Expanded(child: Divider(indent: 10, endIndent: 6, color: context.colors.text.tertiary)),
@@ -29,9 +29,10 @@ class BetweenDaysDivider extends StatelessWidget {
   }
 
   // ---------------------------------------------------------------------------
-  /// Returns true when [dateTime] is today, otherwise false.
+  /// Returns true when [dateTime] is today in the local timezone.
   bool isToday(DateTime dateTime) {
+    final DateTime local = dateTime.toLocal();
     final DateTime now = DateTime.now();
-    return dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day;
+    return local.year == now.year && local.month == now.month && local.day == now.day;
   }
 }
