@@ -71,6 +71,9 @@ class Application extends StatelessWidget {
             statusBarColor: context.colors.background.main,
             statusBarIconBrightness: context.colors.statusBarIconBrightness,
             statusBarBrightness: context.colors.statusBarBrightness,
+            systemNavigationBarColor: context.colors.background.main,
+            systemNavigationBarIconBrightness: context.colors.statusBarIconBrightness,
+            systemNavigationBarContrastEnforced: false,
           ),
           child: AppToastListener(child: child ?? const SizedBox.shrink()),
         );

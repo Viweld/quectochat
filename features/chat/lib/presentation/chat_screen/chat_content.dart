@@ -35,11 +35,15 @@ class ChatContent extends StatelessWidget {
             : null,
         onBackPressed: navigator.navigateBack,
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(child: ReadingView(interlocutorId: interlocutorId)),
-          TypingView(interlocutorId: interlocutorId),
-        ],
+      // Keep composer above the system nav bar (Android 15+ edge-to-edge).
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: <Widget>[
+            Expanded(child: ReadingView(interlocutorId: interlocutorId)),
+            TypingView(interlocutorId: interlocutorId),
+          ],
+        ),
       ),
     );
   }
