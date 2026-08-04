@@ -6,7 +6,8 @@ plugins {
 
 android {
     namespace "com.example.quectochat"
-    compileSdk flutter.compileSdkVersion
+    // permission_handler_android (and peers) require compileSdk >= 37.
+    compileSdk 37
     ndkVersion flutter.ndkVersion
 
     compileOptions {

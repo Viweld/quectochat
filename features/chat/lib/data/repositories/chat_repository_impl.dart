@@ -187,6 +187,20 @@ final class ChatRepositoryImpl implements ChatRepository {
     }
   }
 
+  @override
+  Future<void> sendImageMessage({required String interlocutorId, required String filePath}) async {
+    try {
+      final MessageDto messageDto = await _remoteDataSource.sendImageMessage(
+        interlocutorId: interlocutorId,
+        filePath: filePath,
+      );
+      _emitMessage(mapMessageDtoToDomain(dto: messageDto, currentUserId: _currentUserId));
+    } on Object {
+      _emitError(const ChatSendMessageFailure());
+      rethrow;
+    }
+  }
+
   void _emitMessage(Message message) {
     if (_messagesStreamController.isClosed) return;
     _messagesStreamController.add(<Message>{message});

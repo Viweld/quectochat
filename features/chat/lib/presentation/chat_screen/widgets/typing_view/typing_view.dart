@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat/presentation/chat_screen/widgets/typing_view/bloc/typing_view_bloc.dart';
 import 'package:chat/presentation/chat_screen/widgets/typing_view/widgets/attach_file_button.dart';
 import 'package:chat/presentation/chat_screen/widgets/typing_view/widgets/send_message_button.dart';
@@ -17,6 +19,7 @@ class TypingView extends StatefulWidget {
 
 class _TypingViewState extends State<TypingView> {
   late final TextEditingController _messageController;
+  late final FocusNode _composerFocusNode;
   final GlobalKey _fieldKey = GlobalKey();
 
   /// Square side for attach/send — locked to the field's single-line height.
@@ -26,6 +29,7 @@ class _TypingViewState extends State<TypingView> {
   @override
   void initState() {
     super.initState();
+    _composerFocusNode = FocusNode(debugLabel: 'ChatComposer');
     _messageController = TextEditingController()..addListener(_onComposerTextChanged);
   }
 
@@ -34,6 +38,7 @@ class _TypingViewState extends State<TypingView> {
     _messageController
       ..removeListener(_onComposerTextChanged)
       ..dispose();
+    _composerFocusNode.dispose();
     super.dispose();
   }
 
@@ -68,40 +73,41 @@ class _TypingViewState extends State<TypingView> {
 
     return BlocProvider<TypingViewBloc>(
       create: (BuildContext context) => appLocator<TypingViewBloc>(param1: widget.interlocutorId),
-      child: BlocConsumer<TypingViewBloc, TypingViewState>(
-        listenWhen: (TypingViewState previous, TypingViewState current) =>
-            previous.typedMessage.isNotEmpty && current.typedMessage.isEmpty,
-        listener: (BuildContext context, TypingViewState state) {
-          if (_messageController.text.isNotEmpty) {
-            _messageController.clear();
-          }
-        },
-        builder: (BuildContext context, TypingViewState state) => DecoratedBox(
+      // Builder (not BlocBuilder): need a descendant context for read(), without rebuilds on isSending.
+      child: Builder(
+        builder: (BuildContext context) => DecoratedBox(
           decoration: BoxDecoration(
             border: Border(top: BorderSide(color: context.colors.border.main)),
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                AttachFileButton(size: _sideButtonSize, onTapped: () => _onAttachTapped(context)),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: KeyedSubtree(
-                    key: _fieldKey,
-                    child: CommonEditField(
-                      controller: _messageController,
-                      maxLines: 5,
-                      keyboardType: TextInputType.multiline,
-                      textCapitalization: TextCapitalization.sentences,
-                      onChanged: (String val) => _onMessageChanged(context, val),
+            // Keeps send/attach inside the EditableText tap region so IME stays open.
+            child: TextFieldTapRegion(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  AttachFileButton(
+                    size: _sideButtonSize,
+                    onTapped: () => unawaited(_onAttachTapped(context)),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: KeyedSubtree(
+                      key: _fieldKey,
+                      child: CommonEditField(
+                        controller: _messageController,
+                        focusNode: _composerFocusNode,
+                        maxLines: 5,
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        onChanged: (String val) => _onMessageChanged(context, val),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                SendMessageButton(size: _sideButtonSize, onTapped: () => _onSendTapped(context)),
-              ],
+                  const SizedBox(width: 8),
+                  SendMessageButton(size: _sideButtonSize, onTapped: () => _onSendTapped(context)),
+                ],
+              ),
             ),
           ),
         ),
@@ -114,10 +120,35 @@ class _TypingViewState extends State<TypingView> {
   }
 
   void _onSendTapped(BuildContext context) {
-    context.read<TypingViewBloc>().add(const TypingViewEvent.onSendTapped());
+    final String text = _messageController.text;
+    if (text.trim().isEmpty) return;
+
+    // Clear immediately without touching focus — keyboard must stay open.
+    _messageController.clear();
+    context.read<TypingViewBloc>().add(TypingViewEvent.onSendTapped(text: text));
   }
 
-  void _onAttachTapped(BuildContext context) {
-    // TODO(Vadim): #unimplemented
+  Future<void> _onAttachTapped(BuildContext context) async {
+    final AppLocalizations localization = context.texts;
+    final AppMediaFile? mediaFile = await AppMediaFilePicker.singleImage(
+      context,
+      labels: AppMediaFilePickerLabels(
+        accessDeniedNote: localization.chatPickerAccessDeniedNote,
+        openAppSettings: localization.chatPickerOpenSettings,
+        emptyAlbumsNote: localization.chatPickerEmptyAlbumsNote,
+        allowCameraInSettingsNote: localization.chatPickerAllowCameraNote,
+        cameraCaptureHint: localization.chatPickerCameraHint,
+        done: localization.chatPickerDone,
+        selectedCountPrefix: localization.chatPickerSelectedPrefix,
+        back: localization.chatPickerBack,
+        ok: localization.commonOk,
+      ),
+    );
+
+    if (!context.mounted || mediaFile?.file == null) return;
+
+    context.read<TypingViewBloc>().add(
+      TypingViewEvent.onImagePicked(filePath: mediaFile!.file!.path),
+    );
   }
 }

@@ -11,6 +11,8 @@ export 'src/theme/themes.dart';
 export 'src/theme_type.dart';
 export 'src/values/images.dart';
 export 'src/values/values.dart';
+export 'src/widgets/media_picker/app_media_file_picker.dart';
+export 'src/widgets/media_picker/app_media_file_picker_labels.dart';
 export 'src/widgets/ui_kit/app_icon.dart';
 export 'src/widgets/ui_kit/app_toast_listener.dart';
 export 'src/widgets/ui_kit/common_accent_button.dart';

@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
+import 'dart:math' show Random;
+import 'dart:typed_data';
 
 import 'package:chat/data/datasources/chat_remote_data_source.dart';
 import 'package:chat/data/datasources/table_keys.dart';
 import 'package:chat/data/dto/message_dto.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path/path.dart' as path;
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -100,6 +105,93 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         stackTrace,
       );
     }
+  }
+
+  @override
+  Future<MessageDto> sendImageMessage({
+    required String interlocutorId,
+    required String filePath,
+  }) async {
+    final String chatId = DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]);
+
+    try {
+      final _PreparedChatImage prepared = await _prepareImageForUpload(filePath);
+      final String objectPath =
+          '$chatId/${DateTime.now().toUtc().microsecondsSinceEpoch}_'
+          '${Random().nextInt(1 << 32)}${prepared.extension}';
+
+      await _client.storage
+          .from(_chatMediaBucket)
+          .uploadBinary(
+            objectPath,
+            prepared.bytes,
+            fileOptions: FileOptions(contentType: prepared.contentType),
+          );
+
+      final String publicUrl = _client.storage.from(_chatMediaBucket).getPublicUrl(objectPath);
+      return sendMessage(interlocutorId: interlocutorId, content: publicUrl, messageType: 'image');
+    } on Object catch (cause, stackTrace) {
+      Error.throwWithStackTrace(
+        ServerException(
+          context: const RequestContext(operation: 'chat.sendImageMessage'),
+          cause: cause,
+        ),
+        stackTrace,
+      );
+    }
+  }
+
+  static const String _chatMediaBucket = 'chat-media';
+
+  /// Compress only when the source exceeds this size.
+  static const int _imageCompressThresholdBytes = 400 * 1024;
+
+  static const int _compressedMaxSide = 1280;
+  static const int _compressedJpegQuality = 70;
+
+  Future<_PreparedChatImage> _prepareImageForUpload(String filePath) async {
+    final File source = File(filePath);
+    final int sourceSize = await source.length();
+    final String extension = path.extension(filePath).toLowerCase();
+
+    if (sourceSize <= _imageCompressThresholdBytes) {
+      final String safeExtension = switch (extension) {
+        '.png' => '.png',
+        '.webp' => '.webp',
+        '.jpg' || '.jpeg' || '' => '.jpg',
+        _ => '.jpg',
+      };
+      return _PreparedChatImage(
+        bytes: await source.readAsBytes(),
+        extension: safeExtension,
+        contentType: _contentTypeForExtension(safeExtension),
+      );
+    }
+
+    final Uint8List? compressed = await FlutterImageCompress.compressWithFile(
+      filePath,
+      minWidth: _compressedMaxSide,
+      minHeight: _compressedMaxSide,
+      quality: _compressedJpegQuality,
+    );
+
+    if (compressed == null || compressed.isEmpty) {
+      return _PreparedChatImage(
+        bytes: await source.readAsBytes(),
+        extension: '.jpg',
+        contentType: 'image/jpeg',
+      );
+    }
+
+    return _PreparedChatImage(bytes: compressed, extension: '.jpg', contentType: 'image/jpeg');
+  }
+
+  static String _contentTypeForExtension(String extension) {
+    return switch (extension) {
+      '.png' => 'image/png',
+      '.webp' => 'image/webp',
+      _ => 'image/jpeg',
+    };
   }
 
   @override
@@ -280,4 +372,16 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       );
     }
   }
+}
+
+final class _PreparedChatImage {
+  const _PreparedChatImage({
+    required this.bytes,
+    required this.extension,
+    required this.contentType,
+  });
+
+  final Uint8List bytes;
+  final String extension;
+  final String contentType;
 }

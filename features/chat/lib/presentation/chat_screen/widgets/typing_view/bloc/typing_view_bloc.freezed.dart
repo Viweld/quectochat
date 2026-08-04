@@ -55,12 +55,13 @@ extension TypingViewEventPatterns on TypingViewEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnMessageChanged value)?  onMessageChanged,TResult Function( _EventOnSendTapped value)?  onSendTapped,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnMessageChanged value)?  onMessageChanged,TResult Function( _EventOnSendTapped value)?  onSendTapped,TResult Function( _EventOnImagePicked value)?  onImagePicked,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _EventOnMessageChanged() when onMessageChanged != null:
 return onMessageChanged(_that);case _EventOnSendTapped() when onSendTapped != null:
-return onSendTapped(_that);case _:
+return onSendTapped(_that);case _EventOnImagePicked() when onImagePicked != null:
+return onImagePicked(_that);case _:
   return orElse();
 
 }
@@ -78,12 +79,13 @@ return onSendTapped(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnMessageChanged value)  onMessageChanged,required TResult Function( _EventOnSendTapped value)  onSendTapped,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnMessageChanged value)  onMessageChanged,required TResult Function( _EventOnSendTapped value)  onSendTapped,required TResult Function( _EventOnImagePicked value)  onImagePicked,}){
 final _that = this;
 switch (_that) {
 case _EventOnMessageChanged():
 return onMessageChanged(_that);case _EventOnSendTapped():
-return onSendTapped(_that);}
+return onSendTapped(_that);case _EventOnImagePicked():
+return onImagePicked(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -97,12 +99,13 @@ return onSendTapped(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnMessageChanged value)?  onMessageChanged,TResult? Function( _EventOnSendTapped value)?  onSendTapped,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnMessageChanged value)?  onMessageChanged,TResult? Function( _EventOnSendTapped value)?  onSendTapped,TResult? Function( _EventOnImagePicked value)?  onImagePicked,}){
 final _that = this;
 switch (_that) {
 case _EventOnMessageChanged() when onMessageChanged != null:
 return onMessageChanged(_that);case _EventOnSendTapped() when onSendTapped != null:
-return onSendTapped(_that);case _:
+return onSendTapped(_that);case _EventOnImagePicked() when onImagePicked != null:
+return onImagePicked(_that);case _:
   return null;
 
 }
@@ -119,11 +122,12 @@ return onSendTapped(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String val)?  onMessageChanged,TResult Function()?  onSendTapped,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String val)?  onMessageChanged,TResult Function( String text)?  onSendTapped,TResult Function( String filePath)?  onImagePicked,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventOnMessageChanged() when onMessageChanged != null:
 return onMessageChanged(_that.val);case _EventOnSendTapped() when onSendTapped != null:
-return onSendTapped();case _:
+return onSendTapped(_that.text);case _EventOnImagePicked() when onImagePicked != null:
+return onImagePicked(_that.filePath);case _:
   return orElse();
 
 }
@@ -141,11 +145,12 @@ return onSendTapped();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String val)  onMessageChanged,required TResult Function()  onSendTapped,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String val)  onMessageChanged,required TResult Function( String text)  onSendTapped,required TResult Function( String filePath)  onImagePicked,}) {final _that = this;
 switch (_that) {
 case _EventOnMessageChanged():
 return onMessageChanged(_that.val);case _EventOnSendTapped():
-return onSendTapped();}
+return onSendTapped(_that.text);case _EventOnImagePicked():
+return onImagePicked(_that.filePath);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -159,11 +164,12 @@ return onSendTapped();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String val)?  onMessageChanged,TResult? Function()?  onSendTapped,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String val)?  onMessageChanged,TResult? Function( String text)?  onSendTapped,TResult? Function( String filePath)?  onImagePicked,}) {final _that = this;
 switch (_that) {
 case _EventOnMessageChanged() when onMessageChanged != null:
 return onMessageChanged(_that.val);case _EventOnSendTapped() when onSendTapped != null:
-return onSendTapped();case _:
+return onSendTapped(_that.text);case _EventOnImagePicked() when onImagePicked != null:
+return onImagePicked(_that.filePath);case _:
   return null;
 
 }
@@ -241,33 +247,133 @@ as String,
 
 
 class _EventOnSendTapped implements TypingViewEvent {
-  const _EventOnSendTapped();
+  const _EventOnSendTapped({required this.text});
   
 
+ final  String text;
 
-
+/// Create a copy of TypingViewEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$EventOnSendTappedCopyWith<_EventOnSendTapped> get copyWith => __$EventOnSendTappedCopyWithImpl<_EventOnSendTapped>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnSendTapped);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnSendTapped&&(identical(other.text, text) || other.text == text));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,text);
 
 @override
 String toString() {
-  return 'TypingViewEvent.onSendTapped()';
+  return 'TypingViewEvent.onSendTapped(text: $text)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$EventOnSendTappedCopyWith<$Res> implements $TypingViewEventCopyWith<$Res> {
+  factory _$EventOnSendTappedCopyWith(_EventOnSendTapped value, $Res Function(_EventOnSendTapped) _then) = __$EventOnSendTappedCopyWithImpl;
+@useResult
+$Res call({
+ String text
+});
 
 
+
+
+}
+/// @nodoc
+class __$EventOnSendTappedCopyWithImpl<$Res>
+    implements _$EventOnSendTappedCopyWith<$Res> {
+  __$EventOnSendTappedCopyWithImpl(this._self, this._then);
+
+  final _EventOnSendTapped _self;
+  final $Res Function(_EventOnSendTapped) _then;
+
+/// Create a copy of TypingViewEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? text = null,}) {
+  return _then(_EventOnSendTapped(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _EventOnImagePicked implements TypingViewEvent {
+  const _EventOnImagePicked({required this.filePath});
+  
+
+ final  String filePath;
+
+/// Create a copy of TypingViewEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$EventOnImagePickedCopyWith<_EventOnImagePicked> get copyWith => __$EventOnImagePickedCopyWithImpl<_EventOnImagePicked>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnImagePicked&&(identical(other.filePath, filePath) || other.filePath == filePath));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,filePath);
+
+@override
+String toString() {
+  return 'TypingViewEvent.onImagePicked(filePath: $filePath)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$EventOnImagePickedCopyWith<$Res> implements $TypingViewEventCopyWith<$Res> {
+  factory _$EventOnImagePickedCopyWith(_EventOnImagePicked value, $Res Function(_EventOnImagePicked) _then) = __$EventOnImagePickedCopyWithImpl;
+@useResult
+$Res call({
+ String filePath
+});
+
+
+
+
+}
+/// @nodoc
+class __$EventOnImagePickedCopyWithImpl<$Res>
+    implements _$EventOnImagePickedCopyWith<$Res> {
+  __$EventOnImagePickedCopyWithImpl(this._self, this._then);
+
+  final _EventOnImagePicked _self;
+  final $Res Function(_EventOnImagePicked) _then;
+
+/// Create a copy of TypingViewEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? filePath = null,}) {
+  return _then(_EventOnImagePicked(
+filePath: null == filePath ? _self.filePath : filePath // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 /// @nodoc
 mixin _$TypingViewState {

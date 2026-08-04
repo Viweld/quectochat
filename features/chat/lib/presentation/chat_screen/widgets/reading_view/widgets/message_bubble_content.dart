@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:chat/domain/entities/message.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:navigation_api/navigation_api.dart';
+import 'package:shared_core/core.dart';
+import 'package:shared_domain/shared_domain.dart';
 import 'package:shared_ui/core_ui.dart';
 
 /// Message body that respects a parent max-width cap, then shrinks to the
@@ -27,6 +30,14 @@ class MessageBubbleContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (message.type == MessageContentType.image) {
+      return _ImageMessageBubble(
+        message: message,
+        backgroundColor: backgroundColor,
+        padding: padding,
+      );
+    }
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final TextStyle textStyle = context.message!.copyWith(
@@ -76,6 +87,95 @@ class MessageBubbleContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _ImageMessageBubble extends StatelessWidget {
+  const _ImageMessageBubble({
+    required this.message,
+    required this.backgroundColor,
+    required this.padding,
+  });
+
+  final Message message;
+  final Color backgroundColor;
+  final EdgeInsets padding;
+
+  String get _heroTag => 'chat-image-${message.id}';
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: backgroundColor,
+      child: Padding(
+        padding: padding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () => appLocator<AppNavigator>().navigateImageViewer(
+                imageUrls: <String>[message.content],
+                initialUrl: message.content,
+                heroTag: _heroTag,
+              ),
+              child: Hero(
+                tag: _heroTag,
+                createRectTween: (Rect? begin, Rect? end) {
+                  return MaterialRectCenterArcTween(begin: begin, end: end);
+                },
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: AspectRatio(
+                      aspectRatio: 4 / 3,
+                      child: Image.network(
+                        message.content,
+                        fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                          return ColoredBox(
+                            color: context.colors.background.secondary,
+                            child: Center(
+                              child: Text(
+                                context.texts.chatPhotoPlaceholder,
+                                style: context.caption?.copyWith(
+                                  color: context.colors.text.secondary,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        loadingBuilder:
+                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return ColoredBox(
+                                color: context.colors.background.secondary,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: context.colors.accent.main,
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              );
+                            },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              DateFormat('HH:mm').format(message.createdAt.toLocal()),
+              style: context.caption!.copyWith(
+                fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
+                color: context.colors.chat.bubbleOwnText.withValues(alpha: 0.8),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

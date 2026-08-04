@@ -129,7 +129,10 @@ class _ChatTileState extends State<ChatTile> {
                                     ),
                                   Expanded(
                                     child: Text(
-                                      widget.interlocutor.lastSentContent ?? '',
+                                      widget.interlocutor.lastSentContentType ==
+                                              MessageContentType.image
+                                          ? context.texts.chatPhotoPlaceholder
+                                          : (widget.interlocutor.lastSentContent ?? ''),
                                       style: context.caption,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,

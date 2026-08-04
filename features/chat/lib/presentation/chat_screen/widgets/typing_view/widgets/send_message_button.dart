@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_ui/core_ui.dart';
 
-/// Кнопка отправки сообщения
+/// Кнопка отправки сообщения.
+///
+/// Uses a non-focusable [InkWell] so pressing it does not dismiss the IME.
 class SendMessageButton extends StatelessWidget {
   const SendMessageButton({required this.onTapped, this.size = Values.buttonHeight, super.key});
 
@@ -12,25 +14,22 @@ class SendMessageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onTapped,
-      style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(Size(size, size)),
-        fixedSize: WidgetStateProperty.all(Size(size, size)),
-        padding: WidgetStateProperty.all(EdgeInsets.zero),
-        backgroundColor: WidgetStateProperty.all(context.colors.background.secondary),
-        alignment: Alignment.center,
-        visualDensity: const VisualDensity(
-          horizontal: VisualDensity.minimumDensity,
-          vertical: VisualDensity.minimumDensity,
-        ),
-        shape: WidgetStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(Values.textFieldBorderRadius)),
+    return ExcludeFocus(
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Material(
+          color: context.colors.background.secondary,
+          borderRadius: const BorderRadius.all(Radius.circular(Values.textFieldBorderRadius)),
+          child: InkWell(
+            canRequestFocus: false,
+            onTap: onTapped,
+            borderRadius: const BorderRadius.all(Radius.circular(Values.textFieldBorderRadius)),
+            overlayColor: WidgetStateProperty.all(context.colors.accent.splash),
+            child: Center(child: AppIcons.send(color: context.colors.icon.main)),
           ),
         ),
       ),
-      child: AppIcons.send(color: context.colors.icon.main),
     );
   }
 }

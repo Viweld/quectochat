@@ -72,5 +72,13 @@
 		<array>
 			<string>remote-notification</string>
 		</array>
+		<key>NSCameraUsageDescription</key>
+		<string>QuectoChat needs camera access to take photos for chat.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>QuectoChat needs microphone access to record videos for chat.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>QuectoChat needs photo library access to send images in chat.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>QuectoChat may save captured media to your photo library.</string>
 	</dict>
 </plist>

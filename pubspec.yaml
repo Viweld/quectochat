@@ -17,6 +17,7 @@ workspace:
   - features/auth
   - features/home
   - features/chat
+  - features/viewers
 
 dependencies:
   flutter:
@@ -41,6 +42,8 @@ dependencies:
     path: ./features/home
   chat:
     path: ./features/chat
+  viewers:
+    path: ./features/viewers
 
   flutter_bloc: ^9.1.1
   bloc_concurrency: 0.3.0

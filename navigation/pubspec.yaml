@@ -26,6 +26,8 @@ dependencies:
     path: ../features/home
   chat:
     path: ../features/chat
+  viewers:
+    path: ../features/viewers
 
   flutter_bloc: ^9.1.1
   freezed_annotation: ^3.1.0

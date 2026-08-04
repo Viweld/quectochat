@@ -29,6 +29,8 @@ dependencies:
   intl: any
   auto_route: ^11.1.0
   supabase_flutter: ^2.16.0
+  path: ^1.9.1
+  flutter_image_compress: ^2.5.1
 
 dev_dependencies:
   flutter_test:

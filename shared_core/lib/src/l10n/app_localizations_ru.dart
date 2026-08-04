@@ -179,4 +179,32 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get chatStatusLongOffline => 'давно был онлайн';
+
+  @override
+  String get chatPickerAccessDeniedNote =>
+      'Нет доступа к галерее. Разрешите доступ в настройках приложения.';
+
+  @override
+  String get chatPickerOpenSettings => 'Открыть настройки';
+
+  @override
+  String get chatPickerEmptyAlbumsNote => 'Нет файлов для выбора';
+
+  @override
+  String get chatPickerAllowCameraNote => 'Разрешите доступ к камере в настройках';
+
+  @override
+  String get chatPickerCameraHint => 'Нажмите для фото';
+
+  @override
+  String get chatPickerDone => 'Готово';
+
+  @override
+  String get chatPickerSelectedPrefix => 'Выбрано';
+
+  @override
+  String get chatPickerBack => 'Назад';
+
+  @override
+  String get chatPhotoPlaceholder => '📷 Фото';
 }

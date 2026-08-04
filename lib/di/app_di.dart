@@ -12,6 +12,7 @@ import 'package:quectochat/di/chat_port_adapters.dart';
 import 'package:quectochat/di/presence_port_adapters.dart';
 import 'package:quectochat/di/push_port_adapters.dart';
 import 'package:shared_core/core.dart';
+import 'package:viewers/viewers.dart';
 
 @InjectableInit(
   preferRelativeImports: true,
@@ -22,6 +23,7 @@ import 'package:shared_core/core.dart';
     ExternalModule(AuthPackageModule),
     ExternalModule(HomePackageModule),
     ExternalModule(ChatPackageModule),
+    ExternalModule(ViewersPackageModule),
   ],
 )
 Future<void> configureDependencies() async {

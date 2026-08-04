@@ -6,6 +6,7 @@ import 'package:navigation/src/guards/auth_guard.dart';
 import 'package:navigation/src/guards/guest_guard.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
+import 'package:viewers/viewers.dart';
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter implements AppNavigator {
@@ -29,6 +30,11 @@ class AppRouter extends RootStackRouter implements AppNavigator {
     AutoRoute(page: RegistrationRoute.page, guards: <AutoRouteGuard>[_guestGuard]),
     AutoRoute(page: HomeRoute.page, guards: <AutoRouteGuard>[_authGuard]),
     AutoRoute(page: ChatRoute.page, guards: <AutoRouteGuard>[_authGuard]),
+    CustomRoute<void>(
+      page: ImageViewerRoute.page,
+      guards: <AutoRouteGuard>[_authGuard],
+      customRouteBuilder: buildImageViewerRoute,
+    ),
   ];
 
   @override
@@ -49,4 +55,14 @@ class AppRouter extends RootStackRouter implements AppNavigator {
     required String firstName,
     required String lastName,
   }) => push(ChatRoute(interlocutorId: interlocutorId, firstName: firstName, lastName: lastName));
+
+  @override
+  Future<void> navigateImageViewer({
+    required List<String> imageUrls,
+    required String initialUrl,
+    String? heroTag,
+  }) {
+    if (imageUrls.isEmpty) return Future<void>.value();
+    return push(ImageViewerRoute(imageUrls: imageUrls, initialUrl: initialUrl, heroTag: heroTag));
+  }
 }

@@ -17,6 +17,7 @@ import 'package:infrastructure/infrastructure.dart' as _i740;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:navigation/navigation.dart' as _i1058;
 import 'package:shared_core/core.dart' as _i668;
+import 'package:viewers/viewers.dart' as _i532;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -31,6 +32,7 @@ extension GetItInjectableX on _i174.GetIt {
     await _i662.AuthPackageModule().init(gh);
     await _i1024.HomePackageModule().init(gh);
     await _i377.ChatPackageModule().init(gh);
+    await _i532.ViewersPackageModule().init(gh);
     return this;
   }
 }

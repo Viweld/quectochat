@@ -13,4 +13,11 @@ abstract interface class AppNavigator {
     required String firstName,
     required String lastName,
   });
+
+  /// Opens fullscreen image viewer. [imageUrls] must be non-empty.
+  Future<void> navigateImageViewer({
+    required List<String> imageUrls,
+    required String initialUrl,
+    String? heroTag,
+  });
 }

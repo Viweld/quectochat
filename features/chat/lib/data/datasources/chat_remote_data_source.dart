@@ -15,6 +15,9 @@ abstract interface class ChatRemoteDataSource {
     required String messageType,
   });
 
+  /// Uploads [filePath] to Storage and inserts an `image` message with public URL.
+  Future<MessageDto> sendImageMessage({required String interlocutorId, required String filePath});
+
   Stream<Set<MessageDto>> getAddedModifiedMessagesStream({required String interlocutorId});
 
   Future<void> markAsRead({required String interlocutorId});

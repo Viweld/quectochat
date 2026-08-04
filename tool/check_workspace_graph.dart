@@ -349,15 +349,7 @@ bool _matchesTargetPattern(_WorkspacePackage target, String pattern) {
   };
 }
 
-enum _PackageCategory {
-  app,
-  feature,
-  shared,
-  infrastructure,
-  navigation,
-  legacyGlobal,
-  other,
-}
+enum _PackageCategory { app, feature, shared, infrastructure, navigation, legacyGlobal, other }
 
 final class _WorkspacePackage {
   const _WorkspacePackage({

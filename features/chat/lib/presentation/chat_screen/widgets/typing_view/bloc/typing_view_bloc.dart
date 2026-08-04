@@ -19,13 +19,15 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
     @factoryParam required String interlocutorId,
   }) : super(_initialState(interlocutorId: interlocutorId)) {
     on<TypingViewEvent>((TypingViewEvent event, Emitter<TypingViewState> emit) {
-      if (event is _EventOnSendTapped) return;
+      if (event is _EventOnSendTapped || event is _EventOnImagePicked) return;
       event.map(
         onMessageChanged: (_EventOnMessageChanged event) => _onMessageChanged(event, emit),
         onSendTapped: (_) {},
+        onImagePicked: (_) {},
       );
     });
     on<_EventOnSendTapped>(_onSendTapped, transformer: droppable());
+    on<_EventOnImagePicked>(_onImagePicked, transformer: droppable());
   }
 
   final ChatRepository _chatRepository;
@@ -73,17 +75,38 @@ class TypingViewBloc extends Bloc<TypingViewEvent, TypingViewState> {
   }
 
   Future<void> _onSendTapped(_EventOnSendTapped event, Emitter<TypingViewState> emit) async {
-    if (state.typedMessage.trim().isEmpty || state.isSending) return;
+    final String text = event.text.trim();
+    if (text.isEmpty || state.isSending) return;
 
-    emit(state.copyWith(isSending: true));
+    emit(state.copyWith(isSending: true, typedMessage: ''));
 
     try {
       await _chatRepository.sendMessage(
         interlocutorId: state.interlocutorId,
-        content: state.typedMessage,
+        content: text,
         type: MessageContentType.text,
       );
-      emit(state.copyWith(typedMessage: ''));
+    } on Object catch (error, stackTrace) {
+      final ErrorPresentation presentation = _blocErrorHandler.handle(
+        error,
+        stackTrace: stackTrace,
+      );
+      if (presentation.shouldRethrow) rethrow;
+    } finally {
+      emit(state.copyWith(isSending: false));
+    }
+  }
+
+  Future<void> _onImagePicked(_EventOnImagePicked event, Emitter<TypingViewState> emit) async {
+    if (state.isSending || event.filePath.isEmpty) return;
+
+    emit(state.copyWith(isSending: true));
+
+    try {
+      await _chatRepository.sendImageMessage(
+        interlocutorId: state.interlocutorId,
+        filePath: event.filePath,
+      );
     } on Object catch (error, stackTrace) {
       final ErrorPresentation presentation = _blocErrorHandler.handle(
         error,

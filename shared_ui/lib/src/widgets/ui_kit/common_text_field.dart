@@ -25,6 +25,7 @@ class CommonEditField extends StatefulWidget {
     this.validationError = false,
     this.isEnabled = true,
     this.onTapOutside,
+    this.unfocusOnTapOutside = true,
     this.inputFormatters,
     this.title,
     this.isPassword = false,
@@ -87,6 +88,9 @@ class CommonEditField extends StatefulWidget {
 
   /// Обратный вызов, который будет вызываться при нажатии за пределами поля ввода.
   final Function(PointerDownEvent)? onTapOutside;
+
+  /// When false, tapping outside does not dismiss focus/keyboard (chat composer).
+  final bool unfocusOnTapOutside;
 
   /// Список форматировщиков для вводимого текста.
   final List<TextInputFormatter>? inputFormatters;
@@ -193,7 +197,9 @@ class _CommonEditFieldState extends State<CommonEditField> {
     final TextField textField = TextField(
       magnifierConfiguration: TextMagnifierConfiguration.disabled,
       onTapOutside: (PointerDownEvent event) {
-        _focusNode.unfocus();
+        if (widget.unfocusOnTapOutside) {
+          _focusNode.unfocus();
+        }
         widget.onTapOutside?.call(event);
       },
       focusNode: _focusNode,

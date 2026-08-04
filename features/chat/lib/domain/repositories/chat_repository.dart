@@ -79,4 +79,7 @@ abstract interface class ChatRepository {
     required String content,
     required MessageContentType type,
   });
+
+  /// Sends a single image from a local [filePath] (camera or gallery).
+  Future<void> sendImageMessage({required String interlocutorId, required String filePath});
 }

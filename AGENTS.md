@@ -6,7 +6,7 @@
 
 - Архитектура: Clean Architecture, micro-modular workspace (strict DAG, см. `flutter-architecture.mdc`, ADR-011)
 - Навигация: `auto_route` — `AppRouter` в `navigation/` (ADR-016); splash → login/home → chat
-- Features: `features/auth`, `features/home`, `features/chat`
+- Features: `features/auth`, `features/home`, `features/chat`, `features/viewers`
 - `shared_domain/` — только кросс-фичевые типы (`AuthStatus`, `Interlocutor`, `MessageContentType`, `Paginated`, `Outcome`)
 - Transport: Supabase Auth + Postgres + Realtime в `features/*/lib/data/` (ADR-017); bootstrap в `infrastructure/`
 - Firebase остаётся только для FCM + Crashlytics (ADR-018)
@@ -67,7 +67,7 @@ SQL-миграции: `supabase/migrations/` (применить в Supabase SQL
 ```
 shared_core, shared_ui, shared_domain
 infrastructure, navigation_api, navigation
-features/auth, features/home, features/chat
+features/auth, features/home, features/chat, features/viewers
 lib/  (app: entrypoints + Composition Root)
 ```
 

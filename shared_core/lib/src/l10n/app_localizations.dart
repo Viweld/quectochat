@@ -415,6 +415,60 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'давно был онлайн'**
   String get chatStatusLongOffline;
+
+  /// No description provided for @chatPickerAccessDeniedNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет доступа к галерее. Разрешите доступ в настройках приложения.'**
+  String get chatPickerAccessDeniedNote;
+
+  /// No description provided for @chatPickerOpenSettings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть настройки'**
+  String get chatPickerOpenSettings;
+
+  /// No description provided for @chatPickerEmptyAlbumsNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет файлов для выбора'**
+  String get chatPickerEmptyAlbumsNote;
+
+  /// No description provided for @chatPickerAllowCameraNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Разрешите доступ к камере в настройках'**
+  String get chatPickerAllowCameraNote;
+
+  /// No description provided for @chatPickerCameraHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нажмите для фото'**
+  String get chatPickerCameraHint;
+
+  /// No description provided for @chatPickerDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get chatPickerDone;
+
+  /// No description provided for @chatPickerSelectedPrefix.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрано'**
+  String get chatPickerSelectedPrefix;
+
+  /// No description provided for @chatPickerBack.
+  ///
+  /// In ru, this message translates to:
+  /// **'Назад'**
+  String get chatPickerBack;
+
+  /// No description provided for @chatPhotoPlaceholder.
+  ///
+  /// In ru, this message translates to:
+  /// **'📷 Фото'**
+  String get chatPhotoPlaceholder;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

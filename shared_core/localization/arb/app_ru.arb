@@ -68,5 +68,14 @@
   "chatStatusOnline": "онлайн",
   "chatStatusTyping": "печатает...",
   "chatStatusRecentlyOffline": "недавно был онлайн",
-  "chatStatusLongOffline": "давно был онлайн"
+  "chatStatusLongOffline": "давно был онлайн",
+  "chatPickerAccessDeniedNote": "Нет доступа к галерее. Разрешите доступ в настройках приложения.",
+  "chatPickerOpenSettings": "Открыть настройки",
+  "chatPickerEmptyAlbumsNote": "Нет файлов для выбора",
+  "chatPickerAllowCameraNote": "Разрешите доступ к камере в настройках",
+  "chatPickerCameraHint": "Нажмите для фото",
+  "chatPickerDone": "Готово",
+  "chatPickerSelectedPrefix": "Выбрано",
+  "chatPickerBack": "Назад",
+  "chatPhotoPlaceholder": "📷 Фото"
 }
