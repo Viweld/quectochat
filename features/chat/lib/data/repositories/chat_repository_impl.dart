@@ -5,7 +5,6 @@ import 'package:chat/data/dto/message_dto.dart';
 import 'package:chat/data/mappers/message_mapper.dart';
 import 'package:chat/domain/entities/message.dart';
 import 'package:chat/domain/repositories/chat_repository.dart';
-import 'package:injectable/injectable.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';

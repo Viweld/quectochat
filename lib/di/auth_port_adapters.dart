@@ -65,8 +65,7 @@ final class _AuthSessionPortAdapter implements AuthSessionPort {
 
     try {
       final String? token = await FirebaseMessaging.instance.getToken();
-      if (token == null || token.isEmpty) return;
-      await _pushNotificationPort.unregisterDeviceToken(token: token);
+      await _pushNotificationPort.unregisterCurrentDevice(fallbackToken: token);
     } on Object catch (error, stackTrace) {
       log(
         'Failed to unregister FCM token before logout',

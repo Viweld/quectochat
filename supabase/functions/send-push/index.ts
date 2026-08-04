@@ -57,6 +57,7 @@ Deno.serve(async (req) => {
     if (activeChat?.updated_at) {
       const updatedAtMs = Date.parse(activeChat.updated_at as string);
       if (!Number.isNaN(updatedAtMs) && Date.now() - updatedAtMs < ACTIVE_CHAT_TTL_MS) {
+        console.log(JSON.stringify({ event: 'send-push-result', skipped: 'active_chat', toId, fromId }));
         return jsonResponse({ ok: true, skipped: 'active_chat' });
       }
     }
@@ -73,6 +74,7 @@ Deno.serve(async (req) => {
       .filter((token) => token.length > 0);
 
     if (tokenList.length === 0) {
+      console.log(JSON.stringify({ event: 'send-push-result', tokenCount: 0, toId }));
       return jsonResponse({ ok: true, tokenCount: 0 });
     }
 
@@ -127,12 +129,14 @@ Deno.serve(async (req) => {
       await supabase.from('device_tokens').delete().eq('user_id', toId).in('token', invalidTokens);
     }
 
-    return jsonResponse({
+    const result = {
       ok: true,
       tokenCount: tokenList.length,
       sent,
       removedInvalid: invalidTokens.length,
-    });
+    };
+    console.log(JSON.stringify({ event: 'send-push-result', ...result }));
+    return jsonResponse(result);
   } catch (error) {
     console.error(error);
     return jsonResponse({ ok: false, error: String(error) }, 500);

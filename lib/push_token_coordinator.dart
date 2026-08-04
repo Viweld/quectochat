@@ -19,7 +19,6 @@ final class PushTokenCoordinator {
 
   StreamSubscription<AuthStatus>? _authSubscription;
   StreamSubscription<String>? _tokenRefreshSubscription;
-  String? _registeredToken;
   bool _isRegistering = false;
 
   void start() {
@@ -60,7 +59,6 @@ final class PushTokenCoordinator {
 
       final String platform = Platform.isIOS ? 'ios' : 'android';
       await _pushNotificationPort.registerDeviceToken(token: token, platform: platform);
-      _registeredToken = token;
 
       await _tokenRefreshSubscription?.cancel();
       _tokenRefreshSubscription = messaging.onTokenRefresh.listen((String refreshed) {
@@ -79,13 +77,8 @@ final class PushTokenCoordinator {
   }
 
   Future<void> _onTokenRefreshed(String refreshed, String platform) async {
-    final String? previous = _registeredToken;
     try {
       await _pushNotificationPort.registerDeviceToken(token: refreshed, platform: platform);
-      _registeredToken = refreshed;
-      if (previous != null && previous != refreshed) {
-        await _pushNotificationPort.unregisterDeviceToken(token: previous);
-      }
     } on Object catch (error, stackTrace) {
       logInfrastructureFailure(
         'Failed to refresh FCM token',
@@ -99,6 +92,5 @@ final class PushTokenCoordinator {
   Future<void> _unregisterCurrentToken() async {
     await _tokenRefreshSubscription?.cancel();
     _tokenRefreshSubscription = null;
-    _registeredToken = null;
   }
 }

@@ -107,7 +107,7 @@ void main() {
     'retry after load error clears loadError and reloads',
     build: buildBloc,
     setUp: () {
-      var callCount = 0;
+      int callCount = 0;
       when(() => homeRepository.getInterlocutors()).thenAnswer((_) async {
         callCount += 1;
         if (callCount == 1) {

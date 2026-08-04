@@ -24,4 +24,9 @@ final class _PushNotificationPortAdapter implements PushNotificationPort {
   Future<void> unregisterDeviceToken({required String token}) {
     return _store.delete(token: token);
   }
+
+  @override
+  Future<void> unregisterCurrentDevice({String? fallbackToken}) {
+    return _store.unregisterCurrentDevice(fallbackToken: fallbackToken);
+  }
 }

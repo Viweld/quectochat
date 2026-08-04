@@ -7,9 +7,9 @@ void main() {
   group('classifyTransportFailureText', () {
     test('detects DNS / host lookup failures as network', () {
       const String message =
-          "ClientException with SocketException: Failed host lookup: "
-          "'cjgncxrgbdosvtveradq.supabase.co' (OS Error: No address associated "
-          'with hostname, errno = 7)';
+          'ClientException with SocketException: Failed host lookup: '
+          "'cjgncxrgbdosvtveradq.supabase.co' "
+          '(OS Error: No address associated with hostname, errno = 7)';
 
       expect(classifyTransportFailureText(message), TransportErrorKind.network);
     });
