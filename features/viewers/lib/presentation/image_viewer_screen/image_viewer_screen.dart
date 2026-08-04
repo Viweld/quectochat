@@ -60,6 +60,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
   PhotoViewGalleryPageOptions _buildPageOptions(BuildContext context, int index) {
     final String url = widget.imageUrls[index];
     final String? heroTag = index == _initialIndex ? widget.heroTag : null;
+    final Color inverseBackground = context.colors.background.inverse;
 
     return PhotoViewGalleryPageOptions(
       imageProvider: CachedNetworkImageProvider(url),
@@ -68,7 +69,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
       maxScale: PhotoViewComputedScale.covered * 4,
       heroAttributes: heroTag != null ? PhotoViewHeroAttributes(tag: heroTag) : null,
       errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-        return ColoredBox(color: context.colors.background.secondary);
+        return ColoredBox(color: inverseBackground);
       },
     );
   }
@@ -76,30 +77,36 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
   @override
   Widget build(BuildContext context) {
     final AppColorsTheme colors = context.colors;
+    final Color inverseBackground = colors.background.inverse;
     final Animation<double> routeAnimation =
         ModalRoute.of(context)?.animation ?? const AlwaysStoppedAnimation<double>(1);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
+      value: SystemUiOverlayStyle(
+        statusBarColor: inverseBackground,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: inverseBackground,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
       child: Scaffold(
-        // Transparent so the chat stays visible under the Hero flight.
-        backgroundColor: Colors.transparent,
+        backgroundColor: inverseBackground,
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
             FadeTransition(
               opacity: CurvedAnimation(parent: routeAnimation, curve: Curves.easeOut),
-              child: const ColoredBox(color: Colors.black),
+              child: ColoredBox(color: inverseBackground),
             ),
             PhotoViewGallery.builder(
               pageController: _pageController,
               itemCount: widget.imageUrls.length,
               onPageChanged: _handlePageChanged,
               scrollPhysics: const ClampingScrollPhysics(),
-              backgroundDecoration: const BoxDecoration(color: Colors.transparent),
+              backgroundDecoration: BoxDecoration(color: inverseBackground),
               loadingBuilder: (BuildContext context, ImageChunkEvent? event) {
                 return ColoredBox(
-                  color: colors.background.secondary,
+                  color: inverseBackground,
                   child: Center(
                     child: CircularProgressIndicator(
                       color: colors.accent.main,

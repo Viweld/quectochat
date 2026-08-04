@@ -34,10 +34,13 @@ abstract class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
 }
 
 final class AppBackgroundColors {
-  const AppBackgroundColors({required this.main, required this.secondary});
+  const AppBackgroundColors({required this.main, required this.secondary, required this.inverse});
 
   final Color main;
   final Color secondary;
+
+  /// Scrim / fullscreen media backdrop (black in the light theme).
+  final Color inverse;
 }
 
 final class AppTextColors {
@@ -106,6 +109,7 @@ final class LightColorTheme extends AppColorsTheme {
   AppBackgroundColors get background => const AppBackgroundColors(
     main: AppColors.background,
     secondary: AppColors.backgroundSecondary,
+    inverse: AppColors.backgroundInverse,
   );
 
   @override

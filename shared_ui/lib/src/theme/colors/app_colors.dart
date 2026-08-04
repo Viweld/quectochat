@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 abstract final class AppColors {
   static const Color background = Color(0xFFFFFFFF);
   static const Color backgroundSecondary = Color(0xFFFFF8F2);
+  static const Color backgroundInverse = Color(0xFF000000);
   static const Color border = Color(0xFFB2D5E3);
 
   static const Color text = Color(0xFF2B333E);
