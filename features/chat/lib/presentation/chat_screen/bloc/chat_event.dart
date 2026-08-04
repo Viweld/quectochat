@@ -12,6 +12,12 @@ sealed class ChatEvent with _$ChatEvent {
   /// ВНУТРЕННЕЕ событие пересчёта статуса собеседника
   const factory ChatEvent.onStatusRecomputeRequested() = _EventOnStatusRecomputeRequested;
 
+  /// Приложение ушло в фон — разрешить пуши для этого чата.
+  const factory ChatEvent.onAppPaused() = _EventOnAppPaused;
+
+  /// Приложение снова на переднем плане — снова подавлять пуши.
+  const factory ChatEvent.onAppResumed() = _EventOnAppResumed;
+
   /// Сброс обработанного UI-эффекта
   const factory ChatEvent.effectHandled() = _EffectHandled;
 }

@@ -71,12 +71,12 @@ flutter_native_splash:
   ios: true
   web: false
   color: "#FFFFFF"
-  color_dark: "#2B333E"
+  color_dark: "#2F635B"
   image: "shared_ui/resources/images/splash_logo.png"
   image_dark: "shared_ui/resources/images/splash_logo_dark.png"
   android_12:
     color: "#FFFFFF"
-    color_dark: "#2B333E"
+    color_dark: "#2F635B"
     image: "shared_ui/resources/images/splash_logo.png"
     image_dark: "shared_ui/resources/images/splash_logo_dark.png"
 

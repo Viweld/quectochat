@@ -14,22 +14,27 @@ final class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl({
     required ChatRemoteDataSource remoteDataSource,
     required CurrentUserPort currentUserPort,
+    required ChatNotificationClearPort chatNotificationClearPort,
   }) : _remoteDataSource = remoteDataSource,
-       _currentUserPort = currentUserPort;
+       _currentUserPort = currentUserPort,
+       _chatNotificationClearPort = chatNotificationClearPort;
 
   StreamSubscription<Set<MessageDto>>? _chatStreamSubscription;
   Timer? _activeChatHeartbeatTimer;
 
   final ChatRemoteDataSource _remoteDataSource;
   final CurrentUserPort _currentUserPort;
+  final ChatNotificationClearPort _chatNotificationClearPort;
   final StreamController<Set<Message>> _messagesStreamController =
       StreamController<Set<Message>>.broadcast();
   final StreamController<ChatRepositoryError> _errorsStreamController =
       StreamController<ChatRepositoryError>.broadcast();
 
   String? _activeInterlocutorId;
+  bool _isActiveChatPresenceEnabled = false;
 
-  static const Duration _activeChatHeartbeatInterval = Duration(seconds: 10);
+  // TTL in send-push must stay slightly above this interval.
+  static const Duration _activeChatHeartbeatInterval = Duration(seconds: 5);
 
   String get _currentUserId => _currentUserPort.currentUserId;
 
@@ -62,14 +67,30 @@ final class ChatRepositoryImpl implements ChatRepository {
         .listen(_onChatStreamMessageReceived, onError: _onChatStreamErrorReceived);
     await _remoteDataSource.startTypingChannel(interlocutorId: interlocutorId);
     await _startActiveChatHeartbeat(interlocutorId: interlocutorId);
+    unawaited(_chatNotificationClearPort.clearForInterlocutor(interlocutorId));
   }
 
   @override
   Future<void> cleanup() async {
     _activeInterlocutorId = null;
+    _isActiveChatPresenceEnabled = false;
     await _stopActiveChatHeartbeat();
     await _remoteDataSource.stopTypingChannel();
     await _chatStreamSubscription?.cancel();
+  }
+
+  @override
+  Future<void> pauseActiveChatPresence() async {
+    if (_activeInterlocutorId == null) return;
+    _isActiveChatPresenceEnabled = false;
+    await _stopActiveChatHeartbeat();
+  }
+
+  @override
+  Future<void> resumeActiveChatPresence() async {
+    final String? interlocutorId = _activeInterlocutorId;
+    if (interlocutorId == null) return;
+    await _startActiveChatHeartbeat(interlocutorId: interlocutorId);
   }
 
   @override
@@ -216,6 +237,7 @@ final class ChatRepositoryImpl implements ChatRepository {
 
   Future<void> _startActiveChatHeartbeat({required String interlocutorId}) async {
     await _stopActiveChatHeartbeat(clearRemote: false);
+    _isActiveChatPresenceEnabled = true;
     await _markChatActiveSafely(interlocutorId: interlocutorId);
     _activeChatHeartbeatTimer = Timer.periodic(_activeChatHeartbeatInterval, (_) {
       unawaited(_markChatActiveSafely(interlocutorId: interlocutorId));
@@ -239,8 +261,16 @@ final class ChatRepositoryImpl implements ChatRepository {
   }
 
   Future<void> _markChatActiveSafely({required String interlocutorId}) async {
+    if (!_isActiveChatPresenceEnabled || _activeInterlocutorId != interlocutorId) {
+      return;
+    }
+
     try {
       await _remoteDataSource.markChatActive(interlocutorId: interlocutorId);
+      // Undo if presence was paused/cleaned up while the upsert was in flight.
+      if (!_isActiveChatPresenceEnabled || _activeInterlocutorId != interlocutorId) {
+        await _remoteDataSource.clearActiveChat();
+      }
     } on Object catch (error, stackTrace) {
       logInfrastructureFailure(
         'Failed to mark chat active',

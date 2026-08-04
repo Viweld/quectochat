@@ -56,6 +56,8 @@ void main() {
       () => chatRepository.markAsRead(interlocutorId: any(named: 'interlocutorId')),
     ).thenAnswer((_) async {});
     when(() => chatRepository.cleanup()).thenAnswer((_) async {});
+    when(() => chatRepository.pauseActiveChatPresence()).thenAnswer((_) async {});
+    when(() => chatRepository.resumeActiveChatPresence()).thenAnswer((_) async {});
   });
 
   tearDown(() async {

@@ -5,7 +5,9 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { SignJWT, importPKCS8 } from 'https://deno.land/x/jose@v5.9.3/index.ts';
 
-const ACTIVE_CHAT_TTL_MS = 20_000;
+// Must stay slightly above client heartbeat (5s). Only a crash-safety net —
+// leaving the chat or backgrounding the app clears active_chats immediately.
+const ACTIVE_CHAT_TTL_MS = 8_000;
 
 type ServiceAccount = {
   project_id: string;
@@ -194,6 +196,7 @@ async function sendFcmMessage(args: {
   badge: number;
   data: Record<string, string>;
 }): Promise<{ ok: boolean; unregister: boolean }> {
+  const notificationTag = args.data.fromId;
   const response = await fetch(
     `https://fcm.googleapis.com/v1/projects/${args.projectId}/messages:send`,
     {
@@ -212,9 +215,14 @@ async function sendFcmMessage(args: {
           data: args.data,
           android: {
             priority: 'HIGH',
+            // One tray entry per sender; opening that chat clears by this tag.
+            collapse_key: notificationTag,
             notification: {
               channel_id: 'messages',
               sound: 'default',
+              tag: notificationTag,
+              icon: 'ic_notification',
+              color: '#1C9399',
             },
           },
           apns: {
@@ -222,6 +230,7 @@ async function sendFcmMessage(args: {
               aps: {
                 badge: args.badge,
                 sound: 'default',
+                'thread-id': notificationTag,
               },
             },
           },

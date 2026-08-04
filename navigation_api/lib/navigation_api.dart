@@ -6,6 +6,7 @@ export 'src/auth_session_port.dart';
 export 'src/authentication_state_port.dart';
 export 'src/badge_sync_port.dart';
 export 'src/chat_delivery_ack_port.dart';
+export 'src/chat_notification_clear_port.dart';
 export 'src/current_user_port.dart';
 export 'src/presence_port.dart';
 export 'src/push_notification_port.dart';

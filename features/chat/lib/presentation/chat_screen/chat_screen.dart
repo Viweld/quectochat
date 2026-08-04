@@ -1,5 +1,6 @@
 import 'package:chat/presentation/chat_screen/bloc/chat_bloc.dart';
 import 'package:chat/presentation/chat_screen/chat_content.dart';
+import 'package:chat/presentation/chat_screen/widgets/chat_active_presence_lifecycle.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
@@ -21,26 +22,28 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ChatBloc>(
       create: (BuildContext context) => appLocator<ChatBloc>(param1: interlocutorId),
-      child: BlocConsumer<ChatBloc, ChatState>(
-        listenWhen: (ChatState previous, ChatState current) => previous.effect != current.effect,
-        listener: (BuildContext context, ChatState state) {
-          final ChatEffect? effect = state.effect;
-          if (effect == null) return;
+      child: ChatActivePresenceLifecycle(
+        child: BlocConsumer<ChatBloc, ChatState>(
+          listenWhen: (ChatState previous, ChatState current) => previous.effect != current.effect,
+          listener: (BuildContext context, ChatState state) {
+            final ChatEffect? effect = state.effect;
+            if (effect == null) return;
 
-          effect.when(
-            showError: (AppErrorKind kind, String? transitMessage) => CommonToast.showError(
-              context,
-              text: transitMessage ?? _resolveErrorText(context, kind),
-            ),
-          );
+            effect.when(
+              showError: (AppErrorKind kind, String? transitMessage) => CommonToast.showError(
+                context,
+                text: transitMessage ?? _resolveErrorText(context, kind),
+              ),
+            );
 
-          context.read<ChatBloc>().add(const ChatEvent.effectHandled());
-        },
-        builder: (BuildContext context, ChatState state) => ChatContent(
-          interlocutorId: interlocutorId,
-          firstName: firstName,
-          lastName: lastName,
-          interlocutorStatus: state.interlocutorStatus,
+            context.read<ChatBloc>().add(const ChatEvent.effectHandled());
+          },
+          builder: (BuildContext context, ChatState state) => ChatContent(
+            interlocutorId: interlocutorId,
+            firstName: firstName,
+            lastName: lastName,
+            interlocutorStatus: state.interlocutorStatus,
+          ),
         ),
       ),
     );

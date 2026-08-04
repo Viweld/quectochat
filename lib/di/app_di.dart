@@ -7,6 +7,7 @@ import 'package:navigation_api/navigation_api.dart';
 import 'package:quectochat/di/app_di.config.dart';
 import 'package:quectochat/di/auth_port_adapters.dart';
 import 'package:quectochat/di/badge_port_adapters.dart';
+import 'package:quectochat/di/chat_notification_clear_port_adapters.dart';
 import 'package:quectochat/di/chat_port_adapters.dart';
 import 'package:quectochat/di/presence_port_adapters.dart';
 import 'package:quectochat/di/push_port_adapters.dart';
@@ -28,6 +29,7 @@ Future<void> configureDependencies() async {
   await appLocator.init();
   registerPushPorts(appLocator);
   registerBadgePorts(appLocator);
+  registerChatNotificationClearPorts(appLocator);
   registerAuthPorts(appLocator);
   registerChatPorts(appLocator);
   registerPresencePort(appLocator);

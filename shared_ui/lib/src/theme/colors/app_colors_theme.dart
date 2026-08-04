@@ -137,9 +137,9 @@ final class LightColorTheme extends AppColorsTheme {
   AppFeedbackColors get feedback => const AppFeedbackColors(error: AppColors.error);
 
   @override
-  AppChatColors get chat => const AppChatColors(
-    bubbleOwn: AppColors.accent,
-    bubblePeer: AppColors.textTertiary,
+  AppChatColors get chat => AppChatColors(
+    bubbleOwn: AppColors.accent.withValues(alpha: 0.5),
+    bubblePeer: AppColors.textTertiary.withValues(alpha: 0.5),
     bubbleOwnText: AppColors.onAccent,
   );
 

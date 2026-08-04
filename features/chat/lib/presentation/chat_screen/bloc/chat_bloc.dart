@@ -25,6 +25,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         onInitializationRequested: (_) => _onInitializationRequested(emit),
         onErrorReceived: (_EventOnErrorReceived event) => _onErrorReceived(event, emit),
         onStatusRecomputeRequested: (_) => _onStatusRecomputeRequested(emit),
+        onAppPaused: (_) => _onAppPaused(),
+        onAppResumed: (_) => _onAppResumed(),
         effectHandled: (_) => _onEffectHandled(emit),
       ),
     );
@@ -116,6 +118,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void _onEffectHandled(Emitter<ChatState> emit) {
     emit(state.copyWith(effect: null));
+  }
+
+  Future<void> _onAppPaused() async {
+    await _chatRepository.pauseActiveChatPresence();
+  }
+
+  Future<void> _onAppResumed() async {
+    await _chatRepository.resumeActiveChatPresence();
   }
 
   Future<void> _onInitializationRequested(Emitter<ChatState> emit) async {
