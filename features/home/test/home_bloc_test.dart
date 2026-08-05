@@ -32,6 +32,7 @@ void main() {
     interlocutorsController = StreamController<Set<Interlocutor>>.broadcast();
 
     when(() => homeRepository.initialize()).thenAnswer((_) async {});
+    when(() => homeRepository.getCurrentUser()).thenAnswer((_) async => null);
     when(() => homeRepository.subscribe(any())).thenAnswer(
       (Invocation invocation) => interlocutorsController.stream.listen(
         invocation.positionalArguments.first as void Function(Set<Interlocutor>),

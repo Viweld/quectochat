@@ -10,11 +10,17 @@ class CommonToast extends StatelessWidget {
 
   // ---------------------------------------------------------------------------
   static void showError(BuildContext context, {required String text}) =>
+      _show(context, text: text, backgroundColor: context.colors.feedback.error);
+
+  static void showInfo(BuildContext context, {required String text}) =>
+      _show(context, text: text, backgroundColor: context.colors.background.secondary);
+
+  static void _show(BuildContext context, {required String text, required Color backgroundColor}) =>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: CommonToast._(text: text),
           elevation: 10,
-          backgroundColor: context.colors.feedback.error,
+          backgroundColor: backgroundColor,
           padding: const EdgeInsets.only(bottom: 20),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 5),

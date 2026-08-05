@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 /// Clears system tray / notification center entries for one chat interlocutor.
 final class ChatNotificationClearer {
-  static const MethodChannel _channel = MethodChannel('com.example.quectochat/chat_notifications');
+  static const MethodChannel _channel = MethodChannel('dev.viweld.achat/chat_notifications');
 
   Future<void> clearForInterlocutor(String interlocutorId) async {
     if (interlocutorId.isEmpty) return;

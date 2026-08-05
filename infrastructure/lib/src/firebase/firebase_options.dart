@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAtQQ1JYca7U3oVHdBCmXcCIPyTua86YWw',
-    appId: '1:450239422144:android:bed778b376cfaa0e309725',
+    appId: '1:450239422144:android:d666664ed730b774309725',
     messagingSenderId: '450239422144',
     projectId: 'quectochat',
     storageBucket: 'quectochat.appspot.com',
@@ -56,10 +56,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCCF4nblSTWa333WeeQs6qGY2nQI5RWfh8',
-    appId: '1:450239422144:ios:da4c26af77174173309725',
+    appId: '1:450239422144:ios:f51344d9d6ee2108309725',
     messagingSenderId: '450239422144',
     projectId: 'quectochat',
     storageBucket: 'quectochat.appspot.com',
-    iosBundleId: 'com.example.quectochat',
+    iosBundleId: 'dev.viweld.achat',
   );
 }

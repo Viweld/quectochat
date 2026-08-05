@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:home/domain/entities/current_user.dart';
 import 'package:home/domain/repositories/home_repository.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
@@ -65,6 +66,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     unawaited(_homeRepository.initialize());
     add(const HomeEvent.onFetchRequested());
     _interlocutorsSubscription = _homeRepository.subscribe(_interlocutorsStreamListener);
+    await _loadCurrentUser(emit);
+  }
+
+  /// Профиль нужен только драверу, поэтому ошибка загрузки не показывается тостом.
+  Future<void> _loadCurrentUser(Emitter<HomeState> emit) async {
+    try {
+      final CurrentUser? currentUser = await _homeRepository.getCurrentUser();
+      if (currentUser == null) return;
+      emit(state.copyWith(currentUser: currentUser));
+    } on Object catch (error, stackTrace) {
+      final ErrorPresentation presentation = _blocErrorHandler.handle(
+        error,
+        stackTrace: stackTrace,
+        isSilent: true,
+      );
+      if (presentation.shouldRethrow) rethrow;
+    }
   }
 
   Future<void> _onFetchRequested(Emitter<HomeState> emit) async {

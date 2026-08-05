@@ -6,6 +6,7 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:get_it/get_it.dart';
 export 'package:injectable/injectable.dart';
 
+export 'src/app_info/app_info.dart';
 export 'src/di/configure_dependencies.module.dart';
 export 'src/di/locator.dart';
 export 'src/error_handling/bloc_error_handler.dart';

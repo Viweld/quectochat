@@ -56,6 +56,8 @@ class _CommonUserAvatarState extends State<CommonUserAvatar> {
 
   /// Возвращает инициалы пользователя
   String _getInitials(String fn, String ln) {
-    return (fn.substring(0, 1) + ln.substring(0, 1)).toUpperCase();
+    final String firstInitial = fn.isEmpty ? '' : fn.substring(0, 1);
+    final String lastInitial = ln.isEmpty ? '' : ln.substring(0, 1);
+    return (firstInitial + lastInitial).toUpperCase();
   }
 }

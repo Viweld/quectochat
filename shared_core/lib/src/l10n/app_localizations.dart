@@ -362,6 +362,54 @@ abstract class AppLocalizations {
   /// **'Очистить\nчат'**
   String get homeClearChatLabel;
 
+  /// No description provided for @homeDrawerMenuLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Меню'**
+  String get homeDrawerMenuLabel;
+
+  /// No description provided for @homeDrawerUnnamedUser.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без имени'**
+  String get homeDrawerUnnamedUser;
+
+  /// No description provided for @homeDrawerProfileTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль'**
+  String get homeDrawerProfileTitle;
+
+  /// No description provided for @homeDrawerProfileSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя, фамилия и аватар'**
+  String get homeDrawerProfileSubtitle;
+
+  /// No description provided for @homeDrawerAddUserTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить пользователя'**
+  String get homeDrawerAddUserTitle;
+
+  /// No description provided for @homeDrawerAddUserSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пригласить собеседника'**
+  String get homeDrawerAddUserSubtitle;
+
+  /// No description provided for @homeDrawerComingSoonMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Функция скоро появится'**
+  String get homeDrawerComingSoonMessage;
+
+  /// No description provided for @homeDrawerVersionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Версия {version} ({buildNumber})'**
+  String homeDrawerVersionLabel(Object version, Object buildNumber);
+
   /// No description provided for @timeAgoJustNow.
   ///
   /// In ru, this message translates to:

@@ -1,6 +1,7 @@
 -- QuectoChat initial schema: profiles, messages, device_tokens, RLS, RPC.
 
-create extension if not exists pg_trgm;
+create schema if not exists extensions;
+create extension if not exists pg_trgm with schema extensions;
 
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,

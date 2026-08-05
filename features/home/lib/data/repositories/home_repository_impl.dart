@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:home/data/datasources/home_remote_data_source.dart';
 import 'package:home/data/dto/interlocutor_dto.dart';
+import 'package:home/data/dto/user_dto.dart';
+import 'package:home/data/mappers/current_user_mapper.dart';
 import 'package:home/data/mappers/interlocutor_mapper.dart';
+import 'package:home/domain/entities/current_user.dart';
 import 'package:home/domain/repositories/home_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:navigation_api/navigation_api.dart';
@@ -55,6 +58,13 @@ final class HomeRepositoryImpl implements HomeRepository {
       paginated: paginated,
       currentUserId: _currentUserId,
     );
+  }
+
+  @override
+  Future<CurrentUser?> getCurrentUser() async {
+    final UserDto? dto = await _remoteDataSource.getCurrentUser();
+
+    return dto == null ? null : mapUserDtoToCurrentUser(dto);
   }
 
   @override

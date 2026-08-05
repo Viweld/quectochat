@@ -11,6 +11,7 @@ abstract class HomeState with _$HomeState {
     @Default(false) bool isSearchMode,
     @Default('') String searchText,
     @Default(0) int searchId,
+    CurrentUser? currentUser,
     AppErrorViewModel? loadError,
   }) = _HomeState;
 }

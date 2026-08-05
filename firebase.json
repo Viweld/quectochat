@@ -1,1 +1,30 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"quectochat","appId":"1:450239422144:android:bed778b376cfaa0e309725","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"quectochat","configurations":{"android":"1:450239422144:android:bed778b376cfaa0e309725","ios":"1:450239422144:ios:da4c26af77174173309725"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "quectochat",
+          "appId": "1:450239422144:android:d666664ed730b774309725",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "quectochat",
+          "appId": "1:450239422144:ios:f51344d9d6ee2108309725",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "infrastructure/lib/src/firebase/firebase_options.dart": {
+          "projectId": "quectochat",
+          "configurations": {
+            "android": "1:450239422144:android:d666664ed730b774309725",
+            "ios": "1:450239422144:ios:f51344d9d6ee2108309725"
+          }
+        }
+      }
+    }
+  }
+}

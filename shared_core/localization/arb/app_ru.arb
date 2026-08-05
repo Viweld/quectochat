@@ -52,6 +52,22 @@
   "homeChatTileYouLabel": "Вы: ",
   "homeClearChatLabel": "Очистить\nчат",
 
+  "@ home drawer (боковое меню домашнего экрана)": {},
+  "homeDrawerMenuLabel": "Меню",
+  "homeDrawerUnnamedUser": "Без имени",
+  "homeDrawerProfileTitle": "Профиль",
+  "homeDrawerProfileSubtitle": "Имя, фамилия и аватар",
+  "homeDrawerAddUserTitle": "Добавить пользователя",
+  "homeDrawerAddUserSubtitle": "Пригласить собеседника",
+  "homeDrawerComingSoonMessage": "Функция скоро появится",
+  "homeDrawerVersionLabel": "Версия {version} ({buildNumber})",
+  "@homeDrawerVersionLabel": {
+    "placeholders": {
+      "version": {},
+      "buildNumber": {}
+    }
+  },
+
   "@ timeAgo (приписки типа 'только что' '2 дня назад и т.п.')": {},
   "timeAgoJustNow": "Только что",
   "timeAgoYesterday": "Вчера",

@@ -18,9 +18,7 @@ create policy "chat media authenticated upload"
   on storage.objects for insert to authenticated
   with check (bucket_id = 'chat-media');
 
-create policy "chat media public read"
-  on storage.objects for select to public
-  using (bucket_id = 'chat-media');
+-- No broad SELECT policy: public bucket object URLs remain readable without listing.
 
 create policy "chat media owner delete"
   on storage.objects for delete to authenticated

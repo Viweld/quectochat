@@ -6,7 +6,7 @@ class FlexibleHeader extends StatelessWidget {
     super.key,
     required this.onSearchTextChanged,
     required this.onSearchFieldClearTapped,
-    required this.onExitTapped,
+    required this.onMenuTapped,
   });
 
   static const double toTitlePadding = 14;
@@ -15,7 +15,7 @@ class FlexibleHeader extends StatelessWidget {
 
   final void Function(String) onSearchTextChanged;
   final void Function() onSearchFieldClearTapped;
-  final void Function() onExitTapped;
+  final void Function() onMenuTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +40,15 @@ class FlexibleHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(context.texts.homeTitle, style: context.mainTitle),
-                    SizedBox.square(
-                      dimension: titleHeight * titleSize,
-                      child: PopupMenuButton<void>(
-                        icon: AppIcons.setting(color: context.colors.icon.main),
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<void>>[
-                          PopupMenuItem<void>(
-                            onTap: onExitTapped,
-                            child: Row(
-                              children: <Widget>[
-                                AppIcons.logout(color: context.colors.icon.main),
-                                Text(context.texts.homeLogoutLabel),
-                              ],
-                            ),
-                          ),
-                        ],
+                    Semantics(
+                      button: true,
+                      label: context.texts.homeDrawerMenuLabel,
+                      child: SizedBox.square(
+                        dimension: titleHeight * titleSize,
+                        child: AppIcons.setting(
+                          color: context.colors.icon.main,
+                          onTap: onMenuTapped,
+                        ),
                       ),
                     ),
                   ],

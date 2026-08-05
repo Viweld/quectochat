@@ -1,4 +1,4 @@
-package com.example.quectochat
+package dev.viweld.achat
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -88,6 +88,6 @@ class MainActivity : FlutterActivity() {
         private const val CHANNEL_NAME = "Messages"
         private const val CHANNEL_DESCRIPTION = "New chat messages"
         private const val CHAT_NOTIFICATIONS_CHANNEL =
-            "com.example.quectochat/chat_notifications"
+            "dev.viweld.achat/chat_notifications"
     }
 }

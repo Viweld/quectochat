@@ -55,7 +55,7 @@ class Application extends StatelessWidget {
         appLocator<AuthStatusReevaluateListenable>();
 
     return MaterialApp.router(
-      title: 'Quecto chat',
+      title: 'A-chat',
       theme: DynamicTheme.themeOf(context),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

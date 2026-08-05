@@ -16,6 +16,8 @@ class HomeScreen extends StatelessWidget {
           isFirstLoading: state.isFirstLoading,
           interlocutors: state.interlocutors,
           loadError: state.loadError,
+          currentUser: state.currentUser,
+          isLogoutLoading: state.isLogoutLoading,
         ),
       ),
     );

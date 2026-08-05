@@ -144,6 +144,32 @@ class AppLocalizationsRu extends AppLocalizations {
   String get homeClearChatLabel => 'Очистить\nчат';
 
   @override
+  String get homeDrawerMenuLabel => 'Меню';
+
+  @override
+  String get homeDrawerUnnamedUser => 'Без имени';
+
+  @override
+  String get homeDrawerProfileTitle => 'Профиль';
+
+  @override
+  String get homeDrawerProfileSubtitle => 'Имя, фамилия и аватар';
+
+  @override
+  String get homeDrawerAddUserTitle => 'Добавить пользователя';
+
+  @override
+  String get homeDrawerAddUserSubtitle => 'Пригласить собеседника';
+
+  @override
+  String get homeDrawerComingSoonMessage => 'Функция скоро появится';
+
+  @override
+  String homeDrawerVersionLabel(Object version, Object buildNumber) {
+    return 'Версия $version ($buildNumber)';
+  }
+
+  @override
   String get timeAgoJustNow => 'Только что';
 
   @override

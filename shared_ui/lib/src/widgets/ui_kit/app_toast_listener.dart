@@ -43,7 +43,15 @@ final class _AppToastListenerState extends State<AppToastListener> {
       InfoToastEvent(:final String? message) => message ?? '',
     };
     if (text.isEmpty) return;
-    CommonToast.showError(context, text: text);
+
+    switch (event) {
+      case ErrorToastEvent():
+        CommonToast.showError(context, text: text);
+      case SuccessToastEvent():
+      case WarningToastEvent():
+      case InfoToastEvent():
+        CommonToast.showInfo(context, text: text);
+    }
   }
 
   String _resolveErrorText(BuildContext context, AppToastErrorKind kind) {

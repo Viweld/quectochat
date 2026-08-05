@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:home/domain/entities/current_user.dart';
 import 'package:home/presentation/home_screen/bloc/home_bloc.dart';
 import 'package:home/presentation/home_screen/widgets/chat_tile.dart';
 import 'package:home/presentation/home_screen/widgets/flexible_header.dart';
+import 'package:home/presentation/home_screen/widgets/home_drawer/home_drawer.dart';
 import 'package:home/presentation/home_screen/widgets/home_load_error_view.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
@@ -14,11 +16,15 @@ class HomeContent extends StatelessWidget {
     required this.isFirstLoading,
     required this.interlocutors,
     required this.loadError,
+    required this.currentUser,
+    required this.isLogoutLoading,
   });
 
   final bool isFirstLoading;
   final Iterable<Interlocutor> interlocutors;
   final AppErrorViewModel? loadError;
+  final CurrentUser? currentUser;
+  final bool isLogoutLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -42,69 +48,86 @@ class HomeContent extends StatelessWidget {
         Values.dividerThickness +
         1;
 
+    final CurrentUser? currentUser = this.currentUser;
+
     return Scaffold(
+      drawer: HomeDrawer(
+        firstName: currentUser?.firstName ?? '',
+        lastName: currentUser?.lastName ?? '',
+        isLogoutPending: isLogoutLoading,
+        onProfileTapped: () => _showComingSoon(context),
+        onAddUserTapped: () => _showComingSoon(context),
+        onLogoutTapped: () => bloc.add(const HomeEvent.onLogoutTapped()),
+      ),
       body: SafeArea(
-        child: CommonPaginationListener(
-          onListEnded: () => bloc.add(const HomeEvent.onNextPageRequested()),
-          listenableChild: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                scrolledUnderElevation: 0,
-                forceMaterialTransparency: true,
-                floating: true,
-                snap: true,
-                pinned: true,
-                collapsedHeight: 0,
-                toolbarHeight: 0,
-                expandedHeight: flexibleAppBarHeight,
-                flexibleSpace: FlexibleHeader(
-                  onExitTapped: () => bloc.add(const HomeEvent.onLogoutTapped()),
-                  onSearchFieldClearTapped: () =>
-                      bloc.add(const HomeEvent.onSearchFieldClearTapped()),
-                  onSearchTextChanged: (String value) =>
-                      bloc.add(HomeEvent.onSearchTextChanged(value)),
-                ),
-              ),
-              if (interlocutors.isEmpty)
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: switch (loadError) {
-                    final AppErrorViewModel error => HomeLoadErrorView(
-                      error: error,
-                      onRetryTapped: () => bloc.add(const HomeEvent.onFetchRequested()),
-                    ),
-                    null => const _HomeEmptyInterlocutorsMessage(),
-                  },
-                )
-              else
-                SliverList.separated(
-                  itemCount: interlocutors.length,
-                  separatorBuilder: (BuildContext context, int index) => Divider(
-                    height: Values.dividerThickness,
-                    color: context.colors.text.tertiary,
-                    indent: Values.horizontalPadding,
-                    endIndent: Values.horizontalPadding,
+        // Builder даёт контекст под Scaffold — из него открывается дравер.
+        child: Builder(
+          builder: (BuildContext scaffoldContext) => CommonPaginationListener(
+            onListEnded: () => bloc.add(const HomeEvent.onNextPageRequested()),
+            listenableChild: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  scrolledUnderElevation: 0,
+                  forceMaterialTransparency: true,
+                  floating: true,
+                  snap: true,
+                  pinned: true,
+                  collapsedHeight: 0,
+                  toolbarHeight: 0,
+                  expandedHeight: flexibleAppBarHeight,
+                  flexibleSpace: FlexibleHeader(
+                    onMenuTapped: () => Scaffold.of(scaffoldContext).openDrawer(),
+                    onSearchFieldClearTapped: () =>
+                        bloc.add(const HomeEvent.onSearchFieldClearTapped()),
+                    onSearchTextChanged: (String value) =>
+                        bloc.add(HomeEvent.onSearchTextChanged(value)),
                   ),
-                  itemBuilder: (BuildContext context, int index) {
-                    final Interlocutor interlocutor = interlocutors.elementAt(index);
-                    return ChatTile(
-                      interlocutor: interlocutor,
-                      onTapped: () => navigator.navigateChat(
-                        interlocutorId: interlocutor.userId,
-                        firstName: interlocutor.firstName,
-                        lastName: interlocutor.lastName,
-                      ),
-                      onClearChatRequested: () => bloc.add(
-                        HomeEvent.onClearChatRequested(interlocutorId: interlocutor.userId),
-                      ),
-                    );
-                  },
                 ),
-            ],
+                if (interlocutors.isEmpty)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: switch (loadError) {
+                      final AppErrorViewModel error => HomeLoadErrorView(
+                        error: error,
+                        onRetryTapped: () => bloc.add(const HomeEvent.onFetchRequested()),
+                      ),
+                      null => const _HomeEmptyInterlocutorsMessage(),
+                    },
+                  )
+                else
+                  SliverList.separated(
+                    itemCount: interlocutors.length,
+                    separatorBuilder: (BuildContext context, int index) => Divider(
+                      height: Values.dividerThickness,
+                      color: context.colors.text.tertiary,
+                      indent: Values.horizontalPadding,
+                      endIndent: Values.horizontalPadding,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      final Interlocutor interlocutor = interlocutors.elementAt(index);
+                      return ChatTile(
+                        interlocutor: interlocutor,
+                        onTapped: () => navigator.navigateChat(
+                          interlocutorId: interlocutor.userId,
+                          firstName: interlocutor.firstName,
+                          lastName: interlocutor.lastName,
+                        ),
+                        onClearChatRequested: () => bloc.add(
+                          HomeEvent.onClearChatRequested(interlocutorId: interlocutor.userId),
+                        ),
+                      );
+                    },
+                  ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _showComingSoon(BuildContext context) {
+    appLocator<AppToastBus>().fire(AppToastEvent.info(context.texts.homeDrawerComingSoonMessage));
   }
 }
 

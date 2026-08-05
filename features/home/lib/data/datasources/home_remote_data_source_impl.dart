@@ -35,6 +35,27 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   @override
+  Future<UserDto?> getCurrentUser() async {
+    final String userId = _currentUserId;
+    if (userId.isEmpty) return null;
+
+    try {
+      final Map<String, dynamic>? row = await _client
+          .from(TableKeys.profiles)
+          .select()
+          .eq(TableKeys.profileId, userId)
+          .maybeSingle();
+
+      return row == null ? null : UserDto.fromJson(row);
+    } on Object catch (cause, stackTrace) {
+      Error.throwWithStackTrace(
+        _mapTransportException(cause, operation: 'home.getCurrentUser'),
+        stackTrace,
+      );
+    }
+  }
+
+  @override
   Future<Iterable<InterlocutorDto>> searchInterlocutors({required String searchText}) async {
     try {
       final String pattern = '%$searchText%';

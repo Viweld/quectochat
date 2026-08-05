@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace "com.example.quectochat"
+    namespace "dev.viweld.achat"
     // permission_handler_android (and peers) require compileSdk >= 37.
     compileSdk 37
     ndkVersion flutter.ndkVersion
@@ -24,7 +24,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.quectochat"
+        applicationId "dev.viweld.achat"
         minSdk flutter.minSdkVersion
         targetSdk flutter.targetSdkVersion
         versionCode flutter.versionCode
