@@ -18,7 +18,7 @@ class ChatTileCastShadow extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: context.colors.text.main.withValues(alpha: 0.22),
+              color: context.colors.shadow.main.withValues(alpha: 0.22),
               blurRadius: 10,
               offset: const Offset(6, 0),
             ),

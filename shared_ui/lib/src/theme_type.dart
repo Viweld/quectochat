@@ -1,1 +1,1 @@
-enum ThemeType { regular }
+enum ThemeType { regular, dark }

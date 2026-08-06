@@ -37,7 +37,7 @@ class AppAccentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color textColor = context.colors.text.inverse;
     final Color backgroundColor = context.colors.accent.main;
-    final Color splashColor = context.colors.accent.splash;
+    final Color splashColor = context.colors.splash.main;
     final AppIcon? icon = this.icon;
 
     return ElevatedButton(

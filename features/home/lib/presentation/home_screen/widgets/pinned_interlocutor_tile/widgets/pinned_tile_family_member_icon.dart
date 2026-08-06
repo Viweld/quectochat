@@ -5,7 +5,7 @@ import 'package:shared_ui/core_ui.dart';
 class PinnedTileFamilyMemberIcon extends StatelessWidget {
   const PinnedTileFamilyMemberIcon({super.key});
 
-  static const double _size = 16;
+  static const double _size = 24;
   static const double _trailingInset = 12;
   static const double _bottomInset = 8;
 
@@ -14,7 +14,9 @@ class PinnedTileFamilyMemberIcon extends StatelessWidget {
     return Positioned(
       right: _trailingInset,
       bottom: _bottomInset,
-      child: AppIcons.familyMember(color: context.colors.text.secondary, size: _size),
+      child: IgnorePointer(
+        child: AppIcons.familyMember(color: context.colors.text.secondary, size: _size),
+      ),
     );
   }
 }

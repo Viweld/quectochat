@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:home/presentation/home_screen/widgets/interlocutor_tile/interlocutor_tile_body.dart';
 import 'package:home/presentation/home_screen/widgets/pinned_interlocutor_tile/widgets/pinned_tile_family_member_icon.dart';
@@ -18,7 +20,9 @@ class PinnedInterlocutorTile extends StatefulWidget {
 
   final Interlocutor interlocutor;
   final VoidCallback onChatTapped;
-  final VoidCallback onRevealNestedTapped;
+
+  /// Opens nested contacts; completes when that route is popped.
+  final Future<void> Function() onRevealNestedTapped;
 
   /// First list row: under-plane receives the app-bar contact shadow.
   final bool receivesHeaderShadow;
@@ -61,7 +65,7 @@ class _PinnedInterlocutorTileState extends State<PinnedInterlocutorTile>
 
   @override
   Widget build(BuildContext context) {
-    final Color shadowColor = context.colors.text.main;
+    final Color shadowColor = context.colors.shadow.main;
 
     return AnimatedBuilder(
       animation: _controller,
@@ -76,7 +80,7 @@ class _PinnedInterlocutorTileState extends State<PinnedInterlocutorTile>
               child: PinnedTileRevealActions(
                 hasNestedUnread: _hasNestedUnread,
                 nestedUnreadCount: widget.interlocutor.nestedUnreadContactCount,
-                onRevealNestedTapped: widget.onRevealNestedTapped,
+                onRevealNestedTapped: () => unawaited(_openNestedContacts()),
               ),
             ),
             Transform.translate(
@@ -122,5 +126,11 @@ class _PinnedInterlocutorTileState extends State<PinnedInterlocutorTile>
         ),
       ),
     );
+  }
+
+  Future<void> _openNestedContacts() async {
+    await widget.onRevealNestedTapped();
+    if (!mounted || _hasNestedUnread) return;
+    await _controller.reverse();
   }
 }

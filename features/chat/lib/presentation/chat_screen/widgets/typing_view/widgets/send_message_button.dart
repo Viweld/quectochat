@@ -14,18 +14,26 @@ class SendMessageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BorderRadius borderRadius = BorderRadius.circular(Values.textFieldBorderRadius);
+
     return ExcludeFocus(
       child: SizedBox(
         width: size,
         height: size,
         child: Material(
           color: context.colors.background.secondary,
-          borderRadius: const BorderRadius.all(Radius.circular(Values.textFieldBorderRadius)),
+          shape: RoundedRectangleBorder(
+            borderRadius: borderRadius,
+            side: BorderSide(
+              color: context.colors.border.main,
+              width: AppEditField.borderThickness,
+            ),
+          ),
           child: InkWell(
             canRequestFocus: false,
             onTap: onTapped,
-            borderRadius: const BorderRadius.all(Radius.circular(Values.textFieldBorderRadius)),
-            overlayColor: WidgetStateProperty.all(context.colors.accent.splash),
+            borderRadius: borderRadius,
+            overlayColor: WidgetStateProperty.all(context.colors.splash.main),
             child: Center(child: AppIcons.send(color: context.colors.icon.main)),
           ),
         ),

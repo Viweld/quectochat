@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:shared_ui/src/theme/app_fonts.dart';
-import 'package:shared_ui/src/theme/colors/app_colors.dart';
 import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
+import 'package:shared_ui/src/theme/colors/dark_color_theme.dart';
+import 'package:shared_ui/src/theme/colors/light_color_theme.dart';
 import 'package:shared_ui/src/theme_type.dart';
 
 class ThemeBuilder {
   static ThemeData getTheme(ThemeType type) {
     return switch (type) {
-      ThemeType.regular => _getRegularTheme(),
+      ThemeType.regular => _buildTheme(const LightColorTheme(), Brightness.light),
+      ThemeType.dark => _buildTheme(const DarkColorTheme(), Brightness.dark),
     };
   }
 
-  static ThemeData _getRegularTheme() {
-    const AppColorsTheme colors = LightColorTheme();
+  static ThemeData _buildTheme(AppColorsTheme colors, Brightness brightness) {
     return ThemeData(
-      primarySwatch: AppColors.primarySwatch,
+      brightness: brightness,
+      primarySwatch: colors.primarySwatch,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      primaryColor: AppColors.accent,
+      primaryColor: colors.accent.main,
       useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.background,
-      extensions: const <ThemeExtension<dynamic>>[LightColorTheme()],
+      scaffoldBackgroundColor: colors.background.main,
+      extensions: <ThemeExtension<dynamic>>[colors],
       colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: AppColors.primarySwatch,
-        accentColor: AppColors.accent,
-        backgroundColor: AppColors.background,
-        errorColor: AppColors.error,
+        primarySwatch: colors.primarySwatch,
+        accentColor: colors.accent.main,
+        backgroundColor: colors.background.main,
+        errorColor: colors.feedback.error,
+        brightness: brightness,
       ).copyWith(surfaceContainerHighest: Colors.transparent),
-      splashColor: colors.accent.splash,
-      highlightColor: colors.accent.splash,
+      splashColor: colors.splash.main,
+      highlightColor: colors.splash.main,
       splashFactory: InkRipple.splashFactory,
       textTheme: TextTheme(
-        headlineLarge: AppFonts.mainTitle.copyWith(color: AppColors.text),
-        headlineMedium: AppFonts.initials.copyWith(color: AppColors.textInverse),
-        titleMedium: AppFonts.username.copyWith(color: AppColors.textStrong),
-        bodyMedium: AppFonts.message.copyWith(color: AppColors.text),
-        labelLarge: AppFonts.hint.copyWith(color: AppColors.textTertiary),
-        labelMedium: AppFonts.dividerLabel.copyWith(color: AppColors.textTertiary),
-        labelSmall: AppFonts.caption.copyWith(color: AppColors.textSecondary),
+        headlineLarge: AppFonts.mainTitle.copyWith(color: colors.text.main),
+        headlineMedium: AppFonts.initials.copyWith(color: colors.text.inverse),
+        titleMedium: AppFonts.username.copyWith(color: colors.text.strong),
+        bodyMedium: AppFonts.message.copyWith(color: colors.text.main),
+        labelLarge: AppFonts.hint.copyWith(color: colors.text.tertiary),
+        labelMedium: AppFonts.dividerLabel.copyWith(color: colors.text.tertiary),
+        labelSmall: AppFonts.caption.copyWith(color: colors.text.secondary),
       ),
     );
   }

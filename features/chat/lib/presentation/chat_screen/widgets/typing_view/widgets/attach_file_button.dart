@@ -12,6 +12,8 @@ class AttachFileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BorderRadius borderRadius = BorderRadius.circular(Values.textFieldBorderRadius);
+
     return TextButton(
       onPressed: onTapped,
       style: ButtonStyle(
@@ -24,11 +26,10 @@ class AttachFileButton extends StatelessWidget {
           horizontal: VisualDensity.minimumDensity,
           vertical: VisualDensity.minimumDensity,
         ),
-        shape: WidgetStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(Values.textFieldBorderRadius)),
-          ),
+        side: WidgetStateProperty.all(
+          BorderSide(color: context.colors.border.main, width: AppEditField.borderThickness),
         ),
+        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: borderRadius)),
       ),
       child: AppIcons.paperclip(color: context.colors.icon.main),
     );

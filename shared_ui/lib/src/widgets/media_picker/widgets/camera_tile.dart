@@ -21,7 +21,7 @@ class _CameraTileState extends State<_CameraTile> {
     }
 
     final AppMediaFilePickerLabels labels = _AppMediaFilePickerScope.of(context);
-    final Color splash = context.colors.accent.main.withValues(alpha: 0.12);
+    final Color splash = context.colors.splash.main;
 
     return Hero(
       tag: _cameraHeroTag,

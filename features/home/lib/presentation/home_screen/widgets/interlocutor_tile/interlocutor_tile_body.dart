@@ -29,7 +29,7 @@ class InterlocutorTileBody extends StatelessWidget {
       child: Material(
         color: colors.background.main,
         child: InkWell(
-          overlayColor: WidgetStateProperty.all(colors.accent.main),
+          overlayColor: WidgetStateProperty.all(colors.splash.main),
           onTap: onTap,
           child: Ink(
             decoration: BoxDecoration(

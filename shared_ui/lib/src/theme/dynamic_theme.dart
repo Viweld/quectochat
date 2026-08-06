@@ -20,7 +20,7 @@ class DynamicTheme extends StatefulWidget {
   _DynamicThemeState createState() => _DynamicThemeState();
 }
 
-class _DynamicThemeState extends State<DynamicTheme> {
+class _DynamicThemeState extends State<DynamicTheme> with WidgetsBindingObserver {
   late ThemeData _theme;
   late ThemeType _themeType;
   late bool isThemeInitialized;
@@ -31,30 +31,62 @@ class _DynamicThemeState extends State<DynamicTheme> {
 
   bool get isRegularTheme => _themeType == ThemeType.regular;
 
+  bool get isDarkTheme => _themeType == ThemeType.dark;
+
   @override
   void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
     isThemeInitialized = false;
     if (widget.initialThemeKey != null) {
       _themeType = widget.initialThemeKey!;
       _theme = ThemeBuilder.getTheme(widget.initialThemeKey!);
+      isThemeInitialized = true;
     }
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     if (widget.initialThemeKey == null && !isThemeInitialized) {
-      _themeType = ThemeType.regular;
-      _theme = ThemeBuilder.getTheme(_themeType);
+      _applySystemTheme();
       isThemeInitialized = true;
     }
     super.didChangeDependencies();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    if (widget.initialThemeKey != null) return;
+    _applySystemTheme();
   }
 
   void changeTheme(ThemeType themeKey) {
     setState(() {
       _themeType = themeKey;
       _theme = ThemeBuilder.getTheme(themeKey);
+    });
+  }
+
+  void _applySystemTheme() {
+    final Brightness brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    final ThemeType next = brightness == Brightness.dark ? ThemeType.dark : ThemeType.regular;
+    if (isThemeInitialized && next == _themeType) return;
+
+    if (!isThemeInitialized) {
+      _themeType = next;
+      _theme = ThemeBuilder.getTheme(next);
+      return;
+    }
+
+    setState(() {
+      _themeType = next;
+      _theme = ThemeBuilder.getTheme(next);
     });
   }
 

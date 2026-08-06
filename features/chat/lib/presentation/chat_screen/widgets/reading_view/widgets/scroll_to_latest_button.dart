@@ -14,13 +14,13 @@ class ScrollToLatestButton extends StatelessWidget {
     return Material(
       color: context.colors.background.secondary,
       elevation: 3,
-      shadowColor: context.colors.text.strong.withValues(alpha: 0.24),
+      shadowColor: context.colors.shadow.main.withValues(alpha: 0.24),
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onPressed,
         customBorder: const CircleBorder(),
-        splashColor: context.colors.accent.splash,
+        splashColor: context.colors.splash.main,
         child: SizedBox.square(
           dimension: _size,
           child: Icon(

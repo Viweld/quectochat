@@ -43,9 +43,7 @@ class _MediaTile extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () => onItemSelected(entities.elementAt(index)),
-              overlayColor: WidgetStateProperty.all(
-                context.colors.accent.main.withValues(alpha: 0.12),
-              ),
+              overlayColor: WidgetStateProperty.all(context.colors.splash.main),
             ),
           ),
         ],

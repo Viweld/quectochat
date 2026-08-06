@@ -9,7 +9,7 @@ class PinnedTileHeaderContactShadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color shadow = context.colors.text.main;
+    final Color shadow = context.colors.shadow.main;
 
     return IgnorePointer(
       child: SizedBox(
