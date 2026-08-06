@@ -3,19 +3,18 @@ import 'package:shared_ui/core_ui.dart';
 
 /// Сведения о текущем пользователе в верхней части дравера.
 class HomeDrawerUserHeader extends StatelessWidget {
-  final String firstName;
-  final String lastName;
+  final String displayName;
 
-  const HomeDrawerUserHeader({super.key, required this.firstName, required this.lastName});
+  const HomeDrawerUserHeader({super.key, required this.displayName});
 
   static const double avatarDimension = 72;
 
-  bool get hasName => firstName.isNotEmpty || lastName.isNotEmpty;
+  bool get hasName => displayName.trim().isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
     final AppColorsTheme colors = context.colors;
-    final String fullName = '$firstName $lastName'.trim();
+    final String trimmedName = displayName.trim();
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -28,15 +27,11 @@ class HomeDrawerUserHeader extends StatelessWidget {
         spacing: 16,
         children: <Widget>[
           hasName
-              ? CommonUserAvatar(
-                  firstName: firstName,
-                  lastName: lastName,
-                  dimension: avatarDimension,
-                )
+              ? CommonUserAvatar(displayName: trimmedName, dimension: avatarDimension)
               : const _AvatarPlaceholder(),
           Expanded(
             child: Text(
-              hasName ? fullName : context.texts.homeDrawerUnnamedUser,
+              hasName ? trimmedName : context.texts.homeDrawerUnnamedUser,
               style: context.username?.copyWith(color: colors.text.main),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

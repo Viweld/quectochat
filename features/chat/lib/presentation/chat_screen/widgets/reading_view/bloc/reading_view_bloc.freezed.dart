@@ -55,13 +55,14 @@ extension ReadingViewEventPatterns on ReadingViewEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,TResult Function( _EventOnChatCleared value)?  onChatCleared,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested(_that);case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested(_that);case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that);case _:
+return onMessagesUpdated(_that);case _EventOnChatCleared() when onChatCleared != null:
+return onChatCleared(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return onMessagesUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnMessagesUpdated value)  onMessagesUpdated,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnMessagesUpdated value)  onMessagesUpdated,required TResult Function( _EventOnChatCleared value)  onChatCleared,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested(_that);case _EventOnNextPageRequested():
 return onNextPageRequested(_that);case _EventOnMessagesUpdated():
-return onMessagesUpdated(_that);}
+return onMessagesUpdated(_that);case _EventOnChatCleared():
+return onChatCleared(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -99,13 +101,14 @@ return onMessagesUpdated(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnMessagesUpdated value)?  onMessagesUpdated,TResult? Function( _EventOnChatCleared value)?  onChatCleared,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested(_that);case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested(_that);case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that);case _:
+return onMessagesUpdated(_that);case _EventOnChatCleared() when onChatCleared != null:
+return onChatCleared(_that);case _:
   return null;
 
 }
@@ -122,12 +125,13 @@ return onMessagesUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onNextPageRequested,TResult Function( List<Message> messages)?  onMessagesUpdated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onNextPageRequested,TResult Function( List<Message> messages)?  onMessagesUpdated,TResult Function()?  onChatCleared,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested();case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that.messages);case _:
+return onMessagesUpdated(_that.messages);case _EventOnChatCleared() when onChatCleared != null:
+return onChatCleared();case _:
   return orElse();
 
 }
@@ -145,12 +149,13 @@ return onMessagesUpdated(_that.messages);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onNextPageRequested,required TResult Function( List<Message> messages)  onMessagesUpdated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onNextPageRequested,required TResult Function( List<Message> messages)  onMessagesUpdated,required TResult Function()  onChatCleared,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested();case _EventOnNextPageRequested():
 return onNextPageRequested();case _EventOnMessagesUpdated():
-return onMessagesUpdated(_that.messages);}
+return onMessagesUpdated(_that.messages);case _EventOnChatCleared():
+return onChatCleared();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -164,12 +169,13 @@ return onMessagesUpdated(_that.messages);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onNextPageRequested,TResult? Function( List<Message> messages)?  onMessagesUpdated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onNextPageRequested,TResult? Function( List<Message> messages)?  onMessagesUpdated,TResult? Function()?  onChatCleared,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested();case _EventOnMessagesUpdated() when onMessagesUpdated != null:
-return onMessagesUpdated(_that.messages);case _:
+return onMessagesUpdated(_that.messages);case _EventOnChatCleared() when onChatCleared != null:
+return onChatCleared();case _:
   return null;
 
 }
@@ -312,6 +318,38 @@ as List<Message>,
 
 
 }
+
+/// @nodoc
+
+
+class _EventOnChatCleared implements ReadingViewEvent {
+  const _EventOnChatCleared();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnChatCleared);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ReadingViewEvent.onChatCleared()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 mixin _$ReadingViewState {

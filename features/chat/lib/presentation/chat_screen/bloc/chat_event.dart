@@ -18,6 +18,9 @@ sealed class ChatEvent with _$ChatEvent {
   /// Приложение снова на переднем плане — снова подавлять пуши.
   const factory ChatEvent.onAppResumed() = _EventOnAppResumed;
 
+  /// Пользователь подтвердил очистку истории чата.
+  const factory ChatEvent.onClearChatRequested() = _EventOnClearChatRequested;
+
   /// Сброс обработанного UI-эффекта
   const factory ChatEvent.effectHandled() = _EffectHandled;
 }

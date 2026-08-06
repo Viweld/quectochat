@@ -360,6 +360,23 @@ final class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         .eq(TableKeys.activeChatUserId, _currentUserId);
   }
 
+  @override
+  Future<void> clearChat({required String interlocutorId}) async {
+    final String chatId = DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]);
+
+    try {
+      await _client.from(TableKeys.messages).delete().eq(TableKeys.messageChatId, chatId);
+    } on Object catch (cause, stackTrace) {
+      Error.throwWithStackTrace(
+        ServerException(
+          context: const RequestContext(operation: 'chat.clearChat'),
+          cause: cause,
+        ),
+        stackTrace,
+      );
+    }
+  }
+
   Future<void> _markIncomingDeliveredSafely() async {
     try {
       await markIncomingMessagesDelivered();

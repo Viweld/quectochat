@@ -7,23 +7,32 @@ Interlocutor mapInterlocutorDtoToDomain({
   required String currentUserId,
 }) {
   final MessagePreviewDto? lastMessage = dto.lastMessage;
+  final InterlocutorSection section = switch (dto.section) {
+    'pinned' => InterlocutorSection.pinned,
+    _ => InterlocutorSection.contacts,
+  };
+
   if (lastMessage == null) {
     return Interlocutor(
       userId: dto.user.userId,
-      firstName: dto.user.firstName,
-      lastName: dto.user.lastName,
+      displayName: dto.user.displayName,
       isSentByYou: false,
+      section: section,
+      isPinned: dto.isPinned,
+      nestedUnreadContactCount: dto.nestedUnreadContactCount,
     );
   }
 
   return Interlocutor(
     userId: dto.user.userId,
-    firstName: dto.user.firstName,
-    lastName: dto.user.lastName,
+    displayName: dto.user.displayName,
     lastSentContent: lastMessage.content,
     lastSentContentType: _parseMessageContentType(lastMessage.type),
     lastSentAt: lastMessage.createdAt,
     isSentByYou: lastMessage.fromId == currentUserId,
+    section: section,
+    isPinned: dto.isPinned,
+    nestedUnreadContactCount: dto.nestedUnreadContactCount,
   );
 }
 

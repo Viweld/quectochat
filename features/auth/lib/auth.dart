@@ -6,16 +6,22 @@ import 'package:shared_core/core.dart';
 
 export 'auth.gr.dart';
 export 'domain/repositories/auth_repository.dart';
+export 'presentation/create_invitation_screen/create_invitation_screen.dart';
+export 'presentation/invite_code_screen/invite_code_screen.dart';
+export 'presentation/invite_qr_scanner_screen/invite_qr_scanner_screen.dart';
 export 'presentation/login_screen/login_screen.dart';
 export 'presentation/registration_screen/registration_screen.dart';
 export 'src/di/configure_dependencies.module.dart';
 
-/// Codegen anchor for [LoginRoute] / [RegistrationRoute]. Not used at runtime.
+/// Codegen anchor for auth routes. Not used at runtime.
 @AutoRouterConfig()
 class AuthRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => <AutoRoute>[
     AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: InviteCodeRoute.page),
+    AutoRoute(page: InviteQrScannerRoute.page),
     AutoRoute(page: RegistrationRoute.page),
+    AutoRoute(page: CreateInvitationRoute.page),
   ];
 }

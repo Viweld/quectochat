@@ -55,12 +55,12 @@ extension LoginEffectPatterns on LoginEffect {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoginShowErrorEffect value)?  showError,TResult Function( LoginNavigateRegistrationEffect value)?  navigateRegistration,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoginShowErrorEffect value)?  showError,TResult Function( LoginNavigateInviteCodeEffect value)?  navigateInviteCode,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case LoginShowErrorEffect() when showError != null:
-return showError(_that);case LoginNavigateRegistrationEffect() when navigateRegistration != null:
-return navigateRegistration(_that);case _:
+return showError(_that);case LoginNavigateInviteCodeEffect() when navigateInviteCode != null:
+return navigateInviteCode(_that);case _:
   return orElse();
 
 }
@@ -78,12 +78,12 @@ return navigateRegistration(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoginShowErrorEffect value)  showError,required TResult Function( LoginNavigateRegistrationEffect value)  navigateRegistration,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoginShowErrorEffect value)  showError,required TResult Function( LoginNavigateInviteCodeEffect value)  navigateInviteCode,}){
 final _that = this;
 switch (_that) {
 case LoginShowErrorEffect():
-return showError(_that);case LoginNavigateRegistrationEffect():
-return navigateRegistration(_that);}
+return showError(_that);case LoginNavigateInviteCodeEffect():
+return navigateInviteCode(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -97,12 +97,12 @@ return navigateRegistration(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoginShowErrorEffect value)?  showError,TResult? Function( LoginNavigateRegistrationEffect value)?  navigateRegistration,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoginShowErrorEffect value)?  showError,TResult? Function( LoginNavigateInviteCodeEffect value)?  navigateInviteCode,}){
 final _that = this;
 switch (_that) {
 case LoginShowErrorEffect() when showError != null:
-return showError(_that);case LoginNavigateRegistrationEffect() when navigateRegistration != null:
-return navigateRegistration(_that);case _:
+return showError(_that);case LoginNavigateInviteCodeEffect() when navigateInviteCode != null:
+return navigateInviteCode(_that);case _:
   return null;
 
 }
@@ -119,11 +119,11 @@ return navigateRegistration(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( AppErrorKind kind)?  showError,TResult Function()?  navigateRegistration,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( AppErrorKind kind)?  showError,TResult Function()?  navigateInviteCode,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LoginShowErrorEffect() when showError != null:
-return showError(_that.kind);case LoginNavigateRegistrationEffect() when navigateRegistration != null:
-return navigateRegistration();case _:
+return showError(_that.kind);case LoginNavigateInviteCodeEffect() when navigateInviteCode != null:
+return navigateInviteCode();case _:
   return orElse();
 
 }
@@ -141,11 +141,11 @@ return navigateRegistration();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( AppErrorKind kind)  showError,required TResult Function()  navigateRegistration,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( AppErrorKind kind)  showError,required TResult Function()  navigateInviteCode,}) {final _that = this;
 switch (_that) {
 case LoginShowErrorEffect():
-return showError(_that.kind);case LoginNavigateRegistrationEffect():
-return navigateRegistration();}
+return showError(_that.kind);case LoginNavigateInviteCodeEffect():
+return navigateInviteCode();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -159,11 +159,11 @@ return navigateRegistration();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( AppErrorKind kind)?  showError,TResult? Function()?  navigateRegistration,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( AppErrorKind kind)?  showError,TResult? Function()?  navigateInviteCode,}) {final _that = this;
 switch (_that) {
 case LoginShowErrorEffect() when showError != null:
-return showError(_that.kind);case LoginNavigateRegistrationEffect() when navigateRegistration != null:
-return navigateRegistration();case _:
+return showError(_that.kind);case LoginNavigateInviteCodeEffect() when navigateInviteCode != null:
+return navigateInviteCode();case _:
   return null;
 
 }
@@ -240,8 +240,8 @@ as AppErrorKind,
 /// @nodoc
 
 
-class LoginNavigateRegistrationEffect implements LoginEffect {
-  const LoginNavigateRegistrationEffect();
+class LoginNavigateInviteCodeEffect implements LoginEffect {
+  const LoginNavigateInviteCodeEffect();
   
 
 
@@ -251,7 +251,7 @@ class LoginNavigateRegistrationEffect implements LoginEffect {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginNavigateRegistrationEffect);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginNavigateInviteCodeEffect);
 }
 
 
@@ -260,7 +260,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginEffect.navigateRegistration()';
+  return 'LoginEffect.navigateInviteCode()';
 }
 
 

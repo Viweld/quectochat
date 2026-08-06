@@ -18,18 +18,59 @@
   "loginPasswordFieldTitle": "Введите пароль:",
   "loginPasswordFieldHint": "пароль",
   "loginButtonLabel": "Войти",
-  "loginToRegistrationButtonLabel": "Зарегистрироваться",
+  "loginToInviteButtonLabel": "У меня есть приглашение",
   "loginExceptionInvalidCredential": "Неправильные логин или пароль",
   "loginExceptionUserNotFound": "Пользователь с таким email не зарегистрирован",
   "loginExceptionWrongEmail": "Неправильный формат e-mail",
   "loginExceptionWrongPassword": "Неправильный логин и/или пароль",
 
+  "@ invite code (ввод кода приглашения)": {},
+  "inviteCodeTitle": "Приглашение",
+  "inviteCodeSubtitle": "Введите одноразовый код или отсканируйте QR",
+  "inviteCodeNextButtonLabel": "Далее",
+  "inviteCodeScanQrButtonLabel": "Сканировать QR",
+  "inviteCodeInvalid": "Неверный или просроченный код приглашения",
+  "inviteCodeExpired": "Срок действия приглашения истёк",
+  "inviteCodeUsed": "Приглашение уже использовано",
+  "inviteCodeNotFound": "Приглашение не найдено",
+  "inviteQrScannerTitle": "Сканирование QR",
+  "inviteQrScannerHint": "Наведите камеру на QR-код приглашения",
+
+  "@ create invitation (создание приглашения)": {},
+  "inviteRoleSheetTitle": "Кого добавить?",
+  "inviteRoleParent": "Член семьи — родитель",
+  "inviteRoleChild": "Член семьи — ребёнок",
+  "inviteRoleFriend": "Друг",
+  "inviteShareTitle": "Приглашение",
+  "inviteShareSubtitle": "Покажите код или QR новому пользователю",
+  "inviteShareExpiresLabel": "Действует до {date}",
+  "@inviteShareExpiresLabel": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "inviteShareCopyHint": "Код можно ввести вручную в приложении",
+
+  "@ nested contacts": {},
+  "nestedFriendsTitle": "Друзья {name}",
+  "@nestedFriendsTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "nestedRelativesTitle": "Родственники {name}",
+  "@nestedRelativesTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "nestedEmptyMessage": "Список пуст",
+  "pinnedRevealLabel": "Открыть список",
+
   "@ registration (регистрация)": {},
   "registrationTitle": "Регистрация",
-  "registrationFirstNameFieldTitle": "Введите ваше имя:",
-  "registrationFirstNameFieldHint": "Имя",
-  "registrationLastNameFieldTitle": "Введите вашу фамилию:",
-  "registrationLastNameFieldHint": "Фамилия",
+  "registrationDisplayNameFieldTitle": "Придумайте псевдоним:",
+  "registrationDisplayNameFieldHint": "Как вас будут видеть в чатах",
   "registrationEmailFieldTitle": "Введите логин:",
   "registrationEmailFieldHint": "e-mail",
   "registrationPasswordFieldTitle": "Введите пароль:",
@@ -42,6 +83,7 @@
   "registrationExceptionEmailAlreadyUsed": "Введенный при регистрации email уже занят",
   "registrationExceptionNotEqualPasswords": "Введенные пороли не совпадают",
   "registrationExceptionRateLimit": "Слишком много попыток. Подождите несколько минут",
+  "registrationExceptionInvalidInvite": "Приглашение недействительно",
 
   "@ home screen (домашний экран)": {},
   "homeTitle": "Чаты",
@@ -50,7 +92,6 @@
   "homeEmptyInterlocutorsMessage": "Не с кем переписываться",
   "homeLoadErrorMessage": "Не удалось загрузить список чатов",
   "homeChatTileYouLabel": "Вы: ",
-  "homeClearChatLabel": "Очистить\nчат",
 
   "@ home drawer (боковое меню домашнего экрана)": {},
   "homeDrawerMenuLabel": "Меню",
@@ -81,6 +122,9 @@
   "@ chat screen (экран переписки)": {},
   "chatEmptyMessagesPlaceholder": "Вы еще не начали переписку...",
   "chatTodayDividerLabel": "Сегодня",
+  "chatClearChatLabel": "Очистить чат",
+  "chatClearChatConfirmTitle": "Очистить чат?",
+  "chatClearChatConfirmMessage": "Вся история переписки будет удалена",
   "chatStatusOnline": "онлайн",
   "chatStatusTyping": "печатает...",
   "chatStatusRecentlyOffline": "недавно был онлайн",

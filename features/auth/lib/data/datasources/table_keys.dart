@@ -2,6 +2,8 @@
 abstract final class TableKeys {
   static const String profiles = 'profiles';
   static const String profileId = 'id';
-  static const String profileFirstName = 'first_name';
-  static const String profileLastName = 'last_name';
+  static const String profileDisplayName = 'display_name';
+  static const String validateInvitation = 'validate_invitation';
+  static const String redeemInvitation = 'redeem_invitation';
+  static const String createInvitation = 'create_invitation';
 }

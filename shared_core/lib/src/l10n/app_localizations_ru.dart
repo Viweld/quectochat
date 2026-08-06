@@ -57,7 +57,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginButtonLabel => 'Войти';
 
   @override
-  String get loginToRegistrationButtonLabel => 'Зарегистрироваться';
+  String get loginToInviteButtonLabel => 'У меня есть приглашение';
 
   @override
   String get loginExceptionInvalidCredential => 'Неправильные логин или пароль';
@@ -72,19 +72,85 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginExceptionWrongPassword => 'Неправильный логин и/или пароль';
 
   @override
+  String get inviteCodeTitle => 'Приглашение';
+
+  @override
+  String get inviteCodeSubtitle => 'Введите одноразовый код или отсканируйте QR';
+
+  @override
+  String get inviteCodeNextButtonLabel => 'Далее';
+
+  @override
+  String get inviteCodeScanQrButtonLabel => 'Сканировать QR';
+
+  @override
+  String get inviteCodeInvalid => 'Неверный или просроченный код приглашения';
+
+  @override
+  String get inviteCodeExpired => 'Срок действия приглашения истёк';
+
+  @override
+  String get inviteCodeUsed => 'Приглашение уже использовано';
+
+  @override
+  String get inviteCodeNotFound => 'Приглашение не найдено';
+
+  @override
+  String get inviteQrScannerTitle => 'Сканирование QR';
+
+  @override
+  String get inviteQrScannerHint => 'Наведите камеру на QR-код приглашения';
+
+  @override
+  String get inviteRoleSheetTitle => 'Кого добавить?';
+
+  @override
+  String get inviteRoleParent => 'Член семьи — родитель';
+
+  @override
+  String get inviteRoleChild => 'Член семьи — ребёнок';
+
+  @override
+  String get inviteRoleFriend => 'Друг';
+
+  @override
+  String get inviteShareTitle => 'Приглашение';
+
+  @override
+  String get inviteShareSubtitle => 'Покажите код или QR новому пользователю';
+
+  @override
+  String inviteShareExpiresLabel(Object date) {
+    return 'Действует до $date';
+  }
+
+  @override
+  String get inviteShareCopyHint => 'Код можно ввести вручную в приложении';
+
+  @override
+  String nestedFriendsTitle(Object name) {
+    return 'Друзья $name';
+  }
+
+  @override
+  String nestedRelativesTitle(Object name) {
+    return 'Родственники $name';
+  }
+
+  @override
+  String get nestedEmptyMessage => 'Список пуст';
+
+  @override
+  String get pinnedRevealLabel => 'Открыть список';
+
+  @override
   String get registrationTitle => 'Регистрация';
 
   @override
-  String get registrationFirstNameFieldTitle => 'Введите ваше имя:';
+  String get registrationDisplayNameFieldTitle => 'Придумайте псевдоним:';
 
   @override
-  String get registrationFirstNameFieldHint => 'Имя';
-
-  @override
-  String get registrationLastNameFieldTitle => 'Введите вашу фамилию:';
-
-  @override
-  String get registrationLastNameFieldHint => 'Фамилия';
+  String get registrationDisplayNameFieldHint => 'Как вас будут видеть в чатах';
 
   @override
   String get registrationEmailFieldTitle => 'Введите логин:';
@@ -123,6 +189,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registrationExceptionRateLimit => 'Слишком много попыток. Подождите несколько минут';
 
   @override
+  String get registrationExceptionInvalidInvite => 'Приглашение недействительно';
+
+  @override
   String get homeTitle => 'Чаты';
 
   @override
@@ -139,9 +208,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get homeChatTileYouLabel => 'Вы: ';
-
-  @override
-  String get homeClearChatLabel => 'Очистить\nчат';
 
   @override
   String get homeDrawerMenuLabel => 'Меню';
@@ -193,6 +259,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get chatTodayDividerLabel => 'Сегодня';
+
+  @override
+  String get chatClearChatLabel => 'Очистить чат';
+
+  @override
+  String get chatClearChatConfirmTitle => 'Очистить чат?';
+
+  @override
+  String get chatClearChatConfirmMessage => 'Вся история переписки будет удалена';
 
   @override
   String get chatStatusOnline => 'онлайн';

@@ -71,7 +71,7 @@ class LoginContent extends StatelessWidget {
               onPressed: isLoading
                   ? null
                   : () => bloc.add(const LoginEvent.registrationRequested()),
-              child: Text(context.texts.loginToRegistrationButtonLabel),
+              child: Text(context.texts.loginToInviteButtonLabel),
             ),
           ],
         ),

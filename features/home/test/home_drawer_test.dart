@@ -9,8 +9,8 @@ void main() {
 
   Future<void> pumpDrawer(
     WidgetTester tester, {
-    String firstName = 'Иван',
-    String lastName = 'Петров',
+    String displayName = 'Иван Петров',
+    bool canInvite = true,
     VoidCallback? onLogoutTapped,
   }) async {
     await tester.pumpWidget(
@@ -22,8 +22,8 @@ void main() {
           home: Scaffold(
             key: scaffoldKey,
             drawer: HomeDrawer(
-              firstName: firstName,
-              lastName: lastName,
+              displayName: displayName,
+              canInvite: canInvite,
               isLogoutPending: false,
               onProfileTapped: () {},
               onAddUserTapped: () {},
@@ -42,7 +42,7 @@ void main() {
   testWidgets('shows initials, full name and menu items', (WidgetTester tester) async {
     await pumpDrawer(tester);
 
-    expect(find.text('ИП'), findsOneWidget);
+    expect(find.text('ИВ'), findsOneWidget);
     expect(find.text('Иван Петров'), findsOneWidget);
     expect(find.text('Профиль'), findsOneWidget);
     expect(find.text('Добавить пользователя'), findsOneWidget);
@@ -50,10 +50,16 @@ void main() {
   });
 
   testWidgets('falls back to placeholder when profile is not loaded', (WidgetTester tester) async {
-    await pumpDrawer(tester, firstName: '', lastName: '');
+    await pumpDrawer(tester, displayName: '');
 
     expect(find.text('Без имени'), findsOneWidget);
     expect(find.byType(CommonUserAvatar), findsNothing);
+  });
+
+  testWidgets('hides add user when canInvite is false', (WidgetTester tester) async {
+    await pumpDrawer(tester, canInvite: false);
+
+    expect(find.text('Добавить пользователя'), findsNothing);
   });
 
   testWidgets('logout button reports taps', (WidgetTester tester) async {

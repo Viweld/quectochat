@@ -188,11 +188,11 @@ abstract class AppLocalizations {
   /// **'Войти'**
   String get loginButtonLabel;
 
-  /// No description provided for @loginToRegistrationButtonLabel.
+  /// No description provided for @loginToInviteButtonLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Зарегистрироваться'**
-  String get loginToRegistrationButtonLabel;
+  /// **'У меня есть приглашение'**
+  String get loginToInviteButtonLabel;
 
   /// No description provided for @loginExceptionInvalidCredential.
   ///
@@ -218,35 +218,155 @@ abstract class AppLocalizations {
   /// **'Неправильный логин и/или пароль'**
   String get loginExceptionWrongPassword;
 
+  /// No description provided for @inviteCodeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приглашение'**
+  String get inviteCodeTitle;
+
+  /// No description provided for @inviteCodeSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите одноразовый код или отсканируйте QR'**
+  String get inviteCodeSubtitle;
+
+  /// No description provided for @inviteCodeNextButtonLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Далее'**
+  String get inviteCodeNextButtonLabel;
+
+  /// No description provided for @inviteCodeScanQrButtonLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сканировать QR'**
+  String get inviteCodeScanQrButtonLabel;
+
+  /// No description provided for @inviteCodeInvalid.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный или просроченный код приглашения'**
+  String get inviteCodeInvalid;
+
+  /// No description provided for @inviteCodeExpired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок действия приглашения истёк'**
+  String get inviteCodeExpired;
+
+  /// No description provided for @inviteCodeUsed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приглашение уже использовано'**
+  String get inviteCodeUsed;
+
+  /// No description provided for @inviteCodeNotFound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приглашение не найдено'**
+  String get inviteCodeNotFound;
+
+  /// No description provided for @inviteQrScannerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сканирование QR'**
+  String get inviteQrScannerTitle;
+
+  /// No description provided for @inviteQrScannerHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Наведите камеру на QR-код приглашения'**
+  String get inviteQrScannerHint;
+
+  /// No description provided for @inviteRoleSheetTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кого добавить?'**
+  String get inviteRoleSheetTitle;
+
+  /// No description provided for @inviteRoleParent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Член семьи — родитель'**
+  String get inviteRoleParent;
+
+  /// No description provided for @inviteRoleChild.
+  ///
+  /// In ru, this message translates to:
+  /// **'Член семьи — ребёнок'**
+  String get inviteRoleChild;
+
+  /// No description provided for @inviteRoleFriend.
+  ///
+  /// In ru, this message translates to:
+  /// **'Друг'**
+  String get inviteRoleFriend;
+
+  /// No description provided for @inviteShareTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приглашение'**
+  String get inviteShareTitle;
+
+  /// No description provided for @inviteShareSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Покажите код или QR новому пользователю'**
+  String get inviteShareSubtitle;
+
+  /// No description provided for @inviteShareExpiresLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Действует до {date}'**
+  String inviteShareExpiresLabel(Object date);
+
+  /// No description provided for @inviteShareCopyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код можно ввести вручную в приложении'**
+  String get inviteShareCopyHint;
+
+  /// No description provided for @nestedFriendsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Друзья {name}'**
+  String nestedFriendsTitle(Object name);
+
+  /// No description provided for @nestedRelativesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Родственники {name}'**
+  String nestedRelativesTitle(Object name);
+
+  /// No description provided for @nestedEmptyMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Список пуст'**
+  String get nestedEmptyMessage;
+
+  /// No description provided for @pinnedRevealLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть список'**
+  String get pinnedRevealLabel;
+
   /// No description provided for @registrationTitle.
   ///
   /// In ru, this message translates to:
   /// **'Регистрация'**
   String get registrationTitle;
 
-  /// No description provided for @registrationFirstNameFieldTitle.
+  /// No description provided for @registrationDisplayNameFieldTitle.
   ///
   /// In ru, this message translates to:
-  /// **'Введите ваше имя:'**
-  String get registrationFirstNameFieldTitle;
+  /// **'Придумайте псевдоним:'**
+  String get registrationDisplayNameFieldTitle;
 
-  /// No description provided for @registrationFirstNameFieldHint.
+  /// No description provided for @registrationDisplayNameFieldHint.
   ///
   /// In ru, this message translates to:
-  /// **'Имя'**
-  String get registrationFirstNameFieldHint;
-
-  /// No description provided for @registrationLastNameFieldTitle.
-  ///
-  /// In ru, this message translates to:
-  /// **'Введите вашу фамилию:'**
-  String get registrationLastNameFieldTitle;
-
-  /// No description provided for @registrationLastNameFieldHint.
-  ///
-  /// In ru, this message translates to:
-  /// **'Фамилия'**
-  String get registrationLastNameFieldHint;
+  /// **'Как вас будут видеть в чатах'**
+  String get registrationDisplayNameFieldHint;
 
   /// No description provided for @registrationEmailFieldTitle.
   ///
@@ -320,6 +440,12 @@ abstract class AppLocalizations {
   /// **'Слишком много попыток. Подождите несколько минут'**
   String get registrationExceptionRateLimit;
 
+  /// No description provided for @registrationExceptionInvalidInvite.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приглашение недействительно'**
+  String get registrationExceptionInvalidInvite;
+
   /// No description provided for @homeTitle.
   ///
   /// In ru, this message translates to:
@@ -355,12 +481,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Вы: '**
   String get homeChatTileYouLabel;
-
-  /// No description provided for @homeClearChatLabel.
-  ///
-  /// In ru, this message translates to:
-  /// **'Очистить\nчат'**
-  String get homeClearChatLabel;
 
   /// No description provided for @homeDrawerMenuLabel.
   ///
@@ -439,6 +559,24 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Сегодня'**
   String get chatTodayDividerLabel;
+
+  /// No description provided for @chatClearChatLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить чат'**
+  String get chatClearChatLabel;
+
+  /// No description provided for @chatClearChatConfirmTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить чат?'**
+  String get chatClearChatConfirmTitle;
+
+  /// No description provided for @chatClearChatConfirmMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вся история переписки будет удалена'**
+  String get chatClearChatConfirmMessage;
 
   /// No description provided for @chatStatusOnline.
   ///

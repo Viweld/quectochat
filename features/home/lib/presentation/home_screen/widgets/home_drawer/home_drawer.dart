@@ -7,8 +7,8 @@ import 'package:shared_ui/core_ui.dart';
 
 /// Боковое меню домашнего экрана: профиль сверху, пункты меню, выход снизу.
 class HomeDrawer extends StatelessWidget {
-  final String firstName;
-  final String lastName;
+  final String displayName;
+  final bool canInvite;
   final bool isLogoutPending;
   final VoidCallback onProfileTapped;
   final VoidCallback onAddUserTapped;
@@ -16,8 +16,8 @@ class HomeDrawer extends StatelessWidget {
 
   const HomeDrawer({
     super.key,
-    required this.firstName,
-    required this.lastName,
+    required this.displayName,
+    required this.canInvite,
     required this.isLogoutPending,
     required this.onProfileTapped,
     required this.onAddUserTapped,
@@ -38,20 +38,21 @@ class HomeDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            HomeDrawerUserHeader(firstName: firstName, lastName: lastName),
+            HomeDrawerUserHeader(displayName: displayName),
             Divider(height: Values.dividerThickness, color: colors.border.main),
             HomeDrawerTile(
-              icon: AppIcons.setting,
+              icon: AppIcons.user,
               title: texts.homeDrawerProfileTitle,
               subtitle: texts.homeDrawerProfileSubtitle,
               onTapped: () => _closeAndRun(context, onProfileTapped),
             ),
-            HomeDrawerTile(
-              icon: AppIcons.setting,
-              title: texts.homeDrawerAddUserTitle,
-              subtitle: texts.homeDrawerAddUserSubtitle,
-              onTapped: () => _closeAndRun(context, onAddUserTapped),
-            ),
+            if (canInvite)
+              HomeDrawerTile(
+                icon: AppIcons.userAdd,
+                title: texts.homeDrawerAddUserTitle,
+                subtitle: texts.homeDrawerAddUserSubtitle,
+                onTapped: () => _closeAndRun(context, onAddUserTapped),
+              ),
             const Spacer(),
             Divider(height: Values.dividerThickness, color: colors.border.main),
             Padding(

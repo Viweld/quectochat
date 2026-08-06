@@ -13,6 +13,7 @@ final class PresenceService {
       StreamController<Set<String>>.broadcast();
 
   RealtimeChannel? _presenceChannel;
+  final Set<RealtimeChannel> _channelsBeingRemoved = <RealtimeChannel>{};
   Set<String> _latestOnlineUserIds = <String>{};
   bool _hasSynced = false;
   bool _didLogSubscribeOffline = false;
@@ -124,6 +125,13 @@ final class PresenceService {
       if (error != null) {
         _logSubscribeFailure(error);
       }
+
+      // `closed` is emitted by unsubscribe/removeChannel itself. Calling remove again
+      // re-enters this callback and overflows the stack.
+      if (status == RealtimeSubscribeStatus.closed) {
+        return;
+      }
+
       await _removeChannelSafely(channel);
     });
   }
@@ -161,6 +169,10 @@ final class PresenceService {
   }
 
   Future<void> _removeChannelSafely(RealtimeChannel channel) async {
+    if (!_channelsBeingRemoved.add(channel)) {
+      return;
+    }
+
     try {
       await _client.removeChannel(channel);
     } on Object catch (error, stackTrace) {
@@ -169,6 +181,8 @@ final class PresenceService {
         error: error,
         stackTrace: stackTrace,
       );
+    } finally {
+      _channelsBeingRemoved.remove(channel);
     }
   }
 

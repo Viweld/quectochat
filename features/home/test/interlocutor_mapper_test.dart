@@ -6,7 +6,7 @@ import 'package:home/data/mappers/interlocutor_mapper.dart';
 import 'package:shared_domain/shared_domain.dart';
 
 void main() {
-  const UserDto user = UserDto(userId: 'u1', firstName: 'Ada', lastName: 'Lovelace');
+  const UserDto user = UserDto(userId: 'u1', displayName: 'Ada Lovelace');
 
   test('maps interlocutor without last message', () {
     final Interlocutor mapped = mapInterlocutorDtoToDomain(
@@ -15,7 +15,7 @@ void main() {
     );
 
     expect(mapped.userId, 'u1');
-    expect(mapped.firstName, 'Ada');
+    expect(mapped.displayName, 'Ada Lovelace');
     expect(mapped.lastSentContent, isNull);
     expect(mapped.isSentByYou, isFalse);
   });

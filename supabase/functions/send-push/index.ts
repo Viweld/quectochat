@@ -82,15 +82,40 @@ Deno.serve(async (req) => {
 
     const { data: sender } = await supabase
       .from('profiles')
-      .select('first_name, last_name')
+      .select('display_name')
       .eq('id', fromId)
       .maybeSingle();
 
-    const title = sender
-      ? `${sender.first_name ?? ''} ${sender.last_name ?? ''}`.trim() || 'QuectoChat'
-      : 'QuectoChat';
-    const fromFirstName = sender?.first_name ?? 'Quecto';
-    const fromLastName = sender?.last_name ?? 'Chat';
+    const senderDisplayName =
+      (typeof sender?.display_name === 'string' && sender.display_name.trim().length > 0)
+        ? sender.display_name.trim()
+        : 'QuectoChat';
+
+    // Friend-of context: when a friend messages a family member who is not the host.
+    const { data: friendship } = await supabase
+      .from('friendships')
+      .select('host_user_id')
+      .eq('friend_user_id', fromId)
+      .maybeSingle();
+
+    let title = senderDisplayName;
+    let hostDisplayName: string | undefined;
+
+    const hostUserId = friendship?.host_user_id as string | undefined;
+    if (hostUserId && hostUserId !== toId) {
+      const { data: host } = await supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('id', hostUserId)
+        .maybeSingle();
+      const hostName =
+        typeof host?.display_name === 'string' ? host.display_name.trim() : '';
+      if (hostName.length > 0) {
+        hostDisplayName = hostName;
+        title = `друг ${hostName}: ${senderDisplayName}`;
+      }
+    }
+
     const body = messageType === 'image' ? '📷 Photo' : content.slice(0, 180);
 
     const { count: unreadCount } = await supabase
@@ -117,8 +142,8 @@ Deno.serve(async (req) => {
         data: {
           chatId,
           fromId,
-          fromFirstName,
-          fromLastName,
+          fromDisplayName: senderDisplayName,
+          ...(hostDisplayName ? { hostDisplayName } : {}),
           type: messageType,
           unreadCount: String(badge),
         },

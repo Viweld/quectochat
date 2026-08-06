@@ -20,6 +20,7 @@ export 'src/widgets/ui_kit/common_back_button.dart';
 export 'src/widgets/ui_kit/common_floating_back_button.dart';
 export 'src/widgets/ui_kit/common_pagination_listener.dart';
 export 'src/widgets/ui_kit/common_pending_indicator.dart';
+export 'src/widgets/ui_kit/common_pin_field.dart';
 export 'src/widgets/ui_kit/common_text_field.dart';
 export 'src/widgets/ui_kit/common_toast.dart';
 export 'src/widgets/ui_kit/common_user_avatar.dart';

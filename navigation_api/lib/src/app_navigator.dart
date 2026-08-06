@@ -4,15 +4,23 @@ abstract interface class AppNavigator {
 
   Future<void> navigateLogin();
 
-  Future<void> navigateRegistration();
+  Future<void> navigateInviteCode();
+
+  Future<String?> navigateInviteQrScanner();
+
+  Future<void> navigateRegistration({required String inviteCode});
 
   Future<void> navigateHome();
 
-  Future<void> navigateChat({
-    required String interlocutorId,
-    required String firstName,
-    required String lastName,
+  Future<void> navigateChat({required String interlocutorId, required String displayName});
+
+  Future<void> navigateNestedContacts({
+    required String anchorUserId,
+    required String anchorDisplayName,
+    required bool isFriendsOfRelative,
   });
+
+  Future<void> navigateCreateInvitation({required String targetRole});
 
   /// Opens fullscreen image viewer. [imageUrls] must be non-empty.
   Future<void> navigateImageViewer({

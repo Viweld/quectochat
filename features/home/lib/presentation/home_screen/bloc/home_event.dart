@@ -16,9 +16,6 @@ sealed class HomeEvent with _$HomeEvent {
 
   const factory HomeEvent.onLogoutTapped() = _EventOnLogoutTapped;
 
-  const factory HomeEvent.onClearChatRequested({required String interlocutorId}) =
-      _EventOnClearChatRequested;
-
   const factory HomeEvent.onInterlocutorsStreamUpdated({required Set<Interlocutor> updated}) =
       _EventOnInterlocutorsStreamUpdated;
 }

@@ -32,3 +32,8 @@ final class RegistrationGenericFailure extends RegistrationFailure {
 
   final String? message;
 }
+
+/// Invitation code is missing, expired, used, or revoked.
+final class InvalidInviteFailure extends RegistrationFailure {
+  const InvalidInviteFailure();
+}

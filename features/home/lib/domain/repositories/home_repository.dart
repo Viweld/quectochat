@@ -21,5 +21,5 @@ abstract interface class HomeRepository {
 
   Future<Iterable<Interlocutor>> searchInterlocutors({required String searchText});
 
-  Future<void> clearChat({required String interlocutorId});
+  Future<List<Interlocutor>> getNestedContacts({required String anchorUserId});
 }

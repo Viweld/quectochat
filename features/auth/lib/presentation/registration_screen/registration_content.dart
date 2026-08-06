@@ -8,16 +8,14 @@ import 'package:shared_ui/core_ui.dart';
 class RegistrationContent extends StatelessWidget {
   const RegistrationContent({
     super.key,
-    required this.firstNameField,
-    required this.lastNameField,
+    required this.displayNameField,
     required this.emailField,
     required this.passwordField,
     required this.confirmPasswordField,
     required this.isLoading,
   });
 
-  final RequiredField firstNameField;
-  final RequiredField lastNameField;
+  final RequiredField displayNameField;
   final EmailField emailField;
   final PasswordField passwordField;
   final ConfirmPasswordField confirmPasswordField;
@@ -47,25 +45,15 @@ class RegistrationContent extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: CommonEditField(
-                title: context.texts.registrationFirstNameFieldTitle,
-                hintText: context.texts.registrationFirstNameFieldHint,
-                onChanged: (String value) => bloc.add(RegistrationEvent.onFirstNameChanged(value)),
-                onUnfocused: () => bloc.add(const RegistrationEvent.onFirstNameFieldUnfocused()),
+                title: context.texts.registrationDisplayNameFieldTitle,
+                hintText: context.texts.registrationDisplayNameFieldHint,
+                onChanged: (String value) => bloc.add(RegistrationEvent.displayNameChanged(value)),
+                onUnfocused: () => bloc.add(const RegistrationEvent.displayNameFieldUnfocused()),
                 textCapitalization: TextCapitalization.words,
-                validationError: firstNameField.invalid && firstNameField.isErrorVisible,
-                validationErrorText: _getRequiredFieldErrorText(context, firstNameField.error),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: CommonEditField(
-                title: context.texts.registrationLastNameFieldTitle,
-                hintText: context.texts.registrationLastNameFieldHint,
-                onChanged: (String value) => bloc.add(RegistrationEvent.onLastNameChanged(value)),
-                onUnfocused: () => bloc.add(const RegistrationEvent.onLastNameFieldUnfocused()),
-                textCapitalization: TextCapitalization.words,
-                validationError: lastNameField.invalid && lastNameField.isErrorVisible,
-                validationErrorText: _getRequiredFieldErrorText(context, lastNameField.error),
+                validationError: displayNameField.invalid && displayNameField.isErrorVisible,
+                validationErrorText: displayNameField.error == null
+                    ? null
+                    : context.texts.commonEmptyFieldError,
               ),
             ),
             Padding(
@@ -73,8 +61,8 @@ class RegistrationContent extends StatelessWidget {
               child: CommonEditField(
                 title: context.texts.registrationEmailFieldTitle,
                 hintText: context.texts.registrationEmailFieldHint,
-                onChanged: (String value) => bloc.add(RegistrationEvent.onEmailChanged(value)),
-                onUnfocused: () => bloc.add(const RegistrationEvent.onEmailFieldUnfocused()),
+                onChanged: (String value) => bloc.add(RegistrationEvent.emailChanged(value)),
+                onUnfocused: () => bloc.add(const RegistrationEvent.emailFieldUnfocused()),
                 keyboardType: TextInputType.emailAddress,
                 validationError: emailField.invalid && emailField.isErrorVisible,
                 validationErrorText: _getEmailErrorText(context, emailField.error),
@@ -85,45 +73,41 @@ class RegistrationContent extends StatelessWidget {
               child: CommonEditField(
                 title: context.texts.registrationPasswordFieldTitle,
                 hintText: context.texts.registrationPasswordFieldHint,
-                onChanged: (String value) => bloc.add(RegistrationEvent.onPasswordChanged(value)),
-                onUnfocused: () => bloc.add(const RegistrationEvent.onPasswordFieldUnfocused()),
+                onChanged: (String value) => bloc.add(RegistrationEvent.passwordChanged(value)),
+                onUnfocused: () => bloc.add(const RegistrationEvent.passwordFieldUnfocused()),
                 isPassword: true,
                 validationError: passwordField.invalid && passwordField.isErrorVisible,
-                validationErrorText: _getPasswordErrorText(context, passwordField.error),
+                validationErrorText: passwordField.error == null
+                    ? null
+                    : context.texts.commonEmptyFieldError,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(bottom: 20),
               child: CommonEditField(
-                title: context.texts.registrationPasswordFieldTitle,
-                hintText: context.texts.registrationPasswordFieldHint,
+                title: context.texts.registrationConfirmPasswordFieldTitle,
+                hintText: context.texts.registrationConfirmPasswordFieldHint,
                 onChanged: (String value) =>
-                    bloc.add(RegistrationEvent.onConfirmPasswordChanged(value)),
+                    bloc.add(RegistrationEvent.confirmPasswordChanged(value)),
                 onUnfocused: () =>
-                    bloc.add(const RegistrationEvent.onConfirmPasswordFieldUnfocused()),
+                    bloc.add(const RegistrationEvent.confirmPasswordFieldUnfocused()),
                 isPassword: true,
                 validationError:
                     confirmPasswordField.invalid && confirmPasswordField.isErrorVisible,
-                validationErrorText: _getConfirmPasswordErrorText(
-                  context,
-                  confirmPasswordField.error,
-                ),
+                validationErrorText: confirmPasswordField.error == null
+                    ? null
+                    : context.texts.registrationExceptionNotEqualPasswords,
               ),
             ),
             CommonAccentButton(
               title: context.texts.registrationButtonLabel,
               isPending: isLoading,
-              onTapped: () => bloc.add(const RegistrationEvent.onLoginTapped()),
+              onTapped: () => bloc.add(const RegistrationEvent.submitRequested()),
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),
     );
-  }
-
-  String? _getRequiredFieldErrorText(BuildContext context, RequiredFieldError? error) {
-    return error == null ? null : context.texts.commonEmptyFieldError;
   }
 
   String? _getEmailErrorText(BuildContext context, EmailFieldError? error) {
@@ -132,20 +116,6 @@ class RegistrationContent extends StatelessWidget {
         : switch (error) {
             EmailFieldError.emptyField => context.texts.commonEmptyFieldError,
             EmailFieldError.wrongFormat => context.texts.registrationExceptionWrongEmail,
-          };
-  }
-
-  String? _getPasswordErrorText(BuildContext context, PasswordFieldError? error) {
-    return error == null ? null : context.texts.commonEmptyFieldError;
-  }
-
-  String? _getConfirmPasswordErrorText(BuildContext context, ConfirmPasswordFieldError? error) {
-    return error == null
-        ? null
-        : switch (error) {
-            ConfirmPasswordFieldError.emptyField => context.texts.commonEmptyFieldError,
-            ConfirmPasswordFieldError.notEqual =>
-              context.texts.registrationExceptionNotEqualPasswords,
           };
   }
 }

@@ -13,98 +13,81 @@ part 'registration_state.dart';
 
 @injectable
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
-  @factoryMethod
-  RegistrationBloc(this._authRepository, this._blocErrorHandler) : super(_initialState()) {
-    on<RegistrationEvent>((RegistrationEvent event, Emitter<RegistrationState> emit) {
-      if (event is _EventOnLoginTapped) return;
-      event.map(
-        onFirstNameChanged: (_EventOnFirstNameChanged event) => _onFirstNameChanged(event, emit),
-        onFirstNameFieldUnfocused: (_EventOnFirstNameFieldUnfocused event) =>
-            _onFirstNameFieldUnfocused(event, emit),
-        onLastNameChanged: (_EventOnLastNameChanged event) => _onLastNameChanged(event, emit),
-        onLastNameFieldUnfocused: (_EventOnLastNameFieldUnfocused event) =>
-            _onLastNameFieldUnfocused(event, emit),
-        onEmailChanged: (_EventOnEmailChanged event) => _onEmailChanged(event, emit),
-        onEmailFieldUnfocused: (_EventOnEmailFieldUnfocused event) =>
-            _onEmailFieldUnfocused(event, emit),
-        onPasswordChanged: (_EventOnPasswordChanged event) => _onPasswordChanged(event, emit),
-        onPasswordFieldUnfocused: (_EventOnPasswordFieldUnfocused event) =>
-            _onPasswordFieldUnfocused(event, emit),
-        onConfirmPasswordChanged: (_EventOnConfirmPasswordChanged event) =>
-            _onConfirmPasswordChanged(event, emit),
-        onConfirmPasswordFieldUnfocused: (_EventOnConfirmPasswordFieldUnfocused event) =>
-            _onConfirmPasswordFieldUnfocused(event, emit),
-        onLoginTapped: (_) {},
-        effectHandled: (_) => _onEffectHandled(emit),
-      );
-    });
-    on<_EventOnLoginTapped>(_onLoginTappedEvent, transformer: droppable());
-  }
-
   final AuthRepository _authRepository;
   final BlocErrorHandler _blocErrorHandler;
 
-  static RegistrationState _initialState() => const RegistrationState(
-    firstNameField: RequiredField(),
-    lastNameField: RequiredField(),
-    emailField: EmailField(),
-    passwordField: PasswordField(),
-    confirmPasswordField: ConfirmPasswordField(basePassword: ''),
+  @factoryMethod
+  RegistrationBloc(
+    this._authRepository,
+    this._blocErrorHandler, {
+    @factoryParam required String inviteCode,
+  }) : super(_initialState(inviteCode: inviteCode)) {
+    on<RegistrationDisplayNameChanged>(_onDisplayNameChanged);
+    on<RegistrationDisplayNameFieldUnfocused>(_onDisplayNameFieldUnfocused);
+    on<RegistrationEmailChanged>(_onEmailChanged);
+    on<RegistrationEmailFieldUnfocused>(_onEmailFieldUnfocused);
+    on<RegistrationPasswordChanged>(_onPasswordChanged);
+    on<RegistrationPasswordFieldUnfocused>(_onPasswordFieldUnfocused);
+    on<RegistrationConfirmPasswordChanged>(_onConfirmPasswordChanged);
+    on<RegistrationConfirmPasswordFieldUnfocused>(_onConfirmPasswordFieldUnfocused);
+    on<RegistrationSubmitRequested>(_onSubmitRequested, transformer: droppable());
+    on<RegistrationEffectHandled>(_onEffectHandled);
+  }
+
+  static RegistrationState _initialState({required String inviteCode}) => RegistrationState(
+    inviteCode: inviteCode,
+    displayNameField: const RequiredField(),
+    emailField: const EmailField(),
+    passwordField: const PasswordField(),
+    confirmPasswordField: const ConfirmPasswordField(basePassword: ''),
   );
 
-  void _onEffectHandled(Emitter<RegistrationState> emit) {
+  void _onEffectHandled(RegistrationEffectHandled event, Emitter<RegistrationState> emit) {
     emit(state.copyWith(effect: null));
   }
 
-  void _onFirstNameChanged(_EventOnFirstNameChanged event, Emitter<RegistrationState> emit) {
-    emit(state.copyWith(firstNameField: RequiredField(value: event.val.trim())));
+  void _onDisplayNameChanged(
+    RegistrationDisplayNameChanged event,
+    Emitter<RegistrationState> emit,
+  ) {
+    emit(state.copyWith(displayNameField: RequiredField(value: event.value.trim())));
   }
 
-  void _onFirstNameFieldUnfocused(
-    _EventOnFirstNameFieldUnfocused event,
+  void _onDisplayNameFieldUnfocused(
+    RegistrationDisplayNameFieldUnfocused event,
     Emitter<RegistrationState> emit,
   ) {
     emit(
       state.copyWith(
-        firstNameField: state.firstNameField.copyWithVisibleError(isErrorVisible: true),
+        displayNameField: state.displayNameField.copyWithVisibleError(isErrorVisible: true),
       ),
     );
   }
 
-  void _onLastNameChanged(_EventOnLastNameChanged event, Emitter<RegistrationState> emit) {
-    emit(state.copyWith(lastNameField: RequiredField(value: event.val.trim())));
+  void _onEmailChanged(RegistrationEmailChanged event, Emitter<RegistrationState> emit) {
+    emit(state.copyWith(emailField: EmailField(value: event.value.trim())));
   }
 
-  void _onLastNameFieldUnfocused(
-    _EventOnLastNameFieldUnfocused event,
+  void _onEmailFieldUnfocused(
+    RegistrationEmailFieldUnfocused event,
     Emitter<RegistrationState> emit,
   ) {
-    emit(
-      state.copyWith(lastNameField: state.lastNameField.copyWithVisibleError(isErrorVisible: true)),
-    );
-  }
-
-  void _onEmailChanged(_EventOnEmailChanged event, Emitter<RegistrationState> emit) {
-    emit(state.copyWith(emailField: EmailField(value: event.val.trim())));
-  }
-
-  void _onEmailFieldUnfocused(_EventOnEmailFieldUnfocused event, Emitter<RegistrationState> emit) {
     emit(state.copyWith(emailField: state.emailField.copyWithVisibleError(isErrorVisible: true)));
   }
 
-  void _onPasswordChanged(_EventOnPasswordChanged event, Emitter<RegistrationState> emit) {
+  void _onPasswordChanged(RegistrationPasswordChanged event, Emitter<RegistrationState> emit) {
     emit(
       state.copyWith(
-        passwordField: PasswordField(value: event.val.trim()),
+        passwordField: PasswordField(value: event.value.trim()),
         confirmPasswordField: state.confirmPasswordField.copyWithBasePassword(
-          basePassword: event.val.trim(),
+          basePassword: event.value.trim(),
         ),
       ),
     );
   }
 
   void _onPasswordFieldUnfocused(
-    _EventOnPasswordFieldUnfocused event,
+    RegistrationPasswordFieldUnfocused event,
     Emitter<RegistrationState> emit,
   ) {
     emit(
@@ -113,13 +96,13 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   }
 
   void _onConfirmPasswordChanged(
-    _EventOnConfirmPasswordChanged event,
+    RegistrationConfirmPasswordChanged event,
     Emitter<RegistrationState> emit,
   ) {
     emit(
       state.copyWith(
         confirmPasswordField: ConfirmPasswordField(
-          value: event.val.trim(),
+          value: event.value.trim(),
           basePassword: state.passwordField.value,
         ),
       ),
@@ -127,7 +110,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   }
 
   void _onConfirmPasswordFieldUnfocused(
-    _EventOnConfirmPasswordFieldUnfocused event,
+    RegistrationConfirmPasswordFieldUnfocused event,
     Emitter<RegistrationState> emit,
   ) {
     emit(
@@ -137,26 +120,20 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     );
   }
 
-  Future<void> _onLoginTappedEvent(
-    _EventOnLoginTapped event,
+  Future<void> _onSubmitRequested(
+    RegistrationSubmitRequested event,
     Emitter<RegistrationState> emit,
   ) async {
     if (state.isLoading) return;
 
-    final RequiredField firstName = state.firstNameField;
-    final RequiredField lastName = state.lastNameField;
+    final RequiredField displayName = state.displayNameField;
     final EmailField email = state.emailField;
     final PasswordField password = state.passwordField;
     final ConfirmPasswordField confirmPassword = state.confirmPasswordField;
-    if (firstName.invalid ||
-        lastName.invalid ||
-        email.invalid ||
-        password.invalid ||
-        confirmPassword.invalid) {
+    if (displayName.invalid || email.invalid || password.invalid || confirmPassword.invalid) {
       emit(
         state.copyWith(
-          firstNameField: firstName.copyWithVisibleError(isErrorVisible: firstName.invalid),
-          lastNameField: lastName.copyWithVisibleError(isErrorVisible: lastName.invalid),
+          displayNameField: displayName.copyWithVisibleError(isErrorVisible: displayName.invalid),
           emailField: email.copyWithVisibleError(isErrorVisible: email.invalid),
           passwordField: password.copyWithVisibleError(isErrorVisible: password.invalid),
           confirmPasswordField: confirmPassword.copyWithVisibleError(
@@ -171,10 +148,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
     try {
       final Outcome<void, RegistrationFailure> outcome = await _authRepository.registration(
-        firstName: state.firstNameField.value,
-        lastName: state.lastNameField.value,
+        displayName: state.displayNameField.value,
         email: state.emailField.value,
         password: state.passwordField.value,
+        inviteCode: state.inviteCode,
       );
 
       switch (outcome) {
@@ -201,6 +178,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         AppErrorKind.emailAlreadyUsed,
       ),
       EmailRateLimitFailure() => const RegistrationEffect.showError(AppErrorKind.emailRateLimit),
+      InvalidInviteFailure() => const RegistrationEffect.showError(AppErrorKind.invalidInvite),
       RegistrationNetworkFailure() => const RegistrationEffect.showError(AppErrorKind.network),
       RegistrationBackendFailure() => const RegistrationEffect.showError(AppErrorKind.server),
       RegistrationGenericFailure() => const RegistrationEffect.showError(AppErrorKind.generic),

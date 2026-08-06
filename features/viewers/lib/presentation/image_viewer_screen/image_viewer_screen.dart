@@ -126,7 +126,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
                 opacity: routeAnimation,
                 child: IconButton(
                   onPressed: () => appLocator<AppNavigator>().navigateBack(),
-                  icon: Icon(Icons.chevron_left, color: colors.icon.inverse, size: 28),
+                  icon: AppIcons.chevronLeft(color: colors.icon.inverse, size: 28),
                 ),
               ),
             ),

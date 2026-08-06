@@ -18,16 +18,14 @@ import 'package:flutter/material.dart' as _i3;
 class ChatRoute extends _i2.PageRouteInfo<ChatRouteArgs> {
   ChatRoute({
     required String interlocutorId,
-    required String firstName,
-    required String lastName,
+    required String displayName,
     _i3.Key? key,
     List<_i2.PageRouteInfo>? children,
   }) : super(
          ChatRoute.name,
          args: ChatRouteArgs(
            interlocutorId: interlocutorId,
-           firstName: firstName,
-           lastName: lastName,
+           displayName: displayName,
            key: key,
          ),
          initialChildren: children,
@@ -41,8 +39,7 @@ class ChatRoute extends _i2.PageRouteInfo<ChatRouteArgs> {
       final args = data.argsAs<ChatRouteArgs>();
       return _i1.ChatScreen(
         interlocutorId: args.interlocutorId,
-        firstName: args.firstName,
-        lastName: args.lastName,
+        displayName: args.displayName,
         key: args.key,
       );
     },
@@ -52,22 +49,19 @@ class ChatRoute extends _i2.PageRouteInfo<ChatRouteArgs> {
 class ChatRouteArgs {
   const ChatRouteArgs({
     required this.interlocutorId,
-    required this.firstName,
-    required this.lastName,
+    required this.displayName,
     this.key,
   });
 
   final String interlocutorId;
 
-  final String firstName;
-
-  final String lastName;
+  final String displayName;
 
   final _i3.Key? key;
 
   @override
   String toString() {
-    return 'ChatRouteArgs{interlocutorId: $interlocutorId, firstName: $firstName, lastName: $lastName, key: $key}';
+    return 'ChatRouteArgs{interlocutorId: $interlocutorId, displayName: $displayName, key: $key}';
   }
 
   @override
@@ -75,15 +69,11 @@ class ChatRouteArgs {
     if (identical(this, other)) return true;
     if (other is! ChatRouteArgs) return false;
     return interlocutorId == other.interlocutorId &&
-        firstName == other.firstName &&
-        lastName == other.lastName &&
+        displayName == other.displayName &&
         key == other.key;
   }
 
   @override
   int get hashCode =>
-      interlocutorId.hashCode ^
-      firstName.hashCode ^
-      lastName.hashCode ^
-      key.hashCode;
+      interlocutorId.hashCode ^ displayName.hashCode ^ key.hashCode;
 }

@@ -77,16 +77,11 @@ final class PushNotificationTapCoordinator {
 
     final Map<String, dynamic> data = message.data;
     final String? interlocutorId = data['fromId']?.toString();
-    final String? fromFirstNameRaw = data['fromFirstName']?.toString();
-    final String? fromLastNameRaw = data['fromLastName']?.toString();
+    final String? fromDisplayNameRaw = data['fromDisplayName']?.toString();
 
-    final String firstName = (fromFirstNameRaw == null || fromFirstNameRaw.trim().isEmpty)
-        ? 'Quecto'
-        : fromFirstNameRaw.trim();
-
-    final String lastName = (fromLastNameRaw == null || fromLastNameRaw.trim().isEmpty)
-        ? 'Chat'
-        : fromLastNameRaw.trim();
+    final String displayName = (fromDisplayNameRaw == null || fromDisplayNameRaw.trim().isEmpty)
+        ? 'QuectoChat'
+        : fromDisplayNameRaw.trim();
 
     if (interlocutorId == null || interlocutorId.isEmpty) {
       _navigationInProgress = false;
@@ -95,11 +90,7 @@ final class PushNotificationTapCoordinator {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-        await _appNavigator.navigateChat(
-          interlocutorId: interlocutorId,
-          firstName: firstName,
-          lastName: lastName,
-        );
+        await _appNavigator.navigateChat(interlocutorId: interlocutorId, displayName: displayName);
       } on Object catch (error, stackTrace) {
         logInfrastructureFailure(
           'Failed to navigate to chat from push tap',

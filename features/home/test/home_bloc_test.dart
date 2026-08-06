@@ -119,7 +119,7 @@ void main() {
         }
         return const Paginated<Interlocutor>(
           hasNext: false,
-          result: <Interlocutor>[Interlocutor(userId: '1', firstName: 'A', lastName: 'B')],
+          result: <Interlocutor>[Interlocutor(userId: '1', displayName: 'A B')],
         );
       });
     },

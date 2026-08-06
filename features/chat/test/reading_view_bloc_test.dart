@@ -50,6 +50,9 @@ void main() {
         invocation.positionalArguments.first as void Function(Iterable<Message>),
       ),
     );
+    when(
+      () => chatRepository.subscribeChatCleared(any()),
+    ).thenAnswer((_) => const Stream<void>.empty().listen((_) {}));
   });
 
   tearDown(() async {

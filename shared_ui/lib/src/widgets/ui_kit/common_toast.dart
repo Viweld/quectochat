@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/theme/app_icons.dart';
 import 'package:shared_ui/src/values/values.dart';
 
 class CommonToast extends StatelessWidget {
@@ -43,7 +44,7 @@ class CommonToast extends StatelessWidget {
         ),
         const SizedBox(width: 14),
         IconButton(
-          icon: Icon(Icons.close_rounded, color: context.colors.text.secondary, size: 18),
+          icon: AppIcons.close(color: context.colors.text.secondary, size: 18),
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
         ),
         const SizedBox(width: 4),

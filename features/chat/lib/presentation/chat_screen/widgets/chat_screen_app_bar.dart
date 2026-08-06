@@ -1,21 +1,22 @@
+import 'package:chat/presentation/chat_screen/widgets/chat_screen_more_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_ui/core_ui.dart';
 
 class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatScreenAppBar({
-    required this.firstName,
-    required this.lastName,
+    required this.displayName,
     required this.status,
     required this.onBackPressed,
+    required this.onClearChatPressed,
     this.statusColor,
     super.key,
   });
 
-  final String firstName;
-  final String lastName;
+  final String displayName;
   final String status;
   final Color? statusColor;
   final VoidCallback onBackPressed;
+  final VoidCallback onClearChatPressed;
 
   static const double _horizontalInterval = 12;
 
@@ -31,14 +32,14 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 20, 12),
+              padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
               child: Row(
                 children: <Widget>[
                   /// Кнопка "Назад"
                   SizedBox.square(dimension: 48, child: CommonBackButton(onPressed: onBackPressed)),
 
                   /// Аватар собеседника
-                  CommonUserAvatar(firstName: firstName, lastName: lastName),
+                  CommonUserAvatar(displayName: displayName),
                   const SizedBox(width: _horizontalInterval),
                   Expanded(
                     child: Column(
@@ -47,7 +48,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                       children: <Widget>[
                         /// Полное имя собеседника
                         Text(
-                          '$firstName $lastName',
+                          displayName,
                           style: context.username,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -66,6 +67,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ],
                     ),
                   ),
+                  ChatScreenMoreButton(onClearChatPressed: onClearChatPressed),
                 ],
               ),
             ),

@@ -73,7 +73,7 @@
 			<string>remote-notification</string>
 		</array>
 		<key>NSCameraUsageDescription</key>
-		<string>QuectoChat needs camera access to take photos for chat.</string>
+		<string>QuectoChat needs camera access to take photos for chat and to scan invitation QR codes.</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>QuectoChat needs microphone access to record videos for chat.</string>
 		<key>NSPhotoLibraryUsageDescription</key>

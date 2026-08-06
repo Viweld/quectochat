@@ -23,6 +23,11 @@ final class ChatMarkAsReadFailure extends ChatRepositoryError {
   const ChatMarkAsReadFailure();
 }
 
+/// Failure while clearing chat history.
+final class ChatClearChatFailure extends ChatRepositoryError {
+  const ChatClearChatFailure();
+}
+
 /// Generic chat repository failure (e.g. stream subscription).
 final class ChatRepositoryGenericFailure extends ChatRepositoryError {
   const ChatRepositoryGenericFailure();
@@ -37,6 +42,9 @@ typedef ChatErrorsSubscription = StreamSubscription<ChatRepositoryError>;
 /// Subscription to interlocutor typing status.
 typedef ChatTypingSubscription = StreamSubscription<bool>;
 
+/// Subscription to chat-cleared notifications.
+typedef ChatClearedSubscription = StreamSubscription<void>;
+
 /// Chat repository.
 abstract interface class ChatRepository {
   Future<void> close();
@@ -46,6 +54,8 @@ abstract interface class ChatRepository {
   ChatErrorsSubscription subscribeErrors(void Function(ChatRepositoryError) listener);
 
   ChatTypingSubscription subscribeInterlocutorTyping(void Function(bool isTyping) listener);
+
+  ChatClearedSubscription subscribeChatCleared(void Function() listener);
 
   Future<void> initialize({required String interlocutorId});
 
@@ -82,4 +92,7 @@ abstract interface class ChatRepository {
 
   /// Sends a single image from a local [filePath] (camera or gallery).
   Future<void> sendImageMessage({required String interlocutorId, required String filePath});
+
+  /// Deletes all messages in the chat with [interlocutorId].
+  Future<void> clearChat({required String interlocutorId});
 }

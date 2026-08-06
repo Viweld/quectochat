@@ -6,12 +6,14 @@ import 'package:shared_ui/core_ui.dart';
 
 @RoutePage()
 class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({super.key});
+  const RegistrationScreen({super.key, required this.inviteCode});
+
+  final String inviteCode;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RegistrationBloc>(
-      create: (BuildContext context) => appLocator<RegistrationBloc>(),
+      create: (BuildContext context) => appLocator<RegistrationBloc>(param1: inviteCode),
       child: BlocConsumer<RegistrationBloc, RegistrationState>(
         listenWhen: (RegistrationState previous, RegistrationState current) =>
             previous.effect != current.effect,
@@ -27,6 +29,7 @@ class RegistrationScreen extends StatelessWidget {
                 AppErrorKind.emailAlreadyUsed =>
                   context.texts.registrationExceptionEmailAlreadyUsed,
                 AppErrorKind.emailRateLimit => context.texts.registrationExceptionRateLimit,
+                AppErrorKind.invalidInvite => context.texts.registrationExceptionInvalidInvite,
                 AppErrorKind.network => context.texts.toastNetworkError,
                 AppErrorKind.server => context.texts.toastServerError,
                 _ => context.texts.commonRequestError,
@@ -37,8 +40,7 @@ class RegistrationScreen extends StatelessWidget {
           context.read<RegistrationBloc>().add(const RegistrationEvent.effectHandled());
         },
         builder: (BuildContext context, RegistrationState state) => RegistrationContent(
-          firstNameField: state.firstNameField,
-          lastNameField: state.lastNameField,
+          displayNameField: state.displayNameField,
           emailField: state.emailField,
           passwordField: state.passwordField,
           confirmPasswordField: state.confirmPasswordField,

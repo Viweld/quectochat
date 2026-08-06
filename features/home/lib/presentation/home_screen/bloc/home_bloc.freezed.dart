@@ -55,7 +55,7 @@ extension HomeEventPatterns on HomeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnFetchRequested value)?  onFetchRequested,TResult Function( _EventOnSearchRequested value)?  onSearchRequested,TResult Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult Function( _EventOnClearChatRequested value)?  onClearChatRequested,TResult Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult Function( _EventOnFetchRequested value)?  onFetchRequested,TResult Function( _EventOnSearchRequested value)?  onSearchRequested,TResult Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
@@ -65,8 +65,7 @@ return onSearchRequested(_that);case _EventOnSearchFieldClearTapped() when onSea
 return onSearchFieldClearTapped(_that);case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested(_that);case _EventOnSearchTextChanged() when onSearchTextChanged != null:
 return onSearchTextChanged(_that);case _EventOnLogoutTapped() when onLogoutTapped != null:
-return onLogoutTapped(_that);case _EventOnClearChatRequested() when onClearChatRequested != null:
-return onClearChatRequested(_that);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
+return onLogoutTapped(_that);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
 return onInterlocutorsStreamUpdated(_that);case _:
   return orElse();
 
@@ -85,7 +84,7 @@ return onInterlocutorsStreamUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnFetchRequested value)  onFetchRequested,required TResult Function( _EventOnSearchRequested value)  onSearchRequested,required TResult Function( _EventOnSearchFieldClearTapped value)  onSearchFieldClearTapped,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnSearchTextChanged value)  onSearchTextChanged,required TResult Function( _EventOnLogoutTapped value)  onLogoutTapped,required TResult Function( _EventOnClearChatRequested value)  onClearChatRequested,required TResult Function( _EventOnInterlocutorsStreamUpdated value)  onInterlocutorsStreamUpdated,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnInitializationRequested value)  onInitializationRequested,required TResult Function( _EventOnFetchRequested value)  onFetchRequested,required TResult Function( _EventOnSearchRequested value)  onSearchRequested,required TResult Function( _EventOnSearchFieldClearTapped value)  onSearchFieldClearTapped,required TResult Function( _EventOnNextPageRequested value)  onNextPageRequested,required TResult Function( _EventOnSearchTextChanged value)  onSearchTextChanged,required TResult Function( _EventOnLogoutTapped value)  onLogoutTapped,required TResult Function( _EventOnInterlocutorsStreamUpdated value)  onInterlocutorsStreamUpdated,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
@@ -95,8 +94,7 @@ return onSearchRequested(_that);case _EventOnSearchFieldClearTapped():
 return onSearchFieldClearTapped(_that);case _EventOnNextPageRequested():
 return onNextPageRequested(_that);case _EventOnSearchTextChanged():
 return onSearchTextChanged(_that);case _EventOnLogoutTapped():
-return onLogoutTapped(_that);case _EventOnClearChatRequested():
-return onClearChatRequested(_that);case _EventOnInterlocutorsStreamUpdated():
+return onLogoutTapped(_that);case _EventOnInterlocutorsStreamUpdated():
 return onInterlocutorsStreamUpdated(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -111,7 +109,7 @@ return onInterlocutorsStreamUpdated(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnFetchRequested value)?  onFetchRequested,TResult? Function( _EventOnSearchRequested value)?  onSearchRequested,TResult? Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult? Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult? Function( _EventOnClearChatRequested value)?  onClearChatRequested,TResult? Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnInitializationRequested value)?  onInitializationRequested,TResult? Function( _EventOnFetchRequested value)?  onFetchRequested,TResult? Function( _EventOnSearchRequested value)?  onSearchRequested,TResult? Function( _EventOnSearchFieldClearTapped value)?  onSearchFieldClearTapped,TResult? Function( _EventOnNextPageRequested value)?  onNextPageRequested,TResult? Function( _EventOnSearchTextChanged value)?  onSearchTextChanged,TResult? Function( _EventOnLogoutTapped value)?  onLogoutTapped,TResult? Function( _EventOnInterlocutorsStreamUpdated value)?  onInterlocutorsStreamUpdated,}){
 final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
@@ -121,8 +119,7 @@ return onSearchRequested(_that);case _EventOnSearchFieldClearTapped() when onSea
 return onSearchFieldClearTapped(_that);case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested(_that);case _EventOnSearchTextChanged() when onSearchTextChanged != null:
 return onSearchTextChanged(_that);case _EventOnLogoutTapped() when onLogoutTapped != null:
-return onLogoutTapped(_that);case _EventOnClearChatRequested() when onClearChatRequested != null:
-return onClearChatRequested(_that);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
+return onLogoutTapped(_that);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
 return onInterlocutorsStreamUpdated(_that);case _:
   return null;
 
@@ -140,7 +137,7 @@ return onInterlocutorsStreamUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onFetchRequested,TResult Function()?  onSearchRequested,TResult Function()?  onSearchFieldClearTapped,TResult Function()?  onNextPageRequested,TResult Function( String val)?  onSearchTextChanged,TResult Function()?  onLogoutTapped,TResult Function( String interlocutorId)?  onClearChatRequested,TResult Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  onInitializationRequested,TResult Function()?  onFetchRequested,TResult Function()?  onSearchRequested,TResult Function()?  onSearchFieldClearTapped,TResult Function()?  onNextPageRequested,TResult Function( String val)?  onSearchTextChanged,TResult Function()?  onLogoutTapped,TResult Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnFetchRequested() when onFetchRequested != null:
@@ -149,8 +146,7 @@ return onSearchRequested();case _EventOnSearchFieldClearTapped() when onSearchFi
 return onSearchFieldClearTapped();case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested();case _EventOnSearchTextChanged() when onSearchTextChanged != null:
 return onSearchTextChanged(_that.val);case _EventOnLogoutTapped() when onLogoutTapped != null:
-return onLogoutTapped();case _EventOnClearChatRequested() when onClearChatRequested != null:
-return onClearChatRequested(_that.interlocutorId);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
+return onLogoutTapped();case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
 return onInterlocutorsStreamUpdated(_that.updated);case _:
   return orElse();
 
@@ -169,7 +165,7 @@ return onInterlocutorsStreamUpdated(_that.updated);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onFetchRequested,required TResult Function()  onSearchRequested,required TResult Function()  onSearchFieldClearTapped,required TResult Function()  onNextPageRequested,required TResult Function( String val)  onSearchTextChanged,required TResult Function()  onLogoutTapped,required TResult Function( String interlocutorId)  onClearChatRequested,required TResult Function( Set<Interlocutor> updated)  onInterlocutorsStreamUpdated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  onInitializationRequested,required TResult Function()  onFetchRequested,required TResult Function()  onSearchRequested,required TResult Function()  onSearchFieldClearTapped,required TResult Function()  onNextPageRequested,required TResult Function( String val)  onSearchTextChanged,required TResult Function()  onLogoutTapped,required TResult Function( Set<Interlocutor> updated)  onInterlocutorsStreamUpdated,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested():
 return onInitializationRequested();case _EventOnFetchRequested():
@@ -178,8 +174,7 @@ return onSearchRequested();case _EventOnSearchFieldClearTapped():
 return onSearchFieldClearTapped();case _EventOnNextPageRequested():
 return onNextPageRequested();case _EventOnSearchTextChanged():
 return onSearchTextChanged(_that.val);case _EventOnLogoutTapped():
-return onLogoutTapped();case _EventOnClearChatRequested():
-return onClearChatRequested(_that.interlocutorId);case _EventOnInterlocutorsStreamUpdated():
+return onLogoutTapped();case _EventOnInterlocutorsStreamUpdated():
 return onInterlocutorsStreamUpdated(_that.updated);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -194,7 +189,7 @@ return onInterlocutorsStreamUpdated(_that.updated);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onFetchRequested,TResult? Function()?  onSearchRequested,TResult? Function()?  onSearchFieldClearTapped,TResult? Function()?  onNextPageRequested,TResult? Function( String val)?  onSearchTextChanged,TResult? Function()?  onLogoutTapped,TResult? Function( String interlocutorId)?  onClearChatRequested,TResult? Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  onInitializationRequested,TResult? Function()?  onFetchRequested,TResult? Function()?  onSearchRequested,TResult? Function()?  onSearchFieldClearTapped,TResult? Function()?  onNextPageRequested,TResult? Function( String val)?  onSearchTextChanged,TResult? Function()?  onLogoutTapped,TResult? Function( Set<Interlocutor> updated)?  onInterlocutorsStreamUpdated,}) {final _that = this;
 switch (_that) {
 case _EventOnInitializationRequested() when onInitializationRequested != null:
 return onInitializationRequested();case _EventOnFetchRequested() when onFetchRequested != null:
@@ -203,8 +198,7 @@ return onSearchRequested();case _EventOnSearchFieldClearTapped() when onSearchFi
 return onSearchFieldClearTapped();case _EventOnNextPageRequested() when onNextPageRequested != null:
 return onNextPageRequested();case _EventOnSearchTextChanged() when onSearchTextChanged != null:
 return onSearchTextChanged(_that.val);case _EventOnLogoutTapped() when onLogoutTapped != null:
-return onLogoutTapped();case _EventOnClearChatRequested() when onClearChatRequested != null:
-return onClearChatRequested(_that.interlocutorId);case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
+return onLogoutTapped();case _EventOnInterlocutorsStreamUpdated() when onInterlocutorsStreamUpdated != null:
 return onInterlocutorsStreamUpdated(_that.updated);case _:
   return null;
 
@@ -470,72 +464,6 @@ String toString() {
 
 
 
-
-/// @nodoc
-
-
-class _EventOnClearChatRequested implements HomeEvent {
-  const _EventOnClearChatRequested({required this.interlocutorId});
-  
-
- final  String interlocutorId;
-
-/// Create a copy of HomeEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$EventOnClearChatRequestedCopyWith<_EventOnClearChatRequested> get copyWith => __$EventOnClearChatRequestedCopyWithImpl<_EventOnClearChatRequested>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnClearChatRequested&&(identical(other.interlocutorId, interlocutorId) || other.interlocutorId == interlocutorId));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,interlocutorId);
-
-@override
-String toString() {
-  return 'HomeEvent.onClearChatRequested(interlocutorId: $interlocutorId)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$EventOnClearChatRequestedCopyWith<$Res> implements $HomeEventCopyWith<$Res> {
-  factory _$EventOnClearChatRequestedCopyWith(_EventOnClearChatRequested value, $Res Function(_EventOnClearChatRequested) _then) = __$EventOnClearChatRequestedCopyWithImpl;
-@useResult
-$Res call({
- String interlocutorId
-});
-
-
-
-
-}
-/// @nodoc
-class __$EventOnClearChatRequestedCopyWithImpl<$Res>
-    implements _$EventOnClearChatRequestedCopyWith<$Res> {
-  __$EventOnClearChatRequestedCopyWithImpl(this._self, this._then);
-
-  final _EventOnClearChatRequested _self;
-  final $Res Function(_EventOnClearChatRequested) _then;
-
-/// Create a copy of HomeEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? interlocutorId = null,}) {
-  return _then(_EventOnClearChatRequested(
-interlocutorId: null == interlocutorId ? _self.interlocutorId : interlocutorId // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-
-}
 
 /// @nodoc
 

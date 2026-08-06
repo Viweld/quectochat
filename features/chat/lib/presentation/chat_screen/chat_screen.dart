@@ -7,16 +7,10 @@ import 'package:shared_ui/core_ui.dart';
 
 @RoutePage()
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({
-    required this.interlocutorId,
-    required this.firstName,
-    required this.lastName,
-    super.key,
-  });
+  const ChatScreen({required this.interlocutorId, required this.displayName, super.key});
 
   final String interlocutorId;
-  final String firstName;
-  final String lastName;
+  final String displayName;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +34,7 @@ class ChatScreen extends StatelessWidget {
           },
           builder: (BuildContext context, ChatState state) => ChatContent(
             interlocutorId: interlocutorId,
-            firstName: firstName,
-            lastName: lastName,
+            displayName: displayName,
             interlocutorStatus: state.interlocutorStatus,
           ),
         ),

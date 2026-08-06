@@ -27,6 +27,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         onStatusRecomputeRequested: (_) => _onStatusRecomputeRequested(emit),
         onAppPaused: (_) => _onAppPaused(),
         onAppResumed: (_) => _onAppResumed(),
+        onClearChatRequested: (_) => _onClearChatRequested(emit),
         effectHandled: (_) => _onEffectHandled(emit),
       ),
     );
@@ -128,6 +129,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     await _chatRepository.resumeActiveChatPresence();
   }
 
+  Future<void> _onClearChatRequested(Emitter<ChatState> emit) async {
+    try {
+      await _chatRepository.clearChat(interlocutorId: state.interlocutorId);
+    } on Object catch (error, stackTrace) {
+      final ErrorPresentation presentation = _blocErrorHandler.handle(
+        error,
+        stackTrace: stackTrace,
+      );
+      if (presentation.shouldRethrow) rethrow;
+    }
+  }
+
   Future<void> _onInitializationRequested(Emitter<ChatState> emit) async {
     try {
       await _chatRepository.initialize(interlocutorId: state.interlocutorId);
@@ -184,6 +197,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     ChatLoadMessagesFailure() => AppErrorKind.generic,
     ChatSendMessageFailure() => AppErrorKind.generic,
     ChatMarkAsReadFailure() => AppErrorKind.generic,
+    ChatClearChatFailure() => AppErrorKind.generic,
     ChatRepositoryGenericFailure() => AppErrorKind.generic,
   };
 }

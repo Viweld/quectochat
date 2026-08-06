@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/theme/app_icons.dart';
 import 'package:shared_ui/src/values/values.dart';
 import 'package:shared_ui/src/widgets/media_picker/app_media_file_picker_labels.dart';
 import 'package:shared_ui/src/widgets/ui_kit/common_accent_button.dart';

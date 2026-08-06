@@ -27,8 +27,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         onNextPageRequested: (_EventOnNextPageRequested event) => _onNextPageRequested(event, emit),
         onSearchTextChanged: (_) async {},
         onLogoutTapped: (_) async {},
-        onClearChatRequested: (_EventOnClearChatRequested event) =>
-            _onClearChatRequested(event, emit),
         onInterlocutorsStreamUpdated: (_EventOnInterlocutorsStreamUpdated event) async {
           _onInterlocutorsStreamUpdated(event, emit);
         },
@@ -108,27 +106,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     emit(state.copyWith(searchId: state.searchId + 1, isNextLoading: true));
     await _getInterlocutors(emit, searchId: state.searchId, isNextPageRequired: true);
-  }
-
-  Future<void> _onClearChatRequested(
-    _EventOnClearChatRequested event,
-    Emitter<HomeState> emit,
-  ) async {
-    try {
-      await _homeRepository.clearChat(interlocutorId: event.interlocutorId);
-      final Iterable<Interlocutor> changedInterlocutors = state.interlocutors.map(
-        (Interlocutor item) => item.userId != event.interlocutorId
-            ? item
-            : Interlocutor(userId: item.userId, firstName: item.firstName, lastName: item.lastName),
-      );
-      emit(state.copyWith(interlocutors: changedInterlocutors, searchId: state.searchId + 1));
-    } on Object catch (error, stackTrace) {
-      final ErrorPresentation presentation = _blocErrorHandler.handle(
-        error,
-        stackTrace: stackTrace,
-      );
-      if (presentation.shouldRethrow) rethrow;
-    }
   }
 
   Future<void> _onSearchFieldClearTapped(Emitter<HomeState> emit) async {
@@ -306,8 +283,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   int _compareInterlocutorsAlpha(Interlocutor a, Interlocutor b) {
-    final String aName = '${a.firstName} ${a.lastName}'.toLowerCase();
-    final String bName = '${b.firstName} ${b.lastName}'.toLowerCase();
+    final String aName = a.displayName.toLowerCase();
+    final String bName = b.displayName.toLowerCase();
     return aName.compareTo(bName);
   }
 }

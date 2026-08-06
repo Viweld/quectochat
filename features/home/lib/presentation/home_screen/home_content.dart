@@ -5,6 +5,8 @@ import 'package:home/presentation/home_screen/widgets/chat_tile.dart';
 import 'package:home/presentation/home_screen/widgets/flexible_header.dart';
 import 'package:home/presentation/home_screen/widgets/home_drawer/home_drawer.dart';
 import 'package:home/presentation/home_screen/widgets/home_load_error_view.dart';
+import 'package:home/presentation/home_screen/widgets/invite_role_bottom_sheet.dart';
+import 'package:home/presentation/home_screen/widgets/pinned_interlocutor_tile.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
@@ -49,14 +51,21 @@ class HomeContent extends StatelessWidget {
         1;
 
     final CurrentUser? currentUser = this.currentUser;
+    final bool canInvite = currentUser?.canInvite ?? false;
+    final bool canInviteFamilyMembers = currentUser?.canInviteFamilyMembers ?? false;
+    final List<Interlocutor> items = interlocutors.toList(growable: false);
 
     return Scaffold(
       drawer: HomeDrawer(
-        firstName: currentUser?.firstName ?? '',
-        lastName: currentUser?.lastName ?? '',
+        displayName: currentUser?.displayName ?? '',
+        canInvite: canInvite,
         isLogoutPending: isLogoutLoading,
         onProfileTapped: () => _showComingSoon(context),
-        onAddUserTapped: () => _showComingSoon(context),
+        onAddUserTapped: () => _onAddUserTapped(
+          context,
+          navigator: navigator,
+          canInviteFamilyMembers: canInviteFamilyMembers,
+        ),
         onLogoutTapped: () => bloc.add(const HomeEvent.onLogoutTapped()),
       ),
       body: SafeArea(
@@ -83,7 +92,7 @@ class HomeContent extends StatelessWidget {
                         bloc.add(HomeEvent.onSearchTextChanged(value)),
                   ),
                 ),
-                if (interlocutors.isEmpty)
+                if (items.isEmpty)
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: switch (loadError) {
@@ -95,28 +104,35 @@ class HomeContent extends StatelessWidget {
                     },
                   )
                 else
-                  SliverList.separated(
-                    itemCount: interlocutors.length,
-                    separatorBuilder: (BuildContext context, int index) => Divider(
-                      height: Values.dividerThickness,
-                      color: context.colors.text.tertiary,
-                      indent: Values.horizontalPadding,
-                      endIndent: Values.horizontalPadding,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      final Interlocutor interlocutor = interlocutors.elementAt(index);
-                      return ChatTile(
-                        interlocutor: interlocutor,
-                        onTapped: () => navigator.navigateChat(
-                          interlocutorId: interlocutor.userId,
-                          firstName: interlocutor.firstName,
-                          lastName: interlocutor.lastName,
-                        ),
-                        onClearChatRequested: () => bloc.add(
-                          HomeEvent.onClearChatRequested(interlocutorId: interlocutor.userId),
-                        ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(childCount: items.length, (
+                      BuildContext context,
+                      int index,
+                    ) {
+                      final Interlocutor item = items[index];
+
+                      void openChat() => navigator.navigateChat(
+                        interlocutorId: item.userId,
+                        displayName: item.displayName,
                       );
-                    },
+
+                      if (item.isPinned) {
+                        return PinnedInterlocutorTile(
+                          interlocutor: item,
+                          receivesHeaderShadow: index == 0,
+                          onChatTapped: openChat,
+                          onRevealNestedTapped: () => navigator.navigateNestedContacts(
+                            anchorUserId: item.userId,
+                            anchorDisplayName: item.displayName,
+                            isFriendsOfRelative: currentUser?.familyRole != null,
+                          ),
+                        );
+                      }
+                      return ChatTile(
+                        interlocutor: item,
+                        onTapped: openChat,
+                      );
+                    }),
                   ),
               ],
             ),
@@ -124,6 +140,21 @@ class HomeContent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onAddUserTapped(
+    BuildContext context, {
+    required AppNavigator navigator,
+    required bool canInviteFamilyMembers,
+  }) {
+    if (canInviteFamilyMembers) {
+      InviteRoleBottomSheet.show(
+        context,
+        onRoleSelected: (String role) => navigator.navigateCreateInvitation(targetRole: role),
+      );
+      return;
+    }
+    navigator.navigateCreateInvitation(targetRole: 'friend');
   }
 
   void _showComingSoon(BuildContext context) {

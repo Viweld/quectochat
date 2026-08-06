@@ -88,7 +88,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _onRegistrationRequested(LoginRegistrationRequested event, Emitter<LoginState> emit) {
-    emit(state.copyWith(effect: const LoginEffect.navigateRegistration()));
+    emit(state.copyWith(effect: const LoginEffect.navigateInviteCode()));
   }
 
   void _onEffectHandled(LoginEffectHandled event, Emitter<LoginState> emit) {

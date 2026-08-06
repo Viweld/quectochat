@@ -29,6 +29,7 @@ final class ChatRepositoryImpl implements ChatRepository {
       StreamController<Set<Message>>.broadcast();
   final StreamController<ChatRepositoryError> _errorsStreamController =
       StreamController<ChatRepositoryError>.broadcast();
+  final StreamController<void> _chatClearedController = StreamController<void>.broadcast();
 
   String? _activeInterlocutorId;
   bool _isActiveChatPresenceEnabled = false;
@@ -54,9 +55,15 @@ final class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  ChatClearedSubscription subscribeChatCleared(void Function() listener) {
+    return _chatClearedController.stream.listen((_) => listener());
+  }
+
+  @override
   Future<void> close() async {
     await _messagesStreamController.close();
     await _errorsStreamController.close();
+    await _chatClearedController.close();
   }
 
   @override
@@ -197,6 +204,19 @@ final class ChatRepositoryImpl implements ChatRepository {
       _emitMessage(mapMessageDtoToDomain(dto: messageDto, currentUserId: _currentUserId));
     } on Object {
       _emitError(const ChatSendMessageFailure());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> clearChat({required String interlocutorId}) async {
+    try {
+      await _remoteDataSource.clearChat(interlocutorId: interlocutorId);
+      if (!_chatClearedController.isClosed) {
+        _chatClearedController.add(null);
+      }
+    } on Object {
+      _emitError(const ChatClearChatFailure());
       rethrow;
     }
   }

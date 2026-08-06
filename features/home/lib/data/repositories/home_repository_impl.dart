@@ -79,7 +79,15 @@ final class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<void> clearChat({required String interlocutorId}) async {
-    await _remoteDataSource.clearChat(interlocutorId: interlocutorId);
+  Future<List<Interlocutor>> getNestedContacts({required String anchorUserId}) async {
+    final List<InterlocutorDto> dtos = await _remoteDataSource.getNestedContacts(
+      anchorUserId: anchorUserId,
+    );
+    return dtos
+        .map(
+          (InterlocutorDto dto) =>
+              mapInterlocutorDtoToDomain(dto: dto, currentUserId: _currentUserId),
+        )
+        .toList();
   }
 }

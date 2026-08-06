@@ -3,15 +3,9 @@ import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:string_to_color/string_to_color.dart';
 
 class CommonUserAvatar extends StatefulWidget {
-  const CommonUserAvatar({
-    required this.firstName,
-    required this.lastName,
-    this.dimension = defaultDimension,
-    super.key,
-  });
+  const CommonUserAvatar({required this.displayName, this.dimension = defaultDimension, super.key});
 
-  final String firstName;
-  final String lastName;
+  final String displayName;
   final double dimension;
 
   static const double defaultDimension = 50;
@@ -25,7 +19,7 @@ class _CommonUserAvatarState extends State<CommonUserAvatar> {
 
   @override
   void initState() {
-    color = ColorUtils.stringToColor(widget.firstName + widget.lastName);
+    color = ColorUtils.stringToColor(widget.displayName);
     super.initState();
   }
 
@@ -48,16 +42,17 @@ class _CommonUserAvatarState extends State<CommonUserAvatar> {
               ),
             ),
           ),
-          Text(_getInitials(widget.firstName, widget.lastName), style: context.initials),
+          Text(_getInitials(widget.displayName), style: context.initials),
         ],
       ),
     );
   }
 
-  /// Возвращает инициалы пользователя
-  String _getInitials(String fn, String ln) {
-    final String firstInitial = fn.isEmpty ? '' : fn.substring(0, 1);
-    final String lastInitial = ln.isEmpty ? '' : ln.substring(0, 1);
-    return (firstInitial + lastInitial).toUpperCase();
+  /// Первые 1–2 символа [displayName] (после trim) в верхнем регистре.
+  String _getInitials(String displayName) {
+    final String trimmed = displayName.trim();
+    if (trimmed.isEmpty) return '';
+    final int end = trimmed.length >= 2 ? 2 : 1;
+    return trimmed.substring(0, end).toUpperCase();
   }
 }

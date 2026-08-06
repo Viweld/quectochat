@@ -309,21 +309,19 @@ extension RegistrationEventPatterns on RegistrationEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _EventOnFirstNameChanged value)?  onFirstNameChanged,TResult Function( _EventOnFirstNameFieldUnfocused value)?  onFirstNameFieldUnfocused,TResult Function( _EventOnLastNameChanged value)?  onLastNameChanged,TResult Function( _EventOnLastNameFieldUnfocused value)?  onLastNameFieldUnfocused,TResult Function( _EventOnEmailChanged value)?  onEmailChanged,TResult Function( _EventOnEmailFieldUnfocused value)?  onEmailFieldUnfocused,TResult Function( _EventOnPasswordChanged value)?  onPasswordChanged,TResult Function( _EventOnPasswordFieldUnfocused value)?  onPasswordFieldUnfocused,TResult Function( _EventOnConfirmPasswordChanged value)?  onConfirmPasswordChanged,TResult Function( _EventOnConfirmPasswordFieldUnfocused value)?  onConfirmPasswordFieldUnfocused,TResult Function( _EventOnLoginTapped value)?  onLoginTapped,TResult Function( _EffectHandled value)?  effectHandled,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( RegistrationDisplayNameChanged value)?  displayNameChanged,TResult Function( RegistrationDisplayNameFieldUnfocused value)?  displayNameFieldUnfocused,TResult Function( RegistrationEmailChanged value)?  emailChanged,TResult Function( RegistrationEmailFieldUnfocused value)?  emailFieldUnfocused,TResult Function( RegistrationPasswordChanged value)?  passwordChanged,TResult Function( RegistrationPasswordFieldUnfocused value)?  passwordFieldUnfocused,TResult Function( RegistrationConfirmPasswordChanged value)?  confirmPasswordChanged,TResult Function( RegistrationConfirmPasswordFieldUnfocused value)?  confirmPasswordFieldUnfocused,TResult Function( RegistrationSubmitRequested value)?  submitRequested,TResult Function( RegistrationEffectHandled value)?  effectHandled,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _EventOnFirstNameChanged() when onFirstNameChanged != null:
-return onFirstNameChanged(_that);case _EventOnFirstNameFieldUnfocused() when onFirstNameFieldUnfocused != null:
-return onFirstNameFieldUnfocused(_that);case _EventOnLastNameChanged() when onLastNameChanged != null:
-return onLastNameChanged(_that);case _EventOnLastNameFieldUnfocused() when onLastNameFieldUnfocused != null:
-return onLastNameFieldUnfocused(_that);case _EventOnEmailChanged() when onEmailChanged != null:
-return onEmailChanged(_that);case _EventOnEmailFieldUnfocused() when onEmailFieldUnfocused != null:
-return onEmailFieldUnfocused(_that);case _EventOnPasswordChanged() when onPasswordChanged != null:
-return onPasswordChanged(_that);case _EventOnPasswordFieldUnfocused() when onPasswordFieldUnfocused != null:
-return onPasswordFieldUnfocused(_that);case _EventOnConfirmPasswordChanged() when onConfirmPasswordChanged != null:
-return onConfirmPasswordChanged(_that);case _EventOnConfirmPasswordFieldUnfocused() when onConfirmPasswordFieldUnfocused != null:
-return onConfirmPasswordFieldUnfocused(_that);case _EventOnLoginTapped() when onLoginTapped != null:
-return onLoginTapped(_that);case _EffectHandled() when effectHandled != null:
+case RegistrationDisplayNameChanged() when displayNameChanged != null:
+return displayNameChanged(_that);case RegistrationDisplayNameFieldUnfocused() when displayNameFieldUnfocused != null:
+return displayNameFieldUnfocused(_that);case RegistrationEmailChanged() when emailChanged != null:
+return emailChanged(_that);case RegistrationEmailFieldUnfocused() when emailFieldUnfocused != null:
+return emailFieldUnfocused(_that);case RegistrationPasswordChanged() when passwordChanged != null:
+return passwordChanged(_that);case RegistrationPasswordFieldUnfocused() when passwordFieldUnfocused != null:
+return passwordFieldUnfocused(_that);case RegistrationConfirmPasswordChanged() when confirmPasswordChanged != null:
+return confirmPasswordChanged(_that);case RegistrationConfirmPasswordFieldUnfocused() when confirmPasswordFieldUnfocused != null:
+return confirmPasswordFieldUnfocused(_that);case RegistrationSubmitRequested() when submitRequested != null:
+return submitRequested(_that);case RegistrationEffectHandled() when effectHandled != null:
 return effectHandled(_that);case _:
   return orElse();
 
@@ -342,21 +340,19 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _EventOnFirstNameChanged value)  onFirstNameChanged,required TResult Function( _EventOnFirstNameFieldUnfocused value)  onFirstNameFieldUnfocused,required TResult Function( _EventOnLastNameChanged value)  onLastNameChanged,required TResult Function( _EventOnLastNameFieldUnfocused value)  onLastNameFieldUnfocused,required TResult Function( _EventOnEmailChanged value)  onEmailChanged,required TResult Function( _EventOnEmailFieldUnfocused value)  onEmailFieldUnfocused,required TResult Function( _EventOnPasswordChanged value)  onPasswordChanged,required TResult Function( _EventOnPasswordFieldUnfocused value)  onPasswordFieldUnfocused,required TResult Function( _EventOnConfirmPasswordChanged value)  onConfirmPasswordChanged,required TResult Function( _EventOnConfirmPasswordFieldUnfocused value)  onConfirmPasswordFieldUnfocused,required TResult Function( _EventOnLoginTapped value)  onLoginTapped,required TResult Function( _EffectHandled value)  effectHandled,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( RegistrationDisplayNameChanged value)  displayNameChanged,required TResult Function( RegistrationDisplayNameFieldUnfocused value)  displayNameFieldUnfocused,required TResult Function( RegistrationEmailChanged value)  emailChanged,required TResult Function( RegistrationEmailFieldUnfocused value)  emailFieldUnfocused,required TResult Function( RegistrationPasswordChanged value)  passwordChanged,required TResult Function( RegistrationPasswordFieldUnfocused value)  passwordFieldUnfocused,required TResult Function( RegistrationConfirmPasswordChanged value)  confirmPasswordChanged,required TResult Function( RegistrationConfirmPasswordFieldUnfocused value)  confirmPasswordFieldUnfocused,required TResult Function( RegistrationSubmitRequested value)  submitRequested,required TResult Function( RegistrationEffectHandled value)  effectHandled,}){
 final _that = this;
 switch (_that) {
-case _EventOnFirstNameChanged():
-return onFirstNameChanged(_that);case _EventOnFirstNameFieldUnfocused():
-return onFirstNameFieldUnfocused(_that);case _EventOnLastNameChanged():
-return onLastNameChanged(_that);case _EventOnLastNameFieldUnfocused():
-return onLastNameFieldUnfocused(_that);case _EventOnEmailChanged():
-return onEmailChanged(_that);case _EventOnEmailFieldUnfocused():
-return onEmailFieldUnfocused(_that);case _EventOnPasswordChanged():
-return onPasswordChanged(_that);case _EventOnPasswordFieldUnfocused():
-return onPasswordFieldUnfocused(_that);case _EventOnConfirmPasswordChanged():
-return onConfirmPasswordChanged(_that);case _EventOnConfirmPasswordFieldUnfocused():
-return onConfirmPasswordFieldUnfocused(_that);case _EventOnLoginTapped():
-return onLoginTapped(_that);case _EffectHandled():
+case RegistrationDisplayNameChanged():
+return displayNameChanged(_that);case RegistrationDisplayNameFieldUnfocused():
+return displayNameFieldUnfocused(_that);case RegistrationEmailChanged():
+return emailChanged(_that);case RegistrationEmailFieldUnfocused():
+return emailFieldUnfocused(_that);case RegistrationPasswordChanged():
+return passwordChanged(_that);case RegistrationPasswordFieldUnfocused():
+return passwordFieldUnfocused(_that);case RegistrationConfirmPasswordChanged():
+return confirmPasswordChanged(_that);case RegistrationConfirmPasswordFieldUnfocused():
+return confirmPasswordFieldUnfocused(_that);case RegistrationSubmitRequested():
+return submitRequested(_that);case RegistrationEffectHandled():
 return effectHandled(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -371,21 +367,19 @@ return effectHandled(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _EventOnFirstNameChanged value)?  onFirstNameChanged,TResult? Function( _EventOnFirstNameFieldUnfocused value)?  onFirstNameFieldUnfocused,TResult? Function( _EventOnLastNameChanged value)?  onLastNameChanged,TResult? Function( _EventOnLastNameFieldUnfocused value)?  onLastNameFieldUnfocused,TResult? Function( _EventOnEmailChanged value)?  onEmailChanged,TResult? Function( _EventOnEmailFieldUnfocused value)?  onEmailFieldUnfocused,TResult? Function( _EventOnPasswordChanged value)?  onPasswordChanged,TResult? Function( _EventOnPasswordFieldUnfocused value)?  onPasswordFieldUnfocused,TResult? Function( _EventOnConfirmPasswordChanged value)?  onConfirmPasswordChanged,TResult? Function( _EventOnConfirmPasswordFieldUnfocused value)?  onConfirmPasswordFieldUnfocused,TResult? Function( _EventOnLoginTapped value)?  onLoginTapped,TResult? Function( _EffectHandled value)?  effectHandled,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( RegistrationDisplayNameChanged value)?  displayNameChanged,TResult? Function( RegistrationDisplayNameFieldUnfocused value)?  displayNameFieldUnfocused,TResult? Function( RegistrationEmailChanged value)?  emailChanged,TResult? Function( RegistrationEmailFieldUnfocused value)?  emailFieldUnfocused,TResult? Function( RegistrationPasswordChanged value)?  passwordChanged,TResult? Function( RegistrationPasswordFieldUnfocused value)?  passwordFieldUnfocused,TResult? Function( RegistrationConfirmPasswordChanged value)?  confirmPasswordChanged,TResult? Function( RegistrationConfirmPasswordFieldUnfocused value)?  confirmPasswordFieldUnfocused,TResult? Function( RegistrationSubmitRequested value)?  submitRequested,TResult? Function( RegistrationEffectHandled value)?  effectHandled,}){
 final _that = this;
 switch (_that) {
-case _EventOnFirstNameChanged() when onFirstNameChanged != null:
-return onFirstNameChanged(_that);case _EventOnFirstNameFieldUnfocused() when onFirstNameFieldUnfocused != null:
-return onFirstNameFieldUnfocused(_that);case _EventOnLastNameChanged() when onLastNameChanged != null:
-return onLastNameChanged(_that);case _EventOnLastNameFieldUnfocused() when onLastNameFieldUnfocused != null:
-return onLastNameFieldUnfocused(_that);case _EventOnEmailChanged() when onEmailChanged != null:
-return onEmailChanged(_that);case _EventOnEmailFieldUnfocused() when onEmailFieldUnfocused != null:
-return onEmailFieldUnfocused(_that);case _EventOnPasswordChanged() when onPasswordChanged != null:
-return onPasswordChanged(_that);case _EventOnPasswordFieldUnfocused() when onPasswordFieldUnfocused != null:
-return onPasswordFieldUnfocused(_that);case _EventOnConfirmPasswordChanged() when onConfirmPasswordChanged != null:
-return onConfirmPasswordChanged(_that);case _EventOnConfirmPasswordFieldUnfocused() when onConfirmPasswordFieldUnfocused != null:
-return onConfirmPasswordFieldUnfocused(_that);case _EventOnLoginTapped() when onLoginTapped != null:
-return onLoginTapped(_that);case _EffectHandled() when effectHandled != null:
+case RegistrationDisplayNameChanged() when displayNameChanged != null:
+return displayNameChanged(_that);case RegistrationDisplayNameFieldUnfocused() when displayNameFieldUnfocused != null:
+return displayNameFieldUnfocused(_that);case RegistrationEmailChanged() when emailChanged != null:
+return emailChanged(_that);case RegistrationEmailFieldUnfocused() when emailFieldUnfocused != null:
+return emailFieldUnfocused(_that);case RegistrationPasswordChanged() when passwordChanged != null:
+return passwordChanged(_that);case RegistrationPasswordFieldUnfocused() when passwordFieldUnfocused != null:
+return passwordFieldUnfocused(_that);case RegistrationConfirmPasswordChanged() when confirmPasswordChanged != null:
+return confirmPasswordChanged(_that);case RegistrationConfirmPasswordFieldUnfocused() when confirmPasswordFieldUnfocused != null:
+return confirmPasswordFieldUnfocused(_that);case RegistrationSubmitRequested() when submitRequested != null:
+return submitRequested(_that);case RegistrationEffectHandled() when effectHandled != null:
 return effectHandled(_that);case _:
   return null;
 
@@ -403,20 +397,18 @@ return effectHandled(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String val)?  onFirstNameChanged,TResult Function()?  onFirstNameFieldUnfocused,TResult Function( String val)?  onLastNameChanged,TResult Function()?  onLastNameFieldUnfocused,TResult Function( String val)?  onEmailChanged,TResult Function()?  onEmailFieldUnfocused,TResult Function( String val)?  onPasswordChanged,TResult Function()?  onPasswordFieldUnfocused,TResult Function( String val)?  onConfirmPasswordChanged,TResult Function()?  onConfirmPasswordFieldUnfocused,TResult Function()?  onLoginTapped,TResult Function()?  effectHandled,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String value)?  displayNameChanged,TResult Function()?  displayNameFieldUnfocused,TResult Function( String value)?  emailChanged,TResult Function()?  emailFieldUnfocused,TResult Function( String value)?  passwordChanged,TResult Function()?  passwordFieldUnfocused,TResult Function( String value)?  confirmPasswordChanged,TResult Function()?  confirmPasswordFieldUnfocused,TResult Function()?  submitRequested,TResult Function()?  effectHandled,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _EventOnFirstNameChanged() when onFirstNameChanged != null:
-return onFirstNameChanged(_that.val);case _EventOnFirstNameFieldUnfocused() when onFirstNameFieldUnfocused != null:
-return onFirstNameFieldUnfocused();case _EventOnLastNameChanged() when onLastNameChanged != null:
-return onLastNameChanged(_that.val);case _EventOnLastNameFieldUnfocused() when onLastNameFieldUnfocused != null:
-return onLastNameFieldUnfocused();case _EventOnEmailChanged() when onEmailChanged != null:
-return onEmailChanged(_that.val);case _EventOnEmailFieldUnfocused() when onEmailFieldUnfocused != null:
-return onEmailFieldUnfocused();case _EventOnPasswordChanged() when onPasswordChanged != null:
-return onPasswordChanged(_that.val);case _EventOnPasswordFieldUnfocused() when onPasswordFieldUnfocused != null:
-return onPasswordFieldUnfocused();case _EventOnConfirmPasswordChanged() when onConfirmPasswordChanged != null:
-return onConfirmPasswordChanged(_that.val);case _EventOnConfirmPasswordFieldUnfocused() when onConfirmPasswordFieldUnfocused != null:
-return onConfirmPasswordFieldUnfocused();case _EventOnLoginTapped() when onLoginTapped != null:
-return onLoginTapped();case _EffectHandled() when effectHandled != null:
+case RegistrationDisplayNameChanged() when displayNameChanged != null:
+return displayNameChanged(_that.value);case RegistrationDisplayNameFieldUnfocused() when displayNameFieldUnfocused != null:
+return displayNameFieldUnfocused();case RegistrationEmailChanged() when emailChanged != null:
+return emailChanged(_that.value);case RegistrationEmailFieldUnfocused() when emailFieldUnfocused != null:
+return emailFieldUnfocused();case RegistrationPasswordChanged() when passwordChanged != null:
+return passwordChanged(_that.value);case RegistrationPasswordFieldUnfocused() when passwordFieldUnfocused != null:
+return passwordFieldUnfocused();case RegistrationConfirmPasswordChanged() when confirmPasswordChanged != null:
+return confirmPasswordChanged(_that.value);case RegistrationConfirmPasswordFieldUnfocused() when confirmPasswordFieldUnfocused != null:
+return confirmPasswordFieldUnfocused();case RegistrationSubmitRequested() when submitRequested != null:
+return submitRequested();case RegistrationEffectHandled() when effectHandled != null:
 return effectHandled();case _:
   return orElse();
 
@@ -435,20 +427,18 @@ return effectHandled();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String val)  onFirstNameChanged,required TResult Function()  onFirstNameFieldUnfocused,required TResult Function( String val)  onLastNameChanged,required TResult Function()  onLastNameFieldUnfocused,required TResult Function( String val)  onEmailChanged,required TResult Function()  onEmailFieldUnfocused,required TResult Function( String val)  onPasswordChanged,required TResult Function()  onPasswordFieldUnfocused,required TResult Function( String val)  onConfirmPasswordChanged,required TResult Function()  onConfirmPasswordFieldUnfocused,required TResult Function()  onLoginTapped,required TResult Function()  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String value)  displayNameChanged,required TResult Function()  displayNameFieldUnfocused,required TResult Function( String value)  emailChanged,required TResult Function()  emailFieldUnfocused,required TResult Function( String value)  passwordChanged,required TResult Function()  passwordFieldUnfocused,required TResult Function( String value)  confirmPasswordChanged,required TResult Function()  confirmPasswordFieldUnfocused,required TResult Function()  submitRequested,required TResult Function()  effectHandled,}) {final _that = this;
 switch (_that) {
-case _EventOnFirstNameChanged():
-return onFirstNameChanged(_that.val);case _EventOnFirstNameFieldUnfocused():
-return onFirstNameFieldUnfocused();case _EventOnLastNameChanged():
-return onLastNameChanged(_that.val);case _EventOnLastNameFieldUnfocused():
-return onLastNameFieldUnfocused();case _EventOnEmailChanged():
-return onEmailChanged(_that.val);case _EventOnEmailFieldUnfocused():
-return onEmailFieldUnfocused();case _EventOnPasswordChanged():
-return onPasswordChanged(_that.val);case _EventOnPasswordFieldUnfocused():
-return onPasswordFieldUnfocused();case _EventOnConfirmPasswordChanged():
-return onConfirmPasswordChanged(_that.val);case _EventOnConfirmPasswordFieldUnfocused():
-return onConfirmPasswordFieldUnfocused();case _EventOnLoginTapped():
-return onLoginTapped();case _EffectHandled():
+case RegistrationDisplayNameChanged():
+return displayNameChanged(_that.value);case RegistrationDisplayNameFieldUnfocused():
+return displayNameFieldUnfocused();case RegistrationEmailChanged():
+return emailChanged(_that.value);case RegistrationEmailFieldUnfocused():
+return emailFieldUnfocused();case RegistrationPasswordChanged():
+return passwordChanged(_that.value);case RegistrationPasswordFieldUnfocused():
+return passwordFieldUnfocused();case RegistrationConfirmPasswordChanged():
+return confirmPasswordChanged(_that.value);case RegistrationConfirmPasswordFieldUnfocused():
+return confirmPasswordFieldUnfocused();case RegistrationSubmitRequested():
+return submitRequested();case RegistrationEffectHandled():
 return effectHandled();}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -463,20 +453,18 @@ return effectHandled();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String val)?  onFirstNameChanged,TResult? Function()?  onFirstNameFieldUnfocused,TResult? Function( String val)?  onLastNameChanged,TResult? Function()?  onLastNameFieldUnfocused,TResult? Function( String val)?  onEmailChanged,TResult? Function()?  onEmailFieldUnfocused,TResult? Function( String val)?  onPasswordChanged,TResult? Function()?  onPasswordFieldUnfocused,TResult? Function( String val)?  onConfirmPasswordChanged,TResult? Function()?  onConfirmPasswordFieldUnfocused,TResult? Function()?  onLoginTapped,TResult? Function()?  effectHandled,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String value)?  displayNameChanged,TResult? Function()?  displayNameFieldUnfocused,TResult? Function( String value)?  emailChanged,TResult? Function()?  emailFieldUnfocused,TResult? Function( String value)?  passwordChanged,TResult? Function()?  passwordFieldUnfocused,TResult? Function( String value)?  confirmPasswordChanged,TResult? Function()?  confirmPasswordFieldUnfocused,TResult? Function()?  submitRequested,TResult? Function()?  effectHandled,}) {final _that = this;
 switch (_that) {
-case _EventOnFirstNameChanged() when onFirstNameChanged != null:
-return onFirstNameChanged(_that.val);case _EventOnFirstNameFieldUnfocused() when onFirstNameFieldUnfocused != null:
-return onFirstNameFieldUnfocused();case _EventOnLastNameChanged() when onLastNameChanged != null:
-return onLastNameChanged(_that.val);case _EventOnLastNameFieldUnfocused() when onLastNameFieldUnfocused != null:
-return onLastNameFieldUnfocused();case _EventOnEmailChanged() when onEmailChanged != null:
-return onEmailChanged(_that.val);case _EventOnEmailFieldUnfocused() when onEmailFieldUnfocused != null:
-return onEmailFieldUnfocused();case _EventOnPasswordChanged() when onPasswordChanged != null:
-return onPasswordChanged(_that.val);case _EventOnPasswordFieldUnfocused() when onPasswordFieldUnfocused != null:
-return onPasswordFieldUnfocused();case _EventOnConfirmPasswordChanged() when onConfirmPasswordChanged != null:
-return onConfirmPasswordChanged(_that.val);case _EventOnConfirmPasswordFieldUnfocused() when onConfirmPasswordFieldUnfocused != null:
-return onConfirmPasswordFieldUnfocused();case _EventOnLoginTapped() when onLoginTapped != null:
-return onLoginTapped();case _EffectHandled() when effectHandled != null:
+case RegistrationDisplayNameChanged() when displayNameChanged != null:
+return displayNameChanged(_that.value);case RegistrationDisplayNameFieldUnfocused() when displayNameFieldUnfocused != null:
+return displayNameFieldUnfocused();case RegistrationEmailChanged() when emailChanged != null:
+return emailChanged(_that.value);case RegistrationEmailFieldUnfocused() when emailFieldUnfocused != null:
+return emailFieldUnfocused();case RegistrationPasswordChanged() when passwordChanged != null:
+return passwordChanged(_that.value);case RegistrationPasswordFieldUnfocused() when passwordFieldUnfocused != null:
+return passwordFieldUnfocused();case RegistrationConfirmPasswordChanged() when confirmPasswordChanged != null:
+return confirmPasswordChanged(_that.value);case RegistrationConfirmPasswordFieldUnfocused() when confirmPasswordFieldUnfocused != null:
+return confirmPasswordFieldUnfocused();case RegistrationSubmitRequested() when submitRequested != null:
+return submitRequested();case RegistrationEffectHandled() when effectHandled != null:
 return effectHandled();case _:
   return null;
 
@@ -488,43 +476,43 @@ return effectHandled();case _:
 /// @nodoc
 
 
-class _EventOnFirstNameChanged implements RegistrationEvent {
-  const _EventOnFirstNameChanged(this.val);
+class RegistrationDisplayNameChanged implements RegistrationEvent {
+  const RegistrationDisplayNameChanged(this.value);
   
 
- final  String val;
+ final  String value;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$EventOnFirstNameChangedCopyWith<_EventOnFirstNameChanged> get copyWith => __$EventOnFirstNameChangedCopyWithImpl<_EventOnFirstNameChanged>(this, _$identity);
+$RegistrationDisplayNameChangedCopyWith<RegistrationDisplayNameChanged> get copyWith => _$RegistrationDisplayNameChangedCopyWithImpl<RegistrationDisplayNameChanged>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnFirstNameChanged&&(identical(other.val, val) || other.val == val));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationDisplayNameChanged&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,val);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'RegistrationEvent.onFirstNameChanged(val: $val)';
+  return 'RegistrationEvent.displayNameChanged(value: $value)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$EventOnFirstNameChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
-  factory _$EventOnFirstNameChangedCopyWith(_EventOnFirstNameChanged value, $Res Function(_EventOnFirstNameChanged) _then) = __$EventOnFirstNameChangedCopyWithImpl;
+abstract mixin class $RegistrationDisplayNameChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
+  factory $RegistrationDisplayNameChangedCopyWith(RegistrationDisplayNameChanged value, $Res Function(RegistrationDisplayNameChanged) _then) = _$RegistrationDisplayNameChangedCopyWithImpl;
 @useResult
 $Res call({
- String val
+ String value
 });
 
 
@@ -532,18 +520,18 @@ $Res call({
 
 }
 /// @nodoc
-class __$EventOnFirstNameChangedCopyWithImpl<$Res>
-    implements _$EventOnFirstNameChangedCopyWith<$Res> {
-  __$EventOnFirstNameChangedCopyWithImpl(this._self, this._then);
+class _$RegistrationDisplayNameChangedCopyWithImpl<$Res>
+    implements $RegistrationDisplayNameChangedCopyWith<$Res> {
+  _$RegistrationDisplayNameChangedCopyWithImpl(this._self, this._then);
 
-  final _EventOnFirstNameChanged _self;
-  final $Res Function(_EventOnFirstNameChanged) _then;
+  final RegistrationDisplayNameChanged _self;
+  final $Res Function(RegistrationDisplayNameChanged) _then;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? val = null,}) {
-  return _then(_EventOnFirstNameChanged(
-null == val ? _self.val : val // ignore: cast_nullable_to_non_nullable
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(RegistrationDisplayNameChanged(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -554,8 +542,8 @@ as String,
 /// @nodoc
 
 
-class _EventOnFirstNameFieldUnfocused implements RegistrationEvent {
-  const _EventOnFirstNameFieldUnfocused();
+class RegistrationDisplayNameFieldUnfocused implements RegistrationEvent {
+  const RegistrationDisplayNameFieldUnfocused();
   
 
 
@@ -565,7 +553,7 @@ class _EventOnFirstNameFieldUnfocused implements RegistrationEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnFirstNameFieldUnfocused);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationDisplayNameFieldUnfocused);
 }
 
 
@@ -574,7 +562,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'RegistrationEvent.onFirstNameFieldUnfocused()';
+  return 'RegistrationEvent.displayNameFieldUnfocused()';
 }
 
 
@@ -586,43 +574,43 @@ String toString() {
 /// @nodoc
 
 
-class _EventOnLastNameChanged implements RegistrationEvent {
-  const _EventOnLastNameChanged(this.val);
+class RegistrationEmailChanged implements RegistrationEvent {
+  const RegistrationEmailChanged(this.value);
   
 
- final  String val;
+ final  String value;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$EventOnLastNameChangedCopyWith<_EventOnLastNameChanged> get copyWith => __$EventOnLastNameChangedCopyWithImpl<_EventOnLastNameChanged>(this, _$identity);
+$RegistrationEmailChangedCopyWith<RegistrationEmailChanged> get copyWith => _$RegistrationEmailChangedCopyWithImpl<RegistrationEmailChanged>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnLastNameChanged&&(identical(other.val, val) || other.val == val));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationEmailChanged&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,val);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'RegistrationEvent.onLastNameChanged(val: $val)';
+  return 'RegistrationEvent.emailChanged(value: $value)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$EventOnLastNameChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
-  factory _$EventOnLastNameChangedCopyWith(_EventOnLastNameChanged value, $Res Function(_EventOnLastNameChanged) _then) = __$EventOnLastNameChangedCopyWithImpl;
+abstract mixin class $RegistrationEmailChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
+  factory $RegistrationEmailChangedCopyWith(RegistrationEmailChanged value, $Res Function(RegistrationEmailChanged) _then) = _$RegistrationEmailChangedCopyWithImpl;
 @useResult
 $Res call({
- String val
+ String value
 });
 
 
@@ -630,18 +618,18 @@ $Res call({
 
 }
 /// @nodoc
-class __$EventOnLastNameChangedCopyWithImpl<$Res>
-    implements _$EventOnLastNameChangedCopyWith<$Res> {
-  __$EventOnLastNameChangedCopyWithImpl(this._self, this._then);
+class _$RegistrationEmailChangedCopyWithImpl<$Res>
+    implements $RegistrationEmailChangedCopyWith<$Res> {
+  _$RegistrationEmailChangedCopyWithImpl(this._self, this._then);
 
-  final _EventOnLastNameChanged _self;
-  final $Res Function(_EventOnLastNameChanged) _then;
+  final RegistrationEmailChanged _self;
+  final $Res Function(RegistrationEmailChanged) _then;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? val = null,}) {
-  return _then(_EventOnLastNameChanged(
-null == val ? _self.val : val // ignore: cast_nullable_to_non_nullable
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(RegistrationEmailChanged(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -652,8 +640,8 @@ as String,
 /// @nodoc
 
 
-class _EventOnLastNameFieldUnfocused implements RegistrationEvent {
-  const _EventOnLastNameFieldUnfocused();
+class RegistrationEmailFieldUnfocused implements RegistrationEvent {
+  const RegistrationEmailFieldUnfocused();
   
 
 
@@ -663,7 +651,7 @@ class _EventOnLastNameFieldUnfocused implements RegistrationEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnLastNameFieldUnfocused);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationEmailFieldUnfocused);
 }
 
 
@@ -672,7 +660,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'RegistrationEvent.onLastNameFieldUnfocused()';
+  return 'RegistrationEvent.emailFieldUnfocused()';
 }
 
 
@@ -684,43 +672,43 @@ String toString() {
 /// @nodoc
 
 
-class _EventOnEmailChanged implements RegistrationEvent {
-  const _EventOnEmailChanged(this.val);
+class RegistrationPasswordChanged implements RegistrationEvent {
+  const RegistrationPasswordChanged(this.value);
   
 
- final  String val;
+ final  String value;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$EventOnEmailChangedCopyWith<_EventOnEmailChanged> get copyWith => __$EventOnEmailChangedCopyWithImpl<_EventOnEmailChanged>(this, _$identity);
+$RegistrationPasswordChangedCopyWith<RegistrationPasswordChanged> get copyWith => _$RegistrationPasswordChangedCopyWithImpl<RegistrationPasswordChanged>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnEmailChanged&&(identical(other.val, val) || other.val == val));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationPasswordChanged&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,val);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'RegistrationEvent.onEmailChanged(val: $val)';
+  return 'RegistrationEvent.passwordChanged(value: $value)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$EventOnEmailChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
-  factory _$EventOnEmailChangedCopyWith(_EventOnEmailChanged value, $Res Function(_EventOnEmailChanged) _then) = __$EventOnEmailChangedCopyWithImpl;
+abstract mixin class $RegistrationPasswordChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
+  factory $RegistrationPasswordChangedCopyWith(RegistrationPasswordChanged value, $Res Function(RegistrationPasswordChanged) _then) = _$RegistrationPasswordChangedCopyWithImpl;
 @useResult
 $Res call({
- String val
+ String value
 });
 
 
@@ -728,18 +716,18 @@ $Res call({
 
 }
 /// @nodoc
-class __$EventOnEmailChangedCopyWithImpl<$Res>
-    implements _$EventOnEmailChangedCopyWith<$Res> {
-  __$EventOnEmailChangedCopyWithImpl(this._self, this._then);
+class _$RegistrationPasswordChangedCopyWithImpl<$Res>
+    implements $RegistrationPasswordChangedCopyWith<$Res> {
+  _$RegistrationPasswordChangedCopyWithImpl(this._self, this._then);
 
-  final _EventOnEmailChanged _self;
-  final $Res Function(_EventOnEmailChanged) _then;
+  final RegistrationPasswordChanged _self;
+  final $Res Function(RegistrationPasswordChanged) _then;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? val = null,}) {
-  return _then(_EventOnEmailChanged(
-null == val ? _self.val : val // ignore: cast_nullable_to_non_nullable
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(RegistrationPasswordChanged(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -750,8 +738,8 @@ as String,
 /// @nodoc
 
 
-class _EventOnEmailFieldUnfocused implements RegistrationEvent {
-  const _EventOnEmailFieldUnfocused();
+class RegistrationPasswordFieldUnfocused implements RegistrationEvent {
+  const RegistrationPasswordFieldUnfocused();
   
 
 
@@ -761,7 +749,7 @@ class _EventOnEmailFieldUnfocused implements RegistrationEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnEmailFieldUnfocused);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationPasswordFieldUnfocused);
 }
 
 
@@ -770,7 +758,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'RegistrationEvent.onEmailFieldUnfocused()';
+  return 'RegistrationEvent.passwordFieldUnfocused()';
 }
 
 
@@ -782,43 +770,43 @@ String toString() {
 /// @nodoc
 
 
-class _EventOnPasswordChanged implements RegistrationEvent {
-  const _EventOnPasswordChanged(this.val);
+class RegistrationConfirmPasswordChanged implements RegistrationEvent {
+  const RegistrationConfirmPasswordChanged(this.value);
   
 
- final  String val;
+ final  String value;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$EventOnPasswordChangedCopyWith<_EventOnPasswordChanged> get copyWith => __$EventOnPasswordChangedCopyWithImpl<_EventOnPasswordChanged>(this, _$identity);
+$RegistrationConfirmPasswordChangedCopyWith<RegistrationConfirmPasswordChanged> get copyWith => _$RegistrationConfirmPasswordChangedCopyWithImpl<RegistrationConfirmPasswordChanged>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnPasswordChanged&&(identical(other.val, val) || other.val == val));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationConfirmPasswordChanged&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,val);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'RegistrationEvent.onPasswordChanged(val: $val)';
+  return 'RegistrationEvent.confirmPasswordChanged(value: $value)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$EventOnPasswordChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
-  factory _$EventOnPasswordChangedCopyWith(_EventOnPasswordChanged value, $Res Function(_EventOnPasswordChanged) _then) = __$EventOnPasswordChangedCopyWithImpl;
+abstract mixin class $RegistrationConfirmPasswordChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
+  factory $RegistrationConfirmPasswordChangedCopyWith(RegistrationConfirmPasswordChanged value, $Res Function(RegistrationConfirmPasswordChanged) _then) = _$RegistrationConfirmPasswordChangedCopyWithImpl;
 @useResult
 $Res call({
- String val
+ String value
 });
 
 
@@ -826,18 +814,18 @@ $Res call({
 
 }
 /// @nodoc
-class __$EventOnPasswordChangedCopyWithImpl<$Res>
-    implements _$EventOnPasswordChangedCopyWith<$Res> {
-  __$EventOnPasswordChangedCopyWithImpl(this._self, this._then);
+class _$RegistrationConfirmPasswordChangedCopyWithImpl<$Res>
+    implements $RegistrationConfirmPasswordChangedCopyWith<$Res> {
+  _$RegistrationConfirmPasswordChangedCopyWithImpl(this._self, this._then);
 
-  final _EventOnPasswordChanged _self;
-  final $Res Function(_EventOnPasswordChanged) _then;
+  final RegistrationConfirmPasswordChanged _self;
+  final $Res Function(RegistrationConfirmPasswordChanged) _then;
 
 /// Create a copy of RegistrationEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? val = null,}) {
-  return _then(_EventOnPasswordChanged(
-null == val ? _self.val : val // ignore: cast_nullable_to_non_nullable
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(RegistrationConfirmPasswordChanged(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -848,8 +836,8 @@ as String,
 /// @nodoc
 
 
-class _EventOnPasswordFieldUnfocused implements RegistrationEvent {
-  const _EventOnPasswordFieldUnfocused();
+class RegistrationConfirmPasswordFieldUnfocused implements RegistrationEvent {
+  const RegistrationConfirmPasswordFieldUnfocused();
   
 
 
@@ -859,7 +847,7 @@ class _EventOnPasswordFieldUnfocused implements RegistrationEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnPasswordFieldUnfocused);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationConfirmPasswordFieldUnfocused);
 }
 
 
@@ -868,7 +856,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'RegistrationEvent.onPasswordFieldUnfocused()';
+  return 'RegistrationEvent.confirmPasswordFieldUnfocused()';
 }
 
 
@@ -880,74 +868,8 @@ String toString() {
 /// @nodoc
 
 
-class _EventOnConfirmPasswordChanged implements RegistrationEvent {
-  const _EventOnConfirmPasswordChanged(this.val);
-  
-
- final  String val;
-
-/// Create a copy of RegistrationEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$EventOnConfirmPasswordChangedCopyWith<_EventOnConfirmPasswordChanged> get copyWith => __$EventOnConfirmPasswordChangedCopyWithImpl<_EventOnConfirmPasswordChanged>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnConfirmPasswordChanged&&(identical(other.val, val) || other.val == val));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,val);
-
-@override
-String toString() {
-  return 'RegistrationEvent.onConfirmPasswordChanged(val: $val)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$EventOnConfirmPasswordChangedCopyWith<$Res> implements $RegistrationEventCopyWith<$Res> {
-  factory _$EventOnConfirmPasswordChangedCopyWith(_EventOnConfirmPasswordChanged value, $Res Function(_EventOnConfirmPasswordChanged) _then) = __$EventOnConfirmPasswordChangedCopyWithImpl;
-@useResult
-$Res call({
- String val
-});
-
-
-
-
-}
-/// @nodoc
-class __$EventOnConfirmPasswordChangedCopyWithImpl<$Res>
-    implements _$EventOnConfirmPasswordChangedCopyWith<$Res> {
-  __$EventOnConfirmPasswordChangedCopyWithImpl(this._self, this._then);
-
-  final _EventOnConfirmPasswordChanged _self;
-  final $Res Function(_EventOnConfirmPasswordChanged) _then;
-
-/// Create a copy of RegistrationEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? val = null,}) {
-  return _then(_EventOnConfirmPasswordChanged(
-null == val ? _self.val : val // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-
-}
-
-/// @nodoc
-
-
-class _EventOnConfirmPasswordFieldUnfocused implements RegistrationEvent {
-  const _EventOnConfirmPasswordFieldUnfocused();
+class RegistrationSubmitRequested implements RegistrationEvent {
+  const RegistrationSubmitRequested();
   
 
 
@@ -957,7 +879,7 @@ class _EventOnConfirmPasswordFieldUnfocused implements RegistrationEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnConfirmPasswordFieldUnfocused);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationSubmitRequested);
 }
 
 
@@ -966,7 +888,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'RegistrationEvent.onConfirmPasswordFieldUnfocused()';
+  return 'RegistrationEvent.submitRequested()';
 }
 
 
@@ -978,8 +900,8 @@ String toString() {
 /// @nodoc
 
 
-class _EventOnLoginTapped implements RegistrationEvent {
-  const _EventOnLoginTapped();
+class RegistrationEffectHandled implements RegistrationEvent {
+  const RegistrationEffectHandled();
   
 
 
@@ -989,39 +911,7 @@ class _EventOnLoginTapped implements RegistrationEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventOnLoginTapped);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'RegistrationEvent.onLoginTapped()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class _EffectHandled implements RegistrationEvent {
-  const _EffectHandled();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EffectHandled);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationEffectHandled);
 }
 
 
@@ -1042,7 +932,7 @@ String toString() {
 /// @nodoc
 mixin _$RegistrationState {
 
- RequiredField get firstNameField; RequiredField get lastNameField; EmailField get emailField; PasswordField get passwordField; ConfirmPasswordField get confirmPasswordField; bool get isLoading; RegistrationEffect? get effect;
+ String get inviteCode; RequiredField get displayNameField; EmailField get emailField; PasswordField get passwordField; ConfirmPasswordField get confirmPasswordField; bool get isLoading; RegistrationEffect? get effect;
 /// Create a copy of RegistrationState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1053,16 +943,16 @@ $RegistrationStateCopyWith<RegistrationState> get copyWith => _$RegistrationStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationState&&(identical(other.firstNameField, firstNameField) || other.firstNameField == firstNameField)&&(identical(other.lastNameField, lastNameField) || other.lastNameField == lastNameField)&&(identical(other.emailField, emailField) || other.emailField == emailField)&&(identical(other.passwordField, passwordField) || other.passwordField == passwordField)&&(identical(other.confirmPasswordField, confirmPasswordField) || other.confirmPasswordField == confirmPasswordField)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistrationState&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.displayNameField, displayNameField) || other.displayNameField == displayNameField)&&(identical(other.emailField, emailField) || other.emailField == emailField)&&(identical(other.passwordField, passwordField) || other.passwordField == passwordField)&&(identical(other.confirmPasswordField, confirmPasswordField) || other.confirmPasswordField == confirmPasswordField)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.effect, effect) || other.effect == effect));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,firstNameField,lastNameField,emailField,passwordField,confirmPasswordField,isLoading,effect);
+int get hashCode => Object.hash(runtimeType,inviteCode,displayNameField,emailField,passwordField,confirmPasswordField,isLoading,effect);
 
 @override
 String toString() {
-  return 'RegistrationState(firstNameField: $firstNameField, lastNameField: $lastNameField, emailField: $emailField, passwordField: $passwordField, confirmPasswordField: $confirmPasswordField, isLoading: $isLoading, effect: $effect)';
+  return 'RegistrationState(inviteCode: $inviteCode, displayNameField: $displayNameField, emailField: $emailField, passwordField: $passwordField, confirmPasswordField: $confirmPasswordField, isLoading: $isLoading, effect: $effect)';
 }
 
 
@@ -1073,7 +963,7 @@ abstract mixin class $RegistrationStateCopyWith<$Res>  {
   factory $RegistrationStateCopyWith(RegistrationState value, $Res Function(RegistrationState) _then) = _$RegistrationStateCopyWithImpl;
 @useResult
 $Res call({
- RequiredField firstNameField, RequiredField lastNameField, EmailField emailField, PasswordField passwordField, ConfirmPasswordField confirmPasswordField, bool isLoading, RegistrationEffect? effect
+ String inviteCode, RequiredField displayNameField, EmailField emailField, PasswordField passwordField, ConfirmPasswordField confirmPasswordField, bool isLoading, RegistrationEffect? effect
 });
 
 
@@ -1090,10 +980,10 @@ class _$RegistrationStateCopyWithImpl<$Res>
 
 /// Create a copy of RegistrationState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? firstNameField = null,Object? lastNameField = null,Object? emailField = null,Object? passwordField = null,Object? confirmPasswordField = null,Object? isLoading = null,Object? effect = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? inviteCode = null,Object? displayNameField = null,Object? emailField = null,Object? passwordField = null,Object? confirmPasswordField = null,Object? isLoading = null,Object? effect = freezed,}) {
   return _then(_self.copyWith(
-firstNameField: null == firstNameField ? _self.firstNameField : firstNameField // ignore: cast_nullable_to_non_nullable
-as RequiredField,lastNameField: null == lastNameField ? _self.lastNameField : lastNameField // ignore: cast_nullable_to_non_nullable
+inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String,displayNameField: null == displayNameField ? _self.displayNameField : displayNameField // ignore: cast_nullable_to_non_nullable
 as RequiredField,emailField: null == emailField ? _self.emailField : emailField // ignore: cast_nullable_to_non_nullable
 as EmailField,passwordField: null == passwordField ? _self.passwordField : passwordField // ignore: cast_nullable_to_non_nullable
 as PasswordField,confirmPasswordField: null == confirmPasswordField ? _self.confirmPasswordField : confirmPasswordField // ignore: cast_nullable_to_non_nullable
@@ -1196,10 +1086,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RequiredField firstNameField,  RequiredField lastNameField,  EmailField emailField,  PasswordField passwordField,  ConfirmPasswordField confirmPasswordField,  bool isLoading,  RegistrationEffect? effect)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String inviteCode,  RequiredField displayNameField,  EmailField emailField,  PasswordField passwordField,  ConfirmPasswordField confirmPasswordField,  bool isLoading,  RegistrationEffect? effect)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RegistrationState() when $default != null:
-return $default(_that.firstNameField,_that.lastNameField,_that.emailField,_that.passwordField,_that.confirmPasswordField,_that.isLoading,_that.effect);case _:
+return $default(_that.inviteCode,_that.displayNameField,_that.emailField,_that.passwordField,_that.confirmPasswordField,_that.isLoading,_that.effect);case _:
   return orElse();
 
 }
@@ -1217,10 +1107,10 @@ return $default(_that.firstNameField,_that.lastNameField,_that.emailField,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RequiredField firstNameField,  RequiredField lastNameField,  EmailField emailField,  PasswordField passwordField,  ConfirmPasswordField confirmPasswordField,  bool isLoading,  RegistrationEffect? effect)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String inviteCode,  RequiredField displayNameField,  EmailField emailField,  PasswordField passwordField,  ConfirmPasswordField confirmPasswordField,  bool isLoading,  RegistrationEffect? effect)  $default,) {final _that = this;
 switch (_that) {
 case _RegistrationState():
-return $default(_that.firstNameField,_that.lastNameField,_that.emailField,_that.passwordField,_that.confirmPasswordField,_that.isLoading,_that.effect);case _:
+return $default(_that.inviteCode,_that.displayNameField,_that.emailField,_that.passwordField,_that.confirmPasswordField,_that.isLoading,_that.effect);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1237,10 +1127,10 @@ return $default(_that.firstNameField,_that.lastNameField,_that.emailField,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RequiredField firstNameField,  RequiredField lastNameField,  EmailField emailField,  PasswordField passwordField,  ConfirmPasswordField confirmPasswordField,  bool isLoading,  RegistrationEffect? effect)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String inviteCode,  RequiredField displayNameField,  EmailField emailField,  PasswordField passwordField,  ConfirmPasswordField confirmPasswordField,  bool isLoading,  RegistrationEffect? effect)?  $default,) {final _that = this;
 switch (_that) {
 case _RegistrationState() when $default != null:
-return $default(_that.firstNameField,_that.lastNameField,_that.emailField,_that.passwordField,_that.confirmPasswordField,_that.isLoading,_that.effect);case _:
+return $default(_that.inviteCode,_that.displayNameField,_that.emailField,_that.passwordField,_that.confirmPasswordField,_that.isLoading,_that.effect);case _:
   return null;
 
 }
@@ -1252,11 +1142,11 @@ return $default(_that.firstNameField,_that.lastNameField,_that.emailField,_that.
 
 
 class _RegistrationState implements RegistrationState {
-  const _RegistrationState({required this.firstNameField, required this.lastNameField, required this.emailField, required this.passwordField, required this.confirmPasswordField, this.isLoading = false, this.effect});
+  const _RegistrationState({required this.inviteCode, required this.displayNameField, required this.emailField, required this.passwordField, required this.confirmPasswordField, this.isLoading = false, this.effect});
   
 
-@override final  RequiredField firstNameField;
-@override final  RequiredField lastNameField;
+@override final  String inviteCode;
+@override final  RequiredField displayNameField;
 @override final  EmailField emailField;
 @override final  PasswordField passwordField;
 @override final  ConfirmPasswordField confirmPasswordField;
@@ -1273,16 +1163,16 @@ _$RegistrationStateCopyWith<_RegistrationState> get copyWith => __$RegistrationS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegistrationState&&(identical(other.firstNameField, firstNameField) || other.firstNameField == firstNameField)&&(identical(other.lastNameField, lastNameField) || other.lastNameField == lastNameField)&&(identical(other.emailField, emailField) || other.emailField == emailField)&&(identical(other.passwordField, passwordField) || other.passwordField == passwordField)&&(identical(other.confirmPasswordField, confirmPasswordField) || other.confirmPasswordField == confirmPasswordField)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.effect, effect) || other.effect == effect));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegistrationState&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.displayNameField, displayNameField) || other.displayNameField == displayNameField)&&(identical(other.emailField, emailField) || other.emailField == emailField)&&(identical(other.passwordField, passwordField) || other.passwordField == passwordField)&&(identical(other.confirmPasswordField, confirmPasswordField) || other.confirmPasswordField == confirmPasswordField)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.effect, effect) || other.effect == effect));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,firstNameField,lastNameField,emailField,passwordField,confirmPasswordField,isLoading,effect);
+int get hashCode => Object.hash(runtimeType,inviteCode,displayNameField,emailField,passwordField,confirmPasswordField,isLoading,effect);
 
 @override
 String toString() {
-  return 'RegistrationState(firstNameField: $firstNameField, lastNameField: $lastNameField, emailField: $emailField, passwordField: $passwordField, confirmPasswordField: $confirmPasswordField, isLoading: $isLoading, effect: $effect)';
+  return 'RegistrationState(inviteCode: $inviteCode, displayNameField: $displayNameField, emailField: $emailField, passwordField: $passwordField, confirmPasswordField: $confirmPasswordField, isLoading: $isLoading, effect: $effect)';
 }
 
 
@@ -1293,7 +1183,7 @@ abstract mixin class _$RegistrationStateCopyWith<$Res> implements $RegistrationS
   factory _$RegistrationStateCopyWith(_RegistrationState value, $Res Function(_RegistrationState) _then) = __$RegistrationStateCopyWithImpl;
 @override @useResult
 $Res call({
- RequiredField firstNameField, RequiredField lastNameField, EmailField emailField, PasswordField passwordField, ConfirmPasswordField confirmPasswordField, bool isLoading, RegistrationEffect? effect
+ String inviteCode, RequiredField displayNameField, EmailField emailField, PasswordField passwordField, ConfirmPasswordField confirmPasswordField, bool isLoading, RegistrationEffect? effect
 });
 
 
@@ -1310,10 +1200,10 @@ class __$RegistrationStateCopyWithImpl<$Res>
 
 /// Create a copy of RegistrationState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? firstNameField = null,Object? lastNameField = null,Object? emailField = null,Object? passwordField = null,Object? confirmPasswordField = null,Object? isLoading = null,Object? effect = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? inviteCode = null,Object? displayNameField = null,Object? emailField = null,Object? passwordField = null,Object? confirmPasswordField = null,Object? isLoading = null,Object? effect = freezed,}) {
   return _then(_RegistrationState(
-firstNameField: null == firstNameField ? _self.firstNameField : firstNameField // ignore: cast_nullable_to_non_nullable
-as RequiredField,lastNameField: null == lastNameField ? _self.lastNameField : lastNameField // ignore: cast_nullable_to_non_nullable
+inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String,displayNameField: null == displayNameField ? _self.displayNameField : displayNameField // ignore: cast_nullable_to_non_nullable
 as RequiredField,emailField: null == emailField ? _self.emailField : emailField // ignore: cast_nullable_to_non_nullable
 as EmailField,passwordField: null == passwordField ? _self.passwordField : passwordField // ignore: cast_nullable_to_non_nullable
 as PasswordField,confirmPasswordField: null == confirmPasswordField ? _self.confirmPasswordField : confirmPasswordField // ignore: cast_nullable_to_non_nullable

@@ -2,26 +2,28 @@ import 'package:flutter/foundation.dart';
 
 import 'package:shared_domain/src/message_content_type.dart';
 
+/// Секция строки домашнего списка.
+enum InterlocutorSection { pinned, contacts }
+
 @immutable
 final class Interlocutor {
   const Interlocutor({
     required this.userId,
-    required this.firstName,
-    required this.lastName,
+    required this.displayName,
     this.lastSentContent,
     this.lastSentContentType,
     this.lastSentAt,
     this.isSentByYou,
+    this.section = InterlocutorSection.contacts,
+    this.isPinned = false,
+    this.nestedUnreadContactCount = 0,
   });
 
   /// Идентификатор пользователя-собеседника.
   final String userId;
 
-  /// Имя пользователя-собеседника.
-  final String firstName;
-
-  /// Фамилия пользователя-собеседника.
-  final String lastName;
+  /// Отображаемое имя пользователя-собеседника.
+  final String displayName;
 
   /// Контент последнего сообщения
   /// (может быть null если переписка не начата).
@@ -38,6 +40,10 @@ final class Interlocutor {
   /// Флаг, указывающий, отправлено ли последнее сообщение вами
   /// (может быть null если переписка не начата).
   final bool? isSentByYou;
+
+  final InterlocutorSection section;
+  final bool isPinned;
+  final int nestedUnreadContactCount;
 
   // ---------------------------------------------------------------------------
   @override

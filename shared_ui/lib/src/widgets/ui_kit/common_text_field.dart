@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/theme/app_icons.dart';
 import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
 import 'package:shared_ui/src/values/values.dart';
 
@@ -123,6 +124,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
   late String? _errorText;
   late bool _error;
   late AppColorsTheme _colors;
+  bool _obscurePassword = true;
 
   InputBorder get _regularBorder => OutlineInputBorder(
     borderRadius: BorderRadius.circular(Values.textFieldBorderRadius),
@@ -150,6 +152,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
       ..addListener(_textControllerListener);
     _errorText = widget.validationErrorText;
     _error = widget.validationError;
+    _obscurePassword = widget.isPassword;
   }
 
   @override
@@ -210,7 +213,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
       textAlign: widget.align,
       // в используемом шрифте символ \u2022 постоянно прыгает при вводе
       obscuringCharacter: '\u2055',
-      obscureText: widget.isPassword,
+      obscureText: widget.isPassword && _obscurePassword,
       controller: _textController,
       readOnly: widget.readOnly,
       onTap: widget.onTap,
@@ -247,11 +250,18 @@ class _CommonEditFieldState extends State<CommonEditField> {
         labelText: widget.hintText,
         labelStyle: context.hint,
         prefixIcon: widget.prefix,
-        suffixIcon: widget.onClearTapped == null || _textController.text.isEmpty
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                icon: (_obscurePassword ? AppIcons.eyeClosed : AppIcons.eyeOpened)(
+                  color: context.colors.icon.main,
+                ),
+              )
+            : widget.onClearTapped == null || _textController.text.isEmpty
             ? null
             : IconButton(
                 onPressed: _onClearTapped,
-                icon: Icon(Icons.close_rounded, color: context.colors.icon.main),
+                icon: AppIcons.close(color: context.colors.icon.main),
               ),
         border: _error ? _errorBorder : _regularBorder,
         disabledBorder: _error ? _errorBorder : _regularBorder,

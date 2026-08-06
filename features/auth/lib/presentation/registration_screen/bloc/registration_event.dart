@@ -2,41 +2,26 @@ part of 'registration_bloc.dart';
 
 @freezed
 sealed class RegistrationEvent with _$RegistrationEvent {
-  /// ВНЕШНЕЕ событие "изменился тест в поле Имени"
-  const factory RegistrationEvent.onFirstNameChanged(String val) = _EventOnFirstNameChanged;
+  const factory RegistrationEvent.displayNameChanged(String value) = RegistrationDisplayNameChanged;
 
-  /// ВНЕШНЕЕ событие "поле ввода Имени потеряло фокус"
-  const factory RegistrationEvent.onFirstNameFieldUnfocused() = _EventOnFirstNameFieldUnfocused;
+  const factory RegistrationEvent.displayNameFieldUnfocused() =
+      RegistrationDisplayNameFieldUnfocused;
 
-  /// ВНЕШНЕЕ событие "изменился тест в поле Фамилии"
-  const factory RegistrationEvent.onLastNameChanged(String val) = _EventOnLastNameChanged;
+  const factory RegistrationEvent.emailChanged(String value) = RegistrationEmailChanged;
 
-  /// ВНЕШНЕЕ событие "поле ввода Фамилии потеряло фокус"
-  const factory RegistrationEvent.onLastNameFieldUnfocused() = _EventOnLastNameFieldUnfocused;
+  const factory RegistrationEvent.emailFieldUnfocused() = RegistrationEmailFieldUnfocused;
 
-  /// ВНЕШНЕЕ событие "изменился тест в поле логина"
-  const factory RegistrationEvent.onEmailChanged(String val) = _EventOnEmailChanged;
+  const factory RegistrationEvent.passwordChanged(String value) = RegistrationPasswordChanged;
 
-  /// ВНЕШНЕЕ событие "поле ввода логина потеряло фокус"
-  const factory RegistrationEvent.onEmailFieldUnfocused() = _EventOnEmailFieldUnfocused;
+  const factory RegistrationEvent.passwordFieldUnfocused() = RegistrationPasswordFieldUnfocused;
 
-  /// ВНЕШНЕЕ событие "изменился тест в поле ввода пароля"
-  const factory RegistrationEvent.onPasswordChanged(String val) = _EventOnPasswordChanged;
+  const factory RegistrationEvent.confirmPasswordChanged(String value) =
+      RegistrationConfirmPasswordChanged;
 
-  /// ВНЕШНЕЕ событие "поле ввода пароля потеряло фокус"
-  const factory RegistrationEvent.onPasswordFieldUnfocused() = _EventOnPasswordFieldUnfocused;
+  const factory RegistrationEvent.confirmPasswordFieldUnfocused() =
+      RegistrationConfirmPasswordFieldUnfocused;
 
-  /// ВНЕШНЕЕ событие "изменился тест в поле повтора пароля"
-  const factory RegistrationEvent.onConfirmPasswordChanged(String val) =
-      _EventOnConfirmPasswordChanged;
+  const factory RegistrationEvent.submitRequested() = RegistrationSubmitRequested;
 
-  /// ВНЕШНЕЕ событие "поле повтора пароля потеряло фокус"
-  const factory RegistrationEvent.onConfirmPasswordFieldUnfocused() =
-      _EventOnConfirmPasswordFieldUnfocused;
-
-  /// ВНЕШНЕЕ событие "нажата кнопка залогиниться"
-  const factory RegistrationEvent.onLoginTapped() = _EventOnLoginTapped;
-
-  /// Сброс обработанного UI-эффекта
-  const factory RegistrationEvent.effectHandled() = _EffectHandled;
+  const factory RegistrationEvent.effectHandled() = RegistrationEffectHandled;
 }

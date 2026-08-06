@@ -29,14 +29,14 @@ void main() {
   LoginBloc buildBloc() => LoginBloc(authRepository, errorHandler);
 
   blocTest<LoginBloc, LoginState>(
-    'registrationRequested emits navigateRegistration effect',
+    'registrationRequested emits navigateInviteCode effect',
     build: buildBloc,
     act: (LoginBloc bloc) => bloc.add(const LoginEvent.registrationRequested()),
     expect: () => <TypeMatcher<LoginState>>[
       isA<LoginState>().having(
         (LoginState s) => s.effect,
         'effect',
-        const LoginEffect.navigateRegistration(),
+        const LoginEffect.navigateInviteCode(),
       ),
     ],
   );

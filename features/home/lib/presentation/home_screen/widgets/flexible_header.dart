@@ -68,7 +68,6 @@ class FlexibleHeader extends StatelessWidget {
                 hintText: context.texts.homeSearchHint,
               ),
             ),
-            Divider(height: Values.dividerThickness, color: context.colors.border.main),
           ],
         ),
       ),

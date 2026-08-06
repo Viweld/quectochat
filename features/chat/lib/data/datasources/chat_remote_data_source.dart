@@ -40,5 +40,8 @@ abstract interface class ChatRemoteDataSource {
   /// Clears the active-chat heartbeat row for this user.
   Future<void> clearActiveChat();
 
+  /// Deletes all messages in the chat with [interlocutorId].
+  Future<void> clearChat({required String interlocutorId});
+
   Stream<bool> get typingStatusStream;
 }

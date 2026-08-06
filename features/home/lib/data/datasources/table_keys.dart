@@ -2,10 +2,11 @@
 abstract final class TableKeys {
   static const String profiles = 'profiles';
   static const String messages = 'messages';
-  static const String getConversations = 'get_conversations';
+  static const String getHomeFeed = 'get_home_feed';
+  static const String getNestedContacts = 'get_nested_contacts';
+  static const String getCurrentUserProfile = 'get_current_user_profile';
   static const String profileId = 'id';
-  static const String profileFirstName = 'first_name';
-  static const String profileLastName = 'last_name';
+  static const String profileDisplayName = 'display_name';
   static const String messageChatId = 'chat_id';
   static const String messageFromId = 'from_id';
   static const String messageToId = 'to_id';

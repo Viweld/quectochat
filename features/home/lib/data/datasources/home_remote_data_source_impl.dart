@@ -15,23 +15,15 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   final SupabaseClient _client;
 
-  static const int _interlocutorsPaginationLimit = 20;
   static const int _directoryRealtimeLimit = 100;
 
   String get _currentUserId => _client.auth.currentUser?.id ?? '';
 
   @override
   Future<Paginated<InterlocutorDto>> getInterlocutors({String? lastInterlocutorId}) async {
-    final List<InterlocutorDto> sortedUsers = await _loadDirectory(
-      limit: _interlocutorsPaginationLimit,
-      lastInterlocutorId: lastInterlocutorId,
-    );
-    final bool hasNext = sortedUsers.length > _interlocutorsPaginationLimit;
-
-    return Paginated<InterlocutorDto>(
-      hasNext: hasNext,
-      result: hasNext ? sortedUsers.sublist(0, _interlocutorsPaginationLimit) : sortedUsers,
-    );
+    final List<InterlocutorDto> feed = await _loadHomeFeed();
+    // Home feed is a closed circle — no classic pagination cursor yet.
+    return Paginated<InterlocutorDto>(hasNext: false, result: feed);
   }
 
   @override
@@ -40,13 +32,9 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     if (userId.isEmpty) return null;
 
     try {
-      final Map<String, dynamic>? row = await _client
-          .from(TableKeys.profiles)
-          .select()
-          .eq(TableKeys.profileId, userId)
-          .maybeSingle();
-
-      return row == null ? null : UserDto.fromJson(row);
+      final List<dynamic> rows = await _client.rpc(TableKeys.getCurrentUserProfile);
+      if (rows.isEmpty) return null;
+      return UserDto.fromJson(Map<String, dynamic>.from(rows.first as Map<dynamic, dynamic>));
     } on Object catch (cause, stackTrace) {
       Error.throwWithStackTrace(
         _mapTransportException(cause, operation: 'home.getCurrentUser'),
@@ -58,17 +46,12 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<Iterable<InterlocutorDto>> searchInterlocutors({required String searchText}) async {
     try {
-      final String pattern = '%$searchText%';
-      final List<Map<String, dynamic>> rows = await _client
-          .from(TableKeys.profiles)
-          .select()
-          .neq(TableKeys.profileId, _currentUserId)
-          .or(
-            '${TableKeys.profileFirstName}.ilike.$pattern,'
-            '${TableKeys.profileLastName}.ilike.$pattern',
-          );
-
-      return rows.map((Map<String, dynamic> row) => InterlocutorDto(user: UserDto.fromJson(row)));
+      final List<InterlocutorDto> feed = await _loadHomeFeed();
+      final String needle = searchText.trim().toLowerCase();
+      if (needle.isEmpty) return feed;
+      return feed.where(
+        (InterlocutorDto dto) => dto.user.displayName.toLowerCase().contains(needle),
+      );
     } on Object catch (cause, stackTrace) {
       Error.throwWithStackTrace(
         _mapTransportException(cause, operation: 'home.searchInterlocutors'),
@@ -86,9 +69,7 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     Future<void> refresh() async {
       if (controller.isClosed) return;
       try {
-        final List<InterlocutorDto> directory = await _loadDirectory(
-          limit: _directoryRealtimeLimit,
-        );
+        final List<InterlocutorDto> directory = await _loadHomeFeed();
         if (!controller.isClosed) {
           controller.add(directory.toSet());
         }
@@ -133,97 +114,65 @@ final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   @override
-  Future<void> clearChat({required String interlocutorId}) async {
+  Future<List<InterlocutorDto>> getNestedContacts({required String anchorUserId}) async {
     try {
-      final String chatId = DeterministicId.fromParts(<String>[_currentUserId, interlocutorId]);
-      await _client.from(TableKeys.messages).delete().eq(TableKeys.messageChatId, chatId);
+      final List<dynamic> rows = await _client.rpc(
+        TableKeys.getNestedContacts,
+        params: <String, Object?>{'p_anchor_user_id': anchorUserId},
+      );
+      return rows
+          .cast<Map<String, dynamic>>()
+          .map(_mapNestedRow)
+          .take(_directoryRealtimeLimit)
+          .toList();
     } on Object catch (cause, stackTrace) {
       Error.throwWithStackTrace(
-        _mapTransportException(cause, operation: 'home.clearChat'),
+        _mapTransportException(cause, operation: 'home.getNestedContacts'),
         stackTrace,
       );
     }
   }
 
-  /// Conversations with last message first, then remaining profiles (no chat yet).
-  Future<List<InterlocutorDto>> _loadDirectory({
-    required int limit,
-    String? lastInterlocutorId,
-  }) async {
+  Future<List<InterlocutorDto>> _loadHomeFeed() async {
     try {
-      return await _loadDirectoryUnsafe(limit: limit, lastInterlocutorId: lastInterlocutorId);
+      final List<dynamic> rows = await _client.rpc(TableKeys.getHomeFeed);
+      return rows.cast<Map<String, dynamic>>().map(_mapHomeFeedRow).toList();
     } on Object catch (cause, stackTrace) {
       Error.throwWithStackTrace(
-        _mapTransportException(cause, operation: 'home.loadDirectory'),
+        _mapTransportException(cause, operation: 'home.loadHomeFeed'),
         stackTrace,
       );
     }
   }
 
-  Future<List<InterlocutorDto>> _loadDirectoryUnsafe({
-    required int limit,
-    String? lastInterlocutorId,
-  }) async {
-    final List<dynamic> conversationRows = await _client.rpc(
-      TableKeys.getConversations,
-      params: <String, Object?>{'p_limit': limit + 1, 'p_offset': 0},
-    );
-
-    final List<InterlocutorDto> withMessages = conversationRows
-        .cast<Map<String, dynamic>>()
-        .where((Map<String, dynamic> row) => (row['partner_id'] as String) != _currentUserId)
-        .map(_mapConversationRow)
-        .toList();
-
-    final Set<String> interlocutorIdsWithMessages = withMessages
-        .map((InterlocutorDto dto) => dto.user.userId)
-        .toSet();
-
-    PostgrestTransformBuilder<PostgrestList> profilesQuery = _client
-        .from(TableKeys.profiles)
-        .select()
-        .neq(TableKeys.profileId, _currentUserId)
-        .order(TableKeys.profileFirstName)
-        .limit(limit + 1);
-
-    if (lastInterlocutorId != null) {
-      final Map<String, dynamic>? cursor = await _client
-          .from(TableKeys.profiles)
-          .select()
-          .eq(TableKeys.profileId, lastInterlocutorId)
-          .maybeSingle();
-      final String? cursorName = cursor?[TableKeys.profileFirstName] as String?;
-      if (cursorName != null) {
-        profilesQuery = _client
-            .from(TableKeys.profiles)
-            .select()
-            .neq(TableKeys.profileId, _currentUserId)
-            .gt(TableKeys.profileFirstName, cursorName)
-            .order(TableKeys.profileFirstName)
-            .limit(limit + 1);
-      }
-    }
-
-    final List<Map<String, dynamic>> profileRows = await profilesQuery;
-    final List<InterlocutorDto> withoutMessages = profileRows
-        .where(
-          (Map<String, dynamic> row) =>
-              !interlocutorIdsWithMessages.contains(row[TableKeys.profileId]),
-        )
-        .map((Map<String, dynamic> row) => InterlocutorDto(user: UserDto.fromJson(row)))
-        .toList();
-
-    return <InterlocutorDto>[...withMessages, ...withoutMessages];
-  }
-
-  InterlocutorDto _mapConversationRow(Map<String, dynamic> row) {
+  InterlocutorDto _mapHomeFeedRow(Map<String, dynamic> row) {
     return InterlocutorDto(
-      user: UserDto(
-        userId: row['partner_id'] as String,
-        firstName: row['first_name'] as String,
-        lastName: row['last_name'] as String,
-      ),
-      lastMessage: MessagePreviewDto.fromJson(row),
+      user: UserDto(userId: row['user_id'] as String, displayName: row['display_name'] as String),
+      section: row['section'] as String? ?? 'contacts',
+      isPinned: row['is_pinned'] as bool? ?? false,
+      nestedUnreadContactCount: (row['nested_unread_contact_count'] as num?)?.toInt() ?? 0,
+      lastMessage: row['last_created_at'] == null
+          ? null
+          : MessagePreviewDto(
+              content: row['last_content'] as String? ?? '',
+              type: row['last_type'] as String? ?? 'text',
+              createdAt: DateTime.parse(row['last_created_at'] as String),
+              fromId: row['last_from_id'] as String? ?? '',
+            ),
+    );
+  }
+
+  InterlocutorDto _mapNestedRow(Map<String, dynamic> row) {
+    return InterlocutorDto(
+      user: UserDto(userId: row['user_id'] as String, displayName: row['display_name'] as String),
+      lastMessage: row['last_created_at'] == null
+          ? null
+          : MessagePreviewDto(
+              content: row['last_content'] as String? ?? '',
+              type: row['last_type'] as String? ?? 'text',
+              createdAt: DateTime.parse(row['last_created_at'] as String),
+              fromId: row['last_from_id'] as String? ?? '',
+            ),
     );
   }
 

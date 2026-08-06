@@ -13,5 +13,5 @@ abstract interface class HomeRemoteDataSource {
 
   Stream<Set<InterlocutorDto>> getActualInterlocutors();
 
-  Future<void> clearChat({required String interlocutorId});
+  Future<List<InterlocutorDto>> getNestedContacts({required String anchorUserId});
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:auth/data/datasources/auth_remote_data_source.dart';
 import 'package:auth/data/datasources/table_keys.dart';
 import 'package:auth/data/dto/user_dto.dart';
+import 'package:auth/domain/entities/invitation_failure.dart';
 import 'package:auth/domain/entities/login_failure.dart';
 import 'package:auth/domain/entities/registration_failure.dart';
 import 'package:shared_core/core.dart' hide AuthException;
@@ -47,10 +48,10 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> registration({
-    required String firstName,
-    required String lastName,
+    required String displayName,
     required String email,
     required String password,
+    required String inviteCode,
   }) async {
     try {
       final AuthResponse response = await _client.auth.signUp(email: email, password: password);
@@ -60,8 +61,12 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         Error.throwWithStackTrace('Registration failed', StackTrace.current);
       }
 
-      final UserDto userDto = UserDto(firstName: firstName, lastName: lastName);
+      final UserDto userDto = UserDto(displayName: displayName);
       await _client.from(TableKeys.profiles).upsert(userDto.toJson(userId: userId));
+      await _client.rpc(
+        TableKeys.redeemInvitation,
+        params: <String, Object?>{'p_code': inviteCode},
+      );
     } on RegistrationFailure {
       rethrow;
     } on AuthException catch (error) {
@@ -74,6 +79,46 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw _mapRegistrationPostgrestFailure(error);
     } on Object catch (error, stackTrace) {
       throw _mapOrRethrowRegistrationTransportFailure(error, stackTrace);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> validateInvitation({required String code}) async {
+    try {
+      final List<dynamic> rows = await _client.rpc(
+        TableKeys.validateInvitation,
+        params: <String, Object?>{'p_code': code},
+      );
+      if (rows.isEmpty) {
+        throw const InvitationNotFoundFailure();
+      }
+      return Map<String, dynamic>.from(rows.first as Map<dynamic, dynamic>);
+    } on InvitationFailure {
+      rethrow;
+    } on PostgrestException catch (error) {
+      throw _mapInvitationPostgrestFailure(error);
+    } on Object catch (error, stackTrace) {
+      throw _mapOrRethrowInvitationTransportFailure(error, stackTrace);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> createInvitation({required String targetRole}) async {
+    try {
+      final List<dynamic> rows = await _client.rpc(
+        TableKeys.createInvitation,
+        params: <String, Object?>{'p_target_role': targetRole},
+      );
+      if (rows.isEmpty) {
+        throw const InvitationBackendFailure();
+      }
+      return Map<String, dynamic>.from(rows.first as Map<dynamic, dynamic>);
+    } on InvitationFailure {
+      rethrow;
+    } on PostgrestException catch (error) {
+      throw _mapInvitationPostgrestFailure(error);
+    } on Object catch (error, stackTrace) {
+      throw _mapOrRethrowInvitationTransportFailure(error, stackTrace);
     }
   }
 
@@ -151,6 +196,15 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   RegistrationFailure _mapRegistrationPostgrestFailure(PostgrestException error) {
+    final String combined = '${error.code} ${error.message} ${error.details}'.toLowerCase();
+    if (combined.contains('invitation') ||
+        combined.contains('expired') ||
+        combined.contains('revoked') ||
+        combined.contains('already used') ||
+        combined.contains('not found')) {
+      return const InvalidInviteFailure();
+    }
+
     final TransportErrorKind transportKind = classifyTransportFailureText(
       '${error.code} ${error.message} ${error.details}',
     );
@@ -169,6 +223,30 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const RegistrationNetworkFailure();
       case TransportErrorKind.server:
         throw const RegistrationBackendFailure();
+      case TransportErrorKind.other:
+        Error.throwWithStackTrace(error, stackTrace);
+    }
+  }
+
+  InvitationFailure _mapInvitationPostgrestFailure(PostgrestException error) {
+    final TransportErrorKind transportKind = classifyTransportFailureText(
+      '${error.code} ${error.message} ${error.details}',
+    );
+    return switch (transportKind) {
+      TransportErrorKind.network => const InvitationNetworkFailure(),
+      TransportErrorKind.server => const InvitationBackendFailure(),
+      TransportErrorKind.other => InvitationGenericFailure(
+        message: '${error.code}: ${error.message}',
+      ),
+    };
+  }
+
+  Never _mapOrRethrowInvitationTransportFailure(Object error, StackTrace stackTrace) {
+    switch (classifyTransportError(error)) {
+      case TransportErrorKind.network:
+        throw const InvitationNetworkFailure();
+      case TransportErrorKind.server:
+        throw const InvitationBackendFailure();
       case TransportErrorKind.other:
         Error.throwWithStackTrace(error, stackTrace);
     }

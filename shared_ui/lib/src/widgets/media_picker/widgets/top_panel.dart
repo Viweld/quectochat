@@ -38,7 +38,7 @@ class _TopPickerPanel extends StatelessWidget {
               width: 56,
               child: IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.close, color: context.colors.icon.main),
+                icon: AppIcons.close(color: context.colors.icon.main),
               ),
             ),
           ],

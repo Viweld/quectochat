@@ -26,29 +26,34 @@ void main() {
 
   tearDown(() => toastBus.dispose());
 
-  RegistrationBloc buildBloc() => RegistrationBloc(authRepository, errorHandler);
+  RegistrationBloc buildBloc() =>
+      RegistrationBloc(authRepository, errorHandler, inviteCode: '7MFKRQ3P');
 
   blocTest<RegistrationBloc, RegistrationState>(
-    'onLoginTapped with empty fields shows validation errors',
+    'submitRequested with empty fields shows validation errors',
     build: buildBloc,
-    act: (RegistrationBloc bloc) => bloc.add(const RegistrationEvent.onLoginTapped()),
+    act: (RegistrationBloc bloc) => bloc.add(const RegistrationEvent.submitRequested()),
     expect: () => <TypeMatcher<RegistrationState>>[
       isA<RegistrationState>()
-          .having((RegistrationState s) => s.firstNameField.isErrorVisible, 'firstName', isTrue)
-          .having((RegistrationState s) => s.lastNameField.isErrorVisible, 'lastName', isTrue),
+          .having(
+            (RegistrationState s) => s.displayNameField.isErrorVisible,
+            'displayName',
+            isTrue,
+          )
+          .having((RegistrationState s) => s.emailField.isErrorVisible, 'email', isTrue),
     ],
   );
 
   blocTest<RegistrationBloc, RegistrationState>(
-    'onLoginTapped with email already used emits showError',
+    'submitRequested with email already used emits showError',
     build: buildBloc,
     setUp: () {
       when(
         () => authRepository.registration(
-          firstName: any(named: 'firstName'),
-          lastName: any(named: 'lastName'),
+          displayName: any(named: 'displayName'),
           email: any(named: 'email'),
           password: any(named: 'password'),
+          inviteCode: any(named: 'inviteCode'),
         ),
       ).thenAnswer(
         (Invocation _) async => const Failure<void, RegistrationFailure>(EmailAlreadyUsedFailure()),
@@ -56,14 +61,13 @@ void main() {
     },
     act: (RegistrationBloc bloc) {
       bloc
-        ..add(const RegistrationEvent.onFirstNameChanged('Ivan'))
-        ..add(const RegistrationEvent.onLastNameChanged('Petrov'))
-        ..add(const RegistrationEvent.onEmailChanged('a@b.com'))
-        ..add(const RegistrationEvent.onPasswordChanged('password1'))
-        ..add(const RegistrationEvent.onConfirmPasswordChanged('password1'))
-        ..add(const RegistrationEvent.onLoginTapped());
+        ..add(const RegistrationEvent.displayNameChanged('Ivan'))
+        ..add(const RegistrationEvent.emailChanged('a@b.com'))
+        ..add(const RegistrationEvent.passwordChanged('password1'))
+        ..add(const RegistrationEvent.confirmPasswordChanged('password1'))
+        ..add(const RegistrationEvent.submitRequested());
     },
-    skip: 5,
+    skip: 4,
     expect: () => <TypeMatcher<RegistrationState>>[
       isA<RegistrationState>().having((RegistrationState s) => s.isLoading, 'loading', isTrue),
       isA<RegistrationState>().having(
@@ -76,15 +80,15 @@ void main() {
   );
 
   blocTest<RegistrationBloc, RegistrationState>(
-    'onLoginTapped with network failure emits network showError',
+    'submitRequested with network failure emits network showError',
     build: buildBloc,
     setUp: () {
       when(
         () => authRepository.registration(
-          firstName: any(named: 'firstName'),
-          lastName: any(named: 'lastName'),
+          displayName: any(named: 'displayName'),
           email: any(named: 'email'),
           password: any(named: 'password'),
+          inviteCode: any(named: 'inviteCode'),
         ),
       ).thenAnswer(
         (Invocation _) async =>
@@ -93,14 +97,13 @@ void main() {
     },
     act: (RegistrationBloc bloc) {
       bloc
-        ..add(const RegistrationEvent.onFirstNameChanged('Ivan'))
-        ..add(const RegistrationEvent.onLastNameChanged('Petrov'))
-        ..add(const RegistrationEvent.onEmailChanged('a@b.com'))
-        ..add(const RegistrationEvent.onPasswordChanged('password1'))
-        ..add(const RegistrationEvent.onConfirmPasswordChanged('password1'))
-        ..add(const RegistrationEvent.onLoginTapped());
+        ..add(const RegistrationEvent.displayNameChanged('Ivan'))
+        ..add(const RegistrationEvent.emailChanged('a@b.com'))
+        ..add(const RegistrationEvent.passwordChanged('password1'))
+        ..add(const RegistrationEvent.confirmPasswordChanged('password1'))
+        ..add(const RegistrationEvent.submitRequested());
     },
-    skip: 5,
+    skip: 4,
     expect: () => <TypeMatcher<RegistrationState>>[
       isA<RegistrationState>().having((RegistrationState s) => s.isLoading, 'loading', isTrue),
       isA<RegistrationState>().having(

@@ -28,6 +28,9 @@ dependencies:
   get_it: ^9.2.1
   auto_route: ^11.1.0
   supabase_flutter: ^2.16.0
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^7.4.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

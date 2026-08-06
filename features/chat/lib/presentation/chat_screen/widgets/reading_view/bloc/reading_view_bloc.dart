@@ -21,10 +21,12 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
         onInitializationRequested: (_) => _onInitializationRequested(emit),
         onNextPageRequested: (_) => _onNextPageRequested(emit),
         onMessagesUpdated: (_EventOnMessagesUpdated event) => _onMessagesUpdated(event, emit),
+        onChatCleared: (_) => _onChatCleared(emit),
       ),
     );
 
     _chatMessagesStreamSubscription = _chatRepository.subscribeEvents(_chatMessagesStreamListener);
+    _chatClearedSubscription = _chatRepository.subscribeChatCleared(_chatClearedListener);
     add(const ReadingViewEvent.onInitializationRequested());
   }
 
@@ -32,16 +34,23 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
   final BlocErrorHandler _blocErrorHandler;
 
   late final ChatMessagesSubscription _chatMessagesStreamSubscription;
+  late final ChatClearedSubscription _chatClearedSubscription;
 
   @override
   Future<void> close() async {
     await _chatMessagesStreamSubscription.cancel();
+    await _chatClearedSubscription.cancel();
     return super.close();
   }
 
   void _chatMessagesStreamListener(Iterable<Message> messages) {
     if (isClosed) return;
     add(ReadingViewEvent.onMessagesUpdated(messages: _mergeMessages(state.messages, messages)));
+  }
+
+  void _chatClearedListener() {
+    if (isClosed) return;
+    add(const ReadingViewEvent.onChatCleared());
   }
 
   List<Message> _mergeMessages(List<Message> oldMessages, Iterable<Message> newMessages) {
@@ -77,6 +86,10 @@ class ReadingViewBloc extends Bloc<ReadingViewEvent, ReadingViewState> {
 
   void _onMessagesUpdated(_EventOnMessagesUpdated event, Emitter<ReadingViewState> emit) {
     emit(state.copyWith(messages: event.messages, isPending: false));
+  }
+
+  void _onChatCleared(Emitter<ReadingViewState> emit) {
+    emit(state.copyWith(messages: <Message>[], hasNext: false, isPending: false));
   }
 
   Future<void> _onInitializationRequested(Emitter<ReadingViewState> emit) async {

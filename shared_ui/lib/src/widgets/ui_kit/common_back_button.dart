@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shared_ui/src/extensions/context_extensions.dart';
+import 'package:shared_ui/src/theme/app_icons.dart';
 
 /// Кнопка "назад"
 class CommonBackButton extends StatelessWidget {
@@ -13,7 +14,7 @@ class CommonBackButton extends StatelessWidget {
     return IconButton(
       padding: const EdgeInsets.all(6),
       onPressed: onPressed,
-      icon: Icon(Icons.chevron_left, color: context.colors.icon.main, size: 24),
+      icon: AppIcons.chevronLeft(color: context.colors.icon.main),
     );
   }
 }
