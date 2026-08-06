@@ -72,7 +72,6 @@ class _PinnedInterlocutorTileState extends State<PinnedInterlocutorTile>
         final double reveal = _controller.value;
 
         return Stack(
-          clipBehavior: Clip.none,
           children: <Widget>[
             if (widget.receivesHeaderShadow)
               const Positioned(top: 0, left: 0, right: 0, child: _HeaderContactShadow()),
