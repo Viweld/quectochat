@@ -28,7 +28,7 @@ class _BottomPickerButton extends StatelessWidget {
                   style: context.caption?.copyWith(color: context.colors.text.secondary),
                 ),
               ),
-            CommonAccentButton(
+            AppAccentButton(
               title: labels.done,
               onTapped: onTapped,
               isEnabled: selectedEntitiesCount > 0,

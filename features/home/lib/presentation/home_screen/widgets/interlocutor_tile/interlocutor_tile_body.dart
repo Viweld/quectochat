@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:home/presentation/home_screen/widgets/interlocutor_tile_content.dart';
+import 'package:home/presentation/home_screen/widgets/interlocutor_tile/interlocutor_tile_content.dart';
 import 'package:shared_domain/shared_domain.dart';
 import 'package:shared_ui/core_ui.dart';
 
-/// Shared tappable body used by regular and pinned interlocutor tiles.
-class InterlocutorTileInk extends StatelessWidget {
-  const InterlocutorTileInk({super.key, required this.interlocutor, required this.onTap});
+/// Opaque tappable surface shared by regular and pinned interlocutor tiles.
+class InterlocutorTileBody extends StatelessWidget {
+  const InterlocutorTileBody({
+    super.key,
+    required this.interlocutor,
+    required this.onTap,
+    this.showTopBorder = true,
+  });
 
   final Interlocutor interlocutor;
   final VoidCallback onTap;
+
+  /// When `false`, omits the top edge so the row can sit flush under an app-bar divider.
+  final bool showTopBorder;
 
   static const double contentVerticalPadding = 10;
 
@@ -25,7 +33,11 @@ class InterlocutorTileInk extends StatelessWidget {
           onTap: onTap,
           child: Ink(
             decoration: BoxDecoration(
-              border: Border(top: borderSide, left: borderSide, right: borderSide)
+              border: Border(
+                top: showTopBorder ? borderSide : BorderSide.none,
+                left: borderSide,
+                right: borderSide,
+              ),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(

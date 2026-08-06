@@ -21,12 +21,12 @@ class CreateInvitationContent extends StatelessWidget {
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: CommonFloatingBackButton(
+      floatingActionButton: AppFloatingBackButton(
         onPressed: () => appLocator<AppNavigator>().navigateBack(),
       ),
       body: SafeArea(
         child: isLoading && invitation == null
-            ? const Center(child: CommonPendingIndicator())
+            ? const Center(child: AppPendingIndicator())
             : invitation == null
             ? const SizedBox.shrink()
             : SingleChildScrollView(

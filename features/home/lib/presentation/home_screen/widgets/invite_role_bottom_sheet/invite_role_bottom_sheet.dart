@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home/presentation/home_screen/widgets/invite_role_bottom_sheet/widgets/invite_role_option_tile.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
 
@@ -33,42 +34,26 @@ class InviteRoleBottomSheet extends StatelessWidget {
           children: <Widget>[
             Text(texts.inviteRoleSheetTitle, style: context.username, textAlign: TextAlign.center),
             const SizedBox(height: 16),
-            _InviteRoleOption(
+            InviteRoleOptionTile(
               title: texts.inviteRoleParent,
-              onTapped: () {
-                Navigator.of(context).pop();
-                onRoleSelected('parent');
-              },
+              onTapped: () => _select(context, 'parent'),
             ),
-            _InviteRoleOption(
+            InviteRoleOptionTile(
               title: texts.inviteRoleChild,
-              onTapped: () {
-                Navigator.of(context).pop();
-                onRoleSelected('child');
-              },
+              onTapped: () => _select(context, 'child'),
             ),
-            _InviteRoleOption(
+            InviteRoleOptionTile(
               title: texts.inviteRoleFriend,
-              onTapped: () {
-                Navigator.of(context).pop();
-                onRoleSelected('friend');
-              },
+              onTapped: () => _select(context, 'friend'),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-final class _InviteRoleOption extends StatelessWidget {
-  const _InviteRoleOption({required this.title, required this.onTapped});
-
-  final String title;
-  final VoidCallback onTapped;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(title: Text(title), onTap: onTapped);
+  void _select(BuildContext context, String role) {
+    Navigator.of(context).pop();
+    onRoleSelected(role);
   }
 }

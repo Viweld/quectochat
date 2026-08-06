@@ -24,7 +24,7 @@ class ChatScreen extends StatelessWidget {
             if (effect == null) return;
 
             effect.when(
-              showError: (AppErrorKind kind, String? transitMessage) => CommonToast.showError(
+              showError: (AppErrorKind kind, String? transitMessage) => AppToast.showError(
                 context,
                 text: transitMessage ?? _resolveErrorText(context, kind),
               ),

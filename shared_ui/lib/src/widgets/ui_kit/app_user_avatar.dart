@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:string_to_color/string_to_color.dart';
 
-class CommonUserAvatar extends StatefulWidget {
-  const CommonUserAvatar({required this.displayName, this.dimension = defaultDimension, super.key});
+class AppUserAvatar extends StatefulWidget {
+  const AppUserAvatar({required this.displayName, this.dimension = defaultDimension, super.key});
 
   final String displayName;
   final double dimension;
@@ -11,10 +11,10 @@ class CommonUserAvatar extends StatefulWidget {
   static const double defaultDimension = 50;
 
   @override
-  State<CommonUserAvatar> createState() => _CommonUserAvatarState();
+  State<AppUserAvatar> createState() => _AppUserAvatarState();
 }
 
-class _CommonUserAvatarState extends State<CommonUserAvatar> {
+class _AppUserAvatarState extends State<AppUserAvatar> {
   late final Color color;
 
   @override

@@ -53,7 +53,7 @@ void main() {
     await pumpDrawer(tester, displayName: '');
 
     expect(find.text('Без имени'), findsOneWidget);
-    expect(find.byType(CommonUserAvatar), findsNothing);
+    expect(find.byType(AppUserAvatar), findsNothing);
   });
 
   testWidgets('hides add user when canInvite is false', (WidgetTester tester) async {

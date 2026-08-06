@@ -3,7 +3,7 @@ import 'package:shared_core/core.dart';
 import 'package:shared_ui/core_ui.dart';
 
 /// Empty-list placeholder when home directory failed to load.
-final class HomeLoadErrorView extends StatelessWidget {
+class HomeLoadErrorView extends StatelessWidget {
   const HomeLoadErrorView({super.key, required this.error, required this.onRetryTapped});
 
   final AppErrorViewModel error;
@@ -22,7 +22,7 @@ final class HomeLoadErrorView extends StatelessWidget {
             style: context.caption,
           ),
           const SizedBox(height: 16),
-          CommonAccentButton(title: context.texts.commonRetry, onTapped: onRetryTapped),
+          AppAccentButton(title: context.texts.commonRetry, onTapped: onRetryTapped),
         ],
       ),
     );

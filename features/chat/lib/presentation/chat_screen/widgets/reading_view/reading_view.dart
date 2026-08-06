@@ -16,7 +16,7 @@ class ReadingView extends StatelessWidget {
       child: BlocBuilder<ReadingViewBloc, ReadingViewState>(
         builder: (BuildContext context, ReadingViewState state) {
           if (state.isPending) {
-            return const Center(child: CommonPendingIndicator());
+            return const Center(child: AppPendingIndicator());
           }
 
           return ReadingMessagesList(messages: state.messages, hasNext: state.hasNext);

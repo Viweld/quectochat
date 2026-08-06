@@ -6,8 +6,8 @@ import 'package:shared_ui/src/theme/app_icons.dart';
 import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
 import 'package:shared_ui/src/values/values.dart';
 
-class CommonEditField extends StatefulWidget {
-  const CommonEditField({
+class AppEditField extends StatefulWidget {
+  const AppEditField({
     this.controller,
     this.initialText,
     this.hintText,
@@ -115,10 +115,10 @@ class CommonEditField extends StatefulWidget {
   static const double borderThickness = 1;
 
   @override
-  State<CommonEditField> createState() => _CommonEditFieldState();
+  State<AppEditField> createState() => _AppEditFieldState();
 }
 
-class _CommonEditFieldState extends State<CommonEditField> {
+class _AppEditFieldState extends State<AppEditField> {
   late TextEditingController _textController;
   late FocusNode _focusNode;
   late String? _errorText;
@@ -169,7 +169,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
   }
 
   @override
-  void didUpdateWidget(CommonEditField oldWidget) {
+  void didUpdateWidget(AppEditField oldWidget) {
     _colors = context.colors;
 
     setState(() {
@@ -180,7 +180,7 @@ class _CommonEditFieldState extends State<CommonEditField> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _updateInitialText(CommonEditField oldWidget, CommonEditField widget) {
+  void _updateInitialText(AppEditField oldWidget, AppEditField widget) {
     if (oldWidget.initialText != widget.initialText) {
       _textController
         ..text = widget.initialText ?? ''

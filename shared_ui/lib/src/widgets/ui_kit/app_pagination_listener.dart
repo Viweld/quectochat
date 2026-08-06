@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CommonPaginationListener extends StatelessWidget {
-  const CommonPaginationListener({
+class AppPaginationListener extends StatelessWidget {
+  const AppPaginationListener({
     required this.listenableChild,
     required this.onListEnded,
     this.actuationRange = 500,

@@ -36,10 +36,10 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 children: <Widget>[
                   /// Кнопка "Назад"
-                  SizedBox.square(dimension: 48, child: CommonBackButton(onPressed: onBackPressed)),
+                  SizedBox.square(dimension: 48, child: AppBackButton(onPressed: onBackPressed)),
 
                   /// Аватар собеседника
-                  CommonUserAvatar(displayName: displayName),
+                  AppUserAvatar(displayName: displayName),
                   const SizedBox(width: _horizontalInterval),
                   Expanded(
                     child: Column(

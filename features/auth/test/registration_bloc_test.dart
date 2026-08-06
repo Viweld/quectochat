@@ -35,11 +35,7 @@ void main() {
     act: (RegistrationBloc bloc) => bloc.add(const RegistrationEvent.submitRequested()),
     expect: () => <TypeMatcher<RegistrationState>>[
       isA<RegistrationState>()
-          .having(
-            (RegistrationState s) => s.displayNameField.isErrorVisible,
-            'displayName',
-            isTrue,
-          )
+          .having((RegistrationState s) => s.displayNameField.isErrorVisible, 'displayName', isTrue)
           .having((RegistrationState s) => s.emailField.isErrorVisible, 'email', isTrue),
     ],
   );

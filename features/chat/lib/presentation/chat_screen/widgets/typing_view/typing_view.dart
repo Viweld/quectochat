@@ -94,7 +94,7 @@ class _TypingViewState extends State<TypingView> {
                   Expanded(
                     child: KeyedSubtree(
                       key: _fieldKey,
-                      child: CommonEditField(
+                      child: AppEditField(
                         controller: _messageController,
                         focusNode: _composerFocusNode,
                         maxLines: 5,

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:home/presentation/home_screen/widgets/home_drawer/widgets/home_drawer_avatar_placeholder.dart';
 import 'package:shared_ui/core_ui.dart';
 
-/// Сведения о текущем пользователе в верхней части дравера.
+/// Current-user block at the top of the home drawer.
 class HomeDrawerUserHeader extends StatelessWidget {
-  final String displayName;
-
   const HomeDrawerUserHeader({super.key, required this.displayName});
 
-  static const double avatarDimension = 72;
+  final String displayName;
 
   bool get hasName => displayName.trim().isNotEmpty;
 
@@ -27,8 +26,11 @@ class HomeDrawerUserHeader extends StatelessWidget {
         spacing: 16,
         children: <Widget>[
           hasName
-              ? CommonUserAvatar(displayName: trimmedName, dimension: avatarDimension)
-              : const _AvatarPlaceholder(),
+              ? AppUserAvatar(
+                  displayName: trimmedName,
+                  dimension: HomeDrawerAvatarPlaceholder.dimension,
+                )
+              : const HomeDrawerAvatarPlaceholder(),
           Expanded(
             child: Text(
               hasName ? trimmedName : context.texts.homeDrawerUnnamedUser,
@@ -38,26 +40,6 @@ class HomeDrawerUserHeader extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-final class _AvatarPlaceholder extends StatelessWidget {
-  const _AvatarPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColorsTheme colors = context.colors;
-
-    return Container(
-      width: HomeDrawerUserHeader.avatarDimension,
-      height: HomeDrawerUserHeader.avatarDimension,
-      decoration: BoxDecoration(color: colors.background.secondary, shape: BoxShape.circle),
-      child: Icon(
-        Icons.person_outline,
-        size: HomeDrawerUserHeader.avatarDimension * 0.5,
-        color: colors.icon.secondary,
       ),
     );
   }

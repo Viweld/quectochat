@@ -4,7 +4,7 @@ import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:shared_ui/src/values/values.dart';
 import 'package:shared_ui/src/widgets/ui_kit/app_icon.dart';
 
-class CommonAccentButton extends StatelessWidget {
+class AppAccentButton extends StatelessWidget {
   /// Надпись на кнопке
   final String title;
 
@@ -23,7 +23,7 @@ class CommonAccentButton extends StatelessWidget {
   /// Надпись на кнопке в верхнем регистре
   final bool isUpperCaseTitle;
 
-  const CommonAccentButton({
+  const AppAccentButton({
     required this.title,
     required this.onTapped,
     this.isEnabled = true,

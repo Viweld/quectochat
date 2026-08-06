@@ -4,8 +4,8 @@ import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:shared_ui/src/theme/app_icons.dart';
 import 'package:shared_ui/src/values/values.dart';
 
-class CommonToast extends StatelessWidget {
-  const CommonToast._({required this.text});
+class AppToast extends StatelessWidget {
+  const AppToast._({required this.text});
 
   final String text;
 
@@ -19,7 +19,7 @@ class CommonToast extends StatelessWidget {
   static void _show(BuildContext context, {required String text, required Color backgroundColor}) =>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: CommonToast._(text: text),
+          content: AppToast._(text: text),
           elevation: 10,
           backgroundColor: backgroundColor,
           padding: const EdgeInsets.only(bottom: 20),

@@ -66,7 +66,7 @@ class HomeDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: 12,
                 children: <Widget>[
-                  CommonAccentButton(
+                  AppAccentButton(
                     title: texts.homeLogoutLabel,
                     icon: AppIcons.logout,
                     isPending: isLogoutPending,

@@ -54,7 +54,7 @@ class _InviteCodeContentState extends State<InviteCodeContent> {
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: CommonFloatingBackButton(
+      floatingActionButton: AppFloatingBackButton(
         onPressed: () => appLocator<AppNavigator>().navigateBack(),
       ),
       body: SingleChildScrollView(
@@ -79,7 +79,7 @@ class _InviteCodeContentState extends State<InviteCodeContent> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: CommonPinField(
+              child: AppPinField(
                 length: 8,
                 separatorAfterIndex: 3,
                 controller: _pinController,
@@ -96,7 +96,7 @@ class _InviteCodeContentState extends State<InviteCodeContent> {
                 child: Text(texts.inviteCodeScanQrButtonLabel),
               ),
             ),
-            CommonAccentButton(
+            AppAccentButton(
               title: texts.inviteCodeNextButtonLabel,
               isPending: widget.isLoading,
               isEnabled: isCodeComplete && !widget.isLoading,

@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
 
           effect.when(
             showError: (AppErrorKind kind) =>
-                CommonToast.showError(context, text: _resolveErrorText(context, kind)),
+                AppToast.showError(context, text: _resolveErrorText(context, kind)),
             navigateInviteCode: navigator.navigateInviteCode,
           );
 

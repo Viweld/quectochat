@@ -35,7 +35,7 @@ class LoginContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: CommonEditField(
+              child: AppEditField(
                 title: context.texts.loginEmailFieldTitle,
                 hintText: context.texts.loginEmailFieldHint,
                 onChanged: (String value) => bloc.add(LoginEvent.emailChanged(value)),
@@ -47,7 +47,7 @@ class LoginContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: CommonEditField(
+              child: AppEditField(
                 title: context.texts.loginPasswordFieldTitle,
                 hintText: context.texts.loginPasswordFieldHint,
                 onChanged: (String value) => bloc.add(LoginEvent.passwordChanged(value)),
@@ -61,7 +61,7 @@ class LoginContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: CommonAccentButton(
+              child: AppAccentButton(
                 title: context.texts.loginButtonLabel,
                 isPending: isLoading,
                 onTapped: () => bloc.add(const LoginEvent.submitRequested()),

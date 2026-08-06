@@ -27,7 +27,7 @@ class RegistrationContent extends StatelessWidget {
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: CommonFloatingBackButton(
+      floatingActionButton: AppFloatingBackButton(
         onPressed: () => appLocator<AppNavigator>().navigateBack(),
       ),
       body: SingleChildScrollView(
@@ -44,7 +44,7 @@ class RegistrationContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: CommonEditField(
+              child: AppEditField(
                 title: context.texts.registrationDisplayNameFieldTitle,
                 hintText: context.texts.registrationDisplayNameFieldHint,
                 onChanged: (String value) => bloc.add(RegistrationEvent.displayNameChanged(value)),
@@ -58,7 +58,7 @@ class RegistrationContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: CommonEditField(
+              child: AppEditField(
                 title: context.texts.registrationEmailFieldTitle,
                 hintText: context.texts.registrationEmailFieldHint,
                 onChanged: (String value) => bloc.add(RegistrationEvent.emailChanged(value)),
@@ -70,7 +70,7 @@ class RegistrationContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: CommonEditField(
+              child: AppEditField(
                 title: context.texts.registrationPasswordFieldTitle,
                 hintText: context.texts.registrationPasswordFieldHint,
                 onChanged: (String value) => bloc.add(RegistrationEvent.passwordChanged(value)),
@@ -84,7 +84,7 @@ class RegistrationContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: CommonEditField(
+              child: AppEditField(
                 title: context.texts.registrationConfirmPasswordFieldTitle,
                 hintText: context.texts.registrationConfirmPasswordFieldHint,
                 onChanged: (String value) =>
@@ -99,7 +99,7 @@ class RegistrationContent extends StatelessWidget {
                     : context.texts.registrationExceptionNotEqualPasswords,
               ),
             ),
-            CommonAccentButton(
+            AppAccentButton(
               title: context.texts.registrationButtonLabel,
               isPending: isLoading,
               onTapped: () => bloc.add(const RegistrationEvent.submitRequested()),

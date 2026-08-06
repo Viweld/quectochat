@@ -87,5 +87,5 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "shared_ui/resources/images/icon.png"
+  image_path: "shared_ui/resources/images/icon_dark.png"
   remove_alpha_ios: true

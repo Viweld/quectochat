@@ -6,8 +6,8 @@ import 'package:shared_ui/src/theme/app_fonts.dart';
 import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
 
 /// Составное поле ввода кода (OTP / invite) на базе `pinput`.
-class CommonPinField extends StatefulWidget {
-  const CommonPinField({
+class AppPinField extends StatefulWidget {
+  const AppPinField({
     super.key,
     required this.length,
     this.onChanged,
@@ -47,10 +47,10 @@ class CommonPinField extends StatefulWidget {
   final double cellHeight;
 
   @override
-  State<CommonPinField> createState() => _CommonPinFieldState();
+  State<AppPinField> createState() => _AppPinFieldState();
 }
 
-class _CommonPinFieldState extends State<CommonPinField> {
+class _AppPinFieldState extends State<AppPinField> {
   FocusNode? _ownedFocusNode;
 
   FocusNode get _focusNode => widget.focusNode ?? _ownedFocusNode!;

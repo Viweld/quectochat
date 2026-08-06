@@ -22,7 +22,7 @@ class RegistrationScreen extends StatelessWidget {
           if (effect == null) return;
 
           effect.when(
-            showError: (AppErrorKind kind, String? detail) => CommonToast.showError(
+            showError: (AppErrorKind kind, String? detail) => AppToast.showError(
               context,
               text: switch (kind) {
                 AppErrorKind.weakPassword => context.texts.registrationExceptionWeakPassword,

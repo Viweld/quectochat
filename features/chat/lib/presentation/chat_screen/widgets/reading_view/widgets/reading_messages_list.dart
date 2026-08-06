@@ -45,7 +45,7 @@ class _ReadingMessagesListState extends State<ReadingMessagesList> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        CommonPaginationListener(
+        AppPaginationListener(
           onListEnded: () {
             if (!widget.hasNext) return;
             context.read<ReadingViewBloc>().add(const ReadingViewEvent.onNextPageRequested());

@@ -13,7 +13,7 @@ import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:shared_ui/src/theme/app_icons.dart';
 import 'package:shared_ui/src/values/values.dart';
 import 'package:shared_ui/src/widgets/media_picker/app_media_file_picker_labels.dart';
-import 'package:shared_ui/src/widgets/ui_kit/common_accent_button.dart';
+import 'package:shared_ui/src/widgets/ui_kit/app_accent_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -529,7 +529,7 @@ class _PermissionDeniedContent extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: CommonAccentButton(
+          child: AppAccentButton(
             title: labels.openAppSettings,
             onTapped: () => unawaited(PhotoManager.openSetting()),
           ),

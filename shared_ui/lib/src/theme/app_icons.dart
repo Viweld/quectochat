@@ -22,6 +22,9 @@ abstract final class AppIcons {
   static const String _closeKey = '${_basePath}close.svg';
   static const AppIcon close = AppIcon.asset(_closeKey);
 
+  static const String _deleteKey = '${_basePath}delete.svg';
+  static const AppIcon delete = AppIcon.asset(_deleteKey);
+
   static const String _eyeClosedKey = '${_basePath}eye_closed.svg';
   static const AppIcon eyeClosed = AppIcon.asset(_eyeClosedKey);
 
@@ -37,6 +40,9 @@ abstract final class AppIcons {
   static const String _logoutKey = '${_basePath}logout.svg';
   static const AppIcon logout = AppIcon.asset(_logoutKey);
 
+  static const String _menuKey = '${_basePath}menu.svg';
+  static const AppIcon menu = AppIcon.asset(_menuKey);
+
   static const String _messageFilledKey = '${_basePath}message_filled.svg';
   static const AppIcon messageFilled = AppIcon.asset(_messageFilledKey);
 
@@ -46,14 +52,14 @@ abstract final class AppIcons {
   static const String _paperclipKey = '${_basePath}paperclip.svg';
   static const AppIcon paperclip = AppIcon.asset(_paperclipKey);
 
+  static const String _qrCodeKey = '${_basePath}qr_code.svg';
+  static const AppIcon qrCode = AppIcon.asset(_qrCodeKey);
+
   static const String _sendKey = '${_basePath}send.svg';
   static const AppIcon send = AppIcon.asset(_sendKey);
 
   static const String _settingKey = '${_basePath}setting.svg';
   static const AppIcon setting = AppIcon.asset(_settingKey);
-
-  static const String _settingsKey = '${_basePath}settings.svg';
-  static const AppIcon settings = AppIcon.asset(_settingsKey);
 
   static const String _userKey = '${_basePath}user.svg';
   static const AppIcon user = AppIcon.asset(_userKey);

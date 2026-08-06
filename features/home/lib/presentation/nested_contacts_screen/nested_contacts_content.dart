@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home/presentation/home_screen/widgets/chat_tile/chat_tile.dart';
 import 'package:home/presentation/nested_contacts_screen/bloc/nested_contacts_bloc.dart';
-import 'package:home/presentation/nested_contacts_screen/widgets/nested_contact_tile.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
@@ -34,27 +34,30 @@ class NestedContactsContent extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        leading: CommonBackButton(onPressed: navigator.navigateBack),
+        leading: AppBackButton(onPressed: navigator.navigateBack),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(Values.dividerThickness),
+          child: Divider(
+            height: Values.dividerThickness,
+            thickness: Values.dividerThickness,
+            color: context.colors.border.main,
+          ),
+        ),
       ),
       body: isLoading && contacts.isEmpty
-          ? const Center(child: CommonPendingIndicator())
+          ? const Center(child: AppPendingIndicator())
           : contacts.isEmpty
           ? _NestedContactsEmptyBody(
               loadError: loadError,
               onRetryTapped: () => bloc.add(const NestedContactsEvent.retryRequested()),
             )
-          : ListView.separated(
+          : ListView.builder(
               itemCount: contacts.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: Values.dividerThickness,
-                color: context.colors.text.tertiary,
-                indent: Values.horizontalPadding,
-                endIndent: Values.horizontalPadding,
-              ),
               itemBuilder: (BuildContext context, int index) {
                 final Interlocutor contact = contacts[index];
-                return NestedContactTile(
-                  displayName: contact.displayName,
+                return ChatTile(
+                  interlocutor: contact,
+                  showTopBorder: index > 0,
                   onTapped: () => navigator.navigateChat(
                     interlocutorId: contact.userId,
                     displayName: contact.displayName,
@@ -85,7 +88,7 @@ final class _NestedContactsEmptyBody extends StatelessWidget {
             children: <Widget>[
               Text(texts.homeLoadErrorMessage, textAlign: TextAlign.center, style: context.caption),
               const SizedBox(height: 16),
-              CommonAccentButton(title: texts.commonRetry, onTapped: onRetryTapped),
+              AppAccentButton(title: texts.commonRetry, onTapped: onRetryTapped),
             ],
           ),
         ),

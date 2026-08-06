@@ -23,7 +23,7 @@ class CreateInvitationScreen extends StatelessWidget {
 
           effect.when(
             showError: (AppErrorKind kind) =>
-                CommonToast.showError(context, text: _resolveErrorText(context, kind)),
+                AppToast.showError(context, text: _resolveErrorText(context, kind)),
           );
 
           context.read<CreateInvitationBloc>().add(const CreateInvitationEvent.effectHandled());

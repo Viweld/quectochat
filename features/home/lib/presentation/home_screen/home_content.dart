@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:home/domain/entities/current_user.dart';
 import 'package:home/presentation/home_screen/bloc/home_bloc.dart';
-import 'package:home/presentation/home_screen/widgets/chat_tile.dart';
-import 'package:home/presentation/home_screen/widgets/flexible_header.dart';
 import 'package:home/presentation/home_screen/widgets/home_drawer/home_drawer.dart';
+import 'package:home/presentation/home_screen/widgets/home_empty_interlocutors_view.dart';
+import 'package:home/presentation/home_screen/widgets/home_flexible_header/home_flexible_header.dart';
+import 'package:home/presentation/home_screen/widgets/home_interlocutors_sliver.dart';
 import 'package:home/presentation/home_screen/widgets/home_load_error_view.dart';
-import 'package:home/presentation/home_screen/widgets/invite_role_bottom_sheet.dart';
-import 'package:home/presentation/home_screen/widgets/pinned_interlocutor_tile.dart';
+import 'package:home/presentation/home_screen/widgets/invite_role_bottom_sheet/invite_role_bottom_sheet.dart';
 import 'package:navigation_api/navigation_api.dart';
 import 'package:shared_core/core.dart';
 import 'package:shared_domain/shared_domain.dart';
@@ -31,47 +31,31 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isFirstLoading && interlocutors.isEmpty) {
-      return const Scaffold(body: Center(child: CommonPendingIndicator()));
+      return const Scaffold(body: Center(child: AppPendingIndicator()));
     }
 
     final HomeBloc bloc = context.read<HomeBloc>();
     final AppNavigator navigator = appLocator<AppNavigator>();
-    final double titleHeight = context.mainTitle?.height ?? 0;
-    final double titleSize = context.mainTitle?.fontSize ?? 0;
-    final double scaledTitleFontSize = MediaQuery.textScalerOf(
-      context,
-    ).scale(titleHeight * titleSize);
-    final double flexibleAppBarHeight =
-        FlexibleHeader.toTitlePadding +
-        FlexibleHeader.toFieldPadding +
-        FlexibleHeader.toDividerPadding +
-        Values.textFieldHeight +
-        titleHeight * scaledTitleFontSize +
-        Values.dividerThickness +
-        1;
-
     final CurrentUser? currentUser = this.currentUser;
-    final bool canInvite = currentUser?.canInvite ?? false;
-    final bool canInviteFamilyMembers = currentUser?.canInviteFamilyMembers ?? false;
     final List<Interlocutor> items = interlocutors.toList(growable: false);
 
     return Scaffold(
       drawer: HomeDrawer(
         displayName: currentUser?.displayName ?? '',
-        canInvite: canInvite,
+        canInvite: currentUser?.canInvite ?? false,
         isLogoutPending: isLogoutLoading,
         onProfileTapped: () => _showComingSoon(context),
         onAddUserTapped: () => _onAddUserTapped(
           context,
           navigator: navigator,
-          canInviteFamilyMembers: canInviteFamilyMembers,
+          canInviteFamilyMembers: currentUser?.canInviteFamilyMembers ?? false,
         ),
         onLogoutTapped: () => bloc.add(const HomeEvent.onLogoutTapped()),
       ),
       body: SafeArea(
         // Builder даёт контекст под Scaffold — из него открывается дравер.
         child: Builder(
-          builder: (BuildContext scaffoldContext) => CommonPaginationListener(
+          builder: (BuildContext scaffoldContext) => AppPaginationListener(
             onListEnded: () => bloc.add(const HomeEvent.onNextPageRequested()),
             listenableChild: CustomScrollView(
               slivers: <Widget>[
@@ -83,8 +67,8 @@ class HomeContent extends StatelessWidget {
                   pinned: true,
                   collapsedHeight: 0,
                   toolbarHeight: 0,
-                  expandedHeight: flexibleAppBarHeight,
-                  flexibleSpace: FlexibleHeader(
+                  expandedHeight: HomeFlexibleHeader.expandedHeight,
+                  flexibleSpace: HomeFlexibleHeader(
                     onMenuTapped: () => Scaffold.of(scaffoldContext).openDrawer(),
                     onSearchFieldClearTapped: () =>
                         bloc.add(const HomeEvent.onSearchFieldClearTapped()),
@@ -100,39 +84,14 @@ class HomeContent extends StatelessWidget {
                         error: error,
                         onRetryTapped: () => bloc.add(const HomeEvent.onFetchRequested()),
                       ),
-                      null => const _HomeEmptyInterlocutorsMessage(),
+                      null => const HomeEmptyInterlocutorsView(),
                     },
                   )
                 else
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(childCount: items.length, (
-                      BuildContext context,
-                      int index,
-                    ) {
-                      final Interlocutor item = items[index];
-
-                      void openChat() => navigator.navigateChat(
-                        interlocutorId: item.userId,
-                        displayName: item.displayName,
-                      );
-
-                      if (item.isPinned) {
-                        return PinnedInterlocutorTile(
-                          interlocutor: item,
-                          receivesHeaderShadow: index == 0,
-                          onChatTapped: openChat,
-                          onRevealNestedTapped: () => navigator.navigateNestedContacts(
-                            anchorUserId: item.userId,
-                            anchorDisplayName: item.displayName,
-                            isFriendsOfRelative: currentUser?.familyRole != null,
-                          ),
-                        );
-                      }
-                      return ChatTile(
-                        interlocutor: item,
-                        onTapped: openChat,
-                      );
-                    }),
+                  HomeInterlocutorsSliver(
+                    interlocutors: items,
+                    currentUser: currentUser,
+                    navigator: navigator,
                   ),
               ],
             ),
@@ -159,23 +118,5 @@ class HomeContent extends StatelessWidget {
 
   void _showComingSoon(BuildContext context) {
     appLocator<AppToastBus>().fire(AppToastEvent.info(context.texts.homeDrawerComingSoonMessage));
-  }
-}
-
-final class _HomeEmptyInterlocutorsMessage extends StatelessWidget {
-  const _HomeEmptyInterlocutorsMessage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
-        child: Text(
-          context.texts.homeEmptyInterlocutorsMessage,
-          textAlign: TextAlign.center,
-          style: context.caption,
-        ),
-      ),
-    );
   }
 }

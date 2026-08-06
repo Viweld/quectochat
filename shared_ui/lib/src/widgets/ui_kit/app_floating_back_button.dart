@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_ui/src/extensions/context_extensions.dart';
 import 'package:shared_ui/src/values/values.dart';
-import 'package:shared_ui/src/widgets/ui_kit/common_back_button.dart';
+import 'package:shared_ui/src/widgets/ui_kit/app_back_button.dart';
 
-class CommonFloatingBackButton extends StatelessWidget {
-  const CommonFloatingBackButton({required this.onPressed, super.key});
+class AppFloatingBackButton extends StatelessWidget {
+  const AppFloatingBackButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 
@@ -25,7 +25,7 @@ class CommonFloatingBackButton extends StatelessWidget {
               ],
             ),
           ),
-          child: Center(child: CommonBackButton(onPressed: onPressed)),
+          child: Center(child: AppBackButton(onPressed: onPressed)),
         ),
       ),
     );

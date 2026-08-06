@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 
 import 'package:shared_ui/src/extensions/context_extensions.dart';
-import 'package:shared_ui/src/widgets/ui_kit/common_toast.dart';
+import 'package:shared_ui/src/widgets/ui_kit/app_toast.dart';
 
-/// Listens to [AppToastBus] and shows [CommonToast] for infrastructure errors.
+/// Listens to [AppToastBus] and shows [AppToast] for infrastructure errors.
 final class AppToastListener extends StatefulWidget {
   const AppToastListener({super.key, required this.child});
 
@@ -46,11 +46,11 @@ final class _AppToastListenerState extends State<AppToastListener> {
 
     switch (event) {
       case ErrorToastEvent():
-        CommonToast.showError(context, text: text);
+        AppToast.showError(context, text: text);
       case SuccessToastEvent():
       case WarningToastEvent():
       case InfoToastEvent():
-        CommonToast.showInfo(context, text: text);
+        AppToast.showInfo(context, text: text);
     }
   }
 
