@@ -22,10 +22,11 @@ class PinnedTileRevealActions extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          if (hasNestedUnread) ...<Widget>[
-            NestedUnreadCountBadge(count: nestedUnreadCount),
-            const SizedBox(width: 8),
-          ],
+          if (hasNestedUnread)
+            Transform.translate(
+              offset: const Offset(8, 0),
+              child: IgnorePointer(child: NestedUnreadCountBadge(count: nestedUnreadCount)),
+            ),
           IconButton(
             tooltip: context.texts.pinnedRevealLabel,
             onPressed: onRevealNestedTapped,
