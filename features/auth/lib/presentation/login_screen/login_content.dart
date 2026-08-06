@@ -31,7 +31,10 @@ class LoginContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: Text(context.texts.loginTitle, style: context.mainTitle),
+              child: Text(
+                context.texts.loginTitle,
+                style: context.mainTitle.copyWith(color: context.colors.text.main),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),

@@ -40,7 +40,7 @@ class MessageBubbleContent extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final TextStyle textStyle = context.message!.copyWith(
+        final TextStyle textStyle = context.message.copyWith(
           color: context.colors.chat.bubbleOwnText,
         );
         final double maxBubbleWidth = constraints.maxWidth;
@@ -75,7 +75,7 @@ class MessageBubbleContent extends StatelessWidget {
                     right: 0,
                     child: Text(
                       DateFormat('HH:mm').format(message.createdAt.toLocal()),
-                      style: context.caption!.copyWith(
+                      style: context.caption.copyWith(
                         fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
                         color: context.colors.chat.bubbleOwnText.withValues(alpha: 0.8),
                       ),
@@ -139,7 +139,7 @@ class _ImageMessageBubble extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 context.texts.chatPhotoPlaceholder,
-                                style: context.caption?.copyWith(
+                                style: context.caption.copyWith(
                                   color: context.colors.text.secondary,
                                 ),
                               ),
@@ -168,7 +168,7 @@ class _ImageMessageBubble extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               DateFormat('HH:mm').format(message.createdAt.toLocal()),
-              style: context.caption!.copyWith(
+              style: context.caption.copyWith(
                 fontFeatures: <FontFeature>[const FontFeature.tabularFigures()],
                 color: context.colors.chat.bubbleOwnText.withValues(alpha: 0.8),
               ),

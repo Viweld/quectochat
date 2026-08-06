@@ -18,7 +18,7 @@ class HomeFlexibleHeader extends StatelessWidget {
 
   static const double topPadding = 14;
   static const double bottomPadding = 24;
-  static const double searchMenuGap = 12;
+  static const double searchMenuGap = 18;
 
   /// Height for [SliverAppBar.expandedHeight] under an outer [SafeArea].
   static double get expandedHeight => topPadding + bottomPadding + Values.textFieldHeight;
@@ -34,7 +34,7 @@ class HomeFlexibleHeader extends StatelessWidget {
             padding: const EdgeInsets.only(
               top: topPadding,
               left: Values.horizontalPadding,
-              right: Values.horizontalPadding,
+              right: Values.horizontalPadding-8,
               bottom: bottomPadding,
             ),
             child: Row(

@@ -50,7 +50,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                         /// Полное имя собеседника
                         Text(
                           displayName,
-                          style: context.username,
+                          style: context.username.copyWith(color: context.colors.text.strong),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -59,9 +59,9 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                         if (status.isNotEmpty)
                           Text(
                             status,
-                            style: statusColor == null
-                                ? context.caption
-                                : context.caption?.copyWith(color: statusColor),
+                            style: context.caption.copyWith(
+                              color: statusColor ?? context.colors.text.secondary,
+                            ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),

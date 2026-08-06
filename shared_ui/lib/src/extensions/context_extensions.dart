@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:shared_core/core.dart';
 
+import 'package:shared_ui/src/theme/app_fonts.dart';
 import 'package:shared_ui/src/theme/colors/app_colors_theme.dart';
-import 'package:shared_ui/src/theme/dynamic_theme.dart';
 
 /// Сокращённый доступ к стилям текста, цветам и локализации.
+///
+/// Текстовые геттеры возвращают примитивы [AppFonts] без цвета —
+/// цвет задаётся в виджете через `copyWith`.
 extension ContextExtension on BuildContext {
-  TextStyle? get mainTitle => DynamicTheme.themeOf(this)?.textTheme.headlineLarge;
+  TextStyle get mainTitle => AppFonts.mainTitle;
 
-  TextStyle? get initials => DynamicTheme.themeOf(this)?.textTheme.headlineMedium;
+  TextStyle get initials => AppFonts.initials;
 
-  TextStyle? get username => DynamicTheme.themeOf(this)?.textTheme.titleMedium;
+  TextStyle get username => AppFonts.username;
 
-  TextStyle? get message => DynamicTheme.themeOf(this)?.textTheme.bodyMedium;
+  TextStyle get message => AppFonts.message;
 
-  TextStyle? get hint => DynamicTheme.themeOf(this)?.textTheme.labelLarge;
+  TextStyle get hint => AppFonts.hint;
 
-  TextStyle? get dividerLabel => DynamicTheme.themeOf(this)?.textTheme.labelMedium;
+  TextStyle get dividerLabel => AppFonts.dividerLabel;
 
-  TextStyle? get caption => DynamicTheme.themeOf(this)?.textTheme.labelSmall;
+  TextStyle get caption => AppFonts.caption;
 
   /// Semantic role colors from [ThemeData.extensions].
   AppColorsTheme get colors => Theme.of(this).extension<AppColorsTheme>()!;

@@ -39,9 +39,9 @@ class HomeDrawerTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(title, style: context.username?.copyWith(color: colors.text.main)),
+                  Text(title, style: context.username.copyWith(color: colors.text.main)),
                   if (subtitle != null)
-                    Text(subtitle, style: context.caption?.copyWith(color: colors.text.secondary)),
+                    Text(subtitle, style: context.caption.copyWith(color: colors.text.secondary)),
                 ],
               ),
             ),

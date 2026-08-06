@@ -34,7 +34,7 @@ class HomeDrawerUserHeader extends StatelessWidget {
           Expanded(
             child: Text(
               hasName ? trimmedName : context.texts.homeDrawerUnnamedUser,
-              style: context.username?.copyWith(color: colors.text.main),
+              style: context.username.copyWith(color: colors.text.main),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

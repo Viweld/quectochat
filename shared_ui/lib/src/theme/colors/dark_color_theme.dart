@@ -44,7 +44,7 @@ final class DarkColorTheme extends AppColorsTheme {
   AppChatColors get chat => AppChatColors(
     bubbleOwn: AppDarkColors.accent.withValues(alpha: 0.45),
     bubblePeer: AppDarkColors.textTertiary.withValues(alpha: 0.45),
-    bubbleOwnText: AppDarkColors.onAccent,
+    bubbleOwnText: AppDarkColors.textStrong,
   );
 
   @override

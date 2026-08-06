@@ -69,7 +69,10 @@ class _InterlocutorTileContentState extends State<InterlocutorTileContent> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(interlocutor.displayName, style: context.username),
+                    Text(
+                      interlocutor.displayName,
+                      style: context.username.copyWith(color: context.colors.text.strong),
+                    ),
                     if (interlocutor.lastSentContent != null)
                       InterlocutorTileMessagePreview(interlocutor: interlocutor),
                   ],

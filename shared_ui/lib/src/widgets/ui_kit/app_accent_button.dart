@@ -60,7 +60,7 @@ class AppAccentButton extends StatelessWidget {
           ],
           Text(
             isUpperCaseTitle ? title.toUpperCase() : title,
-            style: context.username?.copyWith(color: textColor),
+            style: context.username.copyWith(color: textColor),
           ),
           if (icon != null) ...<Widget>[const SizedBox(width: 4), icon(color: textColor)],
         ],

@@ -25,7 +25,7 @@ class _BottomPickerButton extends StatelessWidget {
                 child: Text(
                   '${labels.selectedCountPrefix} $selectedEntitiesCount',
                   textAlign: TextAlign.center,
-                  style: context.caption?.copyWith(color: context.colors.text.secondary),
+                  style: context.caption.copyWith(color: context.colors.text.secondary),
                 ),
               ),
             AppAccentButton(

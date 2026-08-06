@@ -13,7 +13,7 @@ class HomeEmptyInterlocutorsView extends StatelessWidget {
         child: Text(
           context.texts.homeEmptyInterlocutorsMessage,
           textAlign: TextAlign.center,
-          style: context.caption,
+          style: context.caption.copyWith(color: context.colors.text.secondary),
         ),
       ),
     );

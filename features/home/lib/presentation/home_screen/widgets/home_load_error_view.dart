@@ -19,7 +19,7 @@ class HomeLoadErrorView extends StatelessWidget {
           Text(
             _resolveMessage(context, error.kind),
             textAlign: TextAlign.center,
-            style: context.caption,
+            style: context.caption.copyWith(color: context.colors.text.secondary),
           ),
           const SizedBox(height: 16),
           AppAccentButton(title: context.texts.commonRetry, onTapped: onRetryTapped),

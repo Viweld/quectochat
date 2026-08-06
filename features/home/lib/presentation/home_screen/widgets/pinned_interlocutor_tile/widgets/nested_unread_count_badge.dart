@@ -22,12 +22,7 @@ class NestedUnreadCountBadge extends StatelessWidget {
           AppIcons.messageFilled(color: context.colors.accent.main, size: _size),
           Text(
             label,
-            style: context.caption?.copyWith(
-              color: context.colors.text.inverse,
-              fontSize: count > _cap ? 9 : 11,
-              fontWeight: FontWeight.w700,
-              height: 1,
-            ),
+            style: context.caption.copyWith(color: context.colors.text.inverse, height: 1),
           ),
         ],
       ),

@@ -47,7 +47,7 @@ class _InviteQrScannerScreenState extends State<InviteQrScannerScreen> {
               child: Text(
                 texts.inviteQrScannerHint,
                 textAlign: TextAlign.center,
-                style: context.message?.copyWith(color: Colors.white),
+                style: context.message.copyWith(color: context.colors.text.inverse),
               ),
             ),
           ),

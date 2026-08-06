@@ -19,12 +19,12 @@ class InterlocutorTileMessagePreview extends StatelessWidget {
         if (interlocutor.isSentByYou ?? false)
           Text(
             context.texts.homeChatTileYouLabel,
-            style: context.caption?.copyWith(color: context.colors.text.main),
+            style: context.caption.copyWith(color: context.colors.text.main),
           ),
         Expanded(
           child: Text(
             previewText,
-            style: context.caption,
+            style: context.caption.copyWith(color: context.colors.text.secondary),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),

@@ -39,7 +39,7 @@ class AppToast extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 14, top: 14, bottom: 14),
-            child: Text(text, style: context.message?.copyWith(color: context.colors.text.strong)),
+            child: Text(text, style: context.message.copyWith(color: context.colors.text.strong)),
           ),
         ),
         const SizedBox(width: 14),

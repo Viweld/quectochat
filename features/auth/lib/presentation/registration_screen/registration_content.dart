@@ -40,7 +40,10 @@ class RegistrationContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: Text(context.texts.registrationTitle, style: context.mainTitle),
+              child: Text(
+                context.texts.registrationTitle,
+                style: context.mainTitle.copyWith(color: context.colors.text.main),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16),

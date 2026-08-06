@@ -9,6 +9,6 @@ class InterlocutorTileSentAtLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(label, style: context.caption);
+    return Text(label, style: context.caption.copyWith(color: context.colors.text.secondary));
   }
 }

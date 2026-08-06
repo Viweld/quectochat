@@ -160,7 +160,7 @@ class _AlbumSelectButtonState extends State<_AlbumSelectButton> {
                             Text(
                               album.name,
                               overflow: TextOverflow.ellipsis,
-                              style: context.username?.copyWith(color: context.colors.text.strong),
+                              style: context.username.copyWith(color: context.colors.text.strong),
                             ),
                             FutureBuilder<int>(
                               future: album.assetCountAsync,
@@ -169,7 +169,7 @@ class _AlbumSelectButtonState extends State<_AlbumSelectButton> {
                                   snapshot.connectionState != ConnectionState.done
                                       ? ' '
                                       : '${snapshot.data ?? 0}',
-                                  style: context.caption?.copyWith(
+                                  style: context.caption.copyWith(
                                     color: context.colors.text.secondary,
                                   ),
                                 );
@@ -237,7 +237,7 @@ class _AlbumSelectButtonState extends State<_AlbumSelectButton> {
                 _selectedAlbum!.name,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: context.username?.copyWith(color: context.colors.text.strong),
+                style: context.username.copyWith(color: context.colors.text.strong),
               ),
             ),
           Icon(Icons.keyboard_arrow_down, color: context.colors.icon.secondary, size: 16),

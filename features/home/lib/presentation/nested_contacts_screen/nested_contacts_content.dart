@@ -86,7 +86,11 @@ final class _NestedContactsEmptyBody extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(texts.homeLoadErrorMessage, textAlign: TextAlign.center, style: context.caption),
+              Text(
+                texts.homeLoadErrorMessage,
+                textAlign: TextAlign.center,
+                style: context.caption.copyWith(color: context.colors.text.secondary),
+              ),
               const SizedBox(height: 16),
               AppAccentButton(title: texts.commonRetry, onTapped: onRetryTapped),
             ],
@@ -98,7 +102,11 @@ final class _NestedContactsEmptyBody extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Values.horizontalPadding),
-        child: Text(texts.nestedEmptyMessage, textAlign: TextAlign.center, style: context.caption),
+        child: Text(
+          texts.nestedEmptyMessage,
+          textAlign: TextAlign.center,
+          style: context.caption.copyWith(color: context.colors.text.secondary),
+        ),
       ),
     );
   }

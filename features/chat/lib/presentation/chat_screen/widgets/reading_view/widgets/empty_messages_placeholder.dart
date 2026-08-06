@@ -13,7 +13,7 @@ class EmptyMessagesPlaceholder extends StatelessWidget {
         child: Text(
           context.texts.chatEmptyMessagesPlaceholder,
           textAlign: TextAlign.center,
-          style: context.caption,
+          style: context.caption.copyWith(color: context.colors.text.secondary),
         ),
       ),
     );

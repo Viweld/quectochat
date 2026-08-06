@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_ui/core_ui.dart';
 
 /// Single selectable role row inside the invite-role bottom sheet.
 class InviteRoleOptionTile extends StatelessWidget {
@@ -9,6 +10,9 @@ class InviteRoleOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(title: Text(title), onTap: onTapped);
+    return ListTile(
+      title: Text(title, style: context.username.copyWith(color: context.colors.text.main)),
+      onTap: onTapped,
+    );
   }
 }

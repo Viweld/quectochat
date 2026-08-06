@@ -15,7 +15,7 @@ class HomeDrawerVersionLabel extends StatelessWidget {
     return Text(
       context.texts.homeDrawerVersionLabel(appInfo.version, appInfo.buildNumber),
       textAlign: TextAlign.center,
-      style: context.caption?.copyWith(color: context.colors.text.tertiary),
+      style: context.caption.copyWith(color: context.colors.text.tertiary),
     );
   }
 }

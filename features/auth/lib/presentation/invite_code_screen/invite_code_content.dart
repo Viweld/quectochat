@@ -67,14 +67,17 @@ class _InviteCodeContentState extends State<InviteCodeContent> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Text(texts.inviteCodeTitle, style: context.mainTitle),
+              child: Text(
+                texts.inviteCodeTitle,
+                style: context.mainTitle.copyWith(color: context.colors.text.main),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 24),
               child: Text(
                 texts.inviteCodeSubtitle,
                 textAlign: TextAlign.center,
-                style: context.message,
+                style: context.message.copyWith(color: context.colors.text.main),
               ),
             ),
             Padding(

@@ -353,7 +353,7 @@ class _AppMediaFilePickerState extends State<AppMediaFilePicker> with WidgetsBin
   }
 
   Future<List<Widget>> _buildPreviewWidgets(List<AssetEntity> entities) async {
-    final TextStyle? durationStyle = context.caption?.copyWith(color: Colors.white);
+    final TextStyle durationStyle = context.caption.copyWith(color: context.colors.text.inverse);
     final Map<AssetEntity, Uint8List?> thumbsDataMap = await _getThumbsDataMap(entities);
     final List<Widget> previews = <Widget>[];
 
@@ -524,7 +524,7 @@ class _PermissionDeniedContent extends StatelessWidget {
           child: Text(
             labels.accessDeniedNote,
             textAlign: TextAlign.center,
-            style: context.message?.copyWith(color: context.colors.text.secondary),
+            style: context.message.copyWith(color: context.colors.text.secondary),
           ),
         ),
         Padding(
@@ -550,7 +550,7 @@ class _EmptyCatalogue extends StatelessWidget {
       child: Text(
         labels.emptyAlbumsNote,
         textAlign: TextAlign.center,
-        style: context.message?.copyWith(color: context.colors.text.secondary),
+        style: context.message.copyWith(color: context.colors.text.secondary),
       ),
     );
   }

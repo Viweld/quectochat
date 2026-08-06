@@ -38,7 +38,7 @@ class _CameraTileState extends State<_CameraTile> {
                       child: Text(
                         labels.allowCameraInSettingsNote,
                         textAlign: TextAlign.center,
-                        style: context.caption?.copyWith(color: context.colors.text.secondary),
+                        style: context.caption.copyWith(color: context.colors.text.secondary),
                       ),
                     ),
                   ),

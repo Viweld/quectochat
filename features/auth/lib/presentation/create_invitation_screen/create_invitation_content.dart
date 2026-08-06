@@ -34,24 +34,27 @@ class CreateInvitationContent extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     const SizedBox(height: 60),
-                    Text(texts.inviteShareTitle, style: context.mainTitle),
+                    Text(
+                      texts.inviteShareTitle,
+                      style: context.mainTitle.copyWith(color: context.colors.text.main),
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       texts.inviteShareSubtitle,
                       textAlign: TextAlign.center,
-                      style: context.message,
+                      style: context.message.copyWith(color: context.colors.text.main),
                     ),
                     const SizedBox(height: 32),
                     Text(
                       invitation.formattedCode,
-                      style: context.mainTitle,
+                      style: context.mainTitle.copyWith(color: context.colors.text.main),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
                     Text(
                       texts.inviteShareCopyHint,
                       textAlign: TextAlign.center,
-                      style: context.caption,
+                      style: context.caption.copyWith(color: context.colors.text.secondary),
                     ),
                     const SizedBox(height: 24),
                     QrImageView(
@@ -67,7 +70,7 @@ class CreateInvitationContent extends StatelessWidget {
                         ).add_Hm().format(invitation.expiresAt.toLocal()),
                       ),
                       textAlign: TextAlign.center,
-                      style: context.message,
+                      style: context.message.copyWith(color: context.colors.text.main),
                     ),
                   ],
                 ),

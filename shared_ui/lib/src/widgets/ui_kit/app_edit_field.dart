@@ -231,7 +231,7 @@ class _AppEditFieldState extends State<AppEditField> {
           : (widget.textCapitalization ?? TextCapitalization.none),
       style:
           widget.customTextStyle ??
-          context.hint?.copyWith(
+          context.hint.copyWith(
             decorationColor: _colors.text.inverse,
             color: _error
                 ? _colors.feedback.error
@@ -248,7 +248,7 @@ class _AppEditFieldState extends State<AppEditField> {
         fillColor: context.colors.background.secondary,
         alignLabelWithHint: true,
         labelText: widget.hintText,
-        labelStyle: context.hint,
+        labelStyle: context.hint.copyWith(color: context.colors.text.tertiary),
         prefixIcon: widget.prefix,
         suffixIcon: widget.isPassword
             ? IconButton(
@@ -282,7 +282,10 @@ class _AppEditFieldState extends State<AppEditField> {
         if (widget.title != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: Text(widget.title!, style: context.username),
+            child: Text(
+              widget.title!,
+              style: context.username.copyWith(color: context.colors.text.strong),
+            ),
           ),
         Focus(
           onFocusChange: (_) => setState(() {}),
@@ -307,7 +310,7 @@ class _AppEditFieldState extends State<AppEditField> {
               child: Text(
                 _errorText!,
                 maxLines: 10,
-                style: context.caption?.copyWith(
+                style: context.caption.copyWith(
                   color: _colors.feedback.error,
                   overflow: TextOverflow.ellipsis,
                 ),

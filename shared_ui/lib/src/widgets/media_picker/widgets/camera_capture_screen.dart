@@ -74,7 +74,7 @@ class _CameraCaptureScreenState extends State<_CameraCaptureScreen> {
                         const SizedBox(width: 8),
                         Text(
                           _formatDuration(_recordDuration),
-                          style: context.username?.copyWith(color: Colors.white),
+                          style: context.username.copyWith(color: context.colors.text.inverse),
                         ),
                       ],
                     ),
@@ -106,7 +106,7 @@ class _CameraCaptureScreenState extends State<_CameraCaptureScreen> {
                     Text(
                       widget.labels.cameraCaptureHint,
                       textAlign: TextAlign.center,
-                      style: context.caption?.copyWith(color: Colors.white),
+                      style: context.caption.copyWith(color: context.colors.text.inverse),
                     ),
                   ],
                 ],
@@ -118,7 +118,7 @@ class _CameraCaptureScreenState extends State<_CameraCaptureScreen> {
               bottom: 46,
               right: 30,
               child: IconButton(
-                icon: const Icon(Icons.cameraswitch, color: Colors.white, size: 46),
+                icon: Icon(Icons.cameraswitch, color: context.colors.text.inverse, size: 46),
                 onPressed: () async {
                   await widget.cameraController.switchCamera();
                   if (context.mounted) setState(() {});

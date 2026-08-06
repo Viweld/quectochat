@@ -20,7 +20,7 @@ class BetweenDaysDivider extends StatelessWidget {
             isToday(message.createdAt)
                 ? context.texts.chatTodayDividerLabel
                 : DateFormat('dd.MM.yy').format(message.createdAt.toLocal()),
-            style: context.dividerLabel,
+            style: context.dividerLabel.copyWith(color: context.colors.text.tertiary),
           ),
           Expanded(child: Divider(indent: 10, endIndent: 6, color: context.colors.text.tertiary)),
         ],

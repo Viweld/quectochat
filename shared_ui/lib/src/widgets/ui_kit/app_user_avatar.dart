@@ -42,7 +42,10 @@ class _AppUserAvatarState extends State<AppUserAvatar> {
               ),
             ),
           ),
-          Text(_getInitials(widget.displayName), style: context.initials),
+          Text(
+            _getInitials(widget.displayName),
+            style: context.initials.copyWith(color: context.colors.text.inverse),
+          ),
         ],
       ),
     );

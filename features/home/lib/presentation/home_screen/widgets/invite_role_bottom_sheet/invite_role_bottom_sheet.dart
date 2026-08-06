@@ -32,7 +32,11 @@ class InviteRoleBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(texts.inviteRoleSheetTitle, style: context.username, textAlign: TextAlign.center),
+            Text(
+              texts.inviteRoleSheetTitle,
+              style: context.username.copyWith(color: context.colors.text.strong),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 16),
             InviteRoleOptionTile(
               title: texts.inviteRoleParent,
